@@ -1,0 +1,22 @@
+diff --git a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx b/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx
+index d62cdaf..b50d2e2 100644
+--- a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx
++++ b/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx
+@@ -5,6 +5,8 @@ import { useEventCallback } from '@mui/material'
+ import { UseWishlistGuestDocument } from '../useWishlistitems'
+ import type { UseRemoveProductsFromWishlistMutationVariables } from './UseRemoveProductsFromWishlist.gql'
+ import { UseRemoveProductsFromWishlistDocument } from './UseRemoveProductsFromWishlist.gql'
++import { WishlistItemFragment } from '@graphcommerce/magento-wishlist/queries/WishlistItem.gql'
++
+ 
+ export function useRemoveProductsFromWishlist() {
+   const client = useApolloClient()
+@@ -39,7 +41,7 @@ export function useRemoveProductsFromWishlist() {
+               __typename: 'Wishlist',
+               id: 'guest-wishlist',
+               items_count: items?.length,
+-              items_v2: { __typename: 'WishlistItems', items },
++              items_v2: { __typename: 'WishlistItems', items:items as WishlistItemFragment[] },
+             },
+           ],
+         },

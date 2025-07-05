@@ -1,4 +1,5 @@
 /// <reference types="@graphcommerce/next-ui/types" />
+
 import {
   breakpointVal,
   MuiButtonInline,
@@ -12,9 +13,10 @@ import {
   responsiveVal,
   themeBaseDefaults,
 } from '@graphcommerce/next-ui'
-import type { LinkProps, Theme } from '@mui/material'
-import { alpha, createTheme } from '@mui/material'
-import type { Components, PaletteOptions } from '@mui/material/styles'
+import { alpha, createTheme, Theme } from '@mui/material'
+import type { LinkProps } from '@mui/material/Link'
+import { Components, PaletteOptions } from '@mui/material/styles'
+import { saxoGrammaticus } from '../pages/fonts'
 
 const lightPalette: PaletteOptions = {
   mode: 'light',
@@ -22,6 +24,7 @@ const lightPalette: PaletteOptions = {
     main: '#000000',
     contrastText: '#ffffff',
     dark: '#000000',
+    // link: '#2A110A',
   },
   secondary: {
     main: '#006bff',
@@ -81,6 +84,14 @@ const darkPalette: PaletteOptions = {
 const fontSize = (from: number, to: number) =>
   breakpointVal('fontSize', from, to, themeBaseDefaults.breakpoints.values)
 
+const commonHeadingProperties = {
+  fontFamily: `${saxoGrammaticus.style.fontFamily}, sans-serif`,
+  textTransform: 'uppercase' as const,
+  fontWeight: 300,
+  lineHeight: 'normal',
+  letterSpacing: '0%',
+}
+
 // Create a theme instance.
 const createThemeWithPalette = (palette: PaletteOptions) =>
   createTheme({
@@ -92,16 +103,13 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
         '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji',
       // @see docs typography.md
       h1: {
-        ...fontSize(28, 64),
-        fontWeight: 700,
-        fontVariationSettings: "'wght' 660",
-        lineHeight: 1.22,
+        ...commonHeadingProperties,
+        ...fontSize(28, 45),
       },
       h2: {
-        ...fontSize(25, 40),
-        fontWeight: 700,
-        fontVariationSettings: "'wght' 630",
-        lineHeight: 1.35,
+        ...commonHeadingProperties,
+        ...fontSize(28, 45),
+        color: '#9B7C38',
       },
       h3: {
         ...fontSize(22, 30),
@@ -122,10 +130,23 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
         lineHeight: 1.55,
       },
       h6: {
-        ...fontSize(17, 20),
-        fontWeight: 550,
-        fontVariationSettings: "'wght' 510",
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+        ...fontSize(14, 16),
+        fontWeight: 400,
         lineHeight: 1.8,
+        textDecoration: 'none',
+        color: '#2A110A',
+      },
+
+      navlink: {
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+        fontSize: '16px',
+        fontWeight: 400,
+        fontVariationSettings: "'wght' 400",
+        lineHeight: 1.6,
+        textTransform: 'none',
+        textDecoration: 'none',
+        color: '#2A110A',
       },
       subtitle1: {
         ...fontSize(16, 19),
@@ -193,6 +214,13 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
     styleOverrides: {
       body: {
         overflowY: 'scroll',
+        backgroundColor: '#fff',
+        color: '#000',
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+      },
+      a: {
+        textDecoration: 'none',
+        color: 'inherit',
       },
       '::selection': { background: alpha(theme.palette.primary.main, 0.6) },
       '::-moz-selection': { background: alpha(theme.palette.primary.main, 0.6) },
@@ -208,7 +236,9 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
 
   // https://mui.com/material-ui/guides/routing/#global-theme-link
   // https://www.graphcommerce.org/docs/framework/links
+
   MuiLink: { defaultProps: { component: NextLink } as LinkProps },
+
   MuiButtonBase: { defaultProps: { LinkComponent: NextLink } },
 
   MuiContainer: {
@@ -396,3 +426,25 @@ lightTheme.components = createOverrides(lightTheme) as Components
 
 export const darkTheme = createThemeWithPalette(darkPalette)
 darkTheme.components = createOverrides(darkTheme) as Components
+
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    navlink: React.CSSProperties
+  }
+
+  interface TypographyVariantsOptions {
+    navlink?: React.CSSProperties
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    navlink: true
+  }
+}
+
+declare module '@mui/material/Link' {
+  interface LinkPropsVariantOverrides {
+    navlink: true
+  }
+}

@@ -1,31 +1,31 @@
-import { CartFab, useCartEnabled } from '@graphcommerce/magento-cart'
-import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
-import { CustomerFab, CustomerMenuFabItem } from '@graphcommerce/magento-customer'
+import { CartFab /* , useCartEnabled */ } from '@graphcommerce/magento-cart'
+// import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
+import { CustomerFab /*  CustomerMenuFabItem  */ } from '@graphcommerce/magento-customer'
 import { SearchFab, SearchField } from '@graphcommerce/magento-search'
-import { WishlistFab, WishlistMenuFabItem } from '@graphcommerce/magento-wishlist'
+import { WishlistFab /* , WishlistMenuFabItem  */ } from '@graphcommerce/magento-wishlist'
 import type { LayoutDefaultProps } from '@graphcommerce/next-ui'
 import {
-  DarkLightModeMenuSecondaryItem,
+  // DarkLightModeMenuSecondaryItem,
   DesktopNavActions,
   DesktopNavBar,
   DesktopNavItem,
-  iconChevronDown,
-  iconCustomerService,
+  // iconChevronDown,
+  // iconCustomerService,
   iconHeart,
   IconSvg,
   LayoutDefault,
-  MenuFabSecondaryItem,
+  // MenuFabSecondaryItem,
   MobileTopRight,
-  NavigationFab,
-  NavigationOverlay,
-  NavigationProvider,
-  PlaceholderFab,
-  useMemoDeep,
-  useNavigationSelection,
+  // NavigationFab,
+  // NavigationOverlay,
+  // NavigationProvider,
+  // PlaceholderFab,
+  // useMemoDeep,
+  // useNavigationSelection,
 } from '@graphcommerce/next-ui'
-import { i18n } from '@lingui/core'
+// import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { Divider, Fab } from '@mui/material'
+// import { /*  Divider,*/ Fab } from '@mui/material'
 import { useRouter } from 'next/router'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
@@ -38,14 +38,14 @@ export type LayoutNavigationProps = LayoutQuery &
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
 
-  const selection = useNavigationSelection()
+  // const selection = useNavigationSelection()
   const router = useRouter()
 
-  const cartEnabled = useCartEnabled()
+  // const cartEnabled = useCartEnabled()
 
   return (
     <>
-      <NavigationProvider
+      {/*  <NavigationProvider
         selection={selection}
         items={useMemoDeep(
           () => [
@@ -103,36 +103,42 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           mouseEvent='hover'
           itemPadding='md'
         />
-      </NavigationProvider>
+      </NavigationProvider> */}
 
       <LayoutDefault
         {...uiProps}
         noSticky={router.asPath.split('?')[0] === '/'}
         header={
           <>
-            <Logo />
-            <DesktopNavBar>
-              {menu?.items?.[0]?.children?.slice(0, 2).map((item) => (
-                <DesktopNavItem key={item?.uid} href={`/${item?.url_path}`}>
-                  {item?.name}
-                </DesktopNavItem>
-              ))}
+            <Logo isHome />
 
-              <DesktopNavItem
-                onClick={() => selection.set([menu?.items?.[0]?.uid || ''])}
-                onKeyUp={(evt) => {
-                  if (evt.key === 'Enter') {
-                    selection.set([menu?.items?.[0]?.uid || ''])
-                  }
-                }}
-                tabIndex={0}
-              >
-                {menu?.items?.[0]?.name}
-                <IconSvg src={iconChevronDown} />
+            <DesktopNavBar>
+              <DesktopNavItem href='/cakes'>
+                <Trans id='Cakes' />
               </DesktopNavItem>
 
-              <DesktopNavItem href='/blog'>
-                <Trans id='Blog' />
+              <DesktopNavItem href='/jars'>
+                <Trans id='Jars' />
+              </DesktopNavItem>
+
+              <DesktopNavItem href='/chefs-special'>
+                <Trans id="Chef's  Special" />
+              </DesktopNavItem>
+
+              <DesktopNavItem href='/mini-bites'>
+                <Trans id='Mini Bites' />
+              </DesktopNavItem>
+
+              <DesktopNavItem href='/custimized-cake'>
+                <Trans id='Customized Cake' />
+              </DesktopNavItem>
+
+              <DesktopNavItem href='/gifts'>
+                <Trans id='Gifts' />
+              </DesktopNavItem>
+
+              <DesktopNavItem href='/eid-treats'>
+                <Trans id='Eid Treats' />
               </DesktopNavItem>
             </DesktopNavBar>
 
@@ -140,26 +146,64 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               <SearchField
                 formControl={{ sx: { width: '400px' } }}
                 searchField={{ productListRenderer }}
+                fab={{
+                  sx: {
+                    backgroundColor: '#F6DBE0',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    color: '#441E14',
+                    '&:hover': {
+                      backgroundColor: '#F6DBE0',
+                    },
+                  },
+                }}
               />
-              <Fab
-                href='/service'
-                aria-label={i18n._(/* i18n */ 'Customer Service')}
-                size='large'
-                color='inherit'
-              >
-                <IconSvg src={iconCustomerService} size='large' />
-              </Fab>
+
               <WishlistFab
-                icon={<IconSvg src={iconHeart} size='large' />}
-                BadgeProps={{ color: 'secondary' }}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  color: '#441E14',
+                  backgroundColor: '#f6dbe0',
+                  '&:hover': {
+                    backgroundColor: '#f6dbe0',
+                  },
+                }}
+                icon={<IconSvg src={iconHeart} size='medium' />}
               />
               <CustomerFab
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  color: '#441E14',
+                  backgroundColor: '#f6dbe0',
+                  '&:hover': {
+                    backgroundColor: '#f6dbe0',
+                  },
+                }}
                 guestHref='/account/signin'
                 authHref='/account'
-                BadgeProps={{ color: 'secondary' }}
               />
-              {/* The placeholder exists because the CartFab is sticky but we want to reserve the space for the <CartFab /> */}
-              {cartEnabled && <PlaceholderFab />}
+
+              <CartFab
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  color: '#441E14',
+                  height: '40px',
+                  borderRadius: '50%',
+                  backgroundColor: '#f6dbe0',
+                  '&:hover': {
+                    backgroundColor: '#f6dbe0',
+                  },
+                }}
+              />
+              {/* The placeholder exists because the CartFab is sticky but we want to reserve the space for the <CartFab />   {cartEnabled && <PlaceholderFab />}*/}
             </DesktopNavActions>
 
             <MobileTopRight>
@@ -168,8 +212,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           </>
         }
         footer={<Footer />}
-        cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
-        menuFab={<NavigationFab onClick={() => selection.set([])} />}
+        // cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
+        // menuFab={<NavigationFab onClick={() => selection.set([])} />}
       >
         {children}
       </LayoutDefault>

@@ -7,26 +7,29 @@ import {
   PageLoadIndicator,
 } from '@graphcommerce/next-ui'
 import { CssBaseline } from '@mui/material'
-import type { AppProps } from 'next/app'
+import { AppProps } from 'next/app'
 import { darkTheme, lightTheme } from '../components/theme'
 import { I18nProvider } from '../lib/i18n/I18nProvider'
+import { saxoGrammaticus } from './fonts'
 
 export default function ThemedApp(props: AppProps) {
   const { router } = props
   const { locale = 'en' } = router
 
   return (
-    <CssAndFramerMotionProvider {...props}>
-      <I18nProvider key={locale} locale={locale}>
-        <GraphQLProvider {...props}>
-          <DarkLightModeThemeProvider light={lightTheme} dark={darkTheme}>
-            <GlobalHead />
-            <CssBaseline />
-            <PageLoadIndicator />
-            <FramerNextPages {...props} />
-          </DarkLightModeThemeProvider>
-        </GraphQLProvider>
-      </I18nProvider>
-    </CssAndFramerMotionProvider>
+    <div className={saxoGrammaticus.variable}>
+      <CssAndFramerMotionProvider {...props}>
+        <I18nProvider key={locale} locale={locale}>
+          <GraphQLProvider {...props}>
+            <DarkLightModeThemeProvider light={lightTheme} dark={darkTheme}>
+              <GlobalHead />
+              <CssBaseline />
+              <PageLoadIndicator />
+              <FramerNextPages {...props} />
+            </DarkLightModeThemeProvider>
+          </GraphQLProvider>
+        </I18nProvider>
+      </CssAndFramerMotionProvider>
+    </div>
   )
 }

@@ -17,6 +17,12 @@ class Document extends NextDocument<EmotionCacheProps & LinguiDocumentProps> {
     return (
       <Html lang={normalizeLocale(this.props.locale)}>
         <Head>
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap'
+            rel='stylesheet'
+          />
           <DocumentHeadStart key='head-start' {...this.props} />
           {getCssFlagsInitScript()}
           {/* Inject MUI styles first to match with the prepend: true configuration. */}

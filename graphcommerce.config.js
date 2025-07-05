@@ -9,7 +9,7 @@ const config = {
   robotsAllow: false,
   limitSsg: true,
 
-  // hygraphEndpoint: '',
+  ...(process.env.VERCEL_BUILD_FOR_HYGRAPH_REQUIRED === 'true' ? { hygraphEndpoint: '' } : {}),
   magentoEndpoint: 'https://configurator.reachdigital.dev/graphql',
   magentoVersion: 247,
   canonicalBaseUrl: 'https://graphcommerce.vercel.app',

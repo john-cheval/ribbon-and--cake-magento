@@ -137,6 +137,13 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
         textDecoration: 'none',
         color: '#2A110A',
       },
+      p: {
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+        lineHeight: '158%',
+        fontSize: '16px',
+        letterSpacing: '0%',
+        color: '#000',
+      },
 
       navlink: {
         fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -430,21 +437,25 @@ darkTheme.components = createOverrides(darkTheme) as Components
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     navlink: React.CSSProperties
+    p: React.CSSProperties
   }
 
   interface TypographyVariantsOptions {
     navlink?: React.CSSProperties
+    p?: React.CSSProperties
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     navlink: true
+    p: true
   }
 }
 
 declare module '@mui/material/Link' {
   interface LinkPropsVariantOverrides {
     navlink: true
+    p: true
   }
 }

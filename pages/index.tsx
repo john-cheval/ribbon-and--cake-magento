@@ -1,23 +1,24 @@
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst } from '@graphcommerce/graphql'
-import {
-  ProductListDocument,
-  ProductListQuery,
-  ProductPageName,
-} from '@graphcommerce/magento-product'
+// import {
+//   ProductListDocument,
+//   ProductListQuery,
+//   ProductPageName,
+// } from '@graphcommerce/magento-product'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
-  HeroBanner,
+  // breakpointVal,
+  // HeroBanner,
   LayoutHeader,
   LayoutTitle,
-  MetaRobots,
+  // MetaRobots,
   PageMeta,
-  breakpointVal,
 } from '@graphcommerce/next-ui'
-import { Button, Container, Typography } from '@mui/material'
+// import { Button, Container, Typography } from '@mui/material'
 import type { LayoutNavigationProps } from '../components'
 import { LayoutDocument, LayoutNavigation } from '../components'
+import { HomePage } from '../components/Home'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
 
 type Props = {}
@@ -36,6 +37,13 @@ function CmsPage(props: Props) {
       canonical='/'
     /> */}
 
+      <PageMeta
+        title='Ribbon and Balloons'
+        metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
+        // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
+        canonical='/'
+      />
+
       <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
         <LayoutTitle size='small' component='span'>
           Home
@@ -44,7 +52,9 @@ function CmsPage(props: Props) {
 
       <LayoutHeader floatingMd floatingSm />
 
-      <HeroBanner
+      <HomePage />
+
+      {/* <HeroBanner
         pageLinks={
           <Button href='/men/art' variant='outlined' size='large' color='inherit'>
             Shop Art
@@ -65,7 +75,7 @@ function CmsPage(props: Props) {
         })}
       >
         <Typography variant='overline' gutterBottom>
-          A journey through creativity
+          A journey through creativiy
         </Typography>
         <Typography
           variant='h1'
@@ -82,7 +92,7 @@ function CmsPage(props: Props) {
         >
           <strong>Discover</strong> beauty beyond boundaries.
         </Typography>
-      </HeroBanner>
+      </HeroBanner> */}
     </>
   )
 }

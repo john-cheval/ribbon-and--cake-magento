@@ -3,7 +3,7 @@ import { ProductItemType } from './productType'
 export type ProductCardIconPosition = 'left' | 'right'
 
 export interface ProductCardProps {
-  item: ProductItemType
+  item: ProductItemType | null
   imageWidth?: number
   imageHeight?: number
   textColor?: string
@@ -16,4 +16,5 @@ export interface ProductCardProps {
   right?: string
   left?: string
   padding?: string
+  sku?: string
 }

@@ -29,6 +29,7 @@ import { Trans } from '@lingui/react'
 import { useRouter } from 'next/router'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
+// import { Footer } from './Footer'
 import type { LayoutQuery } from './Layout.gql'
 import { Logo } from './Logo'
 
@@ -37,6 +38,8 @@ export type LayoutNavigationProps = LayoutQuery &
 
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
+
+  console.log('this is menu', menu)
 
   // const selection = useNavigationSelection()
   const router = useRouter()

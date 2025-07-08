@@ -1,4 +1,5 @@
 import { Image } from '@graphcommerce/image'
+// import { AddProductsToCartFab } from '@graphcommerce/magento-product'
 import { Box, Typography } from '@mui/material'
 import { IoIosHeartEmpty } from 'react-icons/io'
 import { IoBagHandleOutline } from 'react-icons/io5'
@@ -14,6 +15,7 @@ export function ProductCard({
   left = '29px',
   top = '24px',
   padding = '16px',
+  // sku,
 }: ProductCardProps) {
   if (!item) {
     return null

@@ -16,7 +16,7 @@ import {
 import { alpha, createTheme, Theme } from '@mui/material'
 import type { LinkProps } from '@mui/material/Link'
 import { Components, PaletteOptions } from '@mui/material/styles'
-import { saxoGrammaticus } from '../pages/fonts'
+import { saxoGrammaticus } from '../lib/fonts'
 
 const lightPalette: PaletteOptions = {
   mode: 'light',

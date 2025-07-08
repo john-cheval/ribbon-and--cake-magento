@@ -1,3 +1,58 @@
+diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
+index 4c94637..947781f 100644
+--- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
++++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
+@@ -10,6 +10,7 @@ export type WishlistFabContentProps = {
+   FabProps?: Omit<FabPropsType, 'children'>
+   BadgeProps?: BadgeProps
+   sx?: SxProps<Theme>
++  length?:number
+   activeWishlist: boolean
+ }
+ 
+@@ -18,7 +19,7 @@ const parts = ['root'] as const
+ const { classes } = extendableComponent(name, parts)
+ 
+ function WishlistFabContent(props: WishlistFabContentProps) {
+-  const { icon, FabProps, BadgeProps, sx, activeWishlist } = props
++  const { icon, FabProps, BadgeProps, sx, activeWishlist ,length} = props
+ 
+   const wishlistIcon = icon ?? <IconSvg src={iconHeart} size='large' />
+ 
+@@ -35,7 +36,19 @@ function WishlistFabContent(props: WishlistFabContentProps) {
+     >
+       <NoSsr fallback={wishlistIcon}>
+         {activeWishlist ? (
+-          <DesktopHeaderBadge color='primary' variant='dot' overlap='circular' {...BadgeProps}>
++          <DesktopHeaderBadge sx={{
++    '& .MuiBadge-badge': { 
++      backgroundColor: '#FF0000',
++      color:'#fff',
++      display:'flex',
++      alignItems:'center',
++     justifyContent:'center',
++     textAlign:'center',
++     fontSize:'9px',
++     minWidth:'12px',
++     height:'14px'
++    },
++  }}  badgeContent={length} overlap='circular' {...BadgeProps}>
+             {wishlistIcon}
+           </DesktopHeaderBadge>
+         ) : (
+@@ -54,10 +67,11 @@ export function WishlistFab(props: WishlistFabProps) {
+ 
+   if (!enabled) return null
+   const activeWishlist = wishlist.items.length > 0
++  const activeWishlistLength = wishlist.items.length
+ 
+   return (
+     <NoSsr fallback={<WishlistFabContent {...props} activeWishlist={false} />}>
+-      <WishlistFabContent {...props} activeWishlist={activeWishlist} />
++      <WishlistFabContent {...props} activeWishlist={activeWishlist} length={activeWishlistLength} />
+     </NoSsr>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx b/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx
 index d62cdaf..b50d2e2 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx

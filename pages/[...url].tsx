@@ -39,6 +39,7 @@ import {
   ProductListLayoutDefault,
   ProductListLayoutSidebar,
 } from '../components'
+import { InnerTop } from '../components/shared/Inner/Innertop'
 import type { CategoryPageQuery } from '../graphql/CategoryPage.gql'
 import { CategoryPageDocument } from '../graphql/CategoryPage.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
@@ -57,20 +58,25 @@ function CategoryPage(props: CategoryProps) {
     ...rest,
     category: categories?.items?.[0],
   })
+
   const { products, params, category } = productList
 
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
 
+  console.log(isLanding, 'this is the lanfding')
+  console.log(isCategory, 'this is the category')
+  console.log(import.meta.graphCommerce.productFiltersLayout, 'this is sidebar')
+
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
-      <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
+      {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
         <LayoutTitle size='small' component='span'>
           {category?.name}
         </LayoutTitle>
-      </LayoutHeader>
-      {isCategory && isLanding && (
+      </LayoutHeader> */}
+      {/* isCategory && isLanding && (
         <>
           {import.meta.graphCommerce.breadcrumbs && (
             <Container maxWidth={false}>
@@ -90,7 +96,9 @@ function CategoryPage(props: CategoryProps) {
             title={<CategoryHeroNavTitle>{category?.name}</CategoryHeroNavTitle>}
           />
         </>
-      )}
+      ) */}
+
+      {isCategory && !isLanding && <InnerTop />}
       {isCategory && !isLanding && (
         <>
           {import.meta.graphCommerce.productFiltersPro &&

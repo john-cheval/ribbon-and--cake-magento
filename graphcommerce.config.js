@@ -10,30 +10,33 @@ const config = {
   limitSsg: true,
 
   ...(process.env.VERCEL_BUILD_FOR_HYGRAPH_REQUIRED === 'true'
-    ? { hygraphEndpoint: 'string' }
+    ? { hygraphEndpoint: 'example' }
     : {}),
-  magentoEndpoint: 'https://configurator.reachdigital.dev/graphql',
-  magentoVersion: 247,
+  // magentoEndpoint: 'https://configurator.reachdigital.dev/graphql',
+  magentoEndpoint: 'https://rnb.chevaldemo.xyz/graphql',
+  // magentoEndpoint: 'https://srv900162.hstgr.cloud/graphql',
+  // magentoVersion: 247,
+  magentoVersion: 248,
   canonicalBaseUrl: 'https://graphcommerce.vercel.app',
   storefront: [
     {
       locale: 'en',
-      magentoStoreCode: 'en_US',
+      magentoStoreCode: 'default',
       defaultLocale: true,
       googleAnalyticsId: undefined,
       googleRecaptchaKey: undefined,
     },
-    {
-      locale: 'nl',
-      magentoStoreCode: 'nl_NL',
+    // {
+    //   locale: 'nl',
+    //   magentoStoreCode: 'nl_NL',
 
-      // robotsAllow: false,
-      // permissions: { cart: 'DISABLED', checkout: 'DISABLED', customerAccount: 'DISABLED' },
-    },
+    //   // robotsAllow: false,
+    //   // permissions: { cart: 'DISABLED', checkout: 'DISABLED', customerAccount: 'DISABLED' },
+    // },
   ],
   recentlyViewedProducts: { enabled: true },
   productFiltersPro: true,
-  productFiltersLayout: 'DEFAULT',
+  productFiltersLayout: 'SIDEBAR',
   // previewSecret: '123',
 
   // compare: true,

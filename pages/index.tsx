@@ -28,6 +28,8 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props, RouteProp
 function CmsPage(props: Props) {
   const {} = props
 
+  console.log(props, 'this is the props from the api')
+
   return (
     <>
       {/* <PageMeta

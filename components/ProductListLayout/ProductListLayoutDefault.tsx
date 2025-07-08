@@ -106,6 +106,8 @@ export const ProductListLayoutDefault = memoDeep((props: ProductListLayoutProps)
         )}
       </Container>
 
+      {/* Category Filter */}
+
       <StickyBelowHeader>
         <ProductListFiltersContainer>
           <ProductFiltersProAggregations renderer={productFiltersProChipRenderer} />
@@ -122,6 +124,8 @@ export const ProductListLayoutDefault = memoDeep((props: ProductListLayoutProps)
           />
         </ProductListFiltersContainer>
       </StickyBelowHeader>
+
+      {/*  Filter Products */}
 
       <Container maxWidth={false}>
         <ProductListCount total_count={total_count} />

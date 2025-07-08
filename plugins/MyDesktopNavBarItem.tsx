@@ -1,18 +1,17 @@
-// import type { LinkProps } from '@mui/material'
+import type { PluginConfig, PluginProps } from '@graphcommerce/next-config'
+import {
+  type DesktopNavItemButtonProps as DesktopNavItemButtonPropsOriginal,
+  type DesktopNavItemLinkProps as DesktopNavItemLinkPropsOriginal,
+} from '@graphcommerce/next-ui'
+import { extendableComponent } from '@graphcommerce/next-ui/Styles'
 import { Box, Link } from '@mui/material'
 import { useRouter } from 'next/router'
-import { extendableComponent } from '@graphcommerce/next-ui/Styles/extendableComponent' // Adjust path if needed
 
-// Import the original types from @graphcommerce/next-ui
-import type { DesktopNavItemLinkProps, DesktopNavItemButtonProps } from '@graphcommerce/next-ui'
+type DesktopNavItemLinkProps = DesktopNavItemLinkPropsOriginal & Record<string, unknown>
+type DesktopNavItemButtonProps = DesktopNavItemButtonPropsOriginal & Record<string, unknown>
 
-// Import PluginConfig and PluginProps
-import type { PluginConfig, PluginProps } from '@graphcommerce/next-config'
-
-// Define the component name and its selectors (matching the original)
 const { classes, selectors } = extendableComponent('DesktopNavItem', ['root', 'line'] as const)
 
-// Helper function from the original component
 function isLinkProps(
   props: DesktopNavItemLinkProps | DesktopNavItemButtonProps,
 ): props is DesktopNavItemLinkProps {
@@ -22,7 +21,6 @@ function isLinkProps(
 // Define the plugin configuration
 export const config: PluginConfig = {
   type: 'component',
-
   module: '@graphcommerce/next-ui',
 }
 
@@ -67,10 +65,18 @@ export function DesktopNavItem(
       color='#2A110A'
       underline='none'
       {...linkProps}
-      sx={[{ whiteSpace: 'nowrap', paddingTop: '6px' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[
+        {
+          whiteSpace: 'nowrap',
+          padding: activeValue ? '7px 16px' : '6px 0 0 ',
+          background: activeValue && '#F6DBE0',
+          borderRadius: activeValue && '999px',
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>{children}</Box>
-      <Box
+      {/* <Box
         component='span'
         className={classes.line}
         sx={{
@@ -79,12 +85,12 @@ export function DesktopNavItem(
           display: 'flex',
           justifyContent: 'center',
           height: 2,
-          background: (theme) => theme.palette.primary.main,
+          background: 'red',
           margin: '0 auto',
           marginTop: '6px',
           opacity: activeValue ? 1 : 0,
         }}
-      />
+      /> */}
     </Link>
   )
 }

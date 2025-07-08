@@ -1,0 +1,74 @@
+// File: plugins/MyCustomProductCard/index.tsx
+
+// import { Image } from '@graphcommerce/image' // Assuming this is your Image component
+import type { ProductListItemProps } from '@graphcommerce/magento-product'
+// import { AddProductsToCartFab } from '@graphcommerce/magento-product' // For add to cart functionality
+import { productLink } from '@graphcommerce/magento-product/hooks/useProductLink' // For generating product links
+
+import type { PluginConfig } from '@graphcommerce/next-config'
+// import { Box, Typography } from '@mui/material' // Material-UI components
+import React from 'react'
+// import { IoIosHeartEmpty as IoIosHeartEmptyOld } from 'react-icons/io' // Ensure this path is correct if you use it
+// import { IoBagHandleOutline } from 'react-icons/io5' // Ensure this path is correct if you use it
+
+import { ProductCard } from './components/shared/Cards/ProductCard'
+
+// !! IMPORTANT: Verify this path for dhirams.svg based on your project structure !!
+// If dhirams.svg is directly in your `src` folder: ../../../../src/dhirams.svg
+// Adjust if it's in a subfolder like `src/assets/dhirams.svg` -> `../../../../src/assets/dhirams.svg`
+// import dhirams from './dhirams.svg'
+
+// Re-declare ProductCardProps as needed by your ProductCard
+// Consider moving this to a shared types file if you use it elsewhere
+interface ProductCardItem {
+  image: string
+  title: string
+  startPrice?: number
+  endPrice?: number
+  price?: number
+  // Add other properties your card might need if you extend it
+}
+
+interface ProductCardProps {
+  item: ProductCardItem | null
+  imageWidth?: number
+  imageHeight?: number
+  iconPosition?: 'left' | 'right'
+  right?: string
+  left?: string
+  top?: string
+  padding?: string
+  // This SKU prop will be passed from GraphCommerce product data
+  sku?: string
+}
+
+// YOUR ProductCard COMPONENT
+
+export const config: PluginConfig = {
+  type: 'component',
+  module: '@graphcommerce/magento-product',
+}
+// THIS IS THE PLUGIN COMPONENT THAT GRAPHCOMMERCE WILL RENDER
+export function ProductListItem( // Changed to function declaration for ESLint
+  props: ProductListItemProps & { Prev: React.ComponentType<ProductListItemProps> },
+) {
+  const { Prev, ...originalProps } = props
+
+  // Map GraphCommerce's ProductListItemFragment data to your ProductCardProps
+  const cardItem: ProductCardItem | null = originalProps.name
+    ? {
+        image: originalProps.small_image?.url || '',
+        title: originalProps.name,
+        // Use minimum price for 'price' if available, otherwise consider a fallback
+        price: originalProps.price_range?.minimum_price?.regular_price?.value,
+        // For startPrice and endPrice, use min/max prices from the range
+        startPrice: originalProps.price_range?.minimum_price?.regular_price?.value,
+        endPrice: originalProps.price_range?.maximum_price?.regular_price?.value,
+      }
+    : null
+
+  // const linkHref = productLink(originalProps)
+
+  // Render your ProductCard wrapped in an anchor tag for navigation
+  return <ProductCard item={cardItem} sku={originalProps.sku} />
+}

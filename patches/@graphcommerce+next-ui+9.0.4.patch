@@ -1,0 +1,13 @@
+diff --git a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx b/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
+index 9088844..1c5017b 100644
+--- a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
++++ b/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
+@@ -59,7 +59,7 @@ export function useIconSvgSize(size: keyof typeof sizes) {
+ 
+ const Svg = styled('svg', { name, target: name })(() => ({
+   userSelect: 'none',
+-  width: '1em',
++  width: '0.8em',
+   height: '1em',
+   display: 'inline-block',
+ 

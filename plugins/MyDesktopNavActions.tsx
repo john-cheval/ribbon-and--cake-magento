@@ -1,14 +1,17 @@
+import type { PluginConfig } from '@graphcommerce/next-config'
 import { styled } from '@mui/material'
-import { PluginConfig } from '@graphcommerce/next-config'
+import React from 'react'
+
+interface MyDesktopNavActionsProps extends React.ComponentProps<'div'> {
+  Prev?: React.ElementType
+}
 
 export const config: PluginConfig = {
   type: 'component',
   module: '@graphcommerce/next-ui',
 }
 
-export const DesktopNavActions = styled('div', {
-  name: 'DesktopNavActions',
-})(({ theme }) => ({
+export const DesktopNavActions = styled('div')<MyDesktopNavActionsProps>(({ theme }) => ({
   display: 'none',
   paddingRight: '35px',
 

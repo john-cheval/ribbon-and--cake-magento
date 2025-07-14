@@ -13,11 +13,12 @@ const config = {
     ? { hygraphEndpoint: 'example' }
     : {}),
   // magentoEndpoint: 'https://configurator.reachdigital.dev/graphql',
-  magentoEndpoint: 'https://rnb.chevaldemo.xyz/graphql',
+  magentoEndpoint: 'https://srv900162.hstgr.cloud/graphql',
   // magentoEndpoint: 'https://srv900162.hstgr.cloud/graphql',
   // magentoVersion: 247,
   magentoVersion: 248,
   canonicalBaseUrl: 'https://graphcommerce.vercel.app',
+  hygraphEndpoint: 'nokeys',
   storefront: [
     {
       locale: 'en',

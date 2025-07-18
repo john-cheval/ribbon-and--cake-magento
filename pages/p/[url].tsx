@@ -12,6 +12,7 @@ import {
   getProductStaticPaths,
   jsonLdProduct,
   jsonLdProductOffer,
+  ProductListPrice,
   ProductPageAddToCartActionsRow,
   ProductPageBreadcrumbs,
   productPageCategory,
@@ -45,6 +46,7 @@ import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation, productListRenderer } from '../../components'
 import { AddProductsToCartView } from '../../components/ProductView/AddProductsToCartView'
 import { Reviews } from '../../components/ProductView/Reviews'
+import { fontSize } from '../../components/theme'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
 import { ProductPage2Document } from '../../graphql/ProductPage2.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
@@ -72,6 +74,7 @@ function ProductPage(props: Props) {
   )
 
   if (!product?.sku || !product.url_key) return null
+  console.log('ProductPage', product)
 
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
@@ -116,17 +119,38 @@ function ProductPage(props: Props) {
           disableSticky
         >
           <div>
-            {isTypename(product, ['ConfigurableProduct', 'BundleProduct']) && (
+            {/*isTypename(product, ['ConfigurableProduct', 'BundleProduct']) && (
               <Typography component='div' variant='body1' color='text.disabled'>
                 <Trans
                   id='As low as <0/>'
                   components={{ 0: <Money {...product.price_range.minimum_price.final_price} /> }}
                 />
               </Typography>
-            )}
-            <Typography variant='h3' component='div' gutterBottom>
+            ) */}
+            <Typography
+              variant='h3'
+              component='div'
+              gutterBottom
+              sx={{
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                color: '#000',
+                fontWeight: 400,
+                lineHeight: '120%',
+              }}
+            >
               <ProductPageName product={product} />
             </Typography>
+            <ProductListPrice
+              {...product.price_range.minimum_price}
+              sx={{
+                '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
+                  marginRight: '2px',
+                },
+                '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
+                  ...fontSize(25, 40),
+                },
+              }}
+            />
             <ProductShortDescription
               sx={(theme) => ({ mb: theme.spacings.xs })}
               product={product}

@@ -1,8 +1,11 @@
 import { Image } from '@graphcommerce/image'
+import { AddProductsToCartFab, AddProductsToCartForm } from '@graphcommerce/magento-product'
+import { iconShoppingBag } from '@graphcommerce/next-ui'
 // import { AddProductsToCartFab } from '@graphcommerce/magento-product'
 import { Box, Typography } from '@mui/material'
 import { IoIosHeartEmpty } from 'react-icons/io'
 import { IoBagHandleOutline } from 'react-icons/io5'
+// import { iconShoppingBag } from '../../../plugins/icons'
 import dhirams from '../dhirams.svg'
 import type { ProductCardProps } from '../types/cardTypes'
 
@@ -15,7 +18,7 @@ export function ProductCard({
   left = '29px',
   top = '24px',
   padding = '16px',
-  // sku,
+  sku,
 }: ProductCardProps) {
   if (!item) {
     return null
@@ -49,8 +52,8 @@ export function ProductCard({
           component='div'
           sx={{
             position: 'absolute',
-            right: isLeftIcon ? 'auto' : right,
-            left: isLeftIcon ? left : 'auto',
+            right: right,
+            // left: isLeftIcon ? left : 'auto',
             top,
             backgroundColor: '#fff',
             color: '#F1A8B6',
@@ -169,7 +172,7 @@ export function ProductCard({
           )}
         </Box>
 
-        <Box
+        {/* } <Box
           component='div'
           sx={{
             display: 'flex',
@@ -190,7 +193,35 @@ export function ProductCard({
           }}
         >
           <IoBagHandleOutline size='18px' />
-        </Box>
+        </Box> */}
+        <AddProductsToCartForm>
+          <AddProductsToCartFab
+            sku={item.sku}
+            icon={iconShoppingBag}
+            sx={{
+              // These styles are the ones you defined in the original Fab
+              backgroundColor: '#F6DBE0 !important',
+              color: '#441E14!important',
+              boxShadow: 'none !important',
+              padding: '17px', // Match the padding of your previous Box
+              borderRadius: '50%', // Match the border-radius
+              width: 'fit-content', // Match the width
+              height: 'fit-content', // Add height to make it circular
+              // minWidth: 0, // Override MUI Button's minWidth for circular shape
+              '&:hover': {
+                backgroundColor: 'transparent !important', // Apply hover effect
+                // You might need to adjust color on hover as well if it's currently transparent
+                color: '#441E14 !important', // Keep text color if background becomes transparent
+                border: '1px solid #F6DBE0 !important', // Add border on hover
+              },
+            }}
+            // You can pass the icon you want for the AddProductsToCartFab
+            // If you want IoBagHandleOutline as the default, you can do:
+            // icon={iconCart}
+            // If you want to use the default icon from AddProductsToCartFab (which was iconShoppingBag)
+            // then you don't need to pass the icon prop at all.
+          />
+        </AddProductsToCartForm>
       </Box>
     </Box>
   )

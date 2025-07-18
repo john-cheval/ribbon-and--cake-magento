@@ -39,8 +39,6 @@ export type LayoutNavigationProps = LayoutQuery &
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
 
-  console.log('this is menu', menu)
-
   // const selection = useNavigationSelection()
   const router = useRouter()
 
@@ -116,33 +114,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
             <Logo isHome />
 
             <DesktopNavBar>
-              <DesktopNavItem href='/cakes'>
-                <Trans id='Cakes' />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/jars'>
-                <Trans id='Jars' />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/chefs-special'>
-                <Trans id="Chef's  Special" />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/mini-bites'>
-                <Trans id='Mini Bites' />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/custimized-cake'>
-                <Trans id='Customized Cake' />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/gifts'>
-                <Trans id='Gifts' />
-              </DesktopNavItem>
-
-              <DesktopNavItem href='/eid-treats'>
-                <Trans id='Eid Treats' />
-              </DesktopNavItem>
+              {menu?.items?.[0]?.children?.map((item) => (
+                <DesktopNavItem key={item?.uid} href={`/${item?.url_path}`}>
+                  {item?.name}
+                </DesktopNavItem>
+              ))}
             </DesktopNavBar>
 
             <DesktopNavActions>

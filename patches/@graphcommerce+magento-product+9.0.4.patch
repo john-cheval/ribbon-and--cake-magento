@@ -1,0 +1,636 @@
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
+index 2050980..d81c376 100644
+--- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
+@@ -27,6 +27,7 @@ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
+       {...action}
+       icon={showSuccess && !action.loading ? iconCheckmark : icon}
+       aria-label={t`Add to Cart`}
++      
+     />
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
+index fb82adb..e603148 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
+@@ -34,15 +34,15 @@ export function PriceSlider(props: PriceSliderProps) {
+   const from = value?.from ? Number(value?.from) : min
+   const to = value?.to ? Number(value?.to) : max
+ 
+-  const renderMoney = useCallback((v: number) => <Money round value={v} />, [])
++  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight:400,fontSize: { xs: '12px', sm: '14px', md: '16px' }}} round value={v} />, [])
+ 
+   return (
+     <Box
+       sx={[
+         (theme) => ({
+-          pt: theme.spacings.md,
++         pt: theme.spacings.sm,
+           pb: theme.spacings.xs,
+-          px: theme.spacings.xxs,
++          // px: theme.spacings.xxs,
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+@@ -77,6 +77,28 @@ export function PriceSlider(props: PriceSliderProps) {
+         valueLabelFormat={renderMoney}
+         className={classes.slider}
+         step={1}
++        sx={(theme)=>({
++          '& .MuiSlider-track': {
++            backgroundColor: '#9B7C38',
++            transition: 'background-color 0.3s ease-in-out', 
++            height:'3px',
++            color:'#9B7C38',
++            
++          },
++           '& .MuiSlider-rail': {
++             height:'1px',
++            backgroundColor: '#D4D4D4',
++
++            },
++            '& .MuiSlider-thumb': {
++            backgroundColor: '#9B7C38', 
++            width: '10px',
++            height: '10px', 
++            borderRadius: '50%', 
++            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out', 
++            
++          },
++        })}
+       />
+     </Box>
+   )
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
+index 021469e..8344178 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
+@@ -37,6 +37,8 @@ export function ProductFilterRangeChip(props: FilterProps) {
+         return (
+           <ChipOverlayOrPopper
+             label={label}
++      
++
+             chipProps={{ variant: 'outlined', className: classes.root }}
+             overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
+             onReset={
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
+index cabc140..8766637 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
+@@ -1,6 +1,5 @@
+ import { Controller } from '@graphcommerce/ecommerce-ui'
+-import type { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
+-import { ActionCardAccordion, Button } from '@graphcommerce/next-ui'
++import { ActionCardAccordion, Button, IconSvg } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+ import { isFilterTypeRange } from '../ProductListItems/filterTypes'
+ import { PriceSlider, getMinMaxFromOptions } from './PriceSlider'
+@@ -13,7 +12,7 @@ export function ProductFilterRangeSection(props: FilterProps) {
+ 
+   const { form, params } = useProductFiltersPro()
+   const { control } = form
+-  const attrCode = attribute_code as keyof ProductAttributeFilterInput
++  const attrCode = attribute_code ||""
+   const name = `filters.${attrCode}` as const
+ 
+   const param = params.filters?.[attrCode]
+@@ -35,21 +34,55 @@ export function ProductFilterRangeSection(props: FilterProps) {
+ 
+         return (
+           <ActionCardAccordion
++            defaultExpanded={true}
+             summary={label}
++            sx={{
++              
++              paddingTop:theme => theme.spacings.xs,
++
++              '& .MuiAccordionSummary-expandIconWrapper': {
++                display: 'none',
++              },
++
++              '& .MuiAccordionSummary-root': {
++                cursor: 'default', 
++                pointerEvents: 'none', 
++                minHeight: 'auto !important', 
++           
++                '&:hover, &.Mui-focusVisible': {
++                  backgroundColor: 'transparent',
++                },
++              },    
++
++              
++              ['& .MuiSlider-thumb']:{
++                ['& .MuiSlider-valueLabelOpen'] : {
++                  transform: 'translateY(40%) scale(1)',
++                },
++                ['&:nth-of-type(1) .MuiSlider-valueLabelOpen']: {
++                  left:"unset",
++                  right:"10px",
++                },
++              },
++
++              '& .PriceSlider-container': {
++                paddingTop:0,
++                paddingBottom:'40px',
++              },
++
++              '& .PriceSlider-slider': {
++                maxWidth: 'calc(100% - 4px)',
++              },
++
++              '& .MuiTypography-body1': {
++                marginBottom: '0px',
++              }
++
++            }}
+             details={<PriceSlider options={options} value={value} onChange={onChange} />}
+-            right={
+-              from !== min || to !== max ? (
+-                <Button
+-                  color='primary'
+-                  onClick={(e) => {
+-                    e.stopPropagation()
+-                    form.setValue(name, null)
+-                  }}
+-                >
+-                  <Trans id='Clear' />
+-                </Button>
+-              ) : undefined
+-            }
++            //  right={
++            //   <IconSvg />
++            // }
+           />
+         )
+       }}
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
+index 918ce2e..08b8d50 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
+@@ -7,6 +7,7 @@ import { ProductFilterRangeSection } from './ProductFilterRangeSection'
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ import { excludeCategory } from './activeAggregations'
+ import { applyAggregationCount } from './applyAggregationCount'
++import { StaticImport } from '@graphcommerce/image'
+ 
+ export type FilterProps = {
+   aggregation: NonNullable<NonNullable<ProductListFiltersFragment['aggregations']>[number]>
+@@ -16,6 +17,7 @@ export type FilterRenderer = Record<AttributeFrontendInputEnum, React.FC<FilterP
+ 
+ export type ProductFiltersProAggregationsProps = {
+   renderer?: Partial<FilterRenderer>
++  
+ }
+ 
+ export const productFiltersProSectionRenderer: Partial<FilterRenderer> = {
+@@ -57,7 +59,7 @@ export function ProductFiltersProAggregations(props: ProductFiltersProAggregatio
+             return null
+           }
+ 
+-          return <Component key={aggregation.attribute_code} aggregation={aggregation} {...props} />
++          return <Component key={aggregation.attribute_code} aggregation={aggregation} {...props}  />
+         },
+       )}
+     </>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
+index 80912c1..67a8534 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
+@@ -10,47 +10,90 @@ import {
+   iconChevronLeft,
+   IconSvg,
+   responsiveVal,
++  // iconFilterProduct
+ } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+ import type { SxProps, Theme } from '@mui/material'
+-import { Box } from '@mui/material'
++import { Box,  } from '@mui/material'
+ import { useProductFiltersPro } from './ProductFiltersPro'
++import { useProductFiltersProClearAllAction } from '@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction'
++import { StaticImport } from '@graphcommerce/image'
++
+ 
+ export type ProductFiltersProCategoryAccordionProps = {
+   hideTitle?: boolean
+   sx?: SxProps<Theme>
+   categoryTree: CategoryTreeItem[]
++  filterIcons?: string | StaticImport  
+   onChange: (uid: CategoryTreeItem) => void | Promise<void>
+ } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
+ 
+ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
+-  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
++  const { hideTitle, sx, categoryTree, onChange, defaultExpanded,filterIcons } = props
+   const { form } = useProductFiltersPro()
+ 
+   const name = 'filters.category_uid.in'
+   const currentFilter = useWatch({ control: form.control, name })
+-
++const clearAll = useProductFiltersProClearAllAction()
+   return (
+     <ActionCardAccordion
+       sx={[
+         hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
++        {
++        
++          '& .MuiAccordionSummary-expandIconWrapper': {
++            display: 'none',
++          },
++          '& .MuiAccordionSummary-root': {
++                cursor: 'default', 
++                pointerEvents: 'none', 
++                minHeight: 'auto !important', 
++           
++                '&:hover, &.Mui-focusVisible': {
++                  backgroundColor: 'transparent',
++                },
++              },
++          
++        },
+         sx,
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+       defaultExpanded={defaultExpanded}
+-      summary={<Trans id='Categories' />}
++      summary={<Box sx={{
++         fontFamily: "'Bricolage Grotesque', sans-serif",
++         fontSize: { xs: '14px', sm: '16px', md: '20px' },
++         fontWeight: 500,
++          lineHeight: '120%',
++          color: '#000',
++          display: 'flex',
++          alignItems: 'center',
++          gap: '8px',
++      }}>
++        {filterIcons && ( 
++            <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
++          )} Filter</Box>}
+       right={
+-        currentFilter && currentFilter.length > 0 ? (
++     
+           <Button
+-            color='primary'
++            sx={{
++              color:'#969696',
++              fontFamily: "'Bricolage Grotesque', sans-serif",
++              fontSize:{sm:'12px',md:'14px'},
++              fontWeight:400,
++              textDecoration:'underline',
++              '&:hover':{
++                backgroundColor:'transparent'
++              }
++            }}
+             onClick={(e) => {
+               e.stopPropagation()
+-              form.setValue(name, null)
++              // form.setValue(name, null)
++              return clearAll()
+             }}
+           >
+             <Trans id='Clear' />
+           </Button>
+-        ) : undefined
++       
+       }
+       details={
+         <ActionCardList
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
+index 27fdd62..4360c3f 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
+@@ -50,21 +50,21 @@ export function ProductFiltersProLimitSection(props: ProductFiltersProLimitSecti
+           items={options}
+         />
+       }
+-      right={
+-        activePageSize ? (
+-          <Button
+-            variant='inline'
+-            color='primary'
+-            onClick={(e) => {
+-              e.stopPropagation()
+-              form.setValue('pageSize', null)
+-              form.setValue('currentPage', 1)
+-            }}
+-          >
+-            <Trans id='Clear' />
+-          </Button>
+-        ) : undefined
+-      }
++       // right={
++       //   activePageSize ? (
++       //     <Button
++       //       variant='inline'
++       //       color='primary'
++       //       onClick={(e) => {
++       //         e.stopPropagation()
++       //         form.setValue('pageSize', null)
++       //         form.setValue('currentPage', 1)
++       //       }}
++       //     >
++       //       <Trans id='Clear' />
++       //     </Button>
++       //   ) : undefined
++       // }
+     />
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
+index b64ae6d..6ddc1c3 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
+@@ -5,13 +5,17 @@ import type { SxProps, Theme } from '@mui/material'
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
+ import { useProductFiltersProSort } from './useProductFiltersProSort'
++import { StaticImport } from '@graphcommerce/image'
+ 
+ export type ProductFiltersProSortSectionProps = UseProductFiltersProSortProps & {
+   sx?: SxProps<Theme>
++  openAccordionIcon?: string | StaticImport  
++  closeAccordionIcon?: string | StaticImport
++  
+ }
+ 
+ export function ProductFiltersProSortSection(props: ProductFiltersProSortSectionProps) {
+-  const { sx } = props
++  const { sx,openAccordionIcon, closeAccordionIcon } = props
+   const { form } = useProductFiltersPro()
+   const { options, showReset, selected } = useProductFiltersProSort(props)
+ 
+@@ -21,6 +25,8 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+     <ActionCardAccordion
+       sx={sx}
+       defaultExpanded={selected}
++      openAccordionIcon={openAccordionIcon}
++      closeAccordionIcon={closeAccordionIcon}
+       summary={<Trans id='Sort By' />}
+       details={
+         <ActionCardListForm
+@@ -30,24 +36,25 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+           variant='default'
+           size='responsive'
+           render={ActionCard}
+-          items={options}
++          items={options||[]}
+         />
+       }
+-      right={
+-        showReset ? (
+-          <Button
+-            color='primary'
+-            onClick={(e) => {
+-              e.stopPropagation()
+-              form.setValue('sort', null)
+-              form.setValue('dir', null)
+-              form.setValue('currentPage', 1)
+-            }}
+-          >
+-            <Trans id='Clear' />
+-          </Button>
+-        ) : undefined
+-      }
++      // right={
++      //    showReset ? (
++      //      <Button
++      //        color='primary'
++      //        onClick={(e) => {
++      //          e.stopPropagation()
++      //          form.setValue('sort', null)
++      //          form.setValue('dir', null)
++      //          form.setValue('currentPage', 1)
++      //        }}
++      //      >
++      //        <Trans id='Clear' />
++      //      </Button>
++      //    ) : undefined
++      //  } 
++    
+     />
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
+index 68f7cab..a573247 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
+@@ -22,33 +22,37 @@ export function ProductListCount(props: ProductCountProps) {
+     <Box
+       sx={[
+         (theme) => ({
+-          display: 'grid',
++          // display: 'grid',
+           gridAutoFlow: 'column',
+           gridTemplateColumns: '1fr max-content 1fr',
+           columnGap: theme.spacings.xs,
+           maxWidth: '100%',
+-          width: responsiveVal(280, 650),
++          // width: responsiveVal(280, 650),
+           alignItems: 'center',
+-          my: theme.spacings.md,
+-          mx: 'auto',
++          // my: theme.spacings.md,
++          // mx: 'auto',
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+       className={classes.root}
+     >
+-      <Divider component='div' className={classes.line} />
++     
+       <Typography
+         variant='body2'
+         color='text.disabled'
+         className={classes.count}
+-        sx={{ lineHeight: 0 }}
++        sx={{ color: '#441e14 !important',
++                  fontWeight: 300,
++                  fontFamily: "'Bricolage Grotesque', sans-serif",
++                  fontSize: { xs: '14px', md: '16px' },
++                  lineHeight: '130%', }}
+       >
+         {children ? <> {children} </> : null}
+         {total_count === 0 && <Trans id='no products' />}
+-        {total_count === 1 && <Trans id='one product' />}
+-        {(total_count ?? 0) > 1 && <Trans id='{total_count} products' values={{ total_count }} />}
++        {total_count === 1 && <Trans id='Showing {total_count} Result' />}
++        {(total_count ?? 0) > 1 && <Trans id='Showing {total_count} Results' values={{ total_count }} />}
+       </Typography>
+-      <Divider component='div' className={classes.line} />
++     
+     </Box>
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
+index 0b9f236..9dba016 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
+@@ -87,8 +87,11 @@ export function ProductListItemReal(props: ProductProps) {
+     sx = [],
+     onClick,
+     slotProps = {},
++    sku
+   } = props
+ 
++  // console.log(sku, 'this is the props from the api')
++
+   return (
+     <ProductListItemLinkOrDiv
+       href={productLink(props)}
+@@ -137,6 +140,7 @@ export function ProductListItemReal(props: ProductProps) {
+             titleComponent={titleComponent}
+             title={name}
+             subTitle={subTitle}
++            sku={sku}
+             {...slotProps.titleAndPrice}
+           >
+             <ProductListPrice {...price_range.minimum_price} />
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
+index d1ae621..328df78 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
+@@ -69,7 +69,7 @@ export function ProductListItemImage(props: ImageOrPlaceholderProps) {
+         className={classes?.image}
+         sx={[
+           {
+-            objectFit: 'contain',
++            // objectFit: 'contain',
+             aspectRatio: `${aspectRatio[0] / aspectRatio[1]}`,
+             display: 'block',
+           },
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
+index 9dc2505..6983f2c 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
+@@ -1,6 +1,7 @@
+ import type { SxProps, Theme } from '@mui/material'
+ import { Box, Typography } from '@mui/material'
+ import { productListPrice } from '../ProductListPrice'
++import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart'
+ 
+ export type ProductListItemTitleAndPriceProps = {
+   titleComponent?: React.ElementType
+@@ -9,10 +10,11 @@ export type ProductListItemTitleAndPriceProps = {
+   children: React.ReactNode
+   classes: { titleContainer: string; title: string; subtitle: string }
+   sx?: SxProps<Theme>
++  sku?: string | null | undefined
+ }
+ 
+ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPriceProps) {
+-  const { titleComponent = 'h2', classes, children, subTitle, title, sx } = props
++  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku } = props
+ 
+   return (
+     <Box
+@@ -20,15 +22,34 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+       sx={[
+         (theme) => ({
+           display: 'grid',
+-          alignItems: 'baseline',
+           marginTop: theme.spacings.xs,
+           columnGap: 1,
++          rowGap: {sm:'4px'}, 
+           gridTemplateAreas: {
+-            xs: '"title title" "subtitle price"',
+-            md: '"title subtitle price"',
++            xs: `
++              "title priceButton"
++              "subtitle priceButton"
++              "price priceButton"
++            `,
++            sm: `
++              "title priceButton"
++              "subtitle priceButton"
++              "price priceButton"
++            `,
++            md: `
++              "title priceButton"
++              "subtitle priceButton"
++              "price priceButton"
++            `,
+           },
+-          gridTemplateColumns: { xs: 'unset', md: 'auto auto 1fr' },
+-          justifyContent: 'space-between',
++          
++          gridTemplateColumns: {
++            xs: '1fr auto', 
++            md: '1fr auto', 
++          },
++           alignItems: 'center', 
++
++          // justifyContent: 'space-between',
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+@@ -40,8 +61,12 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+           display: 'inline',
+           color: 'text.primary',
+           overflowWrap: 'break-word',
+-          maxWidth: '100%',
++          // maxWidth: '100%',
+           gridArea: 'title',
++          fontFamily: "'Bricolage Grotesque', sans-serif",
++          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
++          maxWidth: { xs: '131px', md: '252px' },
++          minHeight:'55px'
+         }}
+         className={classes.title}
+       >
+@@ -49,7 +74,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+       </Typography>
+ 
+       {subTitle && (
+-        <Box sx={{ gridArea: 'subtitle' }} className={classes.subtitle}>
++        <Box sx={{ gridArea: 'subtitle',fontFamily: "'Bricolage Grotesque', sans-serif",
++          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
++          maxWidth: { xs: '131px', md: '252px' }, }} className={classes.subtitle}>
+           {subTitle}
+         </Box>
+       )}
+@@ -58,10 +85,16 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+         component='div'
+         variant='body1'
+         className={productListPrice.classes.root}
+-        sx={{ gridArea: 'price', textAlign: 'right', justifySelf: { sm: 'flex-end' } }}
++        sx={{ gridArea: 'price', textAlign: 'left',}}
+       >
+         {children}
+       </Typography>
++
++
++ <Box sx={{ gridArea: 'priceButton' }}>
++   <AddProductsToCartFab sku={sku}  />
++ </Box>
++     
+     </Box>
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
+index 1d42a06..c70ff79 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
+@@ -11,11 +11,12 @@ export const productListPrice = extendableComponent('ProductListPrice', [
+   'discountPrice',
+ ] as const)
+ 
++
+ const { classes, selectors } = productListPrice
+ 
+ export type ProductListPriceProps = ProductListPriceFragment & Pick<TypographyProps, 'sx'>
+ 
+-export function ProductListPrice(props: ProductListPriceProps) {
++export function ProductListPrice(props: ProductListPriceProps ) {
+   const { regular_price, final_price, sx } = props
+ 
+   return (
+@@ -38,6 +39,7 @@ export function ProductListPrice(props: ProductListPriceProps) {
+         className={classes.finalPrice}
+         component='span'
+         skeleton={{ width: '3.5em' }}
++        
+       >
+         <Money {...final_price} />
+       </PrivateQueryMask>

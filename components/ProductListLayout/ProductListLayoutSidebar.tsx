@@ -28,12 +28,24 @@ import {
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
 import { Trans } from '@lingui/macro'
 import { Box, Typography } from '@mui/material'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { iconCloseAccordion, iconFilterProduct, iconOpenAccordion } from '../../plugins/icons'
 import { ProductListItems } from '../ProductListItems'
 import type { ProductListLayoutProps } from './types'
 import { useLayoutConfiguration } from './types'
 
+const INITIAL_LOAD_SIZE = 12
+const LAZY_LOAD_INCREMENT = 6
+
 export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
   const { filters, filterTypes, params, products, handleSubmit, category, title, menu } = props
+
+  const [loadedProducts, setLoadedProducts] = useState(products?.items || [])
+  const [currentPage, setCurrentPage] = useState(products?.page_info?.current_page || 1)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+
+  const loaderRef = useRef<HTMLDivElement>(null) // Reference to the loader element
 
   if (!params || !products?.items || !filterTypes) return null
   const { total_count, sort_fields, page_info } = products
@@ -49,7 +61,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       autoSubmitMd
       handleSubmit={handleSubmit}
     >
-      {import.meta.graphCommerce.breadcrumbs && category && (
+      {/* import.meta.graphCommerce.breadcrumbs && category && (
         <Container maxWidth={false}>
           <CategoryBreadcrumbs
             category={category}
@@ -61,7 +73,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             })}
           />
         </Container>
-      )}
+      ) */}
 
       <Container
         maxWidth={false}
@@ -74,16 +86,16 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           gridTemplate: {
             xs: '"title" "horizontalFilters" "count" "items" "pagination"',
             md: `
-              "sidebar title"      auto
-              "sidebar count"      auto
-              "sidebar items"      auto
-              "sidebar pagination" 1fr
-              /${configuration.sidebarWidth}   auto
+            "sidebar count"      auto
+            "sidebar items"      auto
+            "sidebar pagination" 1fr
+            /${configuration.sidebarWidth}   auto
             `,
           },
+          paddingInline: '55px',
         })}
       >
-        <Box
+        {/* <Box
           className='title'
           sx={(theme) => ({
             gridArea: 'title',
@@ -115,12 +127,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
               <ProductListSuggestions products={products} />
             </>
           )}
-        </Box>
+        </Box> */}
 
-        <ProductListCount
-          total_count={total_count}
-          sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em' }}
-        />
         <Box sx={{ gridArea: 'items' }}>
           {products.items.length <= 0 ? (
             <ProductFiltersProNoResults search={params.search} />
@@ -133,12 +141,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             />
           )}
         </Box>
-
-        <ProductListPagination
-          page_info={page_info}
-          params={params}
-          sx={{ gridArea: 'pagination', my: 0 }}
-        />
 
         <MediaQuery query={(theme) => theme.breakpoints.down('md')}>
           <StickyBelowHeader sx={{ gridArea: 'horizontalFilters' }}>
@@ -183,6 +185,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           <>
             {category ? (
               <ProductFiltersProCategorySection
+                filterIcons={iconFilterProduct}
                 category={category}
                 params={params}
                 hideBreadcrumbs
@@ -192,14 +195,20 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             )}
           </>
 
+          <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
+
+          {/* Product filters */}
           <ProductFiltersProSortSection
             sort_fields={sort_fields}
             total_count={total_count}
             category={category}
+            openAccordionIcon={iconOpenAccordion}
+            closeAccordionIcon={iconCloseAccordion}
+            sx={{
+              paddingTop: (theme) => theme.spacings.xs,
+            }}
           />
           <ProductFiltersProLimitSection />
-
-          <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
         </MediaQuery>
       </Container>
     </ProductFiltersPro>

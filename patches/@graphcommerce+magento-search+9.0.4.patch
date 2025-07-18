@@ -1,0 +1,13 @@
+diff --git a/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx b/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
+index e2e243d..3cdc002 100644
+--- a/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
++++ b/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
+@@ -58,7 +58,7 @@ export function SearchField(props: SearchFieldProps) {
+           ...(Array.isArray(fab?.sx) ? fab.sx : [fab?.sx]),
+         ]}
+       >
+-        <IconSvg src={iconSearch} size='large' />
++        <IconSvg src={iconSearch} size='large' sx={{width:"35px"}} />
+       </Fab>
+     </>
+   )

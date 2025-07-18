@@ -81,7 +81,7 @@ const darkPalette: PaletteOptions = {
   },
 }
 
-const fontSize = (from: number, to: number) =>
+export const fontSize = (from: number, to: number) =>
   breakpointVal('fontSize', from, to, themeBaseDefaults.breakpoints.values)
 
 const commonHeadingProperties = {
@@ -112,10 +112,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
         color: '#9B7C38',
       },
       h3: {
-        ...fontSize(22, 30),
-        fontWeight: 700,
-        fontVariationSettings: "'wght' 660",
-        lineHeight: 1.55,
+        ...fontSize(25, 40),
       },
       h4: {
         ...fontSize(18, 26),

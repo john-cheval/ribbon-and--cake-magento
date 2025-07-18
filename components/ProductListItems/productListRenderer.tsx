@@ -19,7 +19,7 @@ export const productListRenderer: ProductListItemRenderer = {
         aspectRatio={[1, 1]}
         bottomLeft={<ProductReviewSummary {...props} />}
         topRight={<ProductWishlistChip {...props} />}
-        bottomRight={<AddProductsToCartFab sku={sku} />}
+       // bottomRight={<AddProductsToCartFab sku={sku} />}
       />
     )
   },

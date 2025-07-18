@@ -1,3 +1,49 @@
+diff --git a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
+index ad0f044..4c77884 100644
+--- a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
++++ b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
+@@ -36,12 +36,16 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+     <Box>
+       <IconButton
+         onClick={onClick}
+-        onMouseDown={cancelBubble}
+-        onTouchStart={cancelBubble}
++        // onMouseDown={cancelBubble}
++        // onTouchStart={cancelBubble}
+         size='small'
+         className={classes.wishlistButton}
+         {...buttonProps}
+-        sx={[(theme) => ({ padding: theme.spacings.xxs }), ...(Array.isArray(sx) ? sx : [sx])]}
++        sx={[(theme) => ({  backgroundColor:'#fff', padding:'13px 15px', backdropFilter:'blur(4px)',marginTop:{sm:'10px',md:'15px'}, marginRight:{sm:'10px',md:'15px'},'&:hover':{
++          backgroundColor: '#fff',
++        },'&:focus':{
++          backgroundColor: '#fff',
++        } }), ...(Array.isArray(sx) ? sx : [sx])]}
+         title={
+           current ? i18n._(/* i18n */ 'Remove from wishlist') : i18n._(/* i18n */ 'Add to wishlist')
+         }
+@@ -54,7 +58,7 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+             src={iconHeart}
+             size='medium'
+             className={classes.wishlistIconActive}
+-            sx={(theme) => ({ color: theme.palette.primary.main, fill: 'currentcolor' })}
++            sx={(theme) => ({ color: '#F1A8B6', fill: '#F1A8B6' ,})}
+             {...iconSvgProps}
+           />
+         ) : (
+@@ -63,10 +67,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+             size='medium'
+             className={classes.wishlistIcon}
+             sx={(theme) => ({
+-              color:
+-                theme.palette.mode === 'light'
+-                  ? theme.palette.text.secondary
+-                  : theme.palette.background.paper,
++              color:'#F1A8B6',
++              
+               '.SidebarGallery-root &': {
+                 // todo
+                 color:
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
 index 4c94637..947781f 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx

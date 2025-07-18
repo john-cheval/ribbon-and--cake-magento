@@ -1,0 +1,273 @@
+import {
+  CategoryBreadcrumbs,
+  CategoryChildren,
+  CategoryDescription,
+} from '@graphcommerce/magento-category'
+import {
+  ProductFiltersPro,
+  ProductFiltersProAggregations,
+  ProductFiltersProAllFiltersChip,
+  ProductFiltersProCategorySection,
+  productFiltersProChipRenderer,
+  ProductFiltersProClearAll,
+  ProductFiltersProLimitChip,
+  ProductFiltersProLimitSection,
+  ProductFiltersProNoResults,
+  productFiltersProSectionRenderer,
+  ProductFiltersProSortChip,
+  ProductFiltersProSortSection,
+  ProductListCount,
+  ProductListFiltersContainer,
+  // ProductListPagination, // REMOVE this import as we're replacing it with lazy loading
+  ProductListSuggestions,
+} from '@graphcommerce/magento-product'
+import {
+  ProductFiltersProCategorySectionSearch,
+  ProductFiltersProSearchTerm,
+} from '@graphcommerce/magento-search'
+import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
+import { Trans } from '@lingui/macro'
+import { Box, Typography, CircularProgress } from '@mui/material' // Import CircularProgress for loading icon
+import { useEffect, useRef, useState, useCallback } from 'react' // Import necessary React hooks
+import { ProductListItems } from '../ProductListItems'
+import type { ProductListLayoutProps } from './types'
+import { useLayoutConfiguration } from './types'
+
+// Define the initial page size and subsequent load size
+const INITIAL_LOAD_SIZE = 12
+const LAZY_LOAD_INCREMENT = 6
+
+export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
+  const { filters, filterTypes, params, products, handleSubmit, category, title, menu } = props
+
+  // State to manage currently loaded products for lazy loading
+  // Initialize with products from props
+  const [loadedProducts, setLoadedProducts] = useState(products?.items || [])
+  const [currentPage, setCurrentPage] = useState(products?.page_info?.current_page || 1)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [hasMore, setHasMore] = useState(true) // Track if there are more products to load
+
+  const loaderRef = useRef<HTMLDivElement>(null) // Ref for the IntersectionObserver target div
+
+  if (!params || !products?.items || !filterTypes) return null
+
+  // Destructure total_count and initial page_info
+  const { total_count, sort_fields, page_info } = products
+
+  const configuration = useLayoutConfiguration(true)
+
+  // Use a ref to store the current handleSubmit function
+  // This is important for useCallback dependencies to avoid re-creating fetchMoreProducts
+  const handleSubmitRef = useRef(handleSubmit);
+  handleSubmitRef.current = handleSubmit;
+
+  // Function to fetch more products
+  const fetchMoreProducts = useCallback(async () => {
+    if (isLoadingMore || !hasMore) return; // Prevent multiple fetches or if no more products
+
+    setIsLoadingMore(true);
+
+    const nextPage = currentPage + 1;
+    const newLimit = LAZY_LOAD_INCREMENT; // Fetch 6 more items
+
+    try {
+      // Create new params for fetching the next set of products
+      const nextParams = {
+        ...params,
+        pageSize: newLimit,
+        currentPage: nextPage,
+      };
+
+      // We need a way to trigger a *new* fetch with different params (pageSize, currentPage)
+      // This might require modifying handleSubmit to accept pagination params,
+      // or calling a separate function from your data fetching layer.
+      // For demonstration, let's assume handleSubmit can handle new pagination params.
+      // If handleSubmit always resets the view, you might need a dedicated `fetchMore` function.
+      const moreProductsResponse = await handleSubmitRef.current(nextParams); // Call the original handler with new params
+
+      if (moreProductsResponse?.items) {
+        setLoadedProducts((prevProducts) => [...prevProducts, ...moreProductsResponse.items]);
+        setCurrentPage(nextPage);
+
+        // Check if all products have been loaded
+        if (loadedProducts.length + moreProductsResponse.items.length >= total_count) {
+          setHasMore(false);
+        }
+      } else {
+        setHasMore(false); // No more items returned
+      }
+    } catch (error) {
+      console.error('Error fetching more products:', error);
+      setHasMore(false); // Stop trying to load if there's an error
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [currentPage, isLoadingMore, hasMore, params, total_count, loadedProducts.length]); // Include loadedProducts.length to re-evaluate hasMore
+
+  // Intersection Observer setup
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && hasMore && !isLoadingMore) {
+          fetchMoreProducts();
+        }
+      },
+      {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.1, // Trigger when 10% of the loader is visible
+      }
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [fetchMoreProducts, hasMore, isLoadingMore]); // Dependencies for useEffect
+
+  // Reset loadedProducts and currentPage when filters/params change (new search/category)
+  useEffect(() => {
+    setLoadedProducts(products?.items || []);
+    setCurrentPage(products?.page_info?.current_page || 1);
+    setHasMore((products?.items?.length || 0) < total_count); // Reset hasMore based on initial load
+    setIsLoadingMore(false); // Ensure loading state is reset
+  }, [products, params, total_count]);
+
+
+  // IMPORTANT: You need to modify how the initial products are fetched.
+  // The initial products should fetch INITIAL_LOAD_SIZE (12) items.
+  // If `handleSubmit` is called on initial render, you'll need to ensure
+  // its `pageSize` is set to `INITIAL_LOAD_SIZE`.
+  // This likely happens in a parent component calling `ProductListLayoutSidebar`.
+
+  return (
+    <ProductFiltersPro
+      params={params}
+      aggregations={filters?.aggregations}
+      appliedAggregations={products?.aggregations}
+      filterTypes={filterTypes}
+      autoSubmitMd
+      handleSubmit={handleSubmit}
+    >
+      {import.meta.graphCommerce.breadcrumbs && category && (
+        <Container maxWidth={false}>
+          <CategoryBreadcrumbs
+            category={category}
+            sx={(theme) => ({
+              mb: theme.spacings.sm,
+              [theme.breakpoints.down('md')]: {
+                '& .MuiBreadcrumbs-ol': { justifyContent: 'center' },
+              },
+            })}
+          />
+        </Container>
+      )}
+
+      <Container
+        maxWidth={false}
+        sx={(theme) => ({
+          display: 'grid',
+          alignItems: 'start',
+          rowGap: theme.spacings.md,
+          columnGap: configuration.columnGap,
+          mb: theme.spacings.xl,
+          gridTemplate: {
+            xs: '"title" "horizontalFilters" "count" "items" "pagination"', // "pagination" will be our loader div
+            md: `
+              "sidebar title"      auto
+              "sidebar count"      auto
+              "sidebar items"      auto
+              "sidebar pagination" 1fr // "pagination" will be our loader div
+              /${configuration.sidebarWidth}   auto
+            `,
+          },
+        })}
+      >
+        {/* Uncomment and use your Title / Description / Suggestions here if needed */}
+        <Box
+          className='title'
+          sx={(theme) => ({
+            gridArea: 'title',
+            display: 'grid',
+            gridAutoFlow: 'row',
+            rowGap: theme.spacings.xs,
+          })}
+        >
+          {category ? (
+            <>
+              <Typography variant='h1'>{title}</Typography>
+
+              <CategoryDescription
+                textAlignMd='start'
+                textAlignSm='start'
+                description={category?.description}
+              />
+              <MediaQuery query={(theme) => theme.breakpoints.down('md')}>
+                <CategoryChildren params={params}>{category?.children}</CategoryChildren>
+              </MediaQuery>
+            </>
+          ) : (
+            <>
+              <Typography variant='h2'>
+                <ProductFiltersProSearchTerm params={params}>
+                  <Trans>All products</Trans>
+                </ProductFiltersProSearchTerm>
+              </Typography>
+              <ProductListSuggestions products={products} />
+            </>
+          )}
+        </Box>
+
+        <ProductListCount
+          total_count={total_count}
+          sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em' }}
+        />
+
+        <Box sx={{ gridArea: 'items' }}>
+          {/* Use loadedProducts instead of products.items */}
+          {loadedProducts.length <= 0 && !isLoadingMore ? ( // Only show NoResults if truly empty and not loading
+            <ProductFiltersProNoResults search={params.search} />
+          ) : (
+            <ProductListItems
+              products={{ ...products, items: loadedProducts }} // Pass only loaded products
+              loadingEager={6} // Adjust as per your component's needs
+              title={(params.search ? `Search ${params.search}` : title) ?? ''}
+              columns={configuration.columns}
+            />
+          )}
+        </Box>
+
+        {/* Lazy Loading Indicator & Intersection Observer Target */}
+        {hasMore && (
+          <Box
+            ref={loaderRef} // Attach the ref here
+            sx={{
+              gridArea: 'pagination', // Use the existing pagination grid area
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '20px', // Give it some height
+              width: '100%',
+              mt: 2, // Margin top for spacing
+            }}
+          >
+            {isLoadingMore && (
+              <Box sx={{ display: 'flex', alignItems: 'center', color: 'red' }}>
+                <CircularProgress size={20} color="inherit" sx={{ mr: 1 }} />
+                <Typography variant="body1" sx={{ color: 'red', fontSize: '1.2em', letterSpacing: '0.1em' }}>
+                  Loading . . .
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        )}
+      </Container>
+    </ProductFiltersPro>
+  )
+})

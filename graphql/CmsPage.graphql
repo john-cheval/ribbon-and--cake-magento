@@ -1,0 +1,7 @@
+query cmsPage($urlKey: String) {
+   cmsPage(identifier: $urlKey) {
+    identifier
+    ...CmsPageMeta
+    ...CmsPageContent
+  }
+}

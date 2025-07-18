@@ -8,4 +8,6 @@ export interface ProductItemType {
   category?: string
   startPrice?: number | undefined | string
   endPrice?: number | undefined | string
+  sku?: string
+
 }

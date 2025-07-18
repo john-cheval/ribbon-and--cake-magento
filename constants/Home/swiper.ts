@@ -64,6 +64,8 @@ export const storyData = [
     category: 'Custom Cake',
     startPrice: '300.00',
     endPrice: '500',
+    sku: '1',
+
   },
   {
     id: 2,
@@ -72,6 +74,8 @@ export const storyData = [
     category: 'Custom Cake',
     startPrice: ' 350.00',
     endPrice: '500',
+    sku: '2',
+
   },
   {
     id: 3,
@@ -80,6 +84,8 @@ export const storyData = [
     category: 'Custom Cake',
     startPrice: ' 400.00',
     endPrice: '500',
+    sku: '3',
+
   },
   {
     id: 18,
@@ -88,6 +94,8 @@ export const storyData = [
     category: 'Custom Cake',
     startPrice: ' 400.00',
     endPrice: '500',
+    sku: '4',
+
   },
   {
     id: 17,
@@ -96,6 +104,8 @@ export const storyData = [
     category: 'Custom Cake',
     startPrice: ' 400.00',
     endPrice: '500',
+    sku: '5',
+
   },
   {
     id: 4,
@@ -104,6 +114,8 @@ export const storyData = [
     category: 'Brownie',
     startPrice: ' 350.00',
     endPrice: '500',
+    sku: '6',
+
   },
   {
     id: 5,
@@ -112,6 +124,8 @@ export const storyData = [
     category: 'Chocolate',
     startPrice: ' 350.00',
     endPrice: '500',
+    sku: '7',
+
   },
   {
     id: 6,

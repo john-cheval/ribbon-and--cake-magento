@@ -64,10 +64,6 @@ function CategoryPage(props: CategoryProps) {
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
 
-  console.log(isLanding, 'this is the lanfding')
-  console.log(isCategory, 'this is the category')
-  console.log(import.meta.graphCommerce.productFiltersLayout, 'this is sidebar')
-
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
@@ -98,7 +94,9 @@ function CategoryPage(props: CategoryProps) {
         </>
       ) */}
 
-      {isCategory && !isLanding && <InnerTop />}
+      {isCategory && !isLanding && (
+        <InnerTop count={products?.total_count} title={category.name ?? ''} />
+      )}
       {isCategory && !isLanding && (
         <>
           {import.meta.graphCommerce.productFiltersPro &&

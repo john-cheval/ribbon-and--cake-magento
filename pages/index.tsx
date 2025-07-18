@@ -8,6 +8,7 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
+  isTypename,
   // breakpointVal,
   // HeroBanner,
   LayoutHeader,
@@ -17,18 +18,29 @@ import {
 } from '@graphcommerce/next-ui'
 // import { Button, Container, Typography } from '@mui/material'
 import type { LayoutNavigationProps } from '../components'
-import { LayoutDocument, LayoutNavigation } from '../components'
+import { LayoutDocument, LayoutNavigation, productListRenderer } from '../components'
 import { HomePage } from '../components/Home'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
+import { cmsPageDocument } from '../graphql/CmsPage.gql'
+import { getCategoryStaticPaths } from '@graphcommerce/magento-category'
+import { ProductListDocument } from '@graphcommerce/magento-product'
 
-type Props = {}
-type RouteProps = { url: string }
-type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props, RouteProps>
+// import { CmsPageContent, CmsPageDocument } from '@graphcommerce/magento-cms'
+// import type { CmsPageQueryFragment } from '@graphcommerce/magento-cms'
 
-function CmsPage(props: Props) {
-  const {} = props
+export type CmsPageProps ={ cmsPage?: any }
+export type StoryProductsProps = { storyproducts?: any[] }
 
-  console.log(props, 'this is the props from the api')
+type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
+
+export type CmsPageRouteProps = LayoutNavigationProps&CmsPageProps &StoryProductsProps
+
+function CmsPage(props: CmsPageRouteProps) {
+  const {cmsPage, storyproducts} = props;
+
+  // console.log(storyproducts, 'this is the story page from the api')
+
+  // console.log(props, 'this is the props from the api')
 
   return (
     <>
@@ -56,45 +68,8 @@ function CmsPage(props: Props) {
 
       <HomePage />
 
-      {/* <HeroBanner
-        pageLinks={
-          <Button href='/men/art' variant='outlined' size='large' color='inherit'>
-            Shop Art
-          </Button>
-        }
-        videoSrc='https://media.graphassets.com/UNmtIZmWSgmnpUAWcAk0'
-        sx={(theme) => ({
-          '& .HeroBanner-copy': {
-            minHeight: { xs: 'min(70vh,600px)', md: 'min(70vh,1080px)' },
-            [theme.breakpoints.up('sm')]: {
-              padding: theme.spacings.xl,
-              justifyItems: 'start',
-              alignContent: 'center',
-              textAlign: 'left',
-              width: '50%',
-            },
-          },
-        })}
-      >
-        <Typography variant='overline' gutterBottom>
-          A journey through creativiy
-        </Typography>
-        <Typography
-          variant='h1'
-          sx={(theme) => ({
-            textTransform: 'uppercase',
-            mt: 1,
-            mb: theme.spacings.sm,
-            ...breakpointVal('fontSize', 36, 82, theme.breakpoints.values),
-            '& strong': {
-              WebkitTextFillColor: 'transparent',
-              WebkitTextStroke: '1.2px #fff',
-            },
-          })}
-        >
-          <strong>Discover</strong> beauty beyond boundaries.
-        </Typography>
-      </HeroBanner> */}
+     
+  {/*  <div dangerouslySetInnerHTML={{__html:cmsPage?.content}}></div> */}
     </>
   )
 }
@@ -108,16 +83,35 @@ export default CmsPage
 export const getStaticProps: GetPageStaticProps = async (context) => {
   const client = graphqlSharedClient(context)
   const staticClient = graphqlSsrClient(context)
-
   const conf = client.query({ query: StoreConfigDocument })
+  
+  const url = (await conf).data.storeConfig?.cms_home_page ?? 'home'
+
+  const cmsPageQuery = staticClient.query({ query: cmsPageDocument, variables: { urlKey:url } })
+
   const layout = staticClient.query({
     query: LayoutDocument,
     fetchPolicy: cacheFirst(staticClient),
   })
 
+  const cmsPage = (await cmsPageQuery).data.cmsPage
+
+  const sweetStoryQuery = staticClient.query({ query: ProductListDocument, variables: { 
+    pageSize: 30,
+    filter: {
+      category_uid: { eq: 'cakes' },
+    },
+   } })
+
+   const storyproducts =( await sweetStoryQuery).data.products?.items
+
+// console.log(storyproducts, 'this is the sweet story query')
+
   return {
     props: {
-      ...(await layout).data,
+       cmsPage: cmsPage,
+       storyproducts: storyproducts,
+      ...((await layout).data),
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

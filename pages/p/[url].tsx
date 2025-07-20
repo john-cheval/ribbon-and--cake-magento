@@ -29,7 +29,11 @@ import { defaultConfigurableOptionsSelection } from '@graphcommerce/magento-prod
 import { RecentlyViewedProducts } from '@graphcommerce/magento-recently-viewed-products'
 import { jsonLdProductReview, ProductReviewChip } from '@graphcommerce/magento-review'
 import { Money, redirectOrNotFound, StoreConfigDocument } from '@graphcommerce/magento-store'
-import { ProductWishlistChipDetail } from '@graphcommerce/magento-wishlist'
+import {
+  ProductWishlistChip,
+  ProductWishlistChipDetail,
+  ProductWishlistIconButton,
+} from '@graphcommerce/magento-wishlist'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   isTypename,
@@ -40,7 +44,7 @@ import {
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { GetStaticPaths } from 'next'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation, productListRenderer } from '../../components'
@@ -74,16 +78,21 @@ function ProductPage(props: Props) {
   )
 
   if (!product?.sku || !product.url_key) return null
-  console.log('ProductPage', product)
 
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
-      <AddProductsToCartForm key={product.uid} defaultValues={defaultValues}>
-        <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
+      <AddProductsToCartForm
+        key={product.uid}
+        defaultValues={defaultValues}
+        sx={{
+          paddingTop: '40px',
+        }}
+      >
+        {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
           <LayoutTitle size='small' component='span'>
             <ProductPageName product={product} />
           </LayoutTitle>
-        </LayoutHeader>
+        </LayoutHeader> */}
 
         <ProductPageJsonLd
           product={product}
@@ -114,7 +123,12 @@ function ProductPage(props: Props) {
         <ProductPageGallery
           product={product}
           sx={(theme) => ({
-            '& .SidebarGallery-sidebar': { display: 'grid', rowGap: theme.spacings.sm },
+            '& .SidebarGallery-sidebar': {
+              display: 'grid',
+              rowGap: { xs: '10px', md: '15px' },
+              // backgroundColor: 'red',
+              padding: '0 !important',
+            },
           })}
           disableSticky
         >
@@ -127,58 +141,160 @@ function ProductPage(props: Props) {
                 />
               </Typography>
             ) */}
-            <Typography
-              variant='h3'
-              component='div'
-              gutterBottom
-              sx={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                color: '#000',
-                fontWeight: 400,
-                lineHeight: '120%',
-              }}
-            >
-              <ProductPageName product={product} />
-            </Typography>
-            <ProductListPrice
-              {...product.price_range.minimum_price}
-              sx={{
-                '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
-                  marginRight: '2px',
-                },
-                '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
-                  ...fontSize(25, 40),
-                },
-              }}
-            />
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '3px' }}>
+              <Typography
+                variant='h3'
+                component='div'
+                gutterBottom
+                sx={{
+                  color: '#000',
+                  fontWeight: 400,
+                  lineHeight: '120%',
+                  margin: 0,
+                }}
+              >
+                <ProductPageName product={product} />
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingBottom: '20px',
+                  borderBottom: '1px solid rgba(199, 202, 205, 0.42)',
+                }}
+              >
+                <ProductListPrice
+                  {...product.price_range.minimum_price}
+                  sx={{
+                    '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
+                      marginRight: '2px',
+                    },
+                    '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
+                      ...fontSize(25, 40),
+                    },
+                  }}
+                />
+                <ProductWishlistIconButton
+                  {...product}
+                  sx={{
+                    backgroundColor: '#F6DBE0',
+                    padding: 0,
+                    height: '44px',
+                    width: '44px',
+                    '&:hover': {
+                      backgroundColor: '#F6DBE0',
+                    },
+                    '&:focus': {
+                      backgroundColor: '#F6DBE0',
+                    },
+                    '&:active': {
+                      backgroundColor: '#F6DBE0',
+                    },
+                    '&.Mui-focusVisible': {
+                      backgroundColor: '#F6DBE0',
+                    },
+                    '& .MuiTouchRipple-root': {
+                      color: '#F6DBE0',
+                    },
+                    '& .ProductWishlistChipBase-wishlistIcon': {
+                      color: '#441E14',
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
             <ProductShortDescription
-              sx={(theme) => ({ mb: theme.spacings.xs })}
+              sx={(theme) => ({
+                mb: theme.spacings.xs,
+                color: '#6F6F6F',
+                ...fontSize(12, 16),
+                lineHeight: '170%',
+                paddingTop: '15px',
+              })}
               product={product}
             />
-            <ProductReviewChip rating={product.rating_summary} reviewSectionId='reviews' />
+            {/*  <ProductReviewChip rating={product.rating_summary} reviewSectionId='reviews' /> */}
           </div>
 
           <AddProductsToCartView product={product} />
 
-          <ProductPageAddToCartActionsRow product={product}>
-            <AddProductsToCartButton fullWidth product={product} />
-            <ProductWishlistChipDetail {...product} />
+          {/* Buttons */}
+          <ProductPageAddToCartActionsRow
+            product={product}
+            sx={{
+              flexDirection: { xs: 'column', md: 'row' },
+              columnGap: { xs: 0, md: '15px' },
+              rowGap: { xs: '10px', md: 0 },
+              width: '100%',
+              '& .MuiBox-root': {
+                width: '50% ',
+              },
+              '& .MuiBox-root .MuiButtonBase-root': {
+                width: '100%',
+              },
+            }}
+          >
+            <AddProductsToCartButton
+              // fullWidth
+              product={product}
+              sx={{
+                backgroundColor: '#FFE09D',
+                color: '#441E14',
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontWeight: 500,
+                lineHeight: '158%',
+                borderRadius: '4px',
+                border: '1px solid #FFE09D ',
+                transition: 'all 0.3s ease',
+                paddingBlock: { xs: '15px', md: '18px' },
+                boxShadow: 'none !important',
+                width: '50%',
+                '&:hover': {
+                  backgroundColor: 'white !important',
+                },
+              }}
+            />
+            <ProductWishlistChipDetail
+              {...product}
+              bigButton={true}
+              sx={{
+                backgroundColor: '#9B7C38',
+                color: '#FFFFFF',
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontWeight: 500,
+                lineHeight: '158%',
+                borderRadius: '4px',
+                border: '1px solid #9B7C38 ',
+                transition: 'all 0.3s ease',
+                boxShadow: 'none !important',
+                paddingBlock: { xs: '15px', md: '18px' },
+                '&:hover': {
+                  backgroundColor: 'white !important',
+                  color: '#441E14',
+                },
+              }}
+            />
           </ProductPageAddToCartActionsRow>
         </ProductPageGallery>
 
-        <ProductPageDescription product={product} fontSize='responsive' right='' />
+        {/*    <ProductPageDescription product={product} fontSize='responsive' right='' />*/}
       </AddProductsToCartForm>
 
-      <ProductSpecs title='Specs' {...products} />
-
-      <Reviews title='Reviews' {...product} />
+      {/* <ProductSpecs title='Specs' {...products} /> 
+       <Reviews title='Reviews' {...product} /> 
+       */}
 
       {product.related_products && product.related_products.length > 0 && (
         <ProductScroller
-          title='Looking Similar'
+          title='Explore our other cakes'
           items={product.related_products.filter(nonNullable)}
           productListRenderer={productListRenderer}
           sizes={responsiveVal(200, 400)}
+          sx={{
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+          }}
           itemScrollerProps={{
             sx: (theme) => ({
               mb: theme.spacings.xxl,
@@ -188,6 +304,7 @@ function ProductPage(props: Props) {
         />
       )}
 
+      {/* 
       {product.upsell_products && product.upsell_products.length > 0 && (
         <ProductScroller
           title='You may also like'
@@ -216,6 +333,7 @@ function ProductPage(props: Props) {
         }}
         sx={(theme) => ({ mb: theme.spacings.xxl })}
       />
+      */}
     </PrivateQueryMaskProvider>
   )
 }

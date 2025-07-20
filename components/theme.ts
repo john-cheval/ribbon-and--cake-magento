@@ -99,8 +99,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
     ...themeBaseDefaults,
     shape: { borderRadius: 3 },
     typography: {
-      fontFamily:
-        '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji',
+      fontFamily: "'Bricolage Grotesque', sans-serif",
       // @see docs typography.md
       h1: {
         ...commonHeadingProperties,

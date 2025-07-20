@@ -95,7 +95,7 @@ function CategoryPage(props: CategoryProps) {
       ) */}
 
       {isCategory && !isLanding && (
-        <InnerTop count={products?.total_count} title={category.name ?? ''} />
+        <InnerTop count={products?.total_count} title={category.name ?? ''} isFilter={true} />
       )}
       {isCategory && !isLanding && (
         <>

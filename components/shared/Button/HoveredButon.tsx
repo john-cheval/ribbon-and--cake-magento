@@ -1,8 +1,9 @@
+import { css } from '@emotion/react'
 import { Box } from '@mui/material'
 import Link from 'next/link'
-import { IoArrowForwardCircleSharp } from 'react-icons/io5'
+import { IoIosArrowRoundForward } from 'react-icons/io'
+// import { IoArrowForwardCircleSharp } from 'react-icons/io5'
 import { HoveredButtonProps } from '../types/buttonTypes'
-import { css } from '@emotion/react'
 
 export function HoveredButton({
   href,
@@ -74,7 +75,7 @@ export function HoveredButton({
         {text}
         {isArrow && (
           <Box component='span' className='arrow-icon'>
-            <IoArrowForwardCircleSharp />
+            <IoIosArrowRoundForward />
           </Box>
         )}
       </Box>

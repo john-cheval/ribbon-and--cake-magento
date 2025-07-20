@@ -23,10 +23,11 @@ function capitalizeFirstLetter(str?: string) {
 export interface InnerTopProps {
   count?: number | null
   title?: string | null
+  isFilter?: boolean
 }
 
 export function InnerTop(props: InnerTopProps) {
-  const { count, title } = props
+  const { count, title, isFilter } = props
   // const router = useRouter()
   // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
   // const capitalizedRoute = capitalizeFirstLetter(routes)
@@ -43,8 +44,14 @@ export function InnerTop(props: InnerTopProps) {
   }
 
   return (
-    <Box sx={{ paddingInline: '55px' }}>
-      <Box sx={{ borderBlock: '1px solid #d4d4d4', paddingBlock: '15px' }}>
+    <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
+      <Box
+        sx={{
+          borderTop: '1px solid #d4d4d4',
+          ...(isFilter && { borderBottom: '1px solid #d4d4d4' }),
+          paddingBlock: '15px',
+        }}
+      >
         <Box sx={{ marginBottom: '15px' }}>
           <Box
             aria-label='breadcrumb'
@@ -90,68 +97,69 @@ export function InnerTop(props: InnerTopProps) {
             </Typography>
           </Box>
         </Box>
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              columnGap: '40px',
-            }}
-          >
-            <Typography component='h2' variant='h2' sx={{}}>
-              {title}
-            </Typography>
-
-            <ProductListCount
-              total_count={count}
-              sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em-' }}
-            />
-          </Box>
-
-          <Box>
-            <Typography
-              variant='p'
+        {isFilter && (
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box
               sx={{
-                color: '#441E14 !important',
-                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                columnGap: '40px',
               }}
             >
-              Sort by :{' '}
-            </Typography>
+              <Typography component='h2' variant='h2' sx={{}}>
+                {title}
+              </Typography>
 
-            <FormControl variant='standard' sx={{ m: 0, minWidth: 120 }}>
-              {' '}
-              <Select
-                value={sortValue}
-                onChange={handleSortChange}
-                displayEmpty
-                input={<CustomSelectInput />}
-                inputProps={{ 'aria-label': 'Sort by' }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      bgcolor: '#F6DBE0',
-                      '& .MuiMenuItem-root': {
-                        // padding: 2,
-                        color: '#441E14',
-                        fontFamily: '"Bricolage Grotesque", sans-serif',
-                        fontSize: { xs: '14px', md: '16px' },
-                        fontWeight: 500,
-                        lineHeight: '158%',
-                      },
-                    },
-                  },
+              <ProductListCount
+                total_count={count}
+                sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em-' }}
+              />
+            </Box>
+
+            <Box>
+              <Typography
+                variant='p'
+                sx={{
+                  color: '#441E14 !important',
+                  fontWeight: 500,
                 }}
               >
-                <MenuItem value='Latest'>Latest</MenuItem>
-                <MenuItem value='Price_ASC'>Price: Low to High</MenuItem>
-                <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
-                <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
-              </Select>
-            </FormControl>
+                Sort by :{' '}
+              </Typography>
+
+              <FormControl variant='standard' sx={{ m: 0, minWidth: 120 }}>
+                {' '}
+                <Select
+                  value={sortValue}
+                  onChange={handleSortChange}
+                  displayEmpty
+                  input={<CustomSelectInput />}
+                  inputProps={{ 'aria-label': 'Sort by' }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        bgcolor: '#F6DBE0',
+                        '& .MuiMenuItem-root': {
+                          // padding: 2,
+                          color: '#441E14',
+                          fontFamily: '"Bricolage Grotesque", sans-serif',
+                          fontSize: { xs: '14px', md: '16px' },
+                          fontWeight: 500,
+                          lineHeight: '158%',
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value='Latest'>Latest</MenuItem>
+                  <MenuItem value='Price_ASC'>Price: Low to High</MenuItem>
+                  <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
+                  <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   )

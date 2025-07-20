@@ -9,5 +9,11 @@ export interface ProductItemType {
   startPrice?: number | undefined | string
   endPrice?: number | undefined | string
   sku?: string
+}
 
+export interface TestiProductItemType {
+  id?: number
+  imageUrl: string | StaticImageData
+  title: string
+  description: srting
 }

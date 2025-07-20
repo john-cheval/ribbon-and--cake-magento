@@ -9,6 +9,12 @@ import {
   image8,
   image9,
   image10,
+  test1,
+  test2,
+  test3,
+  test4,
+  test5,
+  test6,
 } from './imagesData/imags'
 
 export const swiperHero = [
@@ -65,7 +71,6 @@ export const storyData = [
     startPrice: '300.00',
     endPrice: '500',
     sku: '1',
-
   },
   {
     id: 2,
@@ -75,7 +80,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '2',
-
   },
   {
     id: 3,
@@ -85,7 +89,6 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '3',
-
   },
   {
     id: 18,
@@ -95,7 +98,6 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '4',
-
   },
   {
     id: 17,
@@ -105,7 +107,6 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '5',
-
   },
   {
     id: 4,
@@ -115,7 +116,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '6',
-
   },
   {
     id: 5,
@@ -125,7 +125,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '7',
-
   },
   {
     id: 6,
@@ -528,5 +527,50 @@ export const miniBitesData = [
     title: 'Small Dessert',
     category: 'Small Dessert',
     price: ' 360.00',
+  },
+]
+
+export const testimonialsData = [
+  {
+    id: 1,
+    imageUrl: test1,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 2,
+    imageUrl: test2,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 3,
+    imageUrl: test3,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 4,
+    imageUrl: test4,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 5,
+    imageUrl: test5,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 6,
+    imageUrl: test6,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
   },
 ]

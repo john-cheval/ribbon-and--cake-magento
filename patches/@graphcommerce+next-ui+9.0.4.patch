@@ -1,12 +1,12 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..95539c5 100644
+index f94c113..7febaf0 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,10 @@
  import type { BoxProps, ButtonProps, SxProps, Theme } from '@mui/material'
 -import { alpha, Box, ButtonBase, lighten } from '@mui/material'
 -import React from 'react'
-+import { alpha, Box, ButtonBase, FormControl, lighten } from '@mui/material'
++import { alpha, Box, ButtonBase, Checkbox, FormControl, FormControlLabel, lighten } from '@mui/material'
 +import React, { KeyboardEvent } from 'react'
  import { extendableComponent, responsiveVal } from '../Styles'
  import { breakpointVal } from '../Styles/breakpointVal'
@@ -24,25 +24,29 @@ index f94c113..95539c5 100644
    } = props
  
    const classes = withState({
-@@ -135,6 +139,17 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -135,7 +139,20 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
    })
  
    return (
+-    <ButtonOrBox
 +    <>
++      <FormControlLabel
++        className={classes.root}
++        sx={{ fontSize: "14px" }}
++        control={<Checkbox
++          onClick={onClick ? (event) => onClick(event, value) : undefined}
++          value={value}
++          checked={selected}
++          disabled={disabled}
++        />}
++        label={title}
++      />
 +
-+    
-+ {/*  <CheckboxElement
-+      label={title}
-+      value={value}
-+      checked={selected}
-+      name={"sort"}
-+      control={control}
-+    /> 
-+*/}  
-     <ButtonOrBox
++      {/* <ButtonOrBox
        className={classes.root}
        onClick={onClick ? (event) => onClick(event, value) : undefined}
-@@ -305,6 +320,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+       disabled={disabled}
+@@ -305,6 +322,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -50,10 +54,12 @@ index f94c113..95539c5 100644
              {title && (
                <Box
                  className={classes.title}
-@@ -393,5 +409,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -392,6 +410,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+           {after}
          </Box>
        )}
-     </ButtonOrBox>
+-    </ButtonOrBox>
++    </ButtonOrBox> */}
 +    </>
    )
  }

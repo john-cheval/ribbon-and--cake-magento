@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
-index 1834408..36c12e2 100644
+index 1834408..eeecfb1 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 @@ -1,9 +1,11 @@
@@ -45,7 +45,7 @@ index 1834408..36c12e2 100644
      [onChange, requireOptionSelection],
    )
  
-+  console.log('ActionCardListForm', items)
++  // console.log('ActionCardListForm', items)
 +
 +
    return (

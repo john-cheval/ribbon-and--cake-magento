@@ -1,8 +1,8 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..95539c5 100644
+index f94c113..8cb43d8 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-@@ -1,8 +1,10 @@
+@@ -1,8 +1,9 @@
  import type { BoxProps, ButtonProps, SxProps, Theme } from '@mui/material'
 -import { alpha, Box, ButtonBase, lighten } from '@mui/material'
 -import React from 'react'
@@ -10,12 +10,11 @@ index f94c113..95539c5 100644
 +import React, { KeyboardEvent } from 'react'
  import { extendableComponent, responsiveVal } from '../Styles'
  import { breakpointVal } from '../Styles/breakpointVal'
-+import { CheckboxElement } from '@graphcommerce/ecommerce-ui'
 +import { Trans } from '@lingui/react'
  
  type Variants = 'outlined' | 'default'
  type Size = 'large' | 'medium' | 'small' | 'responsive'
-@@ -121,6 +123,8 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -121,6 +122,8 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      layout = 'list',
      error = false,
      slotProps = {},
@@ -24,9 +23,12 @@ index f94c113..95539c5 100644
    } = props
  
    const classes = withState({
-@@ -135,6 +139,17 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -134,7 +137,20 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+     error,
    })
  
++  console.log(price,"thisis hthe privce")
++
    return (
 +    <>
 +
@@ -42,7 +44,7 @@ index f94c113..95539c5 100644
      <ButtonOrBox
        className={classes.root}
        onClick={onClick ? (event) => onClick(event, value) : undefined}
-@@ -305,6 +320,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +321,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -50,7 +52,7 @@ index f94c113..95539c5 100644
              {title && (
                <Box
                  className={classes.title}
-@@ -393,5 +409,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -393,5 +410,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
          </Box>
        )}
      </ButtonOrBox>
@@ -189,6 +191,117 @@ index c705a8c..4f74619 100644
      </FabBase>
    )
  }
+diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
+index ca14954..61fc363 100644
+--- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
++++ b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
+@@ -3,8 +3,8 @@ import type { MotionImageAspectProps, ScrollerButtonProps } from '@graphcommerce
+ import {
+   MotionImageAspect,
+   Scroller,
+-  ScrollerButton,
+-  ScrollerDots,
++ // ScrollerButton,
++  // ScrollerDots,
+   ScrollerProvider,
+   ScrollerThumbnails,
+   unstable_usePreventScroll as usePreventScroll,
+@@ -15,7 +15,7 @@ import { Box, Fab, styled, Unstable_TrapFocus as TrapFocus, useTheme } from '@mu
+ import { m, useDomEvent, useMotionValue } from 'framer-motion'
+ import { useRouter } from 'next/router'
+ import React, { useEffect, useRef } from 'react'
+-import { iconChevronLeft, iconChevronRight, iconFullscreen, iconFullscreenExit } from '../icons'
++// import { iconChevronLeft, iconChevronRight, iconFullscreen, iconFullscreenExit } from '../icons'
+ import { IconSvg } from '../IconSvg'
+ import { Row } from '../Row/Row'
+ import { extendableComponent } from '../Styles'
+@@ -146,7 +146,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+         className={classes.row}
+         breakoutLeft={variantMd === 'default' && !theme.appShell.containerSizingContent}
+         sx={[
+-          { bgcolor: theme.palette.mode === 'light' ? 'background.image' : 'background.paper' },
++          { bgcolor: theme.palette.mode === 'light' ? 'background.image' : 'background.paper',paddingInline:{xs:'18px',sm:'25px',md:'35px', lg:"55px"}, },
+           ...(Array.isArray(sx) ? sx : [sx]),
+         ]}
+       >
+@@ -161,9 +161,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+               gridTemplate: '"left" "right"',
+               [theme.breakpoints.up('md')]: {
+                 '&:not(.variantMdOneColumn)': {
+-                  gridTemplate: `"left right" / 1fr calc(${responsiveVal(300, 500, undefined, theme.breakpoints.values.lg)} + ${
+-                    theme.page.horizontal
+-                  } * 2)`,
++                  gridTemplate: `"left right" / 1fr 1fr`,
+                 },
+               },
+ 
+@@ -192,7 +190,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                   height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
+                   backgroundColor: theme.palette.background.image,
+                   position: 'relative',
+-                  paddingTop: `min(${ratio}, ${maxHeight})`,
++                  // paddingTop: `min(${ratio}, ${maxHeight})`,
+                   [theme.breakpoints.down('md')]: {
+                     width: '100%',
+                   },
+@@ -244,7 +242,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                   <MotionImageAspect
+                     key={typeof image.src === 'string' ? image.src : idx}
+                     layout
+-                    layoutDependency={zoomed}
++                    // layoutDependency={zoomed}
+                     src={image.src}
+                     width={image.width}
+                     height={image.height}
+@@ -260,6 +258,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                 ))}
+               </Scroller>
+               {afterScroller}
++              {/* 
+               <MotionBox
+                 layout='position'
+                 layoutDependency={zoomed}
+@@ -289,8 +288,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                     )}
+                   </Fab>
+                 )}
+-              </MotionBox>
+-              <Box
++              </MotionBox> */}
++
++           {/*   <Box
+                 className={classes.centerLeft}
+                 sx={{
+                   display: 'grid',
+@@ -332,7 +332,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                 >
+                   <IconSvg src={iconChevronRight} />
+                 </ScrollerButton>
+-              </Box>
++              </Box> */}
+ 
+               <Box
+                 className={classes.bottomCenter}
+@@ -349,12 +349,17 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                   },
+                 }}
+               >
+-                {import.meta.graphCommerce.sidebarGallery?.paginationVariant ===
++                  <ScrollerThumbnails layoutDependency={zoomed} images={images} sx={{borderRadius:'8px','& .ScrollerThumbnail-thumbnail.active':{
++                    boxShadow:'none !important',
++                    borderRadius:'8px !important',
++                    // border:'1px solid black'
++                  }}} />
++                {/*import.meta.graphCommerce.sidebarGallery?.paginationVariant ===
+                 'THUMBNAILS_BOTTOM' ? (
+                   <ScrollerThumbnails layoutDependency={zoomed} images={images} />
+                 ) : (
+                   <ScrollerDots layout />
+-                )}
++                )*/}
+               </Box>
+             </MotionBox>
+           </TrapFocus>
 diff --git a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx b/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
 index 9088844..1c5017b 100644
 --- a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
@@ -305,6 +418,75 @@ index af23c02..7bc22ab 100644
 +  );
 +});
 \ No newline at end of file
+diff --git a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
+index 66a1d96..001ed23 100644
+--- a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
++++ b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
+@@ -10,7 +10,7 @@ import { LayoutHeaderContent } from './LayoutHeaderContent'
+ import type { FloatingProps } from './LayoutHeadertypes'
+ 
+ export type LayoutHeaderProps = FloatingProps &
+-  Omit<LayoutHeaderContentProps, 'left' | 'right'> &
++  Omit<LayoutHeaderContentProps,  'right'> &
+   Pick<BackProps, 'disableBackNavigation'> & {
+     /**
+      * Button to display on the left side of the title
+diff --git a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
+index 41c917c..545f0dc 100644
+--- a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
++++ b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
+@@ -148,7 +148,7 @@ export function LayoutHeaderContent(props: LayoutHeaderContentProps) {
+           ...(Array.isArray(sx) ? sx : [sx]),
+         ]}
+       >
+-        {left && (
++        {/* {left && (
+           <Box
+             className={classes.left}
+             sx={(theme) => ({
+@@ -164,7 +164,7 @@ export function LayoutHeaderContent(props: LayoutHeaderContentProps) {
+               {left}
+             </MotionDiv>
+           </Box>
+-        )}
++        )} */}
+         <Box
+           className={classes.center}
+           sx={(theme) => ({
+diff --git a/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx b/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
+index 3a5a250..a766865 100644
+--- a/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
++++ b/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
+@@ -15,14 +15,14 @@ export type LayoutOverlayProps = Omit<
+ 
+ export function LayoutOverlay(props: LayoutOverlayProps) {
+   const { children, variantSm = 'bottom', variantMd = 'right', ...otherProps } = props
+-
++console.log(otherProps,"==>otherProps")
+   const { closeSteps, active, direction } = usePageContext()
+   const onCloseHandler = useGo(closeSteps * -1)
+   const offsetPageY = useMotionValueValue(useScrollOffset(), (v) => v)
+   const [isPresent, safeToRemove] = usePresence()
+ 
+   return (
+-    <ScrollerProvider {...variantsToScrollSnapType(props)} _inititalSnap={false}>
++    <ScrollerProvider {...variantsToScrollSnapType(props)} _inititalSnap={false}  >
+       <OverlayBase
+         active={active}
+         direction={direction}
+diff --git a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
+index b792f5c..d679191 100644
+--- a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
++++ b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
+@@ -16,7 +16,7 @@ export function OverlayStickyBottom(props: {
+ 
+   return (
+     <MotionDiv
+-      sx={[{ position: 'sticky', zIndex: 1 }, ...(Array.isArray(sx) ? sx : [sx])]}
++      sx={[{ position: 'absolute', zIndex: 1, width:'100%' }, ...(Array.isArray(sx) ? sx : [sx])]}
+       style={{ bottom }}
+       {...divProps}
+     />
 diff --git a/node_modules/@graphcommerce/next-ui/icons.interceptor.ts b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
 new file mode 100644
 index 0000000..8ec0302

@@ -10,6 +10,68 @@ index 2050980..d81c376 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
+index c61ffc0..ce11bee 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
+@@ -36,13 +36,14 @@ export function CustomizableAreaOption(props: CustomizableAreaOptionProps) {
+         {...register(`cartItems.${index}.entered_options.${optionIndex}.uid`)}
+         value={uid}
+       />
+-      <SectionHeader labelLeft={title} sx={{ mt: 0 }} />
++      <SectionHeader labelLeft={title} sx={{ mt: 0 ,}} />
+       <TextFieldElement
+         sx={{ width: '100%' }}
+         color='primary'
+         multiline
+         minRows={3}
+         control={control}
++        placeholder='Add your message on the cake, example Happy Birthday'
+         name={`cartItems.${index}.entered_options.${optionIndex}.value`}
+         InputProps={{
+           endAdornment:
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
+index a1ec789..b365a43 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
+@@ -10,6 +10,8 @@ import { CustomizableFieldOption } from './CustomizableFieldOption'
+ import { CustomizableMultipleOption } from './CustomizableMultipleOption'
+ import { CustomizableRadioOption } from './CustomizableRadioOption'
+ import type { ProductCustomizableFragment } from './ProductCustomizable.gql'
++import { SxProps } from '@mui/material'
++import { Theme } from '@emotion/react'
+ 
+ const defaultRenderer = {
+   CustomizableAreaOption,
+@@ -33,14 +35,18 @@ type OptionTypeRendererProp = Simplify<
+     : MissingOptionTypeRenderer & DefinedOptionTypeRenderer
+ >
+ 
+-export type ProductCustomizableProps = AddToCartItemSelector & {
++type noteprops = {
++    sx?: SxProps<Theme>
++}
++
++export type ProductCustomizableProps = AddToCartItemSelector & noteprops & {
+   product: ProductCustomizableFragment & ProductPagePriceFragment
+ } & (keyof MissingOptionTypeRenderer extends never
+     ? { renderer?: OptionTypeRendererProp }
+     : { renderer: OptionTypeRendererProp })
+ 
+ export function ProductCustomizable(props: ProductCustomizableProps) {
+-  const { product, renderer, index = 0 } = props
++  const { product, renderer, index = 0 ,sx= []} = props
+ 
+   return (
+     <>
+@@ -53,6 +59,7 @@ export function ProductCustomizable(props: ProductCustomizableProps) {
+           index={index}
+           currency={product.price_range.minimum_price.final_price.currency}
+           productPrice={product.price_range.minimum_price.final_price.value}
++          sx={{color:'red'}}
+         />
+       ))}
+     </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 index fb82adb..e603148 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
@@ -634,3 +696,59 @@ index 1d42a06..c70ff79 100644
        >
          <Money {...final_price} />
        </PrivateQueryMask>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
+index e920423..e993817 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
+@@ -12,7 +12,7 @@ export type ProductPageGalleryProps = Omit<SidebarGalleryProps, 'sidebar' | 'ima
+ }
+ 
+ export function ProductPageGallery(props: ProductPageGalleryProps) {
+-  const { product, children, aspectRatio: [width, height] = [1532, 1678], ...sidebarProps } = props
++  const { product, children, aspectRatio: [width, height] = [682, 682], ...sidebarProps } = props
+   const { media_gallery } = product
+ 
+   const images =
+@@ -40,6 +40,8 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+       sidebar={children}
+       aspectRatio={[width, height]}
+       images={images}
++      disableZoom={true}
++     
+     />
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
+index ef066ad..2fb415e 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
+@@ -42,7 +42,7 @@ export const ProductScroller = forwardRef<HTMLDivElement, ProductScrollerProps>(
+       <Box sx={sx} ref={ref}>
+         <Container maxWidth={false} {...containerProps}>
+           {title && (
+-            <Typography variant='h2' sx={{ marginBottom: theme.spacings.sm }} {...titleProps}>
++            <Typography variant='h2' sx={{ marginBottom: theme.spacings.sm, textAlign:{xs:'center', md:'start'}}} {...titleProps}>
+               {title}
+             </Typography>
+           )}
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
+index 002f6d1..b1dd83e 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
+@@ -14,14 +14,14 @@ export function ProductShortDescription(props: ProductShortDescriptionProps) {
+   const { product, sx = [] } = props
+   const { short_description } = product
+ 
+-  if (!short_description?.html) return null
++  // if (!short_description?.html) return null
+ 
+   return (
+     <Typography
+       variant='body1'
+       component='div'
+       className={classes.description}
+-      dangerouslySetInnerHTML={{ __html: short_description?.html ?? '' }}
++      dangerouslySetInnerHTML={{ __html: short_description?.html || "Our cakes are not just desserts—they're edible masterpieces. We specialize in creating highly detailed" }}
+       sx={[
+         {
+           '& > p:first-of-type': { marginTop: 0 },

@@ -1,10 +1,32 @@
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
-index ad0f044..4c77884 100644
+index ad0f044..da7fbf7 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
-@@ -36,12 +36,16 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -18,6 +18,7 @@ export type ProductWishlistChipProps = ProductListItemFragment & {
+   sx?: SxProps<Theme>
+   buttonProps?: IconButtonProps
+   iconSvgProps?: Partial<IconSvgProps>
++  bigButton?:boolean
+ }
+ 
+ const compName = 'ProductWishlistChipBase'
+@@ -25,7 +26,7 @@ const parts = ['root', 'wishlistIcon', 'wishlistIconActive', 'wishlistButton'] a
+ const { classes } = extendableComponent(compName, parts)
+ 
+ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((props) => {
+-  const { buttonProps, iconSvgProps, sx = [], ...product } = props
++  const { buttonProps, iconSvgProps, sx = [],bigButton = false , ...product } = props
+   const enabled = useWishlistEnabled()
+   const { current, onClick, cancelBubble, showSuccess, hideShowSuccess } =
+     useAddProductToWishlistAction({ product, index: 0 })
+@@ -34,14 +35,20 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+ 
+   return (
      <Box>
-       <IconButton
+-      <IconButton
++      {bigButton ? (
++        <Button   onClick={onClick} sx={sx}>Buy Now</Button>
++      ): <IconButton
          onClick={onClick}
 -        onMouseDown={cancelBubble}
 -        onTouchStart={cancelBubble}
@@ -22,7 +44,7 @@ index ad0f044..4c77884 100644
          title={
            current ? i18n._(/* i18n */ 'Remove from wishlist') : i18n._(/* i18n */ 'Add to wishlist')
          }
-@@ -54,7 +58,7 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -54,7 +61,7 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
              src={iconHeart}
              size='medium'
              className={classes.wishlistIconActive}
@@ -31,7 +53,7 @@ index ad0f044..4c77884 100644
              {...iconSvgProps}
            />
          ) : (
-@@ -63,10 +67,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -63,10 +70,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
              size='medium'
              className={classes.wishlistIcon}
              sx={(theme) => ({
@@ -44,6 +66,16 @@ index ad0f044..4c77884 100644
                '.SidebarGallery-root &': {
                  // todo
                  color:
+@@ -78,7 +83,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+             {...iconSvgProps}
+           />
+         )}
+-      </IconButton>
++      </IconButton>}
++     
+ 
+       {import.meta.graphCommerce.wishlistShowFeedbackMessage && (
+         <MessageSnackbar
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
 index 4c94637..947781f 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx

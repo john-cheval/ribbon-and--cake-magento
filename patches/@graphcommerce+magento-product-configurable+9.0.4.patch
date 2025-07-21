@@ -1,0 +1,92 @@
+diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
+index 0482241..deb628c 100644
+--- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
++++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
+@@ -43,6 +43,9 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+   } = props
+   const fieldName = `cartItems.${index}.selected_options.${optionIndex}` as const
+ 
++  const splittedLabel = label?.split(' ')?.[1]
++  
++
+   const { control } = useFormAddProductsToCart()
+ 
+   const selectedOption = useWatch({ control, name: fieldName })
+@@ -72,11 +75,25 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+ 
+   return (
+     <Box key={fieldName} sx={[...(Array.isArray(sx) ? sx : [sx])]}>
+-      <SectionHeader
+-        labelLeft={optionStartLabels?.[attribute_code ?? ''] ?? label}
++
++      {splittedLabel ==='weight' && (
++   <SectionHeader
++   labelLeft={
++    splittedLabel ==='weight'
++      ? (optionStartLabels?.[attribute_code ?? ''] ?? splittedLabel)
++      : undefined 
++  }
+         labelRight={optionEndLabels?.[attribute_code ?? '']}
+-        sx={{ mt: 0 }}
++        sx={{ mt: 0 , '& .SectionHeader-left':{
++          color:'#000',
++          fontSize:'16px',
++          fontWeight:500,
++          lineHeight:'120%',
++          textTransform:'capitalize'
++        }}}
+       />
++      )}
++   
+ 
+       <ActionCardListForm<
+         ActionCardItemBase & ConfigurableOptionValueFragment,
+@@ -92,6 +109,36 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+         rules={{
+           required: i18n._(/* i18n*/ 'Please select a value for ‘{label}’', { label }),
+         }}
++        sx={{
++          borderRadius:'8px',
++          outline:'none',
++          boxShadow:'none',
++          textTransform:'capitalize',
++          fontSize:{xs:'12px',sm:'14px',md:'16px'},
++          fontWeight:600,
++         '& .ActionCard-root':{
++          border:'1px solid #F6DBE0',
++          boxShadow:'none',
++         },
++         '& .MuiTouchRipple-root': {
++        display: 'none', 
++      },
++      '& .ActionCard-root .variantOutlined':{
++        boxShadow:'none !important'
++      },
++         '& .ActionCard-root.variantOutlined.selected':{
++          border:'1px solid #441E14',
++          outline:'none', boxShadow:'none',
++          backgroundColor:'#F6DBE0'
++         },
++          '& .ActionCard-root.variantOutlined.selected:focus':{
++          border:'1px solid #441E14',
++          outline:'none', boxShadow:'none',
++         },
++         '& .ActionCard-root.variantOutlined:focus':{
++          outline:'none', boxShadow:'none',
++         },
++        }}
+       />
+     </Box>
+   )
+diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
+index d17ad07..29231ee 100644
+--- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
++++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
+@@ -62,7 +62,6 @@ export function ConfigurableProductOptions(props: ConfigurableProductOptionsProp
+     }
+     if (!unavailable) clearErrors(`cartItems.${index}.sku`)
+   }, [allLabels, clearErrors, index, setError, unavailable])
+-
+   return (
+     <Box sx={(theme) => ({ display: 'grid', rowGap: theme.spacings.sm })}>
+       {options.map((option, optionIndex) => (

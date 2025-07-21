@@ -1,0 +1,51 @@
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
+index 0b04f2c..7a30786 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
+@@ -86,13 +86,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+             '& ~ span.MuiButton-endIcon': { marginLeft: '6px' },
+           })}
+         >
+-          <Trans>Start Checkout</Trans>
++          <Trans>Proceed to Checkout</Trans>
+         </Box>{' '}
+-        {hasTotals && (
++        {/*hasTotals && (
+           <span className={classes.checkoutMoney}>
+             <Money {...cart?.prices?.grand_total} />
+           </span>
+-        )}
++        )*/}
+       </Button>
+ 
+       {children}
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
+index 11b4847..e95a7b7 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
+@@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
+ import { breakpointVal, extendableComponent } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+ import type { SxProps, Theme } from '@mui/material'
+-import { Box, Divider, lighten } from '@mui/material'
++import { Box, Divider, lighten, Typography } from '@mui/material'
+ import { useCartQuery, useDisplayInclTax } from '../../hooks'
+ import { GetCartTotalsDocument } from './GetCartTotals.gql'
+ 
+@@ -154,6 +154,8 @@ export function CartTotals(props: CartTotalsProps) {
+           </Box>
+         ))}
+ 
++       
++
+       {additionalSubtotals}
+ 
+       <Box key='divider'>
+@@ -201,6 +203,7 @@ export function CartTotals(props: CartTotalsProps) {
+         ))}
+ 
+       {additionalTotals}
++      <Typography sx={{color:'#8f8f8f', fontSize:'16px'}}>Proceed to checkout and add location to see shipping charges</Typography>
+     </Box>
+   )
+ }

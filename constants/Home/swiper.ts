@@ -1,4 +1,8 @@
 import {
+  event1,
+  event2,
+  event3,
+  event4,
   image1,
   image2,
   image3,
@@ -573,4 +577,33 @@ export const testimonialsData = [
     description:
       'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
   },
+]
+
+export const eventsData = [
+  {
+    id: 1,
+    title: 'Personalized Gifts',
+    images: [event1, event2, event3, event4],
+  },
+  {
+    id: 2,
+    title: 'Events Catering',
+    images: [event2, event1, event1, event4],
+  },
+  {
+    id: 3,
+    title: 'Team Building Workshops',
+    images: [event1, event2, event3, event4],
+  },
+  {
+    id: 4,
+    title: 'Weddings & Special Events',
+    images: [event2, event1, event1, event4],
+  },
+]
+
+export const eventsList = [
+  'Elevate your next event with Ribbons & Balloons.',
+  'Our expert team specializes in personalizing cakes, cupcakes, and desserts with your brand or image.',
+  'Just complete the form below to get started, no event is too big or',
 ]

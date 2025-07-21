@@ -3,34 +3,34 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
-import About from '../../components/About'
+import Events from '../../components/Events'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 
-function AboutPage(props) {
+function EventsPage(props) {
   return (
     <>
       <PageMeta
-        title='About | Ribbon and Balloons'
+        title='Corporate & Events | Ribbon and Balloons'
         metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
         // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
-        canonical='/about'
+        canonical='/Corporate & events'
       />
 
-      <InnerTop title={'About'} isFilter={false} />
+      <InnerTop title={'Corporate & events'} isFilter={false} />
 
-      <About />
+      <Events />
     </>
   )
 }
 
-AboutPage.pageOptions = {
+EventsPage.pageOptions = {
   Layout: LayoutNavigation,
 } as PageOptions
 
-export default AboutPage
+export default EventsPage
 
 export const getStaticProps: GetPageStaticProps = async (context) => {
   const { params, locale } = context

@@ -15,5 +15,5 @@ export interface TestiProductItemType {
   id?: number
   imageUrl: string | StaticImageData
   title: string
-  description: srting
+  description: string
 }

@@ -1,0 +1,36 @@
+diff --git a/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx b/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
+index 0a86e18..3ac8ee1 100644
+--- a/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
++++ b/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
+@@ -6,6 +6,7 @@ import { Trans } from '@lingui/react'
+ import type { SxProps, Theme } from '@mui/material'
+ import { Box, FormControl } from '@mui/material'
+ import { ApplyCouponFormDocument } from './ApplyCouponForm.gql'
++import { useState } from 'react'
+ 
+ export type ApplyCouponFormProps = { sx?: SxProps<Theme> }
+ 
+@@ -15,9 +16,13 @@ const { classes } = extendableComponent(name, parts)
+ 
+ export function ApplyCouponForm(props: ApplyCouponFormProps) {
+   const { sx = [] } = props
+-  const form = useFormGqlMutationCart(ApplyCouponFormDocument)
++  const [couponCode, setcouponCode] = useState("")
++  const form = useFormGqlMutationCart(ApplyCouponFormDocument, {
++    defaultValues: { couponCode },
++    onBeforeSubmit: (values) => ({ ...values, couponCode })
++  }, { errorPolicy: 'all' },)
+   const { handleSubmit, control, formState, required, error } = form
+-  const submitHandler = handleSubmit(() => {})
++  const submitHandler = handleSubmit(() => { })
+ 
+   return (
+     <Box
+@@ -46,6 +51,7 @@ export function ApplyCouponForm(props: ApplyCouponFormProps) {
+         helperText={formState.errors.couponCode?.message}
+         disabled={formState.isSubmitting}
+         showValid
++        onChange={(e) => setcouponCode(e.target.value)}
+       />
+       <FormControl>
+         <Button

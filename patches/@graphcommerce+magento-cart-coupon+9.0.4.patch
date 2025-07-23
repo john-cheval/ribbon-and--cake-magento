@@ -1,7 +1,16 @@
 diff --git a/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx b/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
-index 0a86e18..7167320 100644
+index 0a86e18..06c45cf 100644
 --- a/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-coupon/ApplyCouponForm/ApplyCouponForm.tsx
+@@ -16,7 +16,7 @@ const { classes } = extendableComponent(name, parts)
+ export function ApplyCouponForm(props: ApplyCouponFormProps) {
+   const { sx = [] } = props
+   const form = useFormGqlMutationCart(ApplyCouponFormDocument)
+-  const { handleSubmit, control, formState, required, error } = form
++  const { handleSubmit,muiRegister, control, formState, required, error } = form
+   const submitHandler = handleSubmit(() => {})
+ 
+   return (
 @@ -28,9 +28,10 @@ export function ApplyCouponForm(props: ApplyCouponFormProps) {
        sx={[
          (theme) => ({
@@ -16,11 +25,19 @@ index 0a86e18..7167320 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -46,15 +47,32 @@ export function ApplyCouponForm(props: ApplyCouponFormProps) {
+@@ -40,21 +41,39 @@ export function ApplyCouponForm(props: ApplyCouponFormProps) {
+         type='text'
+         error={!!formState.errors.couponCode || !!error}
+         required={required.couponCode}
+-        name='couponCode'
++        // name='couponCode'
+         rules={{ required: required.couponCode }}
+         control={control}
          helperText={formState.errors.couponCode?.message}
          disabled={formState.isSubmitting}
          showValid
 +        placeholder='Enter Coupon Code'
++        {...muiRegister('couponCode',{required:required.couponCode})}
 +        sx={{
 +    '& .MuiOutlinedInput-root': {
 +      '& fieldset': {

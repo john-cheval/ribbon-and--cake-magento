@@ -7,6 +7,8 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  SxProps,
+  Theme,
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
@@ -24,10 +26,12 @@ export interface InnerTopProps {
   count?: number | null
   title?: string | null
   isFilter?: boolean
+  mainTitle?: string | null
+  sx?: SxProps<Theme>
 }
 
 export function InnerTop(props: InnerTopProps) {
-  const { count, title, isFilter } = props
+  const { count, title, isFilter, mainTitle, sx } = props
   // const router = useRouter()
   // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
   // const capitalizedRoute = capitalizeFirstLetter(routes)
@@ -46,11 +50,19 @@ export function InnerTop(props: InnerTopProps) {
   return (
     <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
       <Box
-        sx={{
-          borderTop: '1px solid #d4d4d4',
-          ...(isFilter && { borderBottom: '1px solid #d4d4d4' }),
-          paddingBlock: '15px',
-        }}
+        sx={[
+          {
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+          },
+
+          {
+            borderTop: '1px solid #d4d4d4',
+            ...((isFilter || mainTitle) && { borderBottom: '1px solid #d4d4d4' }),
+            paddingBlock: '15px',
+          },
+
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
       >
         <Box sx={{ marginBottom: '15px' }}>
           <Box
@@ -97,6 +109,13 @@ export function InnerTop(props: InnerTopProps) {
             </Typography>
           </Box>
         </Box>
+
+        {mainTitle && (
+          <Typography component='h2' variant='h2' sx={{}}>
+            {mainTitle}
+          </Typography>
+        )}
+
         {isFilter && (
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box

@@ -49,3 +49,15 @@ index 11b4847..e95a7b7 100644
      </Box>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts b/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
+index 4eb01c1..e159b35 100644
+--- a/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
++++ b/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
+@@ -35,6 +35,7 @@ export function useFormGqlMutationCart<
+     {
+       ...options,
+       onBeforeSubmit: async (variables) => {
++        console.log(variables,options,"==>variables")
+         if (shouldLoginToContinue && shouldBlockOperation) {
+           return false
+         }

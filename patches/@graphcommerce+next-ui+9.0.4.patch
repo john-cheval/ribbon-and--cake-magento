@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..8cb43d8 100644
+index f94c113..8b03e10 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,9 @@
@@ -23,11 +23,10 @@ index f94c113..8cb43d8 100644
    } = props
  
    const classes = withState({
-@@ -134,7 +137,20 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -134,7 +137,19 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      error,
    })
  
-+  console.log(price,"thisis hthe privce")
 +
    return (
 +    <>
@@ -44,7 +43,7 @@ index f94c113..8cb43d8 100644
      <ButtonOrBox
        className={classes.root}
        onClick={onClick ? (event) => onClick(event, value) : undefined}
-@@ -305,6 +321,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +320,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -52,7 +51,7 @@ index f94c113..8cb43d8 100644
              {title && (
                <Box
                  className={classes.title}
-@@ -393,5 +410,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -393,5 +409,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
          </Box>
        )}
      </ButtonOrBox>
@@ -475,7 +474,7 @@ index 3a5a250..a766865 100644
          active={active}
          direction={direction}
 diff --git a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
-index b792f5c..d679191 100644
+index b792f5c..1aaece7 100644
 --- a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
 @@ -16,7 +16,7 @@ export function OverlayStickyBottom(props: {
@@ -483,7 +482,7 @@ index b792f5c..d679191 100644
    return (
      <MotionDiv
 -      sx={[{ position: 'sticky', zIndex: 1 }, ...(Array.isArray(sx) ? sx : [sx])]}
-+      sx={[{ position: 'absolute', zIndex: 1, width:'100%' }, ...(Array.isArray(sx) ? sx : [sx])]}
++      sx={[{ position: 'sticky', zIndex: 1, width:'100%' }, ...(Array.isArray(sx) ? sx : [sx])]}
        style={{ bottom }}
        {...divProps}
      />

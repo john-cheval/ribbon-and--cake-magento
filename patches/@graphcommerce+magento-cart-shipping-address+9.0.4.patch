@@ -1,0 +1,12 @@
+diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
+index 6f4add4..f5be44e 100644
+--- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
++++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
+@@ -44,7 +44,6 @@ export function CustomerAddressForm(props: CustomerAddressListProps) {
+   const isVirtual = cart?.is_virtual ?? false
+ 
+   const customerAddresses = filterNonNullableKeys(customer.data?.customer?.addresses, ['id'])
+-
+   const cartShipping = cart?.shipping_addresses?.[0]
+   const cartShippingId =
+     findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null

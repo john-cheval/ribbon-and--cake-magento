@@ -1,15 +1,19 @@
 import { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst } from '@graphcommerce/graphql'
+import { getCategoryStaticPaths } from '@graphcommerce/magento-category'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
+import { GetStaticPaths } from 'next'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
-import Courses from '../../components/courses'
+import CourseInner from '../../components/courses/Innner'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
+export type RouteProps = { url: string[] }
+type GetPageStaticPaths = GetStaticPaths<RouteProps>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 
-function CoursesPage(props) {
+function CoursesInnerPage(props) {
   return (
     <>
       <PageMeta
@@ -20,18 +24,28 @@ function CoursesPage(props) {
       />
 
       <InnerTop title={'Baking Classes'} isFilter={false} />
-
-      <Courses />
+      <CourseInner />
     </>
   )
 }
 
-CoursesPage.pageOptions = {
+CoursesInnerPage.pageOptions = {
   Layout: LayoutNavigation,
 } as PageOptions
 
-export default CoursesPage
+export default CoursesInnerPage
 
+// eslint-disable-next-line @typescript-eslint/require-await
+
+export const getStaticPaths: GetPageStaticPaths = async ({ locales = [] }) => {
+  // Disable getStaticPaths while in development mode
+  if (process.env.NODE_ENV === 'development') return { paths: [], fallback: 'blocking' }
+
+  const path = (locale: string) => getCategoryStaticPaths(graphqlSsrClient({ locale }), locale)
+  const paths = (await Promise.all(locales.map(path))).flat(1)
+  console.log(paths, 'this is the paths')
+  return { paths, fallback: 'blocking' }
+}
 export const getStaticProps: GetPageStaticProps = async (context) => {
   const { params, locale } = context
   const client = graphqlSharedClient(context)

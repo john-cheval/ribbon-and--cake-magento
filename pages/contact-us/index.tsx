@@ -3,34 +3,35 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
+import Contact from '../../components/contact'
 import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 
-function CoursesPage(props) {
+function ContactPage(props) {
   return (
     <>
       <PageMeta
-        title='Courses | Ribbon and Balloons'
+        title='Contact | Ribbon and Balloons'
         metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
         // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
-        canonical='/courses'
+        canonical='/Contact'
       />
 
-      <InnerTop title={'Baking Classes'} isFilter={false} />
+      <InnerTop title={'Contact'} isFilter={false} />
 
-      <Courses />
+      <Contact />
     </>
   )
 }
 
-CoursesPage.pageOptions = {
+ContactPage.pageOptions = {
   Layout: LayoutNavigation,
 } as PageOptions
 
-export default CoursesPage
+export default ContactPage
 
 export const getStaticProps: GetPageStaticProps = async (context) => {
   const { params, locale } = context

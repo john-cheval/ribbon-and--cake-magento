@@ -1,12 +1,12 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..8b03e10 100644
+index f94c113..f4c6aeb 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,9 @@
  import type { BoxProps, ButtonProps, SxProps, Theme } from '@mui/material'
 -import { alpha, Box, ButtonBase, lighten } from '@mui/material'
 -import React from 'react'
-+import { alpha, Box, ButtonBase, FormControl, lighten } from '@mui/material'
++import { alpha, Box, ButtonBase, Checkbox, FormControl, FormControlLabel, lighten } from '@mui/material'
 +import React, { KeyboardEvent } from 'react'
  import { extendableComponent, responsiveVal } from '../Styles'
  import { breakpointVal } from '../Styles/breakpointVal'
@@ -14,50 +14,56 @@ index f94c113..8b03e10 100644
  
  type Variants = 'outlined' | 'default'
  type Size = 'large' | 'medium' | 'small' | 'responsive'
-@@ -121,6 +122,8 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -50,7 +52,7 @@ export type ActionCardProps<C extends React.ElementType = typeof Box> = {
+     reset?: BoxProps
+     end?: BoxProps
+   }
+-}
++} & { isFilter?: boolean }
+ 
+ const parts = [
+   'root',
+@@ -121,6 +123,9 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      layout = 'list',
      error = false,
      slotProps = {},
++    isFilter = false
 +    // control
 +    // isCheckbox = false,
    } = props
  
    const classes = withState({
-@@ -134,7 +137,19 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -134,6 +139,22 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      error,
    })
  
++  if (isFilter) {
++    return (
++      <FormControlLabel
++        className={classes.root}
++        sx={{ fontSize: "14px" }}
++        control={<Checkbox
++          onClick={onClick ? (event) => onClick(event, value) : undefined}
++          value={value}
++          checked={selected}
++          disabled={disabled}
++        />}
++        label={title}
++      />
++    )
++  }
 +
    return (
-+    <>
-+
-+    
-+ {/*  <CheckboxElement
-+      label={title}
-+      value={value}
-+      checked={selected}
-+      name={"sort"}
-+      control={control}
-+    /> 
-+*/}  
      <ButtonOrBox
        className={classes.root}
-       onClick={onClick ? (event) => onClick(event, value) : undefined}
-@@ -305,6 +320,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +326,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
-+            
++
              {title && (
                <Box
                  className={classes.title}
-@@ -393,5 +409,6 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
-         </Box>
-       )}
-     </ButtonOrBox>
-+    </>
-   )
- }
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 index 323c7e3..b51afee 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx

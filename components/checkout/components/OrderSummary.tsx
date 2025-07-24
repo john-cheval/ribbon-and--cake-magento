@@ -62,20 +62,18 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
             paddingBottom: '50px',
 
             '&::-webkit-scrollbar': {
-              width: '8px',
+              width: '6px',
               borderRadius: '0px',
+              backgroundColor: '#EBEBEB',
             },
             '&::-webkit-scrollbar-track': {
               backgroundColor: '#EBEBEB',
               borderRadius: '0px',
             },
             '&::-webkit-scrollbar-thumb': {
-              backgroundColor: '#441E14',
+              backgroundColor: (theme) => theme.palette.primary.main,
               borderRadius: '0px',
             },
-
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#441E14 #EBEBEB',
           }}
         >
           <Box>
@@ -90,6 +88,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
         <OverlayStickyBottom
           sx={{
             py: 0.1,
+            bottom: 'unset !important',
             // px: '55px',
             '& .CartTotals-root ': {
               backgroundColor: 'transparent',
@@ -114,6 +113,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
             }}
           />
           <CartStartCheckout
+            title='Proceed To Pay'
             sx={{
               '& .MuiButtonBase-root': {
                 width: '100%',
@@ -121,10 +121,12 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
                 backgroundColor: '#9B7C38',
                 border: '1px solid #9B7C38',
                 color: '#fff',
+                boxShadow: 'none !important',
                 // fontSize: { xs: '12px', sm: '14px', md: '16px' },
                 '&:hover': {
-                  backgroundColor: 'transparent',
+                  backgroundColor: 'transparent !important',
                   color: '#2A110A',
+                  boxShadow: 'none !important',
                 },
               },
             }}

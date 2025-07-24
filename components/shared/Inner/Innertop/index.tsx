@@ -52,10 +52,6 @@ export function InnerTop(props: InnerTopProps) {
       <Box
         sx={[
           {
-            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
-          },
-
-          {
             borderTop: '1px solid #d4d4d4',
             ...((isFilter || mainTitle) && { borderBottom: '1px solid #d4d4d4' }),
             paddingBlock: '15px',

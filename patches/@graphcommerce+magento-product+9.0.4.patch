@@ -124,6 +124,43 @@ index fb82adb..e603148 100644
        />
      </Box>
    )
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
+index 76eff68..739e239 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
+@@ -69,9 +69,9 @@ export function ProductFilterEqualChip(props: FilterProps) {
+         onReset={
+           canReset
+             ? () => {
+-                form.setValue(name, null)
+-                return submit()
+-              }
++              form.setValue(name, null)
++              return submit()
++            }
+             : undefined
+         }
+         onClose={submit}
+@@ -88,6 +88,7 @@ export function ProductFilterEqualChip(props: FilterProps) {
+             variant='default'
+             size='medium'
+             items={items}
++            isFilter={true}
+           />
+         )}
+       </ChipOverlayOrPopper>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
+index 421d5d4..2e70533 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
+@@ -68,6 +68,7 @@ export function ProductFilterEqualSection(props: FilterProps) {
+           size='responsive'
+           items={items}
+           showMoreAfter={4}
++          isFilter={true}
+         />
+       }
+       right={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
 index 021469e..8344178 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
@@ -257,7 +294,7 @@ index 918ce2e..08b8d50 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..67a8534 100644
+index 80912c1..b7e4f8e 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,47 +10,90 @@ import {
@@ -269,7 +306,7 @@ index 80912c1..67a8534 100644
  import { Trans } from '@lingui/react'
  import type { SxProps, Theme } from '@mui/material'
 -import { Box } from '@mui/material'
-+import { Box,  } from '@mui/material'
++import { Box, } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
 +import { useProductFiltersProClearAllAction } from '@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction'
 +import { StaticImport } from '@graphcommerce/image'
@@ -279,38 +316,38 @@ index 80912c1..67a8534 100644
    hideTitle?: boolean
    sx?: SxProps<Theme>
    categoryTree: CategoryTreeItem[]
-+  filterIcons?: string | StaticImport  
++  filterIcons?: string | StaticImport
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange, defaultExpanded,filterIcons } = props
++  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons } = props
    const { form } = useProductFiltersPro()
  
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
 -
-+const clearAll = useProductFiltersProClearAllAction()
++  const clearAll = useProductFiltersProClearAllAction()
    return (
      <ActionCardAccordion
        sx={[
          hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
 +        {
-+        
++
 +          '& .MuiAccordionSummary-expandIconWrapper': {
 +            display: 'none',
 +          },
 +          '& .MuiAccordionSummary-root': {
-+                cursor: 'default', 
-+                pointerEvents: 'none', 
-+                minHeight: 'auto !important', 
-+           
-+                '&:hover, &.Mui-focusVisible': {
-+                  backgroundColor: 'transparent',
-+                },
-+              },
-+          
++            cursor: 'default',
++            pointerEvents: 'none',
++            minHeight: 'auto !important',
++
++            '&:hover, &.Mui-focusVisible': {
++              backgroundColor: 'transparent',
++            },
++          },
++
 +        },
          sx,
          ...(Array.isArray(sx) ? sx : [sx]),
@@ -318,53 +355,71 @@ index 80912c1..67a8534 100644
        defaultExpanded={defaultExpanded}
 -      summary={<Trans id='Categories' />}
 +      summary={<Box sx={{
-+         fontFamily: "'Bricolage Grotesque', sans-serif",
-+         fontSize: { xs: '14px', sm: '16px', md: '20px' },
-+         fontWeight: 500,
-+          lineHeight: '120%',
-+          color: '#000',
-+          display: 'flex',
-+          alignItems: 'center',
-+          gap: '8px',
++        fontFamily: "'Bricolage Grotesque', sans-serif",
++        fontSize: { xs: '14px', sm: '16px', md: '20px' },
++        fontWeight: 500,
++        lineHeight: '120%',
++        color: '#000',
++        display: 'flex',
++        alignItems: 'center',
++        gap: '8px',
 +      }}>
-+        {filterIcons && ( 
-+            <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
-+          )} Filter</Box>}
++        {filterIcons && (
++          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
++        )} Filter</Box>}
        right={
 -        currentFilter && currentFilter.length > 0 ? (
-+     
-           <Button
+-          <Button
 -            color='primary'
-+            sx={{
-+              color:'#969696',
-+              fontFamily: "'Bricolage Grotesque', sans-serif",
-+              fontSize:{sm:'12px',md:'14px'},
-+              fontWeight:400,
-+              textDecoration:'underline',
-+              '&:hover':{
-+                backgroundColor:'transparent'
-+              }
-+            }}
-             onClick={(e) => {
-               e.stopPropagation()
+-            onClick={(e) => {
+-              e.stopPropagation()
 -              form.setValue(name, null)
-+              // form.setValue(name, null)
-+              return clearAll()
-             }}
-           >
-             <Trans id='Clear' />
-           </Button>
+-            }}
+-          >
+-            <Trans id='Clear' />
+-          </Button>
 -        ) : undefined
-+       
++
++        <Button
++          sx={{
++            color: '#969696',
++            fontFamily: "'Bricolage Grotesque', sans-serif",
++            fontSize: { sm: '12px', md: '14px' },
++            fontWeight: 400,
++            textDecoration: 'underline',
++            '&:hover': {
++              backgroundColor: 'transparent'
++            }
++          }}
++          onClick={(e) => {
++            e.stopPropagation()
++            // form.setValue(name, null)
++            return clearAll()
++          }}
++        >
++          <Trans id='Clear' />
++        </Button>
++
        }
        details={
          <ActionCardList
+@@ -68,6 +111,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+             const indentVal = isBack ? 0 : indent + 1
+             return (
+               <ActionCard
++                isFilter={true}
+                 key={item.value}
+                 {...item}
+                 size='responsive'
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
-index 27fdd62..4360c3f 100644
+index 27fdd62..d3398c8 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
-@@ -50,21 +50,21 @@ export function ProductFiltersProLimitSection(props: ProductFiltersProLimitSecti
+@@ -48,23 +48,24 @@ export function ProductFiltersProLimitSection(props: ProductFiltersProLimitSecti
+           variant='default'
+           size='responsive'
            items={options}
++          isFilter={true}
          />
        }
 -      right={
@@ -382,26 +437,55 @@ index 27fdd62..4360c3f 100644
 -          </Button>
 -        ) : undefined
 -      }
-+       // right={
-+       //   activePageSize ? (
-+       //     <Button
-+       //       variant='inline'
-+       //       color='primary'
-+       //       onClick={(e) => {
-+       //         e.stopPropagation()
-+       //         form.setValue('pageSize', null)
-+       //         form.setValue('currentPage', 1)
-+       //       }}
-+       //     >
-+       //       <Trans id='Clear' />
-+       //     </Button>
-+       //   ) : undefined
-+       // }
++    // right={
++    //   activePageSize ? (
++    //     <Button
++    //       variant='inline'
++    //       color='primary'
++    //       onClick={(e) => {
++    //         e.stopPropagation()
++    //         form.setValue('pageSize', null)
++    //         form.setValue('currentPage', 1)
++    //       }}
++    //     >
++    //       <Trans id='Clear' />
++    //     </Button>
++    //   ) : undefined
++    // }
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
+index 3e95496..ebb6c77 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
+@@ -30,11 +30,11 @@ export function ProductFiltersProSortChip(props: ProductListActionSortProps) {
+       onReset={
+         showReset
+           ? () => {
+-              form.setValue('sort', null)
+-              form.setValue('dir', null)
+-              form.setValue('currentPage', 1)
+-              return submit()
+-            }
++            form.setValue('sort', null)
++            form.setValue('dir', null)
++            form.setValue('currentPage', 1)
++            return submit()
++          }
+           : undefined
+       }
+       onClose={submit}
+@@ -48,6 +48,7 @@ export function ProductFiltersProSortChip(props: ProductListActionSortProps) {
+           size='medium'
+           render={ActionCard}
+           items={options}
++          isFilter={true}
+         />
+       )}
+     </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..6ddc1c3 100644
+index b64ae6d..bdbc861 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,13 +5,17 @@ import type { SxProps, Theme } from '@mui/material'
@@ -412,14 +496,14 @@ index b64ae6d..6ddc1c3 100644
  
  export type ProductFiltersProSortSectionProps = UseProductFiltersProSortProps & {
    sx?: SxProps<Theme>
-+  openAccordionIcon?: string | StaticImport  
++  openAccordionIcon?: string | StaticImport
 +  closeAccordionIcon?: string | StaticImport
-+  
++
  }
  
  export function ProductFiltersProSortSection(props: ProductFiltersProSortSectionProps) {
 -  const { sx } = props
-+  const { sx,openAccordionIcon, closeAccordionIcon } = props
++  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
    const { options, showReset, selected } = useProductFiltersProSort(props)
  
@@ -432,12 +516,13 @@ index b64ae6d..6ddc1c3 100644
        summary={<Trans id='Sort By' />}
        details={
          <ActionCardListForm
-@@ -30,24 +36,25 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +36,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
 -          items={options}
-+          items={options||[]}
++          items={options || []}
++          isFilter={true}
          />
        }
 -      right={
@@ -455,22 +540,22 @@ index b64ae6d..6ddc1c3 100644
 -          </Button>
 -        ) : undefined
 -      }
-+      // right={
-+      //    showReset ? (
-+      //      <Button
-+      //        color='primary'
-+      //        onClick={(e) => {
-+      //          e.stopPropagation()
-+      //          form.setValue('sort', null)
-+      //          form.setValue('dir', null)
-+      //          form.setValue('currentPage', 1)
-+      //        }}
-+      //      >
-+      //        <Trans id='Clear' />
-+      //      </Button>
-+      //    ) : undefined
-+      //  } 
-+    
++    // right={
++    //    showReset ? (
++    //      <Button
++    //        color='primary'
++    //        onClick={(e) => {
++    //          e.stopPropagation()
++    //          form.setValue('sort', null)
++    //          form.setValue('dir', null)
++    //          form.setValue('currentPage', 1)
++    //        }}
++    //      >
++    //        <Trans id='Clear' />
++    //      </Button>
++    //    ) : undefined
++    //  } 
++
      />
    )
  }

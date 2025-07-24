@@ -4,14 +4,16 @@ import type { SxProps, Theme } from '@mui/material'
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
   color: '#441E14',
-  padding: '18px ',
+  // padding: '16px ',
+  height: 'fit-content',
 
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
-    fontSize: '20px',
+    fontSize: { xs: '12px', sm: '14px', md: '16px' },
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '158%',
+    color: 'inherit',
   },
   '& .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
@@ -36,32 +38,26 @@ const inputFieldSx: SxProps<Theme> = {
     borderWidth: '1px !important',
   },
 }
-function EnquiryForm() {
+function ContactEnquiryForm() {
   return (
-    <Box sx={{ marginTop: '40px' }}>
+    <Box
+      sx={{
+        // marginTop: '40px',
+        backgroundColor: '#F6F6F6',
+        borderRadius: '8px',
+        padding: { xs: '26px 14px', md: '35px 38px 40px' },
+      }}
+    >
       <Typography variant='h2' component='h3' sx={{ textTransform: 'uppercase' }}>
         Enquire Now
       </Typography>
 
-      <Box sx={{ marginTop: '30px' }}>
-        <Box sx={{ display: 'flex', columnGap: '16px' }}>
-          <OutlinedInput fullWidth placeholder='First Name' sx={inputFieldSx} />
-          <OutlinedInput fullWidth placeholder='Email' sx={inputFieldSx} />
-        </Box>
-
-        <Box sx={{ display: 'flex', columnGap: '12px', marginTop: '16px' }}>
-          <OutlinedInput fullWidth placeholder='Phone Number' sx={inputFieldSx} />
-          <OutlinedInput
-            fullWidth
-            placeholder='Personalised Gifts'
-            sx={{
-              ...inputFieldSx,
-              '& .MuiOutlinedInput-input::placeholder': {
-                color: '#D1D1D1',
-              },
-            }}
-          />
-        </Box>
+      <Box sx={{ marginTop: '30px', display: 'flex', rowGap: '11px', flexDirection: 'column' }}>
+        <OutlinedInput fullWidth placeholder='First Name' sx={inputFieldSx} />
+        <OutlinedInput fullWidth placeholder='Email' sx={inputFieldSx} />
+        <OutlinedInput fullWidth placeholder='Phone Number' sx={inputFieldSx} />
+        <OutlinedInput fullWidth placeholder='Preferred Month & Week' sx={inputFieldSx} />
+        <OutlinedInput fullWidth placeholder='Subject' sx={inputFieldSx} />
 
         <Box>
           <TextField
@@ -127,4 +123,4 @@ function EnquiryForm() {
   )
 }
 
-export default EnquiryForm
+export default ContactEnquiryForm

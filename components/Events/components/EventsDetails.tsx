@@ -1,14 +1,20 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Divider, Typography } from '@mui/material'
-import { IoIosArrowRoundForward } from 'react-icons/io'
+import { useState } from 'react'
 import { eventsData, eventsList } from '../../../constants/Home/swiper'
-import { saxoGrammaticus } from '../../../lib/fonts'
 import events1 from '../../Assets/events/image-1.jpg'
 import events2 from '../../Assets/events/image-2.jpg'
+import EventsAndCoursesTile from '../../shared/components/EventsAndCoursesTile'
 import EventsGallerySwiper from '../../shared/swiper/EventsGallerySwiper'
 import EnquiryForm from './EnquiryForm'
 
 function EventsDetails() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(eventsData[0]?.title)
+
+  const filteredEvents = selectedCategory
+    ? eventsData.filter((event) => event.title === selectedCategory)
+    : eventsData
+
   return (
     <Box
       component='section'
@@ -31,51 +37,22 @@ function EventsDetails() {
           gridColumn: { xs: 'auto', md: 'span 4' },
           borderTop: '1px solid #E6E6E6',
           paddingBlock: '22px',
+          position: { xs: 'static', md: 'sticky' },
+          top: { xs: 'auto', md: '100px' },
+          alignSelf: { xs: 'unset', md: 'start' },
         }}
       >
         {eventsData?.map((item, index) => (
-          <Typography
-            component='p'
+          <EventsAndCoursesTile
             key={item?.id || index}
-            sx={{
-              fontFamily: `${saxoGrammaticus.style.fontFamily}, sans-serif`,
-              color: '#9B7C38',
-              fontSize: '35px !important',
-              textTransform: 'uppercase',
-              fontWeight: '300 !important',
-              borderBottom: eventsData.length - 1 ? '1px solid #E6E6E6' : '',
-              paddingBottom: '20px',
-              paddingTop: index === 0 ? '' : '20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              transition: 'all 0.4s ease',
-              cursor: 'pointer',
-
-              '&:hover': {
-                color: '#441E14',
-              },
-
-              '&:hover .arrow-icon': {
-                transform: 'translateX(8px)',
-                opacity: 1,
-              },
+            isSelected={selectedCategory === item?.title}
+            title={item?.title}
+            id={index}
+            length={eventsData?.length}
+            onClick={() => {
+              setSelectedCategory((prev) => (prev === item?.title ? null : item?.title))
             }}
-          >
-            {item?.title}
-
-            <Box
-              className='arrow-icon'
-              sx={{
-                transition: 'transform 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                opacity: 0,
-              }}
-            >
-              <IoIosArrowRoundForward color='#441E14' />
-            </Box>
-          </Typography>
+          />
         ))}
       </Box>
 

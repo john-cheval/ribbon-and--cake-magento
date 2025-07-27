@@ -47,7 +47,7 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
           component='div'
           sx={{
             display: 'flex',
-            columnGap: '35px',
+            columnGap: '5px',
             alignItems: 'center',
           }}
         >
@@ -67,6 +67,12 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
                 cursor: 'pointer',
                 padding: '10px 20px',
                 transition: 'all 0.3s ease',
+                border: '1px solid #fff',
+                '&:hover': {
+                  border: '1px solid #F6DBE0',
+                  borderRadius: '999px',
+                  color: '#2A110A',
+                },
               }}
             >
               {category}
@@ -85,13 +91,13 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          // modules={[Autoplay]}
+          modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
           }}
-          slidesPerView={4.5}
+          slidesPerView={5.5}
           spaceBetween={28}
           grabCursor
         >

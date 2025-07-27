@@ -26,11 +26,13 @@ export function HomeBanner(props) {
       >
         <Box
           sx={{
-            paddingInline: '55px',
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            gap: '20px',
+            gap: '15px',
+            position: 'relative',
+            top: '-13%',
           }}
         >
           <Typography
@@ -69,7 +71,7 @@ export function HomeBanner(props) {
               lineHeight: '158%',
               letterSpacing: '0%',
               width: '200px',
-              padding: '24px 20px',
+              padding: '15px 20px',
               overflow: 'hidden',
               borderRadius: '4px',
               cursor: 'pointer',
@@ -119,9 +121,9 @@ export function HomeBanner(props) {
           sx={{
             position: 'absolute',
             bottom: '50px',
-            left: 0,
+            left: { xs: '18px', md: '25px', lg: '55px' },
             right: 0,
-            paddingLeft: '55px',
+            //paddingInline: { xs: '18px', md: '25px', lg: '55px' },
           }}
         >
           <Typography
@@ -150,7 +152,7 @@ export function HomeBanner(props) {
           height: '100%',
           maxHeight: '73px',
           position: 'absolute',
-          top: '100px',
+          top: '79px',
           left: 0,
         }}
       />

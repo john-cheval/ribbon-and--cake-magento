@@ -1,3 +1,54 @@
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx b/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
+index 2cb4e6f..567bda0 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
+@@ -64,19 +64,32 @@ function CartFabContent(props: CartFabContentProps) {
+         aria-label={i18n._(/* i18n */ 'Cart')}
+         color='inherit'
+         size='responsive'
+-        style={{ backgroundColor }}
++        // style={{ backgroundColor }}
+         sx={(theme) => ({
+           [theme.breakpoints.down('md')]: {
+             backgroundColor: `${theme.palette.background.paper} !important`,
+           },
++          height:"40px !important"
+         })}
+         {...fabProps}
+       >
+         <DesktopHeaderBadge
+-          color='primary'
+-          variant='dot'
+-          overlap='circular'
+-          badgeContent={total_quantity}
++          sx={{
++    '& .MuiBadge-badge': { 
++      backgroundColor: '#FF0000',
++      color:'#fff',
++      display:'flex',
++      alignItems:'center',
++     justifyContent:'center',
++     textAlign:'center',
++     fontSize:'9px',
++     minWidth:'12px',
++     height:'14px',
++     right:'16px',
++     top:'4px'
++    },
++  }} 
++          badgeContent={total_quantity} overlap='circular'
+           {...BadgeProps}
+         >
+           {cartIcon}
+@@ -91,7 +104,7 @@ function CartFabContent(props: CartFabContentProps) {
+           position: 'absolute',
+           height: '100%',
+           width: '100%',
+-          boxShadow: 6,
++          // boxShadow: 6,
+           top: 0,
+           [theme.breakpoints.down('md')]: {
+             opacity: '1 !important',
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
 index 0b04f2c..7a30786 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx

@@ -294,10 +294,10 @@ index 918ce2e..08b8d50 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..b7e4f8e 100644
+index 80912c1..c7d0390 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,90 @@ import {
+@@ -10,47 +10,89 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -383,7 +383,6 @@ index 80912c1..b7e4f8e 100644
 +        <Button
 +          sx={{
 +            color: '#969696',
-+            fontFamily: "'Bricolage Grotesque', sans-serif",
 +            fontSize: { sm: '12px', md: '14px' },
 +            fontWeight: 400,
 +            textDecoration: 'underline',
@@ -403,7 +402,7 @@ index 80912c1..b7e4f8e 100644
        }
        details={
          <ActionCardList
-@@ -68,6 +111,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+@@ -68,6 +110,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard
@@ -648,7 +647,7 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..6983f2c 100644
+index 9dc2505..6533582 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,6 +1,7 @@
@@ -712,32 +711,31 @@ index 9dc2505..6983f2c 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -40,8 +61,12 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -40,8 +61,11 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
            display: 'inline',
            color: 'text.primary',
            overflowWrap: 'break-word',
 -          maxWidth: '100%',
 +          // maxWidth: '100%',
            gridArea: 'title',
-+          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' },
-+          minHeight:'55px'
++          minHeight:'30px'
          }}
          className={classes.title}
        >
-@@ -49,7 +74,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -49,7 +73,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
        </Typography>
  
        {subTitle && (
 -        <Box sx={{ gridArea: 'subtitle' }} className={classes.subtitle}>
-+        <Box sx={{ gridArea: 'subtitle',fontFamily: "'Bricolage Grotesque', sans-serif",
++        <Box sx={{ gridArea: 'subtitle',
 +          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' }, }} className={classes.subtitle}>
            {subTitle}
          </Box>
        )}
-@@ -58,10 +85,16 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -58,10 +84,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
          component='div'
          variant='body1'
          className={productListPrice.classes.root}
@@ -749,7 +747,18 @@ index 9dc2505..6983f2c 100644
 +
 +
 + <Box sx={{ gridArea: 'priceButton' }}>
-+   <AddProductsToCartFab sku={sku}  />
++   <AddProductsToCartFab sku={sku} sx={{
++    height:'50px',
++    width:'50px',
++     '& svg': {
++     fontSize: '25px',
++     stroke: 'unset !important',
++     left: '6px',
++      top: '3px',
++      position:'relative'
++         },
++         
++   }}  />
 + </Box>
 +     
      </Box>

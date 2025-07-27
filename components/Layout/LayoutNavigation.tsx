@@ -1,3 +1,4 @@
+// import { Image } from '@graphcommerce/image'
 import { CartFab /* , useCartEnabled */ } from '@graphcommerce/magento-cart'
 // import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
 import { CustomerFab /*  CustomerMenuFabItem  */ } from '@graphcommerce/magento-customer'
@@ -23,10 +24,13 @@ import {
   // useMemoDeep,
   // useNavigationSelection,
 } from '@graphcommerce/next-ui'
+// import { Box } from '@mui/material'
 // import { i18n } from '@lingui/core'
-import { Trans } from '@lingui/react'
+//import { Trans } from '@lingui/react'
 // import { /*  Divider,*/ Fab } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+// import personicon from '../../assets/personicon.svg'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
 // import { Footer } from './Footer'
@@ -39,10 +43,22 @@ export type LayoutNavigationProps = LayoutQuery &
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
 
+  const [scroll, setScroll] = useState<boolean>(false)
+
   // const selection = useNavigationSelection()
   const router = useRouter()
 
   // const cartEnabled = useCartEnabled()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    // return window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <>
@@ -107,18 +123,41 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
       </NavigationProvider> */}
 
       <LayoutDefault
+        sx={{
+          position: 'sticky',
+          top: '0',
+          left: '0',
+          width: '100%',
+          ['& .LayoutDefault-header']: {
+            height: '80px',
+            ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
+          },
+        }}
         {...uiProps}
-        noSticky={router.asPath.split('?')[0] === '/'}
+        // noSticky={router.asPath.split('?')[0] === '/'}
         header={
           <>
             <Logo isHome />
 
             <DesktopNavBar>
-              {menu?.items?.[0]?.children?.map((item) => (
-                <DesktopNavItem key={item?.uid} href={`/${item?.url_path}`}>
-                  {item?.name}
-                </DesktopNavItem>
-              ))}
+              {menu?.items?.[0]?.children
+                ?.filter((item) => item?.include_in_menu === 1)
+                ?.map((menus) => (
+                  <DesktopNavItem
+                    sx={{
+                      transition: 'all 0.4s ease',
+                      padding: '8px 16px',
+                      borderRadius: '999px',
+                      '&:hover': {
+                        backgroundColor: '#F6DBE0',
+                      },
+                    }}
+                    key={menus?.uid}
+                    href={`/${menus?.url_path}`}
+                  >
+                    {menus?.name}
+                  </DesktopNavItem>
+                ))}
             </DesktopNavBar>
 
             <DesktopNavActions>
@@ -131,9 +170,20 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     borderRadius: '50%',
                     width: '40px',
                     height: '40px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     color: '#441E14',
-                    '&:hover': {
+                    '&:hover, &:focus': {
                       backgroundColor: '#F6DBE0',
+                    },
+                    ['& .MuiBadge-root']: {
+                      left: '5px',
+                      top: '5px',
+                    },
+                    '&  svg': {
+                      fontSize: '28px',
+                      stroke: 'unset !important',
                     },
                   },
                 }}
@@ -144,13 +194,28 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   width: '40px',
                   height: '40px',
                   borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   color: '#441E14',
                   backgroundColor: '#f6dbe0',
-                  '&:hover': {
+                  '&  svg': {
+                    fontSize: '24px',
+                    strokeWidth: '1.5',
+                  },
+                  '&:hover, &:focus ': {
                     backgroundColor: '#f6dbe0',
                   },
+
+                  // ['& .MuiBadge-root']: {
+                  //   left: '5px',
+                  //   top: '5px',
+                  // },
                 }}
-                icon={<IconSvg src={iconHeart} size='medium' />}
+                // icon={
+                //   <Image src={iconHeart} alt='iconHeart' layout='fill' width={24} height={24} />
+                // }
+                icon={<IconSvg src={iconHeart} size='medium' sx={{ stroke: '#441E14' }} />}
               />
               <CustomerFab
                 sx={{
@@ -158,9 +223,24 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   height: '40px',
                   borderRadius: '50%',
                   color: '#441E14',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   backgroundColor: '#f6dbe0',
-                  '&:hover': {
+                  '&  svg': {
+                    // width: '1em',
+                    fontSize: '28px',
+                    stroke: 'unset !important',
+                  },
+                  '&:hover, &:focus': {
                     backgroundColor: '#f6dbe0',
+                  },
+                  ['& .MuiBadge-root']: {
+                    left: '5px',
+                    top: '3px',
+                    '& .MuiBadge-dot': {
+                      display: 'none',
+                    },
                   },
                 }}
                 guestHref='/account/signin'
@@ -177,8 +257,16 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   height: '40px',
                   borderRadius: '50%',
                   backgroundColor: '#f6dbe0',
-                  '&:hover': {
+                  '&:hover, &:focus': {
                     backgroundColor: '#f6dbe0',
+                  },
+                  ['& .MuiBadge-root']: {
+                    left: '8px',
+                    top: '3px',
+                  },
+                  '& svg': {
+                    fontSize: '30px',
+                    stroke: 'unset !important',
                   },
                 }}
               />

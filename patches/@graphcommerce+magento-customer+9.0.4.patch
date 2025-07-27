@@ -1,3 +1,194 @@
+diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
+index 495d466..25b0691 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
+@@ -80,7 +80,7 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
+             <LayoutTitle variant='h2' gutterBottom={false}>
+               <Trans id='Sign in' />
+             </LayoutTitle>
+-            <Typography variant='h6' align='center'>
++            <Typography variant='h6' align='center' sx={{color:(theme:any)=>theme.palette.custom.secondary}}>
+               <Trans id='Fill in your password' />
+             </Typography>
+           </>
+@@ -91,7 +91,7 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
+             <LayoutTitle variant='h2' gutterBottom={false}>
+               <Trans id='Create account!' />
+             </LayoutTitle>
+-            <Typography variant='h6' align='center'>
++            <Typography variant='h6' align='center' sx={{color:(theme:any)=>theme.palette.custom.secondary}}>
+               <Trans id='Create a password and tell us your name' />
+             </Typography>
+           </>
+@@ -144,6 +144,21 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
+               '& .ActionCard-root.sizeLarge': {
+                 px: theme.spacings.md,
+               },
++               '& .ActionCard-root':{
++                color:(theme:any)=> theme.palette.custom.main,
++                fontSize:'16px',
++                border:'1px solid #D5B1B8',
++                borderRadius:'4px'
++              },
++              '& .ActionCard-root.selected':{
++                backgroundColor:(theme:any)=> theme.palette.custom.heading,
++                border:'1px solid #441E14',
++                boxShadow:'none !important'
++              },
++              '& .ActionCard-title.selected':{
++                color:'#fff !important',
++              },
++              
+             })}
+             items={[
+               { value: 'signin', title: <Trans id='Sign in' /> },
+@@ -162,6 +177,40 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
+                 variant='outlined'
+                 control={control}
+                 name='email'
++                sx={{
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: '#441E14', 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color: '#441E14',
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: '#441E14',
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color: '#441E14', // label when focused
++  },
++}}
++
+                 required
+                 InputProps={{
+                   endAdornment:
+@@ -210,13 +259,77 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
+ 
+       {(mode === 'signin' || mode === 'session-expired') && (
+         <Box>
+-          <SignInForm email={emailValue} setError={setError} clearErrors={clearErrors} />
++          <SignInForm sx={{
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: '#441E14', // input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color: '#441E14',
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: '#441E14',
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color: '#441E14', // label when focused
++  },
++}}
++ email={emailValue} setError={setError} clearErrors={clearErrors} />
+         </Box>
+       )}
+ 
+       {mode === 'signup' && canSignUp && (
+         <Box>
+-          <SignUpForm email={emailValue} setError={setError} clearErrors={clearErrors} />
++          <SignUpForm sx={{
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: '#D5B1B8',
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: '#441E14', // input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color: '#441E14',
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: '#441E14',
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color: '#441E14', // label when focused
++  },
++}}
++ email={emailValue} setError={setError} clearErrors={clearErrors} />
+         </Box>
+       )}
+       {mode === 'signup' && !canSignUp && (
+diff --git a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx b/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
+index 68bd1d0..eb342cf 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
+@@ -10,6 +10,7 @@ import { Fab, NoSsr } from '@mui/material'
+ import React from 'react'
+ import type { UseCustomerSessionReturn } from '../../hooks'
+ import { useCustomerAccountCanSignIn, useCustomerSession } from '../../hooks'
++import { Image } from '@graphcommerce/image'
+ 
+ export type CustomerFabContentProps = {
+   icon?: React.ReactNode
+@@ -47,6 +48,13 @@ function CustomerFabContent(props: CustomerFabContentProps) {
+         {...BadgeProps}
+       >
+         {icon ?? <IconSvg src={iconPerson} size='large' />}
++        {/* {icon ?? <Image
++         src={iconPerson}
++         alt="iconPerson"
++         layout='fill'
++         width={24}
++         height={24}
++         />} */}
+       </DesktopHeaderBadge>
+     </Fab>
+   )
 diff --git a/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql b/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql
 index 3cba4b8..9daef9f 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql
@@ -12,6 +203,204 @@ index 3cba4b8..9daef9f 100644
  }
 + 
 \ No newline at end of file
+diff --git a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
+index 9a27189..5edf9bb 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
+@@ -8,6 +8,7 @@ import type { SxProps, Theme } from '@mui/material'
+ import { Box, FormControl, Link } from '@mui/material'
+ import { useSignInForm } from '../../hooks/useSignInForm'
+ import { ApolloCustomerErrorAlert } from '../ApolloCustomerError/ApolloCustomerErrorAlert'
++import { useState } from 'react'
+ 
+ export type SignInFormProps = {
+   email?: string
+@@ -18,6 +19,7 @@ export type SignInFormProps = {
+ 
+ export function SignInForm(props: SignInFormProps) {
+   const { email, sx, setError, clearErrors } = props
++const [password,setpassword] = useState<string>("")
+ 
+   const form = useSignInForm({
+     email,
+@@ -29,7 +31,7 @@ export function SignInForm(props: SignInFormProps) {
+       }
+       // eslint-disable-next-line @typescript-eslint/no-use-before-define
+       clearErrors()
+-      return variables
++      return {...variables,password}
+     },
+   })
+ 
+@@ -45,6 +47,7 @@ export function SignInForm(props: SignInFormProps) {
+     <Box component='form' onSubmit={submitHandler} noValidate sx={sx}>
+       <FormRow sx={{ gridTemplateColumns: 'none' }}>
+         <PasswordElement
++          onChange={(e)=>{setpassword(e.target.value)}}
+           variant='outlined'
+           error={!!formState.errors.password || !!authError}
+           control={control}
+@@ -74,8 +77,23 @@ export function SignInForm(props: SignInFormProps) {
+             type='submit'
+             loading={formState.isSubmitting}
+             color='primary'
+-            variant='pill'
++            // variant='pill'
+             size='large'
++            sx={{
++            backgroundColor:'#441E14',
++            color:'#F6DBE0',
++            paddingBlock:'18px',
++            borderRadius:'4px',
++            width:'100%',
++            minWidth:'400px',
++            border:'1px solid #441E14',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent',
++              color:'#441E14',
++            border:'1px solid #441E14',
++            }
++          }}
+           >
+             <Trans id='Sign in' />
+           </Button>
+diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql
+index 62c2fbb..9eadfab 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql
++++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql
+@@ -1,7 +1,7 @@
+ mutation SignUp(
+   $email: String!
+   $password: String!
+-  $prefix: String!
++  $prefix: String
+   $firstname: String!
+   $middlename: String
+   $lastname: String!
+diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
+index c68c353..23bd8ad 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
+@@ -7,23 +7,27 @@ import type { UseFormClearErrors, UseFormSetError } from '@graphcommerce/react-h
+ import { FormPersist, useFormGqlMutation } from '@graphcommerce/react-hook-form'
+ import { t } from '@lingui/macro'
+ import { Trans } from '@lingui/react'
+-import { Alert } from '@mui/material'
++import { Alert, Box } from '@mui/material'
+ import { useSignInForm } from '../../hooks/useSignInForm'
+ import { ApolloCustomerErrorSnackbar } from '../ApolloCustomerError/ApolloCustomerErrorSnackbar'
+ import { NameFields } from '../NameFields/NameFields'
+ import { ValidatedPasswordElement } from '../ValidatedPasswordElement/ValidatedPasswordElement'
+ import type { SignUpMutation, SignUpMutationVariables } from './SignUp.gql'
+ import { SignUpDocument } from './SignUp.gql'
++import type { SxProps, Theme } from '@mui/material'
++import { useState } from 'react'
++
+ 
+ type SignUpFormProps = {
+   email?: string
++   sx?: SxProps<Theme>
+   setError: UseFormSetError<{ email?: string; requestedMode?: 'signin' | 'signup' }>
+   clearErrors: UseFormClearErrors<{ email?: string; requestedMode?: 'signin' | 'signup' }>
+ }
+ 
+ export function SignUpForm(props: SignUpFormProps) {
+-  const { email, setError, clearErrors } = props
+-
++  const { email, setError, clearErrors,sx } = props
++const [password,setpassword] = useState<string>("")
+   const storeConfig = useQuery(StoreConfigDocument)
+   const signIn = useSignInForm({ email })
+   const form = useFormGqlMutation<
+@@ -34,6 +38,8 @@ export function SignUpForm(props: SignUpFormProps) {
+     {
+       defaultValues: { email },
+       onBeforeSubmit: (values) => {
++
++        console.log('Submitted values:', values) // not retur n the password
+         if (!email) {
+           // eslint-disable-next-line @typescript-eslint/no-use-before-define
+           setError('email', { message: t`Please enter a valid email address` })
+@@ -41,7 +47,7 @@ export function SignUpForm(props: SignUpFormProps) {
+         }
+         // eslint-disable-next-line @typescript-eslint/no-use-before-define
+         clearErrors()
+-        return { ...values, email: email ?? '' }
++        return { ...values, email: email ?? '' ,password}
+       },
+       onComplete: async (result, variables) => {
+         if (!result.errors && !storeConfig.data?.storeConfig?.create_account_confirmation) {
+@@ -75,7 +81,10 @@ export function SignUpForm(props: SignUpFormProps) {
+   }
+ 
+   return (
+-    <form onSubmit={submitHandler} noValidate>
++    <Box component='form' onSubmit={submitHandler} noValidate sx={sx}>
++
++      <NameFields form={form} prefix={false} />
++
+       <FormRow>
+         <ValidatedPasswordElement
+           control={control}
+@@ -88,6 +97,7 @@ export function SignUpForm(props: SignUpFormProps) {
+           required={required.password}
+           disabled={formState.isSubmitting}
+           helperText={inputError?.message}
++          onChange={(e)=>{setpassword(e.target.value)}}
+         />
+         <PasswordRepeatElement
+           control={control}
+@@ -102,30 +112,44 @@ export function SignUpForm(props: SignUpFormProps) {
+         />
+       </FormRow>
+ 
+-      <NameFields form={form} prefix />
+-
++{/* 
+       <SwitchElement
+         control={control}
+         name='isSubscribed'
+         disabled={formState.isSubmitting}
+         label={<Trans id='Subscribe to newsletter' />}
+       />
+-
++*/}
+       <ApolloCustomerErrorSnackbar error={remainingError} />
+ 
+       <FormActions>
+         <Button
+           type='submit'
+           id='create-account'
+-          variant='pill'
++          // variant='pill'
+           color='primary'
+           size='large'
+           loading={formState.isSubmitting}
++          sx={{
++            backgroundColor:'#441E14',
++            color:'#F6DBE0',
++            paddingBlock:'18px',
++            borderRadius:'4px',
++            width:'100%',
++            minWidth:'400px',
++            border:'1px solid #441E14',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent',
++              color:'#441E14',
++            border:'1px solid #441E14',
++            }
++          }}
+         >
+           <Trans id='Create Account' />
+         </Button>
+       </FormActions>
+       <FormPersist form={form} name='SignUp' exclude={['password', 'confirmPassword']} />
+-    </form>
++    </Box>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts b/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts
 new file mode 100644
 index 0000000..466fdc6

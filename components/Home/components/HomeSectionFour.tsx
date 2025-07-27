@@ -11,7 +11,7 @@ export function HomeSectionFour(props) {
   return (
     <Box
       sx={{
-        paddingInline: '55px',
+        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         paddingTop: '100px',
         display: 'grid',
         columnGap: '35px',

@@ -5,6 +5,7 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { cmsPageDocument } from '../../graphql/CmsPage.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
@@ -43,6 +44,16 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     query: LayoutDocument,
     fetchPolicy: cacheFirst(staticClient),
   })
+
+  const cmspage = staticClient.query({
+    query: cmsPageDocument,
+    variables: {
+      urlKey: 'courses',
+    },
+    fetchPolicy: cacheFirst(staticClient),
+  })
+
+  console.log((await cmspage).data, '===>cmspage')
 
   return {
     props: {

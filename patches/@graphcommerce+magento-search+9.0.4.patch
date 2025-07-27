@@ -1,13 +1,28 @@
 diff --git a/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx b/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
-index e2e243d..3cdc002 100644
+index e2e243d..08d31bf 100644
 --- a/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
 +++ b/node_modules/@graphcommerce/magento-search/components/ProductFiltersPro/SearchField.tsx
-@@ -58,7 +58,7 @@ export function SearchField(props: SearchFieldProps) {
+@@ -1,4 +1,4 @@
+-import { iconSearch, IconSvg, showPageLoadIndicator } from '@graphcommerce/next-ui'
++import { DesktopHeaderBadge, iconPerson, iconSearch, IconSvg, showPageLoadIndicator } from '@graphcommerce/next-ui'
+ import type { FabProps } from '@mui/material'
+ import { Fab } from '@mui/material'
+ import dynamic from 'next/dynamic'
+@@ -58,7 +58,16 @@ export function SearchField(props: SearchFieldProps) {
            ...(Array.isArray(fab?.sx) ? fab.sx : [fab?.sx]),
          ]}
        >
 -        <IconSvg src={iconSearch} size='large' />
++        <DesktopHeaderBadge
++                // badgeContent={session?.token ? 1 : 0}
++                // color={session?.valid ? 'primary' : 'error'}
++                // variant='dot'
++                // overlap='circular'
++                // {...BadgeProps}
++              >
++
 +        <IconSvg src={iconSearch} size='large' sx={{width:"35px"}} />
++              </DesktopHeaderBadge>   
        </Fab>
      </>
    )

@@ -1,9 +1,13 @@
-import { Box, Typography } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
+import { m, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
+import { cardVariants, containerVariants } from '../../../constants/animationVariation'
 import { coursesData } from '../../../constants/courses/coursesData'
 import EventsAndCoursesTile from '../../shared/components/EventsAndCoursesTile'
 import Loading from '../../shared/Loading'
 import CourseCard from './CoursesCard'
+
+const MotionDiv = styled(m.div)({})
 
 function CourseDetail() {
   const [visibleCount, setVisibleCount] = useState(8)
@@ -122,7 +126,10 @@ function CourseDetail() {
           Workshops & Courses
         </Typography>
 
-        <Box
+        <MotionDiv
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
           sx={{
             display: 'grid',
             gridTemplateColumns: {
@@ -135,10 +142,12 @@ function CourseDetail() {
             rowGap: { xs: '10px', md: '8px', lg: '15px' },
           }}
         >
-          {filteredCourses?.slice(0, visibleCount)?.map((course, index) => (
-            <CourseCard key={index} courseCardData={course} />
+          {filteredCourses.map((course, index) => (
+            <MotionDiv key={index} variants={cardVariants}>
+              <CourseCard courseCardData={course} />
+            </MotionDiv>
           ))}
-        </Box>
+        </MotionDiv>
 
         {/* Loading Indicator */}
         {loading && hasMore && <Loading />}

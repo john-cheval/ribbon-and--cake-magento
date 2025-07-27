@@ -9,7 +9,7 @@ export function HoveredButton({
   href,
   text,
   isArrow = true,
-  padding = '24px 20px',
+  padding = '15px 20px',
   height = 'auto',
   width = '250px',
   color = '#441E14',

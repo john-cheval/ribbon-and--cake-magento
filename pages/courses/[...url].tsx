@@ -52,6 +52,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const conf = client.query({ query: StoreConfigDocument })
 
   const staticClient = graphqlSsrClient(context)
+  console.log(params?.url, 'params')
 
   const layout = staticClient.query({
     query: LayoutDocument,

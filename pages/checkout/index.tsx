@@ -26,7 +26,7 @@ import {
   useCustomerQuery,
   useCustomerSession,
 } from '@graphcommerce/magento-customer'
-import { ProductListDocument } from '@graphcommerce/magento-product'
+// import { ProductListDocument } from '@graphcommerce/magento-product'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
@@ -74,6 +74,7 @@ function ShippingPage(props: ShippingPageProps) {
     (shippingPage.data.cart?.items?.length ?? 0) > 0
 
   const { error, data: cartData } = cart
+  const hasItems = (cartData?.cart?.total_quantity ?? 0) > 0
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>
       <PageMeta title={i18n._(/* i18n */ 'Shipping')} metaRobots={['noindex']} />
@@ -146,6 +147,7 @@ function ShippingPage(props: ShippingPageProps) {
               </Box>
             </Box>
           </Box>
+
           <Box component='article' sx={{ gridColumn: { xs: 'auto', md: 'span 4' } }}>
             <OrderSummary orderData={cartData} error={error} />
           </Box>

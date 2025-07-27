@@ -3,7 +3,7 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import {
   ApolloCartErrorAlert,
   CartStartCheckout,
-  CartStartCheckoutLinkOrButton,
+  // CartStartCheckoutLinkOrButton,
   CartTotals,
   EmptyCart,
   getCartDisabled,
@@ -16,11 +16,11 @@ import { Money, PageMeta, StoreConfigDocument } from '@graphcommerce/magento-sto
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   FullPageMessage,
-  iconShoppingBag,
+  // iconShoppingBag,
   LayoutOverlayHeader,
   LayoutTitle,
   OverlayStickyBottom,
-  Stepper,
+  // Stepper,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
@@ -44,8 +44,6 @@ function CartPage() {
     (data?.cart?.total_quantity ?? 0) > 0 &&
     typeof data?.cart?.prices?.grand_total?.value !== 'undefined'
 
-  // console.log(hasItems, 'this is items')
-
   return (
     <>
       <PageMeta
@@ -56,10 +54,13 @@ function CartPage() {
         sx={{
           '& .MuiButtonBase-root': {
             color: '#000000',
+            '& .MuiButtonBase-root': {
+              backgroundColor: 'red',
+            },
           },
           '& .MuiButtonBase-root svg': {
             color: '#000000',
-            fontSize: '45px',
+            fontSize: '40px',
           },
           ['& .LayoutHeaderContent-center']: {
             opacity: '1 !important',
@@ -100,7 +101,32 @@ function CartPage() {
       >
         {hasItems ? (
           <>
-            <Container maxWidth='md'>
+            <Container
+              maxWidth='md'
+              sx={{
+                flexGrow: 1,
+                height: '500px',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+                pr: { xs: '5px', md: '20px' },
+                paddingBottom: '50px',
+                pl: { xs: '5px', md: '20px', lg: '30px' },
+
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                  borderRadius: '0px',
+                  backgroundColor: '#EBEBEB',
+                },
+                '&::-webkit-scrollbar-track': {
+                  backgroundColor: '#EBEBEB',
+                  borderRadius: '0px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  borderRadius: '0px',
+                },
+              }}
+            >
               <CartItemsActionCards
                 removeIcon={iconDelete}
                 cart={data.cart}
@@ -139,11 +165,14 @@ function CartPage() {
             <OverlayStickyBottom
               sx={{
                 py: 0.1,
-                px: '55px',
+                px: { xs: '5px', md: '20px', lg: '30px' },
+                bottom: 'unset !important',
                 '& .CartTotals-root ': {
                   backgroundColor: 'transparent',
                   borderRadius: 0,
                 },
+                flexShrink: 0,
+                mt: 'auto',
               }}
             >
               <CartTotals
@@ -173,6 +202,11 @@ function CartPage() {
                       backgroundColor: 'transparent',
                       color: '#2A110A',
                     },
+                    '&:hover:not(.Mui-disabled)': {
+                      backgroundColor: 'transparent',
+                      color: '#2A110A',
+                      boxShadow: 'none',
+                    },
                   },
                 }}
                 cart={data.cart}
@@ -181,7 +215,26 @@ function CartPage() {
             </OverlayStickyBottom>
           </>
         ) : (
-          <EmptyCart disableMargin>{error && <ApolloCartErrorAlert error={error} />}</EmptyCart>
+          <EmptyCart
+            sx={{
+              minHeight: '100vh',
+              margin: 'auto',
+              display: 'flex',
+              '&  .FullPageMessage-button .MuiButtonBase-root': {
+                backgroundColor: (theme: any) => theme.palette.custom.heading,
+                borderRadius: '8px',
+                color: 'white',
+                boxShadow: 'none !important',
+              },
+              '& svg': {
+                fontSize: '40px',
+                stroke: 'unset !important',
+              },
+            }}
+            disableMargin
+          >
+            {error && <ApolloCartErrorAlert error={error} />}
+          </EmptyCart>
         )}
       </WaitForQueries>
     </>
@@ -207,6 +260,9 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
         height: '100%',
         minHeight: '100vh',
         position: 'relative',
+        '& .LayoutOverlayBase-background': {
+          paddingTop: '20px',
+        },
       },
       '& .LayoutOverlayBase-beforeOverlay': {
         backdropFilter: 'blur(10px)',

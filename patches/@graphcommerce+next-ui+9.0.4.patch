@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..f4c6aeb 100644
+index f94c113..ad7d7db 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,9 @@
@@ -14,7 +14,7 @@ index f94c113..f4c6aeb 100644
  
  type Variants = 'outlined' | 'default'
  type Size = 'large' | 'medium' | 'small' | 'responsive'
-@@ -50,7 +52,7 @@ export type ActionCardProps<C extends React.ElementType = typeof Box> = {
+@@ -50,7 +51,7 @@ export type ActionCardProps<C extends React.ElementType = typeof Box> = {
      reset?: BoxProps
      end?: BoxProps
    }
@@ -23,7 +23,7 @@ index f94c113..f4c6aeb 100644
  
  const parts = [
    'root',
-@@ -121,6 +123,9 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -121,6 +122,9 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      layout = 'list',
      error = false,
      slotProps = {},
@@ -33,7 +33,7 @@ index f94c113..f4c6aeb 100644
    } = props
  
    const classes = withState({
-@@ -134,6 +139,22 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -134,6 +138,26 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      error,
    })
  
@@ -41,7 +41,11 @@ index f94c113..f4c6aeb 100644
 +    return (
 +      <FormControlLabel
 +        className={classes.root}
-+        sx={{ fontSize: "14px" }}
++        sx={{ fontSize: "14px", '& svg':{
++          color:'#F1A8B6',
++        } ,'.MuiCheckbox-root:hover':{
++          backgroundColor:'transparent'
++        }}}
 +        control={<Checkbox
 +          onClick={onClick ? (event) => onClick(event, value) : undefined}
 +          value={value}
@@ -56,7 +60,7 @@ index f94c113..f4c6aeb 100644
    return (
      <ButtonOrBox
        className={classes.root}
-@@ -305,6 +326,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +329,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -169,10 +173,10 @@ index c93e224..d388761 100644
            </Button>
          )}
 diff --git a/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx b/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
-index c705a8c..4f74619 100644
+index c705a8c..1294cf4 100644
 --- a/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
-@@ -36,12 +36,12 @@ export function Fab(props: FabProps) {
+@@ -36,12 +36,24 @@ export function Fab(props: FabProps) {
        size={size}
        {...fabProps}
        disabled={disabled}
@@ -180,14 +184,26 @@ index c705a8c..4f74619 100644
 +      sx={[{ display: 'grid', backgroundColor:'#F6DBE0 !important', boxShadow:'none !important',color:'#441E14 !important' }, ...(Array.isArray(sx) ? sx : [sx])]}
      >
        <Box sx={{ display: 'flex', placeContent: 'center', gridArea: '1/1' }}>
++      {loading ? (
++        <CircularProgress
++          size={fabSize}
++          color={color !== 'primary' ? 'primary' : 'inherit'}
++          {...slotProps?.circularProgress}
++          sx={sxx(
++            { display: 'flex', placeContent: 'center', gridArea: '1/1' },
++            slotProps?.circularProgress?.sx,
++          )}
++        />
++      ) :(
          <IconSvg src={icon} size='medium' {...slotProps?.icon} />
++      )}
        </Box>
 -      {loading && (
 +      { /* loading && (
          <CircularProgress
            size={fabSize}
            color={color !== 'primary' ? 'primary' : 'inherit'}
-@@ -51,7 +51,7 @@ export function Fab(props: FabProps) {
+@@ -51,7 +63,7 @@ export function Fab(props: FabProps) {
              slotProps?.circularProgress?.sx,
            )}
          />
@@ -308,18 +324,47 @@ index ca14954..61fc363 100644
              </MotionBox>
            </TrapFocus>
 diff --git a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx b/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
-index 9088844..1c5017b 100644
+index 9088844..85f9878 100644
 --- a/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
 +++ b/node_modules/@graphcommerce/next-ui/IconSvg/IconSvg.tsx
-@@ -59,7 +59,7 @@ export function useIconSvgSize(size: keyof typeof sizes) {
- 
- const Svg = styled('svg', { name, target: name })(() => ({
+@@ -61,25 +61,25 @@ const Svg = styled('svg', { name, target: name })(() => ({
    userSelect: 'none',
--  width: '1em',
-+  width: '0.8em',
+   width: '1em',
    height: '1em',
-   display: 'inline-block',
+-  display: 'inline-block',
++  // display: 'inline-block',
  
+-  strokeLinecap: 'square',
+-  strokeLinejoin: 'miter',
+-  strokeMiterlimit: 4,
++  // strokeLinecap: 'square',
++  // strokeLinejoin: 'miter',
++  // strokeMiterlimit: 4,
+ 
+   fill: 'none',
+   stroke: 'currentColor',
+ 
+-  fontSize: '1.3em',
++  fontSize: '24px',
+ 
+-  strokeWidth: svgIconStrokeWidth(28, 148, 1.4, 0.8),
++  // strokeWidth: svgIconStrokeWidth(28, 148, 1.4, 0.8),
+ 
+-  '&.sizeXs': { fontSize: sizes.xs },
+-  '&.sizeSmall': { fontSize: sizes.small },
+-  '&.sizeMedium': { fontSize: sizes.medium },
+-  '&.sizeLarge': { fontSize: sizes.large },
+-  '&.sizeXl': { fontSize: sizes.xl },
+-  '&.sizeXxl': { fontSize: sizes.xxl },
++  // '&.sizeXs': { fontSize: sizes.xs },
++  // '&.sizeSmall': { fontSize: sizes.small },
++  // '&.sizeMedium': { fontSize: sizes.medium },
++  // '&.sizeLarge': { fontSize: sizes.large },
++  // '&.sizeXl': { fontSize: sizes.xl },
++  // '&.sizeXxl': { fontSize: sizes.xxl },
+ 
+   '&.fillIcon': {
+     fill: 'currentColor',
 diff --git a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/CurrencyFormat.tsx b/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/CurrencyFormat.tsx
 index 12d2b28..c1716bc 100644
 --- a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/CurrencyFormat.tsx
@@ -458,16 +503,47 @@ index 41c917c..545f0dc 100644
          <Box
            className={classes.center}
            sx={(theme) => ({
+diff --git a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx b/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
+index 30fc40b..68e06ae 100644
+--- a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
++++ b/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
+@@ -4,7 +4,7 @@ import { Box, SxProps, Theme } from '@mui/material'
+ import { useScroll, useTransform } from 'framer-motion'
+ import { Container } from '../../Container/Container'
+ import { LayoutProvider } from '../../Layout/components/LayoutProvider'
+-import { SkipLink } from '../../SkipLink/SkipLink'
++// import { SkipLink } from '../../SkipLink/SkipLink'
+ import { extendableComponent } from '../../Styles'
+ import { useFabSize } from '../../Theme'
+ 
+@@ -68,7 +68,7 @@ export function LayoutDefault(props: LayoutDefaultProps) {
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+     >
+-      <SkipLink />
++     {/* <SkipLink /> */} 
+       <LayoutProvider scroll={scrollYOffset}>
+         {beforeHeader}
+         <Container
+@@ -83,6 +83,9 @@ export function LayoutDefault(props: LayoutDefaultProps) {
+             justifyContent: 'center',
+             height: theme.appShell.headerHeightSm,
+             pointerEvents: 'none',
++            position: 'sticky',
++                top: 0,
++                background:"#FFFFFF",
+             '& > *': {
+               pointerEvents: 'all',
+             },
 diff --git a/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx b/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
-index 3a5a250..a766865 100644
+index 3a5a250..20686c4 100644
 --- a/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
 +++ b/node_modules/@graphcommerce/next-ui/LayoutOverlay/components/LayoutOverlay.tsx
-@@ -15,14 +15,14 @@ export type LayoutOverlayProps = Omit<
+@@ -15,14 +15,13 @@ export type LayoutOverlayProps = Omit<
  
  export function LayoutOverlay(props: LayoutOverlayProps) {
    const { children, variantSm = 'bottom', variantMd = 'right', ...otherProps } = props
 -
-+console.log(otherProps,"==>otherProps")
    const { closeSteps, active, direction } = usePageContext()
    const onCloseHandler = useGo(closeSteps * -1)
    const offsetPageY = useMotionValueValue(useScrollOffset(), (v) => v)
@@ -494,15 +570,16 @@ index b792f5c..1aaece7 100644
      />
 diff --git a/node_modules/@graphcommerce/next-ui/icons.interceptor.ts b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
 new file mode 100644
-index 0000000..8ec0302
+index 0000000..414f989
 --- /dev/null
 +++ b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
-@@ -0,0 +1,97 @@
-+/* hash:522880710 */
+@@ -0,0 +1,109 @@
++/* hash:1527960493 */
 +/* eslint-disable */
 +/* This file is automatically generated for @graphcommerce/next-ui/icons */
 +
 +import {
++  iconPerson as iconPersonicons,
 +  iconSearch as iconSearchicons,
 +  iconShoppingBag as iconShoppingBagicons,
 +} from '../../../plugins/icons'
@@ -553,7 +630,7 @@ index 0000000..8ec0302
 +export { default as iconMoon } from './icons/moon.svg'
 +export { default as iconNewspaper } from './icons/news.svg'
 +export { default as iconCheckmark } from './icons/ok.svg'
-+export { default as iconPerson } from './icons/person-alt.svg'
++export { default as iconPersonDisabled } from './icons/person-alt.svg'
 +export { default as iconPlay } from './icons/play.svg'
 +export { default as iconPlus } from './icons/plus.svg'
 +export { default as iconShutdown } from './icons/power.svg'
@@ -595,3 +672,14 @@ index 0000000..8ec0302
 + * @see {iconSearchicons} for replacement of the original source (original source not used)
 + */
 +export const iconSearch = iconSearchicons
++
++/**
++ * Here you see the 'interceptor' that is applying all the configured plugins.
++ *
++ * This file is NOT meant to be modified directly and is auto-generated if the plugins or the
++ * original source changes.
++ *
++ * @see {@link file://./icons.ts} for original source file
++ * @see {iconPersonicons} for replacement of the original source (original source not used)
++ */
++export const iconPerson = iconPersonicons

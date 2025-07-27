@@ -223,7 +223,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
     },
     appShell: {
       headerHeightSm: '46px',
-      headerHeightMd: '100px',
+      headerHeightMd: '80px',
       appBarHeightMd: '80px',
       appBarInnerHeightMd: '46px',
       containerSizingShell:

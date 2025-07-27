@@ -9,6 +9,7 @@ import { Trans } from '@lingui/react'
 import { Container } from '@mui/material'
 import type { LayoutOverlayProps } from '../../components'
 import { LayoutOverlay } from '../../components'
+import bgImage from '../../constants/images/account/Frame.png'
 import { graphqlSharedClient } from '../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutOverlayProps>
@@ -35,6 +36,21 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account-public',
   sharedKey: () => 'account-public',
   Layout: LayoutOverlay,
+  layoutProps: {
+    sx: {
+      '& .LayoutOverlayBase-background': {
+        backgroundImage: `url(${bgImage.src})`,
+        borderRadius: '30px 30px 0 0',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% auto',
+        backgroundPosition: '100% auto',
+
+        '& .LayoutHeaderContent-right button': {
+          color: '#441E14',
+        },
+      },
+    },
+  },
 }
 AccountSignInPage.pageOptions = pageOptions
 

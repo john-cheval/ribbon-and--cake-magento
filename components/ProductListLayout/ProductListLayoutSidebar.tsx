@@ -92,7 +92,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             /${configuration.sidebarWidth}   auto
             `,
           },
-          paddingInline: '55px',
+          paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
         {/* <Box
@@ -179,6 +179,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           sx={(theme) => ({
             gridArea: 'sidebar',
             mt: import.meta.graphCommerce.breadcrumbs === true ? 0 : theme.spacings.lg,
+            position: 'sticky',
+            top: '100px',
           })}
         >
           <ProductFiltersProClearAll sx={{ alignSelf: 'center' }} />

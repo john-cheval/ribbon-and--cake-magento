@@ -9,10 +9,12 @@ import { Box, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useState } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
-import { FaTiktok } from 'react-icons/fa'
+import { FaTiktok, FaWhatsapp } from 'react-icons/fa'
 import { FaLocationDot } from 'react-icons/fa6'
 import { cardData, footerData, locationData } from '../../constants/Home'
 import footerLogo from '../Assets/footer_logo.svg'
+import google from '../Assets/google.svg'
+import instagram from '../Assets/instagram.svg'
 import send from '../Assets/send.svg'
 
 const inputStyle = css`
@@ -76,18 +78,90 @@ export function Footer() {
           borderBottom: '1px solid #D8D8D8;',
         }}
       >
-        <Image
-          src={footerLogo}
-          alt='Ribbin and Ballons Logo'
-          width={202}
-          height={83}
-          sizes='100vw'
-          sx={{
-            width: '100%',
-            // maxWidth: '202px',
-            // objectFit: 'cover',
-          }}
-        />
+        <Box>
+          <Image
+            src={footerLogo}
+            alt='Ribbin and Ballons Logo'
+            width={202}
+            height={83}
+            sizes='100vw'
+            sx={{
+              width: '100%',
+              // maxWidth: '202px',
+              // objectFit: 'cover',
+              marginBottom: '25px',
+            }}
+          />
+
+          <Box>
+            <Typography
+              sx={{
+                backgroundColor: (theme: any) => theme.palette.custom.border,
+                padding: '8px 17px',
+                borderRadius: '999px',
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              }}
+            >
+              <Link
+                href='/'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Image
+                  src={instagram}
+                  width={30}
+                  height={30}
+                  sx={{
+                    width: '100%',
+                    height: 'auto',
+                    verticalAlign: 'center',
+                    position: 'relative',
+                    top: '4px',
+                  }}
+                />
+                Follow US
+              </Link>
+            </Typography>
+
+            <Typography
+              sx={{
+                backgroundColor: (theme: any) => theme.palette.custom.border,
+                padding: '8px 17px',
+                borderRadius: '999px',
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                marginTop: '9px',
+              }}
+            >
+              <Link
+                href='/'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Image
+                  src={google}
+                  width={30}
+                  height={30}
+                  sx={{
+                    width: '100%',
+                    height: 'auto',
+                    verticalAlign: 'center',
+                    position: 'relative',
+                    top: '4px',
+                  }}
+                />
+                Review on Google
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
 
         {footerData?.map((data, index) => (
           <Box component='div' key={data?.id || index}>
@@ -99,7 +173,7 @@ export function Footer() {
                 fontSize: '20px',
                 fontWeight: 700,
                 lineHeight: '33px',
-                marginBottom: '20px',
+                marginBottom: '5px',
               }}
             >
               {data?.mainTitle}
@@ -108,7 +182,7 @@ export function Footer() {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
+                gap: '5px',
               }}
             >
               {data?.links?.map((link, idx) => (
@@ -140,7 +214,7 @@ export function Footer() {
               fontSize: '20px',
               fontWeight: 700,
               lineHeight: '33px',
-              marginBottom: '20px',
+              marginBottom: '5px',
             }}
           >
             Subscribe
@@ -208,6 +282,7 @@ export function Footer() {
                 />
               </Box>
             </Box>
+            {/*
             <Box
               component='div'
               sx={{
@@ -259,7 +334,7 @@ export function Footer() {
                   <FaTiktok />
                 </Link>
               </Box>
-            </Box>
+            </Box>  */}
           </Box>
         </Box>
       </Box>
@@ -427,6 +502,36 @@ export function Footer() {
           </Link>
         </Typography>
       </Box>
+
+      <Link href={'/'}>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'end',
+          }}
+        >
+          <Box
+            sx={{
+              height: '50px',
+              width: '50px',
+              background: '#00CF03',
+              position: 'fixed',
+              right: '20px',
+              bottom: '20px',
+              color: '#FFFFFF',
+              zIndex: '8888888',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              fontSize: '25px',
+            }}
+          >
+            <FaWhatsapp />
+          </Box>
+        </Box>
+      </Link>
     </Box>
   )
 }

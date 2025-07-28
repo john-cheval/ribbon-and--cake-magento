@@ -1,41 +1,47 @@
 // import { Image } from '@graphcommerce/image'
 import { CartFab /* , useCartEnabled */ } from '@graphcommerce/magento-cart'
-// import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
-import { CustomerFab /*  CustomerMenuFabItem  */ } from '@graphcommerce/magento-customer'
+import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
+import { CustomerFab, CustomerMenuFabItem } from '@graphcommerce/magento-customer'
 import { SearchFab, SearchField } from '@graphcommerce/magento-search'
-import { WishlistFab /* , WishlistMenuFabItem  */ } from '@graphcommerce/magento-wishlist'
+import { WishlistFab, WishlistMenuFabItem } from '@graphcommerce/magento-wishlist'
 import type { LayoutDefaultProps } from '@graphcommerce/next-ui'
 import {
-  // DarkLightModeMenuSecondaryItem,
+  DarkLightModeMenuSecondaryItem,
   DesktopNavActions,
   DesktopNavBar,
   DesktopNavItem,
   // iconChevronDown,
-  // iconCustomerService,
+  iconCustomerService,
   iconHeart,
   IconSvg,
   LayoutDefault,
-  // MenuFabSecondaryItem,
+  MenuFabSecondaryItem,
   MobileTopRight,
   // NavigationFab,
-  // NavigationOverlay,
-  // NavigationProvider,
+  NavigationOverlay,
+  NavigationProvider,
   // PlaceholderFab,
-  // useMemoDeep,
-  // useNavigationSelection,
+  useMemoDeep,
+  useNavigationSelection,
 } from '@graphcommerce/next-ui'
-// import { Box } from '@mui/material'
 // import { i18n } from '@lingui/core'
-//import { Trans } from '@lingui/react'
-// import { /*  Divider,*/ Fab } from '@mui/material'
+import { Trans } from '@lingui/react'
+import { Box, Divider, Fab, Typography } from '@mui/material'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-// import personicon from '../../assets/personicon.svg'
+//import { FaWhatsapp } from 'react-icons/fa6'
+//import { GoHome } from 'react-icons/go'
+//import { IoMenuSharp } from 'react-icons/io5'
+//import { MdOutlineInterests } from 'react-icons/md'
+//import { AiOutlineShopping } from 'react-icons/ai'
+import personicon from '../../assets/personicon.svg'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
 // import { Footer } from './Footer'
 import type { LayoutQuery } from './Layout.gql'
 import { Logo } from './Logo'
+import MobileMenu from './MobileMenu/MobileMenu'
 
 export type LayoutNavigationProps = LayoutQuery &
   Omit<LayoutDefaultProps, 'footer' | 'header' | 'cartFab' | 'menuFab'>
@@ -45,7 +51,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
   const [scroll, setScroll] = useState<boolean>(false)
 
-  // const selection = useNavigationSelection()
+  const selection = useNavigationSelection()
   const router = useRouter()
 
   // const cartEnabled = useCartEnabled()
@@ -62,7 +68,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
   return (
     <>
-      {/*  <NavigationProvider
+      {/*   <NavigationProvider
         selection={selection}
         items={useMemoDeep(
           () => [
@@ -128,8 +134,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           top: '0',
           left: '0',
           width: '100%',
+          paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+          // paddingLeft:''
           ['& .LayoutDefault-header']: {
-            height: '80px',
+            paddingInline: '0 !important',
+            height: { xs: '65px', md: '80px' },
             ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
           },
         }}
@@ -146,8 +155,9 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   <DesktopNavItem
                     sx={{
                       transition: 'all 0.4s ease',
-                      padding: '8px 16px',
+                      // padding: { lg: '5px 8px', xl: '8px 16px' },
                       borderRadius: '999px',
+                      fontSize: '16px',
                       '&:hover': {
                         backgroundColor: '#F6DBE0',
                       },
@@ -168,8 +178,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   sx: {
                     backgroundColor: '#F6DBE0',
                     borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
+                    width: { xs: '35px', md: '35px', xl: '40px' },
+                    height: { xs: '30px', md: '35px', xl: '40px' },
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -182,7 +192,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                       top: '5px',
                     },
                     '&  svg': {
-                      fontSize: '28px',
+                      fontSize: { lg: '25px', xl: '28px' },
                       stroke: 'unset !important',
                     },
                   },
@@ -191,8 +201,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
               <WishlistFab
                 sx={{
-                  width: '40px',
-                  height: '40px',
+                  width: { xs: '35px', xl: '40px' },
+                  height: { xs: '30px', md: '35px', xl: '40px' },
                   borderRadius: '50%',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -200,7 +210,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   color: '#441E14',
                   backgroundColor: '#f6dbe0',
                   '&  svg': {
-                    fontSize: '24px',
+                    fontSize: { xs: '20px', xl: '24px' },
                     strokeWidth: '1.5',
                   },
                   '&:hover, &:focus ': {
@@ -219,17 +229,17 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               />
               <CustomerFab
                 sx={{
-                  width: '40px',
-                  height: '40px',
+                  width: { md: '35px', xl: '40px' },
+                  height: { md: '35px', xl: '40px' },
                   borderRadius: '50%',
                   color: '#441E14',
-                  display: 'inline-flex',
+                  display: { xs: 'none', lg: 'inline-flex' },
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#f6dbe0',
                   '&  svg': {
                     // width: '1em',
-                    fontSize: '28px',
+                    fontSize: { md: '20px', lg: '25px', xl: '28px' },
                     stroke: 'unset !important',
                   },
                   '&:hover, &:focus': {
@@ -249,12 +259,12 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
               <CartFab
                 sx={{
-                  display: 'inline-flex',
+                  display: { xs: 'none', lg: 'inline-flex' },
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '40px',
                   color: '#441E14',
-                  height: '40px',
+                  width: { md: '35px', xl: '40px' },
+                  height: { md: '35px', xl: '40px' },
                   borderRadius: '50%',
                   backgroundColor: '#f6dbe0',
                   '&:hover, &:focus': {
@@ -265,7 +275,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     top: '3px',
                   },
                   '& svg': {
-                    fontSize: '30px',
+                    fontSize: { md: '27px', xl: '30px' },
                     stroke: 'unset !important',
                   },
                 }}
@@ -273,17 +283,39 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               {/* The placeholder exists because the CartFab is sticky but we want to reserve the space for the <CartFab />   {cartEnabled && <PlaceholderFab />}*/}
             </DesktopNavActions>
 
-            <MobileTopRight>
+            {/*<MobileTopRight>
               <SearchFab size='responsiveMedium' />
-            </MobileTopRight>
+            </MobileTopRight>*/}
           </>
         }
-        footer={<Footer />}
+        // footer={<Footer />}
+        footer={<p>Hello Footer</p>}
         // cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
         // menuFab={<NavigationFab onClick={() => selection.set([])} />}
       >
         {children}
       </LayoutDefault>
+
+      <Box
+        sx={{
+          backgroundColor: '#f6e1e5',
+          paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+          display: { xs: 'flex', lg: 'none' },
+          paddingBlock: { xs: '16px', md: '20px' },
+          color: (theme: any) => theme.palette.custom.main,
+          justifyContent: 'space-between',
+          columnGap: '20px',
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          zIndex: '999999',
+          alignItems: 'center',
+          height: '80px',
+          width: '100%',
+        }}
+      >
+        <MobileMenu />
+      </Box>
     </>
   )
 }

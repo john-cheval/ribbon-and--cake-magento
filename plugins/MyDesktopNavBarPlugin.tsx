@@ -13,9 +13,9 @@ export function DesktopNavBar(props: PluginProps<MenuTabsProps>) {
   const { sx = [], children, ...rest } = props
 
   const customRootSx = {
-    display: 'flex !important',
+    display: { xs: 'none', lg: 'flex !important' },
     justifyContent: 'center',
-    columnGap: '5px',
+    columnGap: { md: '15px', xl: '30px' },
   }
 
   const mergedRootSx = Array.isArray(sx) ? [...sx, customRootSx] : [sx, customRootSx]

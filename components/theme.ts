@@ -231,6 +231,15 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       containerSizingContent:
         import.meta.graphCommerce.containerSizingContent === 'BREAKPOINT' ? 'lg' : false,
     },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 640,
+        md: 768,
+        lg: 1024,
+        xl: 1536,
+      },
+    },
   })
 
 // todo: move most of the styles to the graphcommerce library while still allowing for extensibility.

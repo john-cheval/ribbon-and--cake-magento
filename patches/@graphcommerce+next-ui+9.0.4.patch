@@ -566,6 +566,25 @@ index 3a5a250..20686c4 100644
        <OverlayBase
          active={active}
          direction={direction}
+diff --git a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
+index bbf6b28..59385e6 100644
+--- a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
++++ b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
+@@ -25,11 +25,11 @@ const useUtilityClasses = ({ classes }: LogoClassProps) =>
+ 
+ const commonLogoStyles: SxProps<Theme> = {
+   height: '100%',
+-  width: 'max-content',
++  width: {xs:'100%', lg:'max-content'},
+   display: 'flex',
+   alignItems: 'center',
+-  margin: '0 auto',
+-  justifyContent: 'center',
++  margin: {xs:'0', lg:'0 auto'},
++  justifyContent: {xs:'start',lg:'center'},
+   pointerEvents: 'all',
+ }
+ 
 diff --git a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
 index b792f5c..1aaece7 100644
 --- a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx

@@ -204,10 +204,10 @@ index 021469e..8344178 100644
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..3d7ca03 100644
+index cabc140..c03bffc 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-@@ -1,20 +1,20 @@
+@@ -1,11 +1,12 @@
  import { Controller } from '@graphcommerce/ecommerce-ui'
 -import type { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
 -import { ActionCardAccordion, Button } from '@graphcommerce/next-ui'
@@ -217,22 +217,12 @@ index cabc140..3d7ca03 100644
  import { PriceSlider, getMinMaxFromOptions } from './PriceSlider'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { FilterProps } from './ProductFiltersProAggregations'
- 
++import { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
 +
+ 
  export function ProductFilterRangeSection(props: FilterProps) {
    const { aggregation } = props
-   const { attribute_code, label, options } = aggregation
- 
-   const { form, params } = useProductFiltersPro()
-   const { control } = form
--  const attrCode = attribute_code as keyof ProductAttributeFilterInput
--  const name = `filters.${attrCode}` as const
-+  const attrCode = attribute_code ||""
-+  const name = `filters.${attrCode}` as any
- 
-   const param = params.filters?.[attrCode]
-   if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
-@@ -35,21 +35,56 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -35,21 +36,56 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
          return (
            <ActionCardAccordion

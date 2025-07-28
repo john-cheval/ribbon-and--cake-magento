@@ -73,14 +73,31 @@ index a1ec789..b365a43 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..e603148 100644
+index fb82adb..0407060 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-@@ -34,15 +34,15 @@ export function PriceSlider(props: PriceSliderProps) {
-   const from = value?.from ? Number(value?.from) : min
-   const to = value?.to ? Number(value?.to) : max
+@@ -7,7 +7,7 @@ import { useCallback } from 'react'
+ import type { FilterProps } from './ProductFiltersProAggregations'
+ 
+ export type PriceSliderProps = {
+-  value: FilterRangeTypeInput | null | undefined
++  value?: FilterRangeTypeInput | null | undefined  |string | number 
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   onChange: (...event: any[]) => void
+   sx?: SxProps<Theme>
+@@ -31,18 +31,21 @@ export function PriceSlider(props: PriceSliderProps) {
+ 
+   const [min, max] = getMinMaxFromOptions(options)
+ 
+-  const from = value?.from ? Number(value?.from) : min
+-  const to = value?.to ? Number(value?.to) : max
++  const isFilterRange =
++    value !== null && typeof value === 'object' && 'from' in value && 'to' in value
  
 -  const renderMoney = useCallback((v: number) => <Money round value={v} />, [])
++  const from =  isFilterRange &&value?.from ? Number(value?.from) : min
++  const to =  isFilterRange && value?.to ? Number(value?.to) : max
++
 +  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight:400,fontSize: { xs: '12px', sm: '14px', md: '16px' }}} round value={v} />, [])
  
    return (
@@ -95,7 +112,19 @@ index fb82adb..e603148 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -77,6 +77,28 @@ export function PriceSlider(props: PriceSliderProps) {
+@@ -68,7 +71,10 @@ export function PriceSlider(props: PriceSliderProps) {
+           if (!value && !newVal) return
+ 
+           // All values are the same, no need to update
+-          if (value && newVal && value.from === newVal.from && value.to === newVal.to) return
++          const currentFrom = isFilterRange && value.from ? String(value.from) : undefined;
++          const currentTo = isFilterRange && value.to ? String(value.to) : undefined;
++
++          if (newVal && currentFrom === newVal.from && currentTo === newVal.to) return
+ 
+           // The value has changed, rerender
+           onChange(newVal)
+@@ -77,6 +83,28 @@ export function PriceSlider(props: PriceSliderProps) {
          valueLabelFormat={renderMoney}
          className={classes.slider}
          step={1}
@@ -175,7 +204,7 @@ index 021469e..8344178 100644
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..8766637 100644
+index cabc140..e0b8934 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,6 +1,5 @@
@@ -186,15 +215,17 @@ index cabc140..8766637 100644
  import { Trans } from '@lingui/react'
  import { isFilterTypeRange } from '../ProductListItems/filterTypes'
  import { PriceSlider, getMinMaxFromOptions } from './PriceSlider'
-@@ -13,7 +12,7 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -13,8 +12,8 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
    const { form, params } = useProductFiltersPro()
    const { control } = form
 -  const attrCode = attribute_code as keyof ProductAttributeFilterInput
+-  const name = `filters.${attrCode}` as const
 +  const attrCode = attribute_code ||""
-   const name = `filters.${attrCode}` as const
++  const name = `filters.${attrCode}` as any
  
    const param = params.filters?.[attrCode]
+   if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
 @@ -35,21 +34,55 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
          return (

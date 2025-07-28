@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..ad7d7db 100644
+index f94c113..e4c4a75 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,9 @@
@@ -23,7 +23,7 @@ index f94c113..ad7d7db 100644
  
  const parts = [
    'root',
-@@ -121,6 +122,9 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -121,8 +122,12 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      layout = 'list',
      error = false,
      slotProps = {},
@@ -32,8 +32,11 @@ index f94c113..ad7d7db 100644
 +    // isCheckbox = false,
    } = props
  
++
    const classes = withState({
-@@ -134,6 +138,26 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+     disabled,
+     selected,
+@@ -134,6 +139,26 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      error,
    })
  
@@ -60,7 +63,7 @@ index f94c113..ad7d7db 100644
    return (
      <ButtonOrBox
        className={classes.root}
-@@ -305,6 +329,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +330,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -173,10 +176,10 @@ index c93e224..d388761 100644
            </Button>
          )}
 diff --git a/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx b/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
-index c705a8c..1294cf4 100644
+index c705a8c..4d3370c 100644
 --- a/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Fab/Fab.tsx
-@@ -36,12 +36,24 @@ export function Fab(props: FabProps) {
+@@ -36,12 +36,26 @@ export function Fab(props: FabProps) {
        size={size}
        {...fabProps}
        disabled={disabled}
@@ -185,25 +188,27 @@ index c705a8c..1294cf4 100644
      >
        <Box sx={{ display: 'flex', placeContent: 'center', gridArea: '1/1' }}>
 +      {loading ? (
-+        <CircularProgress
++      <CircularProgress
 +          size={fabSize}
 +          color={color !== 'primary' ? 'primary' : 'inherit'}
 +          {...slotProps?.circularProgress}
 +          sx={sxx(
-+            { display: 'flex', placeContent: 'center', gridArea: '1/1' },
++            { display: 'flex', placeContent: 'center', gridArea: '1/1' ,color:'#441E14',width:'20px !important', height:'20px !important', position:'relative',top:'-4px', left:'-6px', animation:'none'},
 +            slotProps?.circularProgress?.sx,
 +          )}
 +        />
 +      ) :(
          <IconSvg src={icon} size='medium' {...slotProps?.icon} />
-+      )}
++      )
++}
        </Box>
 -      {loading && (
 +      { /* loading && (
++       <IconSvg src={icon} size='medium' {...slotProps?.icon} />
          <CircularProgress
            size={fabSize}
            color={color !== 'primary' ? 'primary' : 'inherit'}
-@@ -51,7 +63,7 @@ export function Fab(props: FabProps) {
+@@ -51,7 +65,7 @@ export function Fab(props: FabProps) {
              slotProps?.circularProgress?.sx,
            )}
          />
@@ -213,7 +218,7 @@ index c705a8c..1294cf4 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
-index ca14954..61fc363 100644
+index ca14954..ace8db2 100644
 --- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 +++ b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 @@ -3,8 +3,8 @@ import type { MotionImageAspectProps, ScrollerButtonProps } from '@graphcommerce
@@ -265,7 +270,7 @@ index ca14954..61fc363 100644
                    [theme.breakpoints.down('md')]: {
                      width: '100%',
                    },
-@@ -244,7 +242,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -244,12 +242,12 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    <MotionImageAspect
                      key={typeof image.src === 'string' ? image.src : idx}
                      layout
@@ -274,6 +279,12 @@ index ca14954..61fc363 100644
                      src={image.src}
                      width={image.width}
                      height={image.height}
+                     loading={idx === 0 ? 'eager' : 'lazy'}
+-                    sx={{ display: 'block', objectFit: 'contain' }}
++                    sx={{ display: 'block', objectFit: 'contain', borderRadius:'8px' }}
+                     sizes={{
+                       0: '100vw',
+                       [theme.breakpoints.values.md]: zoomed ? '100vw' : '60vw',
 @@ -260,6 +258,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                  ))}
                </Scroller>

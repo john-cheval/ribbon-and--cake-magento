@@ -50,15 +50,42 @@ index 2cb4e6f..567bda0 100644
            [theme.breakpoints.down('md')]: {
              opacity: '1 !important',
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
-index 0b04f2c..7a30786 100644
+index 0b04f2c..b289d1d 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
-@@ -86,13 +86,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+@@ -13,6 +13,7 @@ export type CartStartCheckoutProps = {
+   buttonProps?: ButtonProps<'button'>
+   disabled?: boolean
+   cart?: CartStartCheckoutFragment | null | undefined
++  title?:string
+   onStart?: (
+     e: React.MouseEvent<HTMLButtonElement>,
+     cart: CartStartCheckoutFragment | null | undefined,
+@@ -37,6 +38,7 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+     disabled,
+     sx = [],
+     cart,
++    title='Proceed to Checkout'
+   } = props
+ 
+   const shouldLoginToContinue = useCheckoutShouldLoginToContinue()
+@@ -68,8 +70,8 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+         variant='pill'
+         color='secondary'
+         size='large'
+-        className={classes.checkoutButton}
+-        endIcon={<IconSvg src={iconChevronRight} />}
++        // className={classes.checkoutButton}
++        // endIcon={<IconSvg src={iconChevronRight} />}
+         onClick={(e) => {
+           onClick?.(e)
+           onStart?.(e, cart)
+@@ -86,13 +88,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
              '& ~ span.MuiButton-endIcon': { marginLeft: '6px' },
            })}
          >
 -          <Trans>Start Checkout</Trans>
-+          <Trans>Proceed to Checkout</Trans>
++          {title}
          </Box>{' '}
 -        {hasTotals && (
 +        {/*hasTotals && (

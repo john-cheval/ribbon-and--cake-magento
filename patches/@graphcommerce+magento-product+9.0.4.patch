@@ -204,10 +204,10 @@ index 021469e..8344178 100644
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..e0b8934 100644
+index cabc140..3d7ca03 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-@@ -1,6 +1,5 @@
+@@ -1,20 +1,20 @@
  import { Controller } from '@graphcommerce/ecommerce-ui'
 -import type { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
 -import { ActionCardAccordion, Button } from '@graphcommerce/next-ui'
@@ -215,7 +215,13 @@ index cabc140..e0b8934 100644
  import { Trans } from '@lingui/react'
  import { isFilterTypeRange } from '../ProductListItems/filterTypes'
  import { PriceSlider, getMinMaxFromOptions } from './PriceSlider'
-@@ -13,8 +12,8 @@ export function ProductFilterRangeSection(props: FilterProps) {
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ import type { FilterProps } from './ProductFiltersProAggregations'
+ 
++
+ export function ProductFilterRangeSection(props: FilterProps) {
+   const { aggregation } = props
+   const { attribute_code, label, options } = aggregation
  
    const { form, params } = useProductFiltersPro()
    const { control } = form
@@ -226,10 +232,11 @@ index cabc140..e0b8934 100644
  
    const param = params.filters?.[attrCode]
    if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
-@@ -35,21 +34,55 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -35,21 +35,56 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
          return (
            <ActionCardAccordion
++            right={<></>}
 +            defaultExpanded={true}
              summary={label}
 +            sx={{

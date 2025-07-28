@@ -100,7 +100,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     variables: {
       pageSize: 30,
       filter: {
-        category_uid: { eq: 'cakes' },
+        category_id: { in: ['3', '7'] },
       },
     },
   })

@@ -34,6 +34,12 @@ export function ProductCard({
         display: 'flex',
         gap: '13px',
         flexDirection: 'column',
+        transition: 'all 0.3s ease-in-out',
+        overflow: 'hidden',
+        transformOrigin: 'top',
+        '&:hover': {
+          transform: 'scaleY(0.85)', // slightly reduce height
+        },
       }}
     >
       <Box sx={{ position: 'relative' }}>
@@ -172,7 +178,7 @@ export function ProductCard({
           )}
         </Box>
 
-        {/* } <Box
+        <Box
           component='div'
           sx={{
             display: 'flex',
@@ -193,35 +199,28 @@ export function ProductCard({
           }}
         >
           <IoBagHandleOutline size='18px' />
-        </Box> */}
-        <AddProductsToCartForm>
+        </Box>
+        {/*   <AddProductsToCartForm>
           <AddProductsToCartFab
             sku={item.sku}
             icon={iconShoppingBag}
             sx={{
-              // These styles are the ones you defined in the original Fab
               backgroundColor: '#F6DBE0 !important',
               color: '#441E14!important',
               boxShadow: 'none !important',
-              padding: '17px', // Match the padding of your previous Box
-              borderRadius: '50%', // Match the border-radius
-              width: 'fit-content', // Match the width
-              height: 'fit-content', // Add height to make it circular
-              // minWidth: 0, // Override MUI Button's minWidth for circular shape
+              padding: '17px',
+              borderRadius: '50%',
+              width: 'fit-content',
+              height: 'fit-content',
+              transition: 'all 0.4s ease',
               '&:hover': {
-                backgroundColor: 'transparent !important', // Apply hover effect
-                // You might need to adjust color on hover as well if it's currently transparent
-                color: '#441E14 !important', // Keep text color if background becomes transparent
-                border: '1px solid #F6DBE0 !important', // Add border on hover
+                backgroundColor: 'transparent !important',
+                color: '#441E14 !important',
+                border: '1px solid #F6DBE0 !important',
               },
             }}
-            // You can pass the icon you want for the AddProductsToCartFab
-            // If you want IoBagHandleOutline as the default, you can do:
-            // icon={iconCart}
-            // If you want to use the default icon from AddProductsToCartFab (which was iconShoppingBag)
-            // then you don't need to pass the icon prop at all.
           />
-        </AddProductsToCartForm>
+        </AddProductsToCartForm> */}
       </Box>
     </Box>
   )

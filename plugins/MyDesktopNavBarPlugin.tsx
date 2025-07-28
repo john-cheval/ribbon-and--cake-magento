@@ -1,8 +1,8 @@
 // /plugins/MyDesktopNavBarPlugin.tsx
 
 import type { PluginConfig, PluginProps } from '@graphcommerce/next-config'
-import type { MenuTabsProps } from '@graphcommerce/next-ui/LayoutParts/DesktopNavBar'
 import { MediaQuery } from '@graphcommerce/next-ui' // Import MediaQuery if you still want it
+import type { MenuTabsProps } from '@graphcommerce/next-ui/LayoutParts/DesktopNavBar'
 
 export const config: PluginConfig = {
   type: 'component',
@@ -15,7 +15,7 @@ export function DesktopNavBar(props: PluginProps<MenuTabsProps>) {
   const customRootSx = {
     display: 'flex !important',
     justifyContent: 'center',
-    columnGap: '40px',
+    columnGap: '5px',
   }
 
   const mergedRootSx = Array.isArray(sx) ? [...sx, customRootSx] : [sx, customRootSx]

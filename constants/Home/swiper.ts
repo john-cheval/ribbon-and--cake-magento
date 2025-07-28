@@ -1,4 +1,8 @@
 import {
+  event1,
+  event2,
+  event3,
+  event4,
   image1,
   image2,
   image3,
@@ -9,6 +13,12 @@ import {
   image8,
   image9,
   image10,
+  test1,
+  test2,
+  test3,
+  test4,
+  test5,
+  test6,
 } from './imagesData/imags'
 
 export const swiperHero = [
@@ -65,7 +75,6 @@ export const storyData = [
     startPrice: '300.00',
     endPrice: '500',
     sku: '1',
-
   },
   {
     id: 2,
@@ -75,7 +84,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '2',
-
   },
   {
     id: 3,
@@ -85,7 +93,6 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '3',
-
   },
   {
     id: 18,
@@ -95,7 +102,42 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '4',
-
+  },
+  {
+    id: 21,
+    image: image1,
+    title: 'Custom Cake 1',
+    category: 'Custom Cake',
+    startPrice: '300.00',
+    endPrice: '500',
+    sku: '1',
+  },
+  {
+    id: 22,
+    image: image2,
+    title: 'Custom Cake 2',
+    category: 'Custom Cake',
+    startPrice: ' 350.00',
+    endPrice: '500',
+    sku: '2',
+  },
+  {
+    id: 23,
+    image: image3,
+    title: 'Custom Cake 3',
+    category: 'Custom Cake',
+    startPrice: ' 400.00',
+    endPrice: '500',
+    sku: '3',
+  },
+  {
+    id: 218,
+    image: image4,
+    title: 'Custom Cake 4',
+    category: 'Custom Cake',
+    startPrice: ' 400.00',
+    endPrice: '500',
+    sku: '4',
   },
   {
     id: 17,
@@ -105,7 +147,6 @@ export const storyData = [
     startPrice: ' 400.00',
     endPrice: '500',
     sku: '5',
-
   },
   {
     id: 4,
@@ -115,7 +156,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '6',
-
   },
   {
     id: 5,
@@ -125,7 +165,6 @@ export const storyData = [
     startPrice: ' 350.00',
     endPrice: '500',
     sku: '7',
-
   },
   {
     id: 6,
@@ -529,4 +568,78 @@ export const miniBitesData = [
     category: 'Small Dessert',
     price: ' 360.00',
   },
+]
+
+export const testimonialsData = [
+  {
+    id: 1,
+    imageUrl: test1,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 2,
+    imageUrl: test2,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 3,
+    imageUrl: test3,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 4,
+    imageUrl: test4,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 5,
+    imageUrl: test5,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+  {
+    id: 6,
+    imageUrl: test6,
+    title: 'PRESENTATION & TASTE',
+    description:
+      'For many months now, I have had the delight of eating an array of Ribbons and Ballons’s cakes, services and beautiful yummy cupcakes. They are delicious, full of classic and inventive flavors. They say flavor is only part of taste. Presentation is a factor too. You get a A+ in decoration for not only  cupcakes but for cakes too. I would recommend them for anyone who  wants a professional services , amazing packing, good  cakes, on time delivery, prompt and the best for corporate events.',
+  },
+]
+
+export const eventsData = [
+  {
+    id: 1,
+    title: 'Personalized Gifts',
+    images: [event1, event2, event3, event4],
+  },
+  {
+    id: 2,
+    title: 'Events Catering',
+    images: [event2, event1, event1, event4],
+  },
+  {
+    id: 3,
+    title: 'Team Building Workshops',
+    images: [event1, event2, event3, event4],
+  },
+  {
+    id: 4,
+    title: 'Weddings & Special Events',
+    images: [event2, event1, event1, event4],
+  },
+]
+
+export const eventsList = [
+  'Elevate your next event with Ribbons & Balloons.',
+  'Our expert team specializes in personalizing cakes, cupcakes, and desserts with your brand or image.',
+  'Just complete the form below to get started, no event is too big or',
 ]

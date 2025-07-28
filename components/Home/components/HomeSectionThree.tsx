@@ -54,8 +54,8 @@ export function HomeSectionThree(props) {
             fontSize: '16px',
             lineHeight: '158%',
             letterSpacing: '0%',
-            width: '250px',
-            padding: '24px 20px',
+            width: '230px',
+            padding: '15px 20px',
             overflow: 'hidden',
             borderRadius: '4px',
             cursor: 'pointer',
@@ -213,13 +213,16 @@ export function HomeSectionThree(props) {
         <Image
           src={svgImage}
           alt='customize Image'
-          width={456}
-          height={612}
-          sizes='100vw'
+          // width={456}
+          // height={612}
+          // sizes='100vw'
           sx={{
             // maxWidth: '456px',
             objectFit: 'cover',
             borderRadius: '8px',
+            width: '100%',
+            height: 'auto',
+            minHeight: { xs: '200px', md: '250px', lg: '300px' },
           }}
         />
       </Box>

@@ -28,7 +28,7 @@ import {
 } from '@graphcommerce/magento-product'
 import { redirectOrNotFound, redirectTo, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import { Container, LayoutHeader, LayoutTitle } from '@graphcommerce/next-ui'
+// import { Container, LayoutHeader, LayoutTitle } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import type { GetStaticPaths } from 'next'
 import type { LayoutNavigationProps } from '../components'
@@ -95,7 +95,7 @@ function CategoryPage(props: CategoryProps) {
       ) */}
 
       {isCategory && !isLanding && (
-        <InnerTop count={products?.total_count} title={category.name ?? ''} />
+        <InnerTop count={products?.total_count} title={category.name ?? ''} isFilter={true} />
       )}
       {isCategory && !isLanding && (
         <>

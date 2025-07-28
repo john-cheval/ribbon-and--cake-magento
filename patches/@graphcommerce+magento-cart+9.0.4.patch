@@ -1,0 +1,141 @@
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx b/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
+index 2cb4e6f..567bda0 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartFab/CartFab.tsx
+@@ -64,19 +64,32 @@ function CartFabContent(props: CartFabContentProps) {
+         aria-label={i18n._(/* i18n */ 'Cart')}
+         color='inherit'
+         size='responsive'
+-        style={{ backgroundColor }}
++        // style={{ backgroundColor }}
+         sx={(theme) => ({
+           [theme.breakpoints.down('md')]: {
+             backgroundColor: `${theme.palette.background.paper} !important`,
+           },
++          height:"40px !important"
+         })}
+         {...fabProps}
+       >
+         <DesktopHeaderBadge
+-          color='primary'
+-          variant='dot'
+-          overlap='circular'
+-          badgeContent={total_quantity}
++          sx={{
++    '& .MuiBadge-badge': { 
++      backgroundColor: '#FF0000',
++      color:'#fff',
++      display:'flex',
++      alignItems:'center',
++     justifyContent:'center',
++     textAlign:'center',
++     fontSize:'9px',
++     minWidth:'12px',
++     height:'14px',
++     right:'16px',
++     top:'4px'
++    },
++  }} 
++          badgeContent={total_quantity} overlap='circular'
+           {...BadgeProps}
+         >
+           {cartIcon}
+@@ -91,7 +104,7 @@ function CartFabContent(props: CartFabContentProps) {
+           position: 'absolute',
+           height: '100%',
+           width: '100%',
+-          boxShadow: 6,
++          // boxShadow: 6,
+           top: 0,
+           [theme.breakpoints.down('md')]: {
+             opacity: '1 !important',
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
+index 0b04f2c..b289d1d 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
+@@ -13,6 +13,7 @@ export type CartStartCheckoutProps = {
+   buttonProps?: ButtonProps<'button'>
+   disabled?: boolean
+   cart?: CartStartCheckoutFragment | null | undefined
++  title?:string
+   onStart?: (
+     e: React.MouseEvent<HTMLButtonElement>,
+     cart: CartStartCheckoutFragment | null | undefined,
+@@ -37,6 +38,7 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+     disabled,
+     sx = [],
+     cart,
++    title='Proceed to Checkout'
+   } = props
+ 
+   const shouldLoginToContinue = useCheckoutShouldLoginToContinue()
+@@ -68,8 +70,8 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+         variant='pill'
+         color='secondary'
+         size='large'
+-        className={classes.checkoutButton}
+-        endIcon={<IconSvg src={iconChevronRight} />}
++        // className={classes.checkoutButton}
++        // endIcon={<IconSvg src={iconChevronRight} />}
+         onClick={(e) => {
+           onClick?.(e)
+           onStart?.(e, cart)
+@@ -86,13 +88,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+             '& ~ span.MuiButton-endIcon': { marginLeft: '6px' },
+           })}
+         >
+-          <Trans>Start Checkout</Trans>
++          {title}
+         </Box>{' '}
+-        {hasTotals && (
++        {/*hasTotals && (
+           <span className={classes.checkoutMoney}>
+             <Money {...cart?.prices?.grand_total} />
+           </span>
+-        )}
++        )*/}
+       </Button>
+ 
+       {children}
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
+index 11b4847..e95a7b7 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
+@@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
+ import { breakpointVal, extendableComponent } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+ import type { SxProps, Theme } from '@mui/material'
+-import { Box, Divider, lighten } from '@mui/material'
++import { Box, Divider, lighten, Typography } from '@mui/material'
+ import { useCartQuery, useDisplayInclTax } from '../../hooks'
+ import { GetCartTotalsDocument } from './GetCartTotals.gql'
+ 
+@@ -154,6 +154,8 @@ export function CartTotals(props: CartTotalsProps) {
+           </Box>
+         ))}
+ 
++       
++
+       {additionalSubtotals}
+ 
+       <Box key='divider'>
+@@ -201,6 +203,7 @@ export function CartTotals(props: CartTotalsProps) {
+         ))}
+ 
+       {additionalTotals}
++      <Typography sx={{color:'#8f8f8f', fontSize:'16px'}}>Proceed to checkout and add location to see shipping charges</Typography>
+     </Box>
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts b/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
+index 4eb01c1..8fecb12 100644
+--- a/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
++++ b/node_modules/@graphcommerce/magento-cart/hooks/useFormGqlMutationCart.ts
+@@ -35,6 +35,7 @@ export function useFormGqlMutationCart<
+     {
+       ...options,
+       onBeforeSubmit: async (variables) => {
++        // console.log(variables,options,"==>variables")
+         if (shouldLoginToContinue && shouldBlockOperation) {
+           return false
+         }

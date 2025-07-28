@@ -10,15 +10,94 @@ index 2050980..d81c376 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
+index c61ffc0..ce11bee 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
+@@ -36,13 +36,14 @@ export function CustomizableAreaOption(props: CustomizableAreaOptionProps) {
+         {...register(`cartItems.${index}.entered_options.${optionIndex}.uid`)}
+         value={uid}
+       />
+-      <SectionHeader labelLeft={title} sx={{ mt: 0 }} />
++      <SectionHeader labelLeft={title} sx={{ mt: 0 ,}} />
+       <TextFieldElement
+         sx={{ width: '100%' }}
+         color='primary'
+         multiline
+         minRows={3}
+         control={control}
++        placeholder='Add your message on the cake, example Happy Birthday'
+         name={`cartItems.${index}.entered_options.${optionIndex}.value`}
+         InputProps={{
+           endAdornment:
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
+index a1ec789..b365a43 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
+@@ -10,6 +10,8 @@ import { CustomizableFieldOption } from './CustomizableFieldOption'
+ import { CustomizableMultipleOption } from './CustomizableMultipleOption'
+ import { CustomizableRadioOption } from './CustomizableRadioOption'
+ import type { ProductCustomizableFragment } from './ProductCustomizable.gql'
++import { SxProps } from '@mui/material'
++import { Theme } from '@emotion/react'
+ 
+ const defaultRenderer = {
+   CustomizableAreaOption,
+@@ -33,14 +35,18 @@ type OptionTypeRendererProp = Simplify<
+     : MissingOptionTypeRenderer & DefinedOptionTypeRenderer
+ >
+ 
+-export type ProductCustomizableProps = AddToCartItemSelector & {
++type noteprops = {
++    sx?: SxProps<Theme>
++}
++
++export type ProductCustomizableProps = AddToCartItemSelector & noteprops & {
+   product: ProductCustomizableFragment & ProductPagePriceFragment
+ } & (keyof MissingOptionTypeRenderer extends never
+     ? { renderer?: OptionTypeRendererProp }
+     : { renderer: OptionTypeRendererProp })
+ 
+ export function ProductCustomizable(props: ProductCustomizableProps) {
+-  const { product, renderer, index = 0 } = props
++  const { product, renderer, index = 0 ,sx= []} = props
+ 
+   return (
+     <>
+@@ -53,6 +59,7 @@ export function ProductCustomizable(props: ProductCustomizableProps) {
+           index={index}
+           currency={product.price_range.minimum_price.final_price.currency}
+           productPrice={product.price_range.minimum_price.final_price.value}
++          sx={{color:'red'}}
+         />
+       ))}
+     </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..e603148 100644
+index fb82adb..0407060 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-@@ -34,15 +34,15 @@ export function PriceSlider(props: PriceSliderProps) {
-   const from = value?.from ? Number(value?.from) : min
-   const to = value?.to ? Number(value?.to) : max
+@@ -7,7 +7,7 @@ import { useCallback } from 'react'
+ import type { FilterProps } from './ProductFiltersProAggregations'
+ 
+ export type PriceSliderProps = {
+-  value: FilterRangeTypeInput | null | undefined
++  value?: FilterRangeTypeInput | null | undefined  |string | number 
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   onChange: (...event: any[]) => void
+   sx?: SxProps<Theme>
+@@ -31,18 +31,21 @@ export function PriceSlider(props: PriceSliderProps) {
+ 
+   const [min, max] = getMinMaxFromOptions(options)
+ 
+-  const from = value?.from ? Number(value?.from) : min
+-  const to = value?.to ? Number(value?.to) : max
++  const isFilterRange =
++    value !== null && typeof value === 'object' && 'from' in value && 'to' in value
  
 -  const renderMoney = useCallback((v: number) => <Money round value={v} />, [])
++  const from =  isFilterRange &&value?.from ? Number(value?.from) : min
++  const to =  isFilterRange && value?.to ? Number(value?.to) : max
++
 +  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight:400,fontSize: { xs: '12px', sm: '14px', md: '16px' }}} round value={v} />, [])
  
    return (
@@ -33,7 +112,19 @@ index fb82adb..e603148 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -77,6 +77,28 @@ export function PriceSlider(props: PriceSliderProps) {
+@@ -68,7 +71,10 @@ export function PriceSlider(props: PriceSliderProps) {
+           if (!value && !newVal) return
+ 
+           // All values are the same, no need to update
+-          if (value && newVal && value.from === newVal.from && value.to === newVal.to) return
++          const currentFrom = isFilterRange && value.from ? String(value.from) : undefined;
++          const currentTo = isFilterRange && value.to ? String(value.to) : undefined;
++
++          if (newVal && currentFrom === newVal.from && currentTo === newVal.to) return
+ 
+           // The value has changed, rerender
+           onChange(newVal)
+@@ -77,6 +83,28 @@ export function PriceSlider(props: PriceSliderProps) {
          valueLabelFormat={renderMoney}
          className={classes.slider}
          step={1}
@@ -113,7 +204,7 @@ index 021469e..8344178 100644
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..8766637 100644
+index cabc140..e0b8934 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,6 +1,5 @@
@@ -124,15 +215,17 @@ index cabc140..8766637 100644
  import { Trans } from '@lingui/react'
  import { isFilterTypeRange } from '../ProductListItems/filterTypes'
  import { PriceSlider, getMinMaxFromOptions } from './PriceSlider'
-@@ -13,7 +12,7 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -13,8 +12,8 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
    const { form, params } = useProductFiltersPro()
    const { control } = form
 -  const attrCode = attribute_code as keyof ProductAttributeFilterInput
+-  const name = `filters.${attrCode}` as const
 +  const attrCode = attribute_code ||""
-   const name = `filters.${attrCode}` as const
++  const name = `filters.${attrCode}` as any
  
    const param = params.filters?.[attrCode]
+   if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
 @@ -35,21 +34,55 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
          return (
@@ -232,10 +325,10 @@ index 918ce2e..08b8d50 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..b7e4f8e 100644
+index 80912c1..c7d0390 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,90 @@ import {
+@@ -10,47 +10,89 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -321,7 +414,6 @@ index 80912c1..b7e4f8e 100644
 +        <Button
 +          sx={{
 +            color: '#969696',
-+            fontFamily: "'Bricolage Grotesque', sans-serif",
 +            fontSize: { sm: '12px', md: '14px' },
 +            fontWeight: 400,
 +            textDecoration: 'underline',
@@ -341,7 +433,7 @@ index 80912c1..b7e4f8e 100644
        }
        details={
          <ActionCardList
-@@ -68,6 +111,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+@@ -68,6 +110,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard
@@ -586,7 +678,7 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..6983f2c 100644
+index 9dc2505..6533582 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,6 +1,7 @@
@@ -650,32 +742,31 @@ index 9dc2505..6983f2c 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -40,8 +61,12 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -40,8 +61,11 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
            display: 'inline',
            color: 'text.primary',
            overflowWrap: 'break-word',
 -          maxWidth: '100%',
 +          // maxWidth: '100%',
            gridArea: 'title',
-+          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' },
-+          minHeight:'55px'
++          minHeight:'30px'
          }}
          className={classes.title}
        >
-@@ -49,7 +74,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -49,7 +73,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
        </Typography>
  
        {subTitle && (
 -        <Box sx={{ gridArea: 'subtitle' }} className={classes.subtitle}>
-+        <Box sx={{ gridArea: 'subtitle',fontFamily: "'Bricolage Grotesque', sans-serif",
++        <Box sx={{ gridArea: 'subtitle',
 +          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' }, }} className={classes.subtitle}>
            {subTitle}
          </Box>
        )}
-@@ -58,10 +85,16 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -58,10 +84,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
          component='div'
          variant='body1'
          className={productListPrice.classes.root}
@@ -687,7 +778,18 @@ index 9dc2505..6983f2c 100644
 +
 +
 + <Box sx={{ gridArea: 'priceButton' }}>
-+   <AddProductsToCartFab sku={sku}  />
++   <AddProductsToCartFab sku={sku} sx={{
++    height:'50px',
++    width:'50px',
++     '& svg': {
++     fontSize: '25px',
++     stroke: 'unset !important',
++     left: '6px',
++      top: '3px',
++      position:'relative'
++         },
++         
++   }}  />
 + </Box>
 +     
      </Box>
@@ -719,3 +821,59 @@ index 1d42a06..c70ff79 100644
        >
          <Money {...final_price} />
        </PrivateQueryMask>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
+index e920423..e993817 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
+@@ -12,7 +12,7 @@ export type ProductPageGalleryProps = Omit<SidebarGalleryProps, 'sidebar' | 'ima
+ }
+ 
+ export function ProductPageGallery(props: ProductPageGalleryProps) {
+-  const { product, children, aspectRatio: [width, height] = [1532, 1678], ...sidebarProps } = props
++  const { product, children, aspectRatio: [width, height] = [682, 682], ...sidebarProps } = props
+   const { media_gallery } = product
+ 
+   const images =
+@@ -40,6 +40,8 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+       sidebar={children}
+       aspectRatio={[width, height]}
+       images={images}
++      disableZoom={true}
++     
+     />
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
+index ef066ad..2fb415e 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
+@@ -42,7 +42,7 @@ export const ProductScroller = forwardRef<HTMLDivElement, ProductScrollerProps>(
+       <Box sx={sx} ref={ref}>
+         <Container maxWidth={false} {...containerProps}>
+           {title && (
+-            <Typography variant='h2' sx={{ marginBottom: theme.spacings.sm }} {...titleProps}>
++            <Typography variant='h2' sx={{ marginBottom: theme.spacings.sm, textAlign:{xs:'center', md:'start'}}} {...titleProps}>
+               {title}
+             </Typography>
+           )}
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
+index 002f6d1..b1dd83e 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
+@@ -14,14 +14,14 @@ export function ProductShortDescription(props: ProductShortDescriptionProps) {
+   const { product, sx = [] } = props
+   const { short_description } = product
+ 
+-  if (!short_description?.html) return null
++  // if (!short_description?.html) return null
+ 
+   return (
+     <Typography
+       variant='body1'
+       component='div'
+       className={classes.description}
+-      dangerouslySetInnerHTML={{ __html: short_description?.html ?? '' }}
++      dangerouslySetInnerHTML={{ __html: short_description?.html || "Our cakes are not just desserts—they're edible masterpieces. We specialize in creating highly detailed" }}
+       sx={[
+         {
+           '& > p:first-of-type': { marginTop: 0 },

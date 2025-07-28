@@ -1,10 +1,32 @@
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
-index ad0f044..4c77884 100644
+index ad0f044..ee1f262 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/ProductWishlistChip/ProductWishlistIconButton.tsx
-@@ -36,12 +36,16 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -18,6 +18,7 @@ export type ProductWishlistChipProps = ProductListItemFragment & {
+   sx?: SxProps<Theme>
+   buttonProps?: IconButtonProps
+   iconSvgProps?: Partial<IconSvgProps>
++  bigButton?:boolean
+ }
+ 
+ const compName = 'ProductWishlistChipBase'
+@@ -25,7 +26,7 @@ const parts = ['root', 'wishlistIcon', 'wishlistIconActive', 'wishlistButton'] a
+ const { classes } = extendableComponent(compName, parts)
+ 
+ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((props) => {
+-  const { buttonProps, iconSvgProps, sx = [], ...product } = props
++  const { buttonProps, iconSvgProps, sx = [],bigButton = false , ...product } = props
+   const enabled = useWishlistEnabled()
+   const { current, onClick, cancelBubble, showSuccess, hideShowSuccess } =
+     useAddProductToWishlistAction({ product, index: 0 })
+@@ -34,14 +35,20 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+ 
+   return (
      <Box>
-       <IconButton
+-      <IconButton
++      {bigButton ? (
++        <Button   onClick={onClick} sx={sx}>Buy Now</Button>
++      ): <IconButton
          onClick={onClick}
 -        onMouseDown={cancelBubble}
 -        onTouchStart={cancelBubble}
@@ -14,7 +36,7 @@ index ad0f044..4c77884 100644
          className={classes.wishlistButton}
          {...buttonProps}
 -        sx={[(theme) => ({ padding: theme.spacings.xxs }), ...(Array.isArray(sx) ? sx : [sx])]}
-+        sx={[(theme) => ({  backgroundColor:'#fff', padding:'13px 15px', backdropFilter:'blur(4px)',marginTop:{sm:'10px',md:'15px'}, marginRight:{sm:'10px',md:'15px'},'&:hover':{
++        sx={[(theme) => ({  backgroundColor:'#fff', padding:'10px ', backdropFilter:'blur(4px)',marginTop:{sm:'10px',md:'10px'}, marginRight:{sm:'10px',md:'10px'},'&:hover':{
 +          backgroundColor: '#fff',
 +        },'&:focus':{
 +          backgroundColor: '#fff',
@@ -22,16 +44,16 @@ index ad0f044..4c77884 100644
          title={
            current ? i18n._(/* i18n */ 'Remove from wishlist') : i18n._(/* i18n */ 'Add to wishlist')
          }
-@@ -54,7 +58,7 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -54,7 +61,7 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
              src={iconHeart}
              size='medium'
              className={classes.wishlistIconActive}
 -            sx={(theme) => ({ color: theme.palette.primary.main, fill: 'currentcolor' })}
-+            sx={(theme) => ({ color: '#F1A8B6', fill: '#F1A8B6' ,})}
++            sx={(theme) => ({ color: '#F1A8B6', fill: '#F1A8B6' ,stroke: '#F1A8B6'})}
              {...iconSvgProps}
            />
          ) : (
-@@ -63,10 +67,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+@@ -63,10 +70,9 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
              size='medium'
              className={classes.wishlistIcon}
              sx={(theme) => ({
@@ -39,16 +61,32 @@ index ad0f044..4c77884 100644
 -                theme.palette.mode === 'light'
 -                  ? theme.palette.text.secondary
 -                  : theme.palette.background.paper,
-+              color:'#F1A8B6',
-+              
++             
++              stroke: '#F1A8B6',
++              fontSize:'18px',
                '.SidebarGallery-root &': {
                  // todo
                  color:
+@@ -78,7 +84,8 @@ export const ProductWishlistIconButton = React.memo<ProductWishlistChipProps>((p
+             {...iconSvgProps}
+           />
+         )}
+-      </IconButton>
++      </IconButton>}
++     
+ 
+       {import.meta.graphCommerce.wishlistShowFeedbackMessage && (
+         <MessageSnackbar
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
-index 4c94637..947781f 100644
+index 4c94637..3741f15 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistFab/WishlistFab.tsx
-@@ -10,6 +10,7 @@ export type WishlistFabContentProps = {
+@@ -6,10 +6,11 @@ import React from 'react'
+ import { useWishlistEnabled, useWishlistItems } from '../../hooks'
+ 
+ export type WishlistFabContentProps = {
+-  icon?: React.ReactNode
++  icon?: React.ReactNode | any
    FabProps?: Omit<FabPropsType, 'children'>
    BadgeProps?: BadgeProps
    sx?: SxProps<Theme>
@@ -65,7 +103,7 @@ index 4c94637..947781f 100644
  
    const wishlistIcon = icon ?? <IconSvg src={iconHeart} size='large' />
  
-@@ -35,7 +36,19 @@ function WishlistFabContent(props: WishlistFabContentProps) {
+@@ -35,11 +36,41 @@ function WishlistFabContent(props: WishlistFabContentProps) {
      >
        <NoSsr fallback={wishlistIcon}>
          {activeWishlist ? (
@@ -80,13 +118,36 @@ index 4c94637..947781f 100644
 +     textAlign:'center',
 +     fontSize:'9px',
 +     minWidth:'12px',
-+     height:'14px'
++     height:'14px',
++      right:'3px',
++     top:'4px'
 +    },
 +  }}  badgeContent={length} overlap='circular' {...BadgeProps}>
              {wishlistIcon}
            </DesktopHeaderBadge>
          ) : (
-@@ -54,10 +67,11 @@ export function WishlistFab(props: WishlistFabProps) {
+-          wishlistIcon
++          <DesktopHeaderBadge sx={{
++    '& .MuiBadge-badge': { 
++      backgroundColor: '#FF0000',
++      color:'#fff',
++      display:'flex',
++      alignItems:'center',
++     justifyContent:'center',
++     textAlign:'center',
++     fontSize:'9px',
++     minWidth:'12px',
++     height:'14px',
++      right:'3px',
++     top:'4px'
++    },
++  }}  badgeContent={length} overlap='circular' {...BadgeProps}>
++            {wishlistIcon}
++          </DesktopHeaderBadge>
+         )}
+       </NoSsr>
+     </Fab>
+@@ -54,10 +85,11 @@ export function WishlistFab(props: WishlistFabProps) {
  
    if (!enabled) return null
    const activeWishlist = wishlist.items.length > 0

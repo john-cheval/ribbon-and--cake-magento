@@ -1,5 +1,6 @@
 /// <reference types="@graphcommerce/next-ui/types" />
 
+import { type } from 'os'
 import {
   breakpointVal,
   MuiButtonInline,
@@ -18,10 +19,31 @@ import type { LinkProps } from '@mui/material/Link'
 import { Components, PaletteOptions } from '@mui/material/styles'
 import { saxoGrammaticus } from '../lib/fonts'
 
-const lightPalette: PaletteOptions = {
+type ThemePaletteOptions = PaletteOptions & {
+  custom: {
+    main?: string
+    secondary?: string
+    tertiary?: string
+    heading?: string
+    dark?: string
+    border?: string
+  }
+}
+
+const lightPalette: ThemePaletteOptions = {
   mode: 'light',
+  custom: {
+    main: '#441E14',
+    heading: '#9B7C38',
+    secondary: '#6F6F6F',
+    tertiary: '#969696',
+    dark: '#000',
+    border: '#F6DBE0',
+
+    //carry on okay
+  },
   primary: {
-    main: '#000000',
+    main: '#441E14',
     contrastText: '#ffffff',
     dark: '#000000',
     // link: '#2A110A',
@@ -99,8 +121,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
     ...themeBaseDefaults,
     shape: { borderRadius: 3 },
     typography: {
-      fontFamily:
-        '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji',
+      fontFamily: "'Bricolage Grotesque', sans-serif",
       // @see docs typography.md
       h1: {
         ...commonHeadingProperties,
@@ -202,7 +223,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
     },
     appShell: {
       headerHeightSm: '46px',
-      headerHeightMd: '100px',
+      headerHeightMd: '80px',
       appBarHeightMd: '80px',
       appBarInnerHeightMd: '46px',
       containerSizingShell:

@@ -37,7 +37,7 @@ export function HeroSwiper() {
                   'linear-gradient(90deg, rgba(255, 255, 255, 0.73) 0%, rgba(255, 255, 255, 0.79) 100%)',
                 backdropFilter: 'blur(4.050000190734863px)',
                 padding: '10px',
-                borderRadius: '4px',
+                borderRadius: '8px',
                 display: 'flex',
                 gap: '18px',
                 alignItems: 'center',
@@ -50,7 +50,9 @@ export function HeroSwiper() {
                 height={100}
                 sizes='100vw'
                 sx={{
-                  maxWidth: '100px',
+                  maxWidth: 'auto',
+                  height: 'auto',
+                  maxHeight: '100px',
                   objectFit: 'cover',
                   borderRadius: '4px',
                 }}

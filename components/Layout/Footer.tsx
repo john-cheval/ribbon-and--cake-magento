@@ -228,6 +228,10 @@ export function Footer() {
                           marginRight: '-14px',
                           borderRadius: '0px 8px 8px 0px',
                           overflow: 'hidden',
+
+                          '&:hover': {
+                            backgroundColor: '#9B7C38',
+                          },
                         },
                       }}
                     >

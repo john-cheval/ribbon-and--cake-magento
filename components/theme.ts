@@ -275,7 +275,7 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
 
   MuiLink: { defaultProps: { component: NextLink } as LinkProps },
 
-  MuiButtonBase: { defaultProps: { LinkComponent: NextLink } },
+  MuiButtonBase: { defaultProps: { LinkComponent: NextLink, disableRipple: true } },
 
   MuiContainer: {
     variants: [

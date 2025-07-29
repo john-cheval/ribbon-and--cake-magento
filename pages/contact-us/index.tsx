@@ -20,10 +20,9 @@ function ContactPage(props) {
         canonical='/Contact'
       />
 
-      {/* <InnerTop title={'Contact'} isFilter={false} />
+      <InnerTop title={'Contact'} isFilter={false} />
 
-     <Contact />*/}
-      <p>This is the contact ppage</p>
+      <Contact />
     </>
   )
 }

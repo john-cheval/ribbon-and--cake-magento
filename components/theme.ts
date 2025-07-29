@@ -28,6 +28,7 @@ type ThemePaletteOptions = PaletteOptions & {
     dark?: string
     border?: string
     smallHeading?: string
+    borderInput?: string
   }
 }
 
@@ -41,6 +42,7 @@ const lightPalette: ThemePaletteOptions = {
     dark: '#000',
     border: '#F6DBE0',
     smallHeading: '#2A110A',
+    borderInput: '#D5B1B8',
 
     //carry on okay
   },

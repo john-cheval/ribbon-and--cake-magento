@@ -48,13 +48,13 @@ export function InnerTop(props: InnerTopProps) {
   }
 
   return (
-    <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
+    <Box sx={{ paddingInline: { xs: '18px', md: '25px', xl: '55px' } }}>
       <Box
         sx={[
           {
             borderTop: '1px solid #d4d4d4',
             ...((isFilter || mainTitle) && { borderBottom: '1px solid #d4d4d4' }),
-            paddingBlock: '15px',
+            paddingBlock: { xs: '10px', lg: '15px' },
           },
 
           ...(Array.isArray(sx) ? sx : [sx]),
@@ -71,10 +71,10 @@ export function InnerTop(props: InnerTopProps) {
           >
             <Typography
               component='p'
-              variant='p'
               sx={{
-                color: '#969696 !important',
+                color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
+                fontSize: { xs: '14px', md: '16px' },
               }}
             >
               <Link href='/'>Home</Link>
@@ -95,10 +95,10 @@ export function InnerTop(props: InnerTopProps) {
 
             <Typography
               component='p'
-              variant='p'
               sx={{
-                color: '#969696 !important',
+                color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
+                fontSize: { xs: '14px', md: '16px' },
               }}
             >
               {title}

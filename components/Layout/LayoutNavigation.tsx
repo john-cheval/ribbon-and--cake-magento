@@ -134,11 +134,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           top: '0',
           left: '0',
           width: '100%',
-          paddingInline: { xs: '18px', md: '25px', xl: '55px' },
           // paddingLeft:''
           ['& .LayoutDefault-header']: {
-            paddingInline: '0 !important',
             height: { xs: '65px', md: '80px' },
+            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+
             ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
           },
         }}
@@ -288,8 +288,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
             </MobileTopRight>*/}
           </>
         }
-        // footer={<Footer />}
-        footer={<p>Hello Footer</p>}
+        footer={<Footer />}
         // cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
         // menuFab={<NavigationFab onClick={() => selection.set([])} />}
       >

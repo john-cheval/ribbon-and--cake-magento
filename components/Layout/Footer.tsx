@@ -5,28 +5,26 @@ import { Image } from '@graphcommerce/image'
 // import { DateFormat, Footer as FooterBase } from '@graphcommerce/next-ui'
 import { css } from '@emotion/react'
 // import { Trans } from '@lingui/macro'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
 import { useState } from 'react'
-import { AiFillInstagram } from 'react-icons/ai'
-import { FaTiktok, FaWhatsapp } from 'react-icons/fa'
+import { FaWhatsapp } from 'react-icons/fa'
 import { FaLocationDot } from 'react-icons/fa6'
 import { cardData, footerData, locationData } from '../../constants/Home'
 import footerLogo from '../Assets/footer_logo.svg'
-import google from '../Assets/google.svg'
-import instagram from '../Assets/instagram.svg'
 import send from '../Assets/send.svg'
+import FooterAccordion from './MobileFooter/FooterAccordion'
+import FooterSocial from './MobileFooter/FooterSocial'
 
 const inputStyle = css`
-  color: #000;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  color: #441e14;
   font-weight: 400;
   line-height: 31px;
   font-size: 16px;
   padding: 15px 20px;
   outline: none;
   border: none;
-  background-color: transparent;
+  background-color: #f6f6f6;
 
   ::placeholder {
     color: #000;
@@ -55,17 +53,24 @@ export function Footer() {
   // const cartEnabled = useCheckoutGuestEnabled()
   // const config = useQuery(StoreConfigDocument)
   const [email, setEmail] = useState('')
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
+  const [expandedPanel, setExpandedPanel] = useState<number | null>(null)
 
   // const websiteName = config.data?.storeConfig?.website_name
   // const year = <DateFormat dateStyle={undefined} year='numeric' date={new Date()} />
-
+  const handleChange =
+    (panelIndex: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpandedPanel(isExpanded ? panelIndex : null)
+    }
   return (
     <Box
       component='footer'
       sx={{
         backgroundColor: '#F6F6F6',
-        paddingTop: '65px',
-        paddingInline: '55px',
+        paddingTop: { xs: '30px', md: '40px', lg: '50px', xl: '65px' },
+        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingBottom: { xs: '80px', lg: '0' },
       }}
     >
       <Box
@@ -73,9 +78,10 @@ export function Footer() {
         sx={{
           display: 'flex',
           columnGap: '20px',
-          justifyContent: 'space-between',
-          paddingBottom: '40px',
-          borderBottom: '1px solid #D8D8D8;',
+          justifyContent: { xs: 'start', lg: 'space-between' },
+          paddingBottom: { xs: '20px', md: '30px', lg: '40px' },
+          borderBottom: '1px solid #D8D8D8',
+          flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
         <Box>
@@ -87,134 +93,82 @@ export function Footer() {
             sizes='100vw'
             sx={{
               width: '100%',
-              // maxWidth: '202px',
-              // objectFit: 'cover',
               marginBottom: '25px',
+              maxWidth: { xs: '180px', md: '250px', lg: '100%' },
             }}
           />
 
-          <Box>
-            <Typography
-              sx={{
-                backgroundColor: (theme: any) => theme.palette.custom.border,
-                padding: '8px 17px',
-                borderRadius: '999px',
-                color: (theme: any) => theme.palette.custom.main,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              }}
-            >
-              <Link
-                href='/'
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Image
-                  src={instagram}
-                  width={30}
-                  height={30}
-                  sx={{
-                    width: '100%',
-                    height: 'auto',
-                    verticalAlign: 'center',
-                    position: 'relative',
-                    top: '4px',
-                  }}
-                />
-                Follow US
-              </Link>
-            </Typography>
-
-            <Typography
-              sx={{
-                backgroundColor: (theme: any) => theme.palette.custom.border,
-                padding: '8px 17px',
-                borderRadius: '999px',
-                color: (theme: any) => theme.palette.custom.main,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                marginTop: '9px',
-              }}
-            >
-              <Link
-                href='/'
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Image
-                  src={google}
-                  width={30}
-                  height={30}
-                  sx={{
-                    width: '100%',
-                    height: 'auto',
-                    verticalAlign: 'center',
-                    position: 'relative',
-                    top: '4px',
-                  }}
-                />
-                Review on Google
-              </Link>
-            </Typography>
+          <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
+            <FooterSocial />
           </Box>
         </Box>
 
-        {footerData?.map((data, index) => (
-          <Box component='div' key={data?.id || index}>
-            <Typography
-              component='p'
-              sx={{
-                color: '#2A110A',
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontSize: '20px',
-                fontWeight: 700,
-                lineHeight: '33px',
-                marginBottom: '5px',
-              }}
-            >
-              {data?.mainTitle}
-            </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '5px',
-              }}
-            >
-              {data?.links?.map((link, idx) => (
-                <Link
-                  style={{
-                    textDecoration: 'none',
-                    color: '#2A110A',
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                    fontSize: '16px',
-                    fontWeight: 400,
+        {isMobile
+          ? footerData?.map((data, index) => (
+              <Box
+                key={index}
+                sx={{
+                  borderBottom: '1px solid #C5C5C5',
+                  borderTop: index === 0 ? '1px solid #C5C5C5' : 'none',
+                }}
+              >
+                <FooterAccordion
+                  linksData={data}
+                  expanded={expandedPanel === index}
+                  onChange={handleChange(index)}
+                  id={index}
+                />
+              </Box>
+            ))
+          : footerData?.map((data, index) => (
+              <Box component='div' key={data?.id || index}>
+                <Typography
+                  component='p'
+                  sx={{
+                    color: (theme: any) => theme.palette.custom.smallHeading,
+                    fontSize: '20px',
+                    fontWeight: 700,
                     lineHeight: '33px',
+                    marginBottom: '5px',
                   }}
-                  key={link?.id || idx}
-                  href={link?.href || '/'}
                 >
-                  {link?.link}
-                </Link>
-              ))}
-            </Box>
-          </Box>
-        ))}
+                  {data?.mainTitle}
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5px',
+                  }}
+                >
+                  {data?.links?.map((link, idx) => (
+                    <Link
+                      style={{
+                        textDecoration: 'none',
+                        color: '#2A110A',
+                        fontSize: '16px',
+                        fontWeight: 400,
+                        lineHeight: '33px',
+                      }}
+                      key={link?.id || idx}
+                      href={link?.href || '/'}
+                    >
+                      {link?.link}
+                    </Link>
+                  ))}
+                </Box>
+              </Box>
+            ))}
 
-        <Box component='div'>
+        <Box component='div' sx={{ marginTop: { xs: '10px', lg: '0', textAlign: 'center' } }}>
           <Typography
             component='p'
             sx={{
-              color: '#2A110A',
-              fontFamily: "'Bricolage Grotesque', sans-serif",
-              fontSize: '20px',
+              color: (theme: any) => theme.palette.custom.smallHeading,
+              fontSize: { xs: '14px', md: '16px', lg: '20px' },
               fontWeight: 700,
               lineHeight: '33px',
-              marginBottom: '5px',
+              marginBottom: { xs: 0, lg: '5px' },
             }}
           >
             Subscribe
@@ -223,12 +177,12 @@ export function Footer() {
           <Typography
             component='p'
             sx={{
-              color: '#2A110A',
-              fontFamily: "'Bricolage Grotesque', sans-serif",
-              fontSize: '16px',
+              color: (theme: any) => theme.palette.custom.smallHeading,
+              fontSize: { xs: '14px', md: '16px' },
               fontWeight: 400,
-              lineHeight: '31px',
-              maxWidth: '320px',
+              lineHeight: { xs: '20px', lg: '31px' },
+              maxWidth: { xs: '100%', lg: '320px' },
+              textAlign: { xs: 'center', lg: 'left' },
             }}
           >
             Please enter your email address to receivedaily newsletter of our blog posts.
@@ -240,26 +194,27 @@ export function Footer() {
                 position: 'relative',
                 border: '1px solid #9B7C38',
                 borderRadius: '8px',
-                marginTop: '50px',
-                marginBottom: '25px',
+                marginTop: { xs: '10px', sm: '15px', lg: '50px' },
+                marginBottom: { xs: '20px', lg: '25px' },
+                maxWidth: { xs: '100%', md: '500px', lg: '100%' },
+                marginInline: { xs: ' auto', lg: '0' },
               }}
             >
               <Box
-                component='input' // Render Box as an input element
+                component='input'
                 placeholder='Your email id'
                 name='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                css={inputStyle} // Apply the css prop here
+                css={inputStyle}
               />
-
               <Box
                 sx={{
                   position: 'absolute',
                   backgroundColor: '#9B7C38',
                   padding: '14px 24px',
                   right: 0,
-                  top: 0,
+                  top: '0',
                   bottom: 0,
                   height: '100%',
                   borderRadius: '0px 8px 8px 0px',
@@ -274,67 +229,24 @@ export function Footer() {
                   height={24}
                   sizes='100vw'
                   sx={{
-                    width: '100%',
-                    maxWidth: '24px',
+                    width: '24px',
+                    verticalAlign: 'center',
 
                     // objectFit: 'cover',
                   }}
                 />
               </Box>
             </Box>
-            {/*
             <Box
-              component='div'
               sx={{
-                display: 'flex',
-                gap: '23px',
+                display: { xs: 'flex', lg: 'none' },
+                columnGap: '10px',
+                justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Typography
-                component='span'
-                sx={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontWeight: 400,
-                  lineHeight: '205.5%',
-                  fontSize: '16px !important',
-                  color: '#333',
-                  // marginTop: '25px',
-                }}
-              >
-                Spread The Love
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                }}
-              >
-                <Link
-                  href='/'
-                  target='_blank'
-                  style={{
-                    textDecoration: 'none',
-                    color: '#441E14',
-                    fontSize: '24px',
-                  }}
-                >
-                  <AiFillInstagram />
-                </Link>
-                <Link
-                  href='/'
-                  target='_blank'
-                  style={{
-                    textDecoration: 'none',
-                    color: '#441E14',
-                    fontSize: '20px',
-                  }}
-                >
-                  <FaTiktok />
-                </Link>
-              </Box>
-            </Box>  */}
+              <FooterSocial />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -343,94 +255,103 @@ export function Footer() {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-between',
-          paddingBlock: '45px',
-          borderBottom: '1px solid #D8D8D8',
+          justifyContent: { xs: 'start', lg: 'space-between' },
+          paddingBlock: { xs: '0 15px', md: '10px 25px 0px', lg: '45px' },
+          borderBottom: isMobile ? 'none' : '1px solid #D8D8D8',
+          flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        {locationData?.map((locate, index) => (
-          <Box
-            key={locate?.id || index}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '15px',
-            }}
-          >
-            <Typography
-              component='p'
-              sx={{
-                color: '#2A110A',
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontSize: '20px',
-                fontWeight: 700,
-                lineHeight: '33px',
-              }}
-            >
-              {locate?.location}
-            </Typography>
-
-            <Box>
+        {isMobile
+          ? locationData?.map((locate, index) => (
+              <Box key={index} sx={{ borderBottom: '1px solid #C5C5C5' }}>
+                <FooterAccordion
+                  linksData={locate}
+                  expanded={expandedPanel === index + 1 * 10}
+                  onChange={handleChange(index + 1 * 10)}
+                  id={index}
+                  isLocation={true}
+                />
+              </Box>
+            ))
+          : locationData?.map((locate, index) => (
               <Box
+                key={locate?.id || index}
                 sx={{
-                  minHeight: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '15px',
                 }}
               >
                 <Typography
                   component='p'
                   sx={{
-                    color: '#2A110A',
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                    fontSize: '16px',
-                    fontWeight: 400,
+                    color: (theme: any) => theme.palette.custom.smallHeading,
+                    fontSize: '20px',
+                    fontWeight: 700,
                     lineHeight: '33px',
-                    maxWidth: '310px',
                   }}
                 >
-                  {locate?.address}
+                  {locate?.location}
                 </Typography>
 
-                <Link
-                  href={`tel:${locate?.phone}`}
-                  style={{
-                    color: '#2A110A',
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    lineHeight: '33px',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {locate?.phone}
-                </Link>
-              </Box>
+                <Box>
+                  <Box
+                    sx={{
+                      minHeight: '100px',
+                    }}
+                  >
+                    <Typography
+                      component='p'
+                      sx={{
+                        color: (theme: any) => theme.palette.custom.smallHeading,
+                        fontSize: '16px',
+                        fontWeight: 400,
+                        lineHeight: '33px',
+                        maxWidth: '310px',
+                      }}
+                    >
+                      {locate?.address}
+                    </Typography>
 
-              <Link href={locate?.map || '/'} passHref legacyBehavior>
-                <Box
-                  component='a'
-                  sx={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    lineHeight: '31px',
-                    color: '#9B7C38',
-                    border: '1px solid #9B7C38',
-                    borderRadius: '50px',
-                    padding: '8px 25px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    columnGap: '10px',
-                    width: 'fit-content',
-                    textDecoration: 'none',
-                    marginTop: '15px',
-                  }}
-                >
-                  View Map <FaLocationDot />
+                    <Link
+                      href={`tel:${locate?.phone}`}
+                      style={{
+                        color: '#2A110A',
+                        fontSize: '16px',
+                        fontWeight: 400,
+                        lineHeight: '33px',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {locate?.phone}
+                    </Link>
+                  </Box>
+
+                  <Link href={locate?.map || '/'} passHref legacyBehavior>
+                    <Box
+                      component='a'
+                      sx={{
+                        fontSize: '16px',
+                        fontWeight: 400,
+                        lineHeight: '31px',
+                        color: (theme: any) => theme.palette.custom.heading,
+                        border: '1px solid #9B7C38',
+                        borderRadius: '50px',
+                        padding: '8px 25px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        columnGap: '10px',
+                        width: 'fit-content',
+                        textDecoration: 'none',
+                        marginTop: '15px',
+                      }}
+                    >
+                      View Map <FaLocationDot />
+                    </Box>
+                  </Link>
                 </Box>
-              </Link>
-            </Box>
-          </Box>
-        ))}
+              </Box>
+            ))}
       </Box>
 
       {/* Footer Bootom */}
@@ -438,19 +359,26 @@ export function Footer() {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: { xs: 'start', lg: 'space-between' },
           alignItems: 'center',
           paddingBlock: '16px',
+          flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Box sx={{ display: 'flex', gap: '23px', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: { xs: '5px', md: '13px', lg: '23px' },
+            alignItems: 'center',
+            flexDirection: { xs: 'column', lg: 'row' },
+          }}
+        >
           <Typography
             component='span'
             sx={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
               fontWeight: 400,
               lineHeight: '205.5%',
-              fontSize: '16px !important',
+              fontSize: { xs: '14px', md: '16px' },
               color: '#333',
               // marginTop: '25px',
             }}
@@ -468,7 +396,7 @@ export function Footer() {
                 height={24}
                 sizes='100vw'
                 sx={{
-                  width: '100%',
+                  width: { xs: '35px', md: '40px' },
                   // maxWidth: '202px',
                   // objectFit: 'cover',
                 }}
@@ -480,12 +408,12 @@ export function Footer() {
         <Typography
           component='span'
           sx={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
             fontWeight: 400,
             lineHeight: '205.5%',
-            fontSize: '16px !important',
-            color: '#000',
+            fontSize: { xs: '14px', md: '16px' },
+            color: (theme: any) => theme.palette.custom.dark,
             textDecoration: 'none',
+            textAlign: { xs: 'center', lg: 'left' },
             // marginTop: '25px',
           }}
         >
@@ -507,7 +435,7 @@ export function Footer() {
         <Box
           sx={{
             width: '100%',
-            display: 'flex',
+            display: { xs: 'none', lg: 'flex' },
             justifyContent: 'end',
           }}
         >
@@ -519,7 +447,7 @@ export function Footer() {
               position: 'fixed',
               right: '20px',
               bottom: '20px',
-              color: '#FFFFFF',
+              color: (theme: any) => theme.palette.primary.contrastText,
               zIndex: '8888888',
               display: 'flex',
               alignItems: 'center',

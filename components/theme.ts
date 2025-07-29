@@ -27,6 +27,7 @@ type ThemePaletteOptions = PaletteOptions & {
     heading?: string
     dark?: string
     border?: string
+    smallHeading?: string
   }
 }
 
@@ -39,6 +40,7 @@ const lightPalette: ThemePaletteOptions = {
     tertiary: '#969696',
     dark: '#000',
     border: '#F6DBE0',
+    smallHeading: '#2A110A',
 
     //carry on okay
   },

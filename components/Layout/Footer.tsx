@@ -3,9 +3,17 @@ import { Image } from '@graphcommerce/image'
 // import { useCheckoutGuestEnabled } from '@graphcommerce/magento-cart'
 // import { StoreConfigDocument } from '@graphcommerce/magento-store'
 // import { DateFormat, Footer as FooterBase } from '@graphcommerce/next-ui'
-import { css } from '@emotion/react'
+// import { css } from '@emotion/react'
 // import { Trans } from '@lingui/macro'
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import Link from 'next/link'
 import { useState } from 'react'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -15,39 +23,6 @@ import footerLogo from '../Assets/footer_logo.svg'
 import send from '../Assets/send.svg'
 import FooterAccordion from './MobileFooter/FooterAccordion'
 import FooterSocial from './MobileFooter/FooterSocial'
-
-const inputStyle = css`
-  color: #441e14;
-  font-weight: 400;
-  line-height: 31px;
-  font-size: 16px;
-  padding: 15px 20px;
-  outline: none;
-  border: none;
-  background-color: #f6f6f6;
-
-  ::placeholder {
-    color: #000;
-    opacity: 1;
-    font-family: 'Bricolage Grotesque', sans-serif;
-  }
-  /* Add vendor prefixes for wider browser compatibility with placeholder */
-  &::-webkit-input-placeholder {
-    color: #000;
-    opacity: 1;
-    font-family: 'Bricolage Grotesque', sans-serif;
-  }
-  &::-moz-placeholder {
-    color: #000;
-    opacity: 1;
-    font-family: 'Bricolage Grotesque', sans-serif;
-  }
-  &::-ms-input-placeholder {
-    color: #000;
-    opacity: 1;
-    font-family: 'Bricolage Grotesque', sans-serif;
-  }
-`
 
 export function Footer() {
   // const cartEnabled = useCheckoutGuestEnabled()
@@ -160,7 +135,7 @@ export function Footer() {
               </Box>
             ))}
 
-        <Box component='div' sx={{ marginTop: { xs: '10px', lg: '0', textAlign: 'center' } }}>
+        <Box component='div' sx={{ marginTop: { xs: '10px', lg: '0' } }}>
           <Typography
             component='p'
             sx={{
@@ -169,6 +144,7 @@ export function Footer() {
               fontWeight: 700,
               lineHeight: '33px',
               marginBottom: { xs: 0, lg: '5px' },
+              textAlign: { xs: 'center', lg: 'left' },
             }}
           >
             Subscribe
@@ -191,52 +167,96 @@ export function Footer() {
           <Box>
             <Box
               sx={{
-                position: 'relative',
-                border: '1px solid #9B7C38',
-                borderRadius: '8px',
                 marginTop: { xs: '10px', sm: '15px', lg: '50px' },
                 marginBottom: { xs: '20px', lg: '25px' },
-                maxWidth: { xs: '100%', md: '500px', lg: '100%' },
                 marginInline: { xs: ' auto', lg: '0' },
+                maxWidth: { xs: '100%', md: '500px', lg: '100%' },
               }}
             >
-              <Box
-                component='input'
+              <TextField
+                size='small'
+                type='email'
+                // label='Your email id'
                 placeholder='Your email id'
-                name='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                css={inputStyle}
-              />
-              <Box
                 sx={{
-                  position: 'absolute',
-                  backgroundColor: '#9B7C38',
-                  padding: '14px 24px',
-                  right: 0,
-                  top: '0',
-                  bottom: 0,
-                  height: '100%',
-                  borderRadius: '0px 8px 8px 0px',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Image
-                  src={send}
-                  alt='send'
-                  width={24}
-                  height={24}
-                  sizes='100vw'
-                  sx={{
-                    width: '24px',
-                    verticalAlign: 'center',
+                  '& .MuiFormLabel-root, & .MuiOutlinedInput-root input': {
+                    color: (theme: any) => theme.palette.custom?.smallHeading || 'inherit',
+                    fontSize: { xs: '14px', md: '16px' },
+                  },
+                  '&::placeholder': {
+                    color: 'red',
+                    opacity: 1,
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    border: '1px solid #9B7C38',
+                    boxShadow: 'none',
+                    borderRadius: '8px',
+                    outline: 'none',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      border: '1px solid #9B7C38',
+                      boxShadow: 'none',
+                    },
 
-                    // objectFit: 'cover',
-                  }}
-                />
-              </Box>
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      border: '1px solid #9B7C38 !important',
+                      boxShadow: 'none !important',
+                      outline: 'none !important',
+                    },
+
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      border: '1px solid #9B7C38 !important',
+                      boxShadow: 'none !important',
+                      outline: 'none !important',
+                    },
+
+                    '&.Mui-focused': {
+                      outline: 'none',
+                    },
+                  },
+                }}
+                // value={password}
+                // onChange={handlePassword}
+                required={true}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position='end'
+                      sx={{
+                        '& button ': {
+                          backgroundColor: '#9B7C38',
+                          padding: '4px 10px',
+                          marginRight: '-14px',
+                          borderRadius: '0px 8px 8px 0px',
+                          overflow: 'hidden',
+                        },
+                      }}
+                    >
+                      <IconButton
+                        aria-label='Your email id'
+                        // onClick={handleClickShowPassword}
+                        edge='end'
+                      >
+                        <Image
+                          src={send}
+                          alt='send'
+                          width={24}
+                          height={24}
+                          sizes='100vw'
+                          sx={{
+                            width: { xs: '20px', md: '24px' },
+                            verticalAlign: 'center',
+
+                            // objectFit: 'cover',
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
             </Box>
+
             <Box
               sx={{
                 display: { xs: 'flex', lg: 'none' },

@@ -113,12 +113,19 @@ export function InnerTop(props: InnerTopProps) {
         )}
 
         {isFilter && (
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'unset', md: 'space-between' },
+              alignItems: 'center',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 columnGap: '40px',
+                justifyContent: { xs: 'space-between', md: 'start' },
               }}
             >
               <Typography component='h2' variant='h2' sx={{}}>
@@ -127,11 +134,17 @@ export function InnerTop(props: InnerTopProps) {
 
               <ProductListCount
                 total_count={count}
-                sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em-' }}
+                sx={{
+                  gridArea: 'count',
+                  width: '100%',
+                  my: 0,
+                  height: '1em-',
+                  textAlign: { xs: 'right', md: 'left' },
+                }}
               />
             </Box>
 
-            <Box>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <Typography
                 variant='p'
                 sx={{

@@ -598,6 +598,18 @@ index b792f5c..1aaece7 100644
        style={{ bottom }}
        {...divProps}
      />
+diff --git a/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx b/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
+index 574754c..b4f2c56 100644
+--- a/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
++++ b/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
+@@ -114,6 +114,7 @@ export function ChipOverlayOrPopper(props: ChipOverlayOrPopperProps) {
+         {...panelProps}
+         title={label}
+         activeEl={activeEl}
++        
+         onReset={
+           onReset
+             ? () => {
 diff --git a/node_modules/@graphcommerce/next-ui/icons.interceptor.ts b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
 new file mode 100644
 index 0000000..414f989

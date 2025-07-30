@@ -73,7 +73,7 @@ index a1ec789..b365a43 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..0407060 100644
+index fb82adb..f438f99 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -124,7 +124,7 @@ index fb82adb..0407060 100644
  
            // The value has changed, rerender
            onChange(newVal)
-@@ -77,6 +83,28 @@ export function PriceSlider(props: PriceSliderProps) {
+@@ -77,6 +83,33 @@ export function PriceSlider(props: PriceSliderProps) {
          valueLabelFormat={renderMoney}
          className={classes.slider}
          step={1}
@@ -147,8 +147,13 @@ index fb82adb..0407060 100644
 +            height: '10px', 
 +            borderRadius: '50%', 
 +            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out', 
-+            
 +          },
++          '&  .MuiSlider-thumb[data-index="0"] .MuiSlider-valueLabelOpen':{
++            transform: 'translate(15px, 40%) scale(1)'
++          },
++          '&  .MuiSlider-thumb[data-index="1"] .MuiSlider-valueLabelOpen':{
++            transform: 'translate(-20px, 40%) scale(1)'
++          }
 +        })}
        />
      </Box>
@@ -321,11 +326,62 @@ index 918ce2e..08b8d50 100644
          },
        )}
      </>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
+index 5643683..7c28b93 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
+@@ -40,7 +40,7 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+ 
+   return (
+     <ChipOverlayOrPopper
+-      label={<Trans id='All filters' />}
++      label={<Trans id='Filter' />}
+       chipProps={{ variant: 'outlined' }}
+       onApply={submit}
+       onReset={hasFilters ? clearAll : undefined}
+@@ -48,20 +48,33 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+       selectedLabel={allFilters}
+       selected={hasFilters}
+       breakpoint={false}
+-      overlayProps={{ variantMd: 'right', widthMd: '500px' }}
++      overlayProps={{ variantMd: 'right', widthMd: '500px', sx:{
++        '& .LayoutOverlayBase-background':{
++           bottom:'80px',
++           position:'fixed',
++           minHeight:'80% !important', width:'100%',
++           borderRadius:'8px 8px 0 0 !important',
++           top:'unset',
++           '& .LayoutHeader-root':{display:'none'},
++           '& .OverlayPanelActions-content':{
++            paddingTop:'30px'
++           }
++          }
++      } }}
+       {...rest}
+     >
+       {() => (
+         <>
++        <ProductFiltersProAggregations
++            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
++          />
+           <ProductFiltersProSortSection
+             sort_fields={sort_fields}
+             total_count={total_count}
+             category={category}
+           />
+           <ProductFiltersProLimitSection />
+-          <ProductFiltersProAggregations
+-            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
+-          />
++          
+         </>
+       )}
+     </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..c7d0390 100644
+index 80912c1..9b47d50 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,89 @@ import {
+@@ -10,47 +10,91 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -368,7 +424,7 @@ index 80912c1..c7d0390 100644
 +          },
 +          '& .MuiAccordionSummary-root': {
 +            cursor: 'default',
-+            pointerEvents: 'none',
++            //pointerEvents: 'none',
 +            minHeight: 'auto !important',
 +
 +            '&:hover, &.Mui-focusVisible': {
@@ -391,6 +447,7 @@ index 80912c1..c7d0390 100644
 +        display: 'flex',
 +        alignItems: 'center',
 +        gap: '8px',
++        paddingTop:'15px'
 +      }}>
 +        {filterIcons && (
 +          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
@@ -413,6 +470,7 @@ index 80912c1..c7d0390 100644
 +            color: '#969696',
 +            fontSize: { sm: '12px', md: '14px' },
 +            fontWeight: 400,
++            cursor:'pointer',
 +            textDecoration: 'underline',
 +            '&:hover': {
 +              backgroundColor: 'transparent'
@@ -430,7 +488,7 @@ index 80912c1..c7d0390 100644
        }
        details={
          <ActionCardList
-@@ -68,6 +110,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+@@ -68,6 +112,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard

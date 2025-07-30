@@ -21,8 +21,8 @@ export function HomeCta(props) {
       <Box
         component='div'
         sx={{
-          paddingInline: '55px',
-          paddingTop: '77px',
+          paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+          paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px' },
         }}
       >
         <Box
@@ -50,13 +50,14 @@ export function HomeCta(props) {
               justifyContent: 'center',
               flexDirection: 'column',
               rowGap: '12px',
+              paddingInline: '20px',
             }}
           >
             <Typography
               component='h2'
               variant='h2'
               sx={{
-                color: '#fff !important',
+                color: (theme: any) => theme.palette.primary.contrastText,
                 maxWidth: '585px',
                 textAlign: 'center',
               }}
@@ -83,15 +84,15 @@ export function HomeCta(props) {
       <Box
         sx={{
           position: 'absolute',
-          top: '80px',
+          top: { xs: '40px', lg: '80px' },
           right: 0,
-          backgroundColor: '#F6DBE0',
+          backgroundColor: (theme: any) => theme.palette.custom.border,
           borderBlock: '1px solid #9B7C38',
           display: 'flex',
           columnGap: '50px',
           padding: '10px 0',
           alignItems: 'center',
-          transform: 'rotate(-2.939deg)',
+          transform: { xs: 'rotate(-5.939deg)', md: 'rotate(-2.939deg)' },
           width: '100%',
         }}
       >
@@ -107,7 +108,7 @@ export function HomeCta(props) {
               // maxWidth: '456px',
               objectFit: 'cover',
               flexShrink: 0,
-              width: '200px',
+              width: { xs: '115px', lg: '200px' },
               // borderRadius: '8px',
             }}
           />

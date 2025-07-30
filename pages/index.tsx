@@ -58,13 +58,13 @@ function CmsPage(props: CmsPageRouteProps) {
         canonical='/'
       />
 
-      <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
+      {/*  <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
         <LayoutTitle size='small' component='span'>
           Home
         </LayoutTitle>
       </LayoutHeader>
 
-      <LayoutHeader floatingMd floatingSm />
+      <LayoutHeader floatingMd floatingSm /> */}
 
       <HomePage />
 

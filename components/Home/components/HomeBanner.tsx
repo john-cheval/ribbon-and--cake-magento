@@ -2,11 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { IoArrowForwardSharp } from 'react-icons/io5'
 import { HeroSwiper } from '../../shared/swiper/HeroSwiper'
 
-// import { HomeBannerFragment } from './HomeBanner.gql'
-
-export function HomeBanner(props) {
-  // const { heroImage, title, description, linkText } = props
-
+export function HomeBanner() {
   return (
     <>
       <Box
@@ -17,7 +13,7 @@ export function HomeBanner(props) {
             'url(https://ap-south-1.graphassets.com/cmbta5lm400l901wb51h39wvi/cmcitkne9247407oel27xdbb6)',
           backgroundSize: 'cover',
           backgroundPosition: 'top center',
-          height: '90vh',
+          height: { xs: '600px', lg: '90vh' },
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -40,7 +36,7 @@ export function HomeBanner(props) {
             variant='h1'
             sx={{
               color: '#302100',
-              maxWidth: '450px',
+              maxWidth: { xs: '200px', md: '450px' },
             }}
           >
             Celebration begins with R&B
@@ -48,11 +44,11 @@ export function HomeBanner(props) {
 
           <Typography
             component='p'
-            variant='p'
             sx={{
-              maxWidth: '400px',
+              maxWidth: { xs: '250px', md: '400px' },
               color: '#302100 !important',
               fontWeight: 400,
+              fontSize: { xs: '14px', md: '16px' },
             }}
           >
             Custom cakes, handcrafted desserts — made for your moment.
@@ -65,18 +61,18 @@ export function HomeBanner(props) {
               alignItems: 'center',
               columnGap: '8px',
               position: 'relative',
-              fontFamily: "'Bricolage Grotesque', sans-serif",
               fontWeight: 500,
-              fontSize: '16px',
+              fontSize: { xs: '14px', md: '16px' },
               lineHeight: '158%',
               letterSpacing: '0%',
-              width: '200px',
-              padding: '15px 20px',
+              width: { xs: 'fit-content', md: '200px' },
+              padding: { xs: '12px 20px', md: '15px 20px' },
               overflow: 'hidden',
               borderRadius: '4px',
               cursor: 'pointer',
               zIndex: 1,
               color: '#441E14',
+              backgroundColor: { xs: '#F6DBE0', md: 'inherit' },
               '&:hover': {
                 color: '#fff',
               },
@@ -127,15 +123,13 @@ export function HomeBanner(props) {
           }}
         >
           <Typography
-            component='p'
-            style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+            sx={{
               fontWeight: 700,
               lineHeight: '170%',
-              fontSize: '16px !important',
+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
               color: '#302100',
               textTransform: 'uppercase',
-              marginBottom: '17px',
+              marginBottom: { xs: '10px', md: '17px' },
             }}
           >
             just in
@@ -152,7 +146,7 @@ export function HomeBanner(props) {
           height: '100%',
           maxHeight: '73px',
           position: 'absolute',
-          top: '79px',
+          top: { xs: '64px', lg: '79px' },
           left: 0,
         }}
       />

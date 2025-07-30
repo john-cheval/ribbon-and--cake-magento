@@ -1,6 +1,6 @@
+import { css } from '@emotion/react'
 import { Box } from '@mui/material'
 import Link from 'next/link'
-import { css } from '@emotion/react'
 import { OrderPrimaryButtonProps } from '../../types/buttonTypes'
 
 export function OrderPrimaryButton({
@@ -18,12 +18,9 @@ export function OrderPrimaryButton({
     justify-content: center;
     column-gap: 8px;
     position: relative;
-    font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 500;
-    font-size: 16px;
     line-height: 158%;
     letter-spacing: 0%;
-    padding: ${padding};
     overflow: hidden;
     border-radius: 4px;
     cursor: pointer;
@@ -42,7 +39,14 @@ export function OrderPrimaryButton({
   `
   return (
     <Link href={href || '/order'} passHref legacyBehavior>
-      <Box component='a' css={buttonStyles}>
+      <Box
+        component='a'
+        css={buttonStyles}
+        sx={{
+          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          padding: { xs: '16px 60px', lg: padding },
+        }}
+      >
         {text}
       </Box>
     </Link>

@@ -9,6 +9,7 @@ export interface HoveredButtonProps {
   backgroundColor?: string
   hoverColor?: string
   hoverBackgroundColor?: string
+  isCenter?: boolean
 }
 
 export interface OrderPrimaryButtonProps {

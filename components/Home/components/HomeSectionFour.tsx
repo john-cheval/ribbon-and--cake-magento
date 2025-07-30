@@ -5,27 +5,31 @@ import { celebrations } from '../../../constants/Home/swiper'
 import leftImage from '../../Assets/left.jpg'
 import { HoveredButton } from '../../shared/Button/HoveredButon'
 import { ProductCard } from '../../shared/Cards/ProductCard'
+import HomeProductListMobile from './HomeProductListMobile'
 
 export function HomeSectionFour(props) {
   const { title } = props
   return (
     <Box
+      component='section'
       sx={{
-        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
-        paddingTop: '100px',
+        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px', xl: '100px' },
         display: 'grid',
-        columnGap: '35px',
+        columnGap: { xs: '0', md: '20px', lg: '25px', xl: '35px' },
         position: 'relative',
       }}
     >
-      <Grid container columnSpacing={{ xs: 0, md: '35px' }}>
+      <Grid container columnSpacing={{ xs: '0', md: '15px', lg: '20px', xl: '35px' }}>
         <Grid
           item
           xs={12}
-          md={5}
+          md={12}
+          lg={6}
+          xl={5}
           sx={{
-            position: 'sticky',
-            top: '50px',
+            position: { xs: 'unset', lg: 'sticky' },
+            top: { xs: 'unset', lg: '50px' },
             alignSelf: 'start',
           }}
         >
@@ -45,6 +49,7 @@ export function HomeSectionFour(props) {
                 // maxWidth: '456px',
                 objectFit: 'cover',
                 borderRadius: '8px',
+                height: '100%',
               }}
             />
 
@@ -52,17 +57,19 @@ export function HomeSectionFour(props) {
               component='div'
               sx={{
                 position: 'absolute',
-                width: '50%',
-                top: '63px',
-                left: '69px',
+                width: { xs: '100%', lg: '50%' },
+                top: { xs: '30px', md: '40px', lg: '63px' },
+                left: { xs: 'unset', lg: '69px' },
+                paddingInline: { xs: '20px', lg: '0px' },
               }}
             >
               <Typography
                 component='h2'
                 variant='h2'
                 sx={{
-                  color: '#441E14 !important',
-                  marginBottom: '8px',
+                  color: (theme: any) => theme.palette.custom.main,
+                  textAlign: { xs: 'center', lg: 'left' },
+                  marginBottom: { xs: '3px', md: '5px', lg: '8px' },
                 }}
               >
                 {title || 'Statement cakes for standout celebrations.'}
@@ -72,11 +79,13 @@ export function HomeSectionFour(props) {
                 component='p'
                 variant='p'
                 sx={{
-                  color: '#441E14 !important',
+                  color: (theme: any) => theme.palette.custom.main,
                   lineHeight: '170% !important',
                   fontWeight: '400',
-                  marginBottom: '25px',
-                  maxWidth: '344px',
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  marginBottom: { xs: '12px', md: '15px', xl: '25px' },
+                  maxWidth: { xs: '100%', lg: '500px', xl: '350px' },
+                  textAlign: { xs: 'center', lg: 'left' },
                 }}
               >
                 Our cakes are not just desserts they are edible masterpieces. We specialize in
@@ -88,6 +97,7 @@ export function HomeSectionFour(props) {
                 href='/explore '
                 isArrow={false}
                 width='fit-content'
+                isCenter={true}
               />
             </Box>
           </Box>
@@ -95,15 +105,17 @@ export function HomeSectionFour(props) {
 
         <Grid
           item
-          xs={12}
-          md={7}
+          md={12}
+          lg={6}
+          xl={7}
           sx={{
             overflowY: 'auto',
+            display: { xs: 'none', md: 'block' },
           }}
         >
-          <Grid container columnSpacing={{ xs: 0, md: '33px' }}>
-            <Grid item xs={12} md={6}>
-              <Grid container rowSpacing={{ xs: '20px', md: '37px' }}>
+          <Grid container columnSpacing={{ xs: 0, sm: '15px', lg: '20px', xl: '30px' }}>
+            <Grid item xs={12} sm={6}>
+              <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
                 {celebrations?.slice(0, 4)?.map((data, index) => (
                   <Grid item xs={12} key={data?.id || index}>
                     <ProductCard item={data} iconPosition='left' padding='14px' left='25px' />
@@ -112,8 +124,8 @@ export function HomeSectionFour(props) {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{ marginTop: '80px' }}>
-              <Grid container rowSpacing={{ xs: '20px', md: '37px' }}>
+            <Grid item xs={12} sm={6} sx={{ marginTop: { lg: '50px', xl: '60px' } }}>
+              <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
                 {celebrations?.slice(4)?.map((data, index) => (
                   <Grid item xs={12} key={data?.id || index}>
                     <ProductCard item={data} iconPosition='left' padding='14px' left='25px' />
@@ -124,6 +136,16 @@ export function HomeSectionFour(props) {
           </Grid>
         </Grid>
       </Grid>
+
+      <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
+        <HomeProductListMobile
+          data={celebrations}
+          link='/cakes'
+          initial='Custom Cake'
+          count={6}
+          isCategory={false}
+        />
+      </Box>
     </Box>
   )
 }

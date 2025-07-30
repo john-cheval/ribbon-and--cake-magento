@@ -29,6 +29,7 @@ type ThemePaletteOptions = PaletteOptions & {
     border?: string
     smallHeading?: string
     borderInput?: string
+    wishlistColor?: string
   }
 }
 
@@ -43,6 +44,7 @@ const lightPalette: ThemePaletteOptions = {
     border: '#F6DBE0',
     smallHeading: '#2A110A',
     borderInput: '#D5B1B8',
+    wishlistColor: '#F1A8B6',
 
     //carry on okay
   },

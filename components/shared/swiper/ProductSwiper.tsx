@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { ProductCard } from '../Cards/ProductCard'
 import type { SwiperPropType } from '../types/SwiperPropsType'
 
-const linkStyle = css`
+export const linkStyle = css`
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 400;
   font-size: 16px;
@@ -36,8 +36,8 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
       <Box
         component='div'
         sx={{
-          paddingTop: '27px',
-          paddingBottom: '46px',
+          paddingTop: { xs: '15px', md: '20px', lg: '27px' },
+          paddingBottom: { xs: '20px', md: '25px', lg: '45px' },
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -58,8 +58,6 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
               onClick={() => setSelectedCategory(category as string)}
               sx={{
                 backgroundColor: selectedCategory === category ? '#F6DBE0' : 'transparent',
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontSize: '16px !important',
                 fontWeight: 400,
                 // color: '#969696',
                 color: selectedCategory === category ? '#2A110A' : '#969696',
@@ -68,6 +66,7 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
                 padding: '10px 20px',
                 transition: 'all 0.3s ease',
                 border: '1px solid #fff',
+                fontSize: { xs: '14px', md: '16px' },
                 '&:hover': {
                   border: '1px solid #F6DBE0',
                   borderRadius: '999px',
@@ -91,13 +90,26 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          modules={[Autoplay]}
+          // modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
           }}
-          slidesPerView={5.5}
+          breakpoints={{
+            0: {
+              slidesPerView: 1.5,
+            },
+            768: {
+              slidesPerView: 2.5,
+            },
+            1200: {
+              slidesPerView: 4.5,
+            },
+            1500: {
+              slidesPerView: 5.5,
+            },
+          }}
           spaceBetween={28}
           grabCursor
         >

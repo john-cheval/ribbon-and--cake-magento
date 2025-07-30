@@ -128,7 +128,6 @@ function CartPage() {
               }}
             >
               <CartItemsActionCards
-                removeIcon={iconDelete}
                 cart={data.cart}
                 sx={{
                   position: 'relative',

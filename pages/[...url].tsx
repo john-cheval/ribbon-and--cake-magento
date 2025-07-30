@@ -95,7 +95,7 @@ function CategoryPage(props: CategoryProps) {
       ) */}
 
       {isCategory && !isLanding && (
-        <InnerTop count={products?.total_count} title={category.name ?? ''} isFilter={true} />
+        <InnerTop   {...productList} count={products?.total_count} title={category.name ?? ''} isFilter={true} id={category.uid} category={category} />
       )}
       {isCategory && !isLanding && (
         <>
@@ -185,22 +185,22 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-        query: ProductFiltersDocument,
-        variables: categoryDefaultsToProductListFilters(
-          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-        ),
-      })
+      query: ProductFiltersDocument,
+      variables: categoryDefaultsToProductListFilters(
+        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+      ),
+    })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-        query: ProductListDocument,
-        variables: await productListApplyCategoryDefaults(
-          productListParams,
-          (await conf).data,
-          category,
-        ),
-      })
+      query: ProductListDocument,
+      variables: await productListApplyCategoryDefaults(
+        productListParams,
+        (await conf).data,
+        category,
+      ),
+    })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

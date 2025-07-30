@@ -1,5 +1,5 @@
 import { Image } from '@graphcommerce/image'
-import { ProductListCount } from '@graphcommerce/magento-product'
+import { BaseProps, CategoryDefaultFragment, ProductFiltersPro, ProductFiltersProSortSection, ProductListCount, useProductFiltersPro, useProductList } from '@graphcommerce/magento-product'
 import {
   Box,
   Breadcrumbs,
@@ -14,15 +14,20 @@ import {
 import Link from 'next/link'
 // import { useRouter } from 'next/router'
 import { useState } from 'react'
-import CustomSelectInput from '../../Inputs/CustomSelectInput'
 import rightArrow from './arrow_right.svg'
+import type { ProductListLayoutProps } from '../../../ProductListLayout/types'
+import { iconCloseAccordion, iconOpenAccordion } from '../../../../plugins/icons'
+import { useProductFiltersProSort } from '@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort'
+
+
 
 function capitalizeFirstLetter(str?: string) {
   if (!str) return ''
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export interface InnerTopProps {
+
+export type InnerTopProps = ProductListLayoutProps & {
   count?: number | null
   title?: string | null
   isFilter?: boolean
@@ -30,8 +35,10 @@ export interface InnerTopProps {
   sx?: SxProps<Theme>
 }
 
+
 export function InnerTop(props: InnerTopProps) {
-  const { count, title, isFilter, mainTitle, sx } = props
+  console.log('props::::', props)
+  const { count, title, isFilter, mainTitle, sx, filters, filterTypes, params, products, handleSubmit, category, menu } = props
   // const router = useRouter()
   // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
   // const capitalizedRoute = capitalizeFirstLetter(routes)
@@ -46,8 +53,12 @@ export function InnerTop(props: InnerTopProps) {
     //   query: { ...router.query, sort: event.target.value },
     // });
   }
+  // if (!params || !products?.items || !filterTypes) return null
+  // const { total_count, sort_fields, page_info } = products
+  console.log('category', props)
 
   return (
+
     <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
       <Box
         sx={[
@@ -131,51 +142,31 @@ export function InnerTop(props: InnerTopProps) {
               />
             </Box>
 
-            <Box>
-              <Typography
-                variant='p'
-                sx={{
-                  color: '#441E14 !important',
-                  fontWeight: 500,
-                }}
+             {params && products?.items && filterTypes && <ProductFiltersPro
+                params={params}
+                aggregations={filters?.aggregations}
+                appliedAggregations={products?.aggregations}
+                filterTypes={filterTypes}
+                autoSubmitMd
+                handleSubmit={handleSubmit}
               >
-                Sort by :{' '}
-              </Typography>
-
-              <FormControl variant='standard' sx={{ m: 0, minWidth: 120 }}>
-                {' '}
-                <Select
-                  value={sortValue}
-                  onChange={handleSortChange}
-                  displayEmpty
-                  input={<CustomSelectInput />}
-                  inputProps={{ 'aria-label': 'Sort by' }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        bgcolor: '#F6DBE0',
-                        '& .MuiMenuItem-root': {
-                          // padding: 2,
-                          color: '#441E14',
-                          fontFamily: '"Bricolage Grotesque", sans-serif',
-                          fontSize: { xs: '14px', md: '16px' },
-                          fontWeight: 500,
-                          lineHeight: '158%',
-                        },
-                      },
-                    },
+                <ProductFiltersProSortSection
+                  sort_fields={products?.sort_fields}
+                  total_count={products?.total_count}
+                  category={category}
+                  openAccordionIcon={iconOpenAccordion}
+                  closeAccordionIcon={iconCloseAccordion}
+                  sx={{
+                    paddingTop: (theme) => theme.spacings.xs,
                   }}
-                >
-                  <MenuItem value='Latest'>Latest</MenuItem>
-                  <MenuItem value='Price_ASC'>Price: Low to High</MenuItem>
-                  <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
-                  <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                  isDropdown={true}
+                  isButton={true}
+                />
+              </ProductFiltersPro>}
           </Box>
         )}
       </Box>
     </Box>
+
   )
 }

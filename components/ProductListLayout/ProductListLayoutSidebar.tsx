@@ -200,7 +200,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
 
           {/* Product filters */}
-          <ProductFiltersProSortSection
+          {/* <ProductFiltersProSortSection
             sort_fields={sort_fields}
             total_count={total_count}
             category={category}
@@ -209,7 +209,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             sx={{
               paddingTop: (theme) => theme.spacings.xs,
             }}
-          />
+          /> */}
           <ProductFiltersProLimitSection />
         </MediaQuery>
       </Container>

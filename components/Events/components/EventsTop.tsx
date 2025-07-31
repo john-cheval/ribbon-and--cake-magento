@@ -16,8 +16,10 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
     >
       <Box
         sx={{
-          borderBottom: isBorder ? '1px solid #E6E6E6' : { xs: '1px solid #E6E6E6', md: 'none' },
-          paddingBottom: isBorder ? { xs: '10px', md: '25px' } : { xs: '14px', md: '0px' },
+          borderBottom: isBorder ? '1px solid #E6E6E6' : { xs: '1px solid #E6E6E6', lg: 'none' },
+          paddingBottom: isBorder
+            ? { xs: '10px', md: '25px' }
+            : { xs: '14px', md: '10px', lg: '10px' },
           marginTop: { xs: '-10px', md: '0' },
         }}
       >

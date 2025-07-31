@@ -78,7 +78,7 @@ function ContactEnquiryForm() {
               mt: 2,
               backgroundColor: '#fff',
               color: (theme: any) => theme.palette.custom.main,
-              fontSizse: '20px',
+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {

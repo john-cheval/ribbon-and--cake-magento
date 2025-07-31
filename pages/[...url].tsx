@@ -100,8 +100,6 @@ function CategoryPage(props: CategoryProps) {
           count={products?.total_count}
           title={category.name ?? ''}
           isFilter={true}
-          id={category.uid}
-          category={category}
         />
       )}
       {isCategory && !isLanding && (

@@ -131,11 +131,11 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       // @see docs typography.md
       h1: {
         ...commonHeadingProperties,
-        ...fontSize(28, 45),
+        ...fontSize(25, 45),
       },
       h2: {
         ...commonHeadingProperties,
-        ...fontSize(28, 45),
+        ...fontSize(25, 45),
         color: '#9B7C38',
       },
       h3: {

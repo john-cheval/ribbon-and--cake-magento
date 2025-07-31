@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..bade832 100644
+index de7b68f..d50874c 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -112,7 +112,7 @@ index de7b68f..bade832 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -133,30 +164,97 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -133,30 +164,107 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                justifyContent: 'start',
              }}
            >
@@ -181,28 +181,38 @@ index de7b68f..bade832 100644
 +            display:"flex",
 +            flexDirection:"column",
 +            alignItems:"center",
-+            justifyContent:"center"
++            justifyContent:"center",
++            gap:'5px'
 +          }}>
-+            {hasOptions && !readOnly && (
++            {//hasOptions && !readOnly && (
 +              <Button
 +                variant='inline'
 +                // color='secondary'
 +                sx={{
 +                  color:'#9D9D9D',
++                  
 +                  '&:hover':{
 +                    backgroundColor:'transparent'
++                  },
++
++                  '&.MuiButtonBase-root svg':{
++                    marginBlock:'15px 10px'
 +                  }
 +                }}
 +                href={`${productEditLink(product)}?cartItemId=${uid}`}
 +              >
 +              <CiEdit size={"20px"} />
 +              </Button>
-+            )}
++            //)
++            }
 +
 +            {
 +              !readOnly && (
 +                <RemoveItemFromCart 
 +                removeIcon={deleteIcon}
++                sx={{
++                  marginLeft:0
++                }}
 +                  {...cartItem}
 +                  buttonProps={{ size: size === 'responsive' ? 'large' : size }}
 +                />
@@ -212,10 +222,10 @@ index de7b68f..bade832 100644
 +
 +          <Box sx={{
 +            ['& span']:{
-+              fontSize:"20px",
++              fontSize:{xs:'16px', lg:'20px'},
 +              lineHeight:"24px",
 +              fontWeight:"700",
-+              color:"#000000",
++              color:(theme:any)=>theme.palette.custom.dark,
 +              ['&:first-child']:{
 +                paddingRight:"6px"
 +              }
@@ -230,7 +240,7 @@ index de7b68f..bade832 100644
        size={size}
        after={filterNonNullableKeys(errors).map((error) => (
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
-index 13d03bb..97ab18a 100644
+index 13d03bb..86bb97d 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
 @@ -3,10 +3,12 @@ import { ActionCardLayout, nonNullable } from '@graphcommerce/next-ui'
@@ -258,7 +268,7 @@ index 13d03bb..97ab18a 100644
          ?.filter(nonNullable)
          .map((item) => (
            <CartItemActionCard
-+          sx={{borderBottom:'1px solid #c7cacd6b', borderRadius:'0 !important', paddingBlock:'30px !important'}}
++          sx={{borderBottom:'1px solid #c7cacd6b', borderRadius:'0 !important', paddingBlock:{xs:'10px', md:'20px', xl:'30px'}}}
 +          deleteIcon={removeIcon}
              key={item.uid}
              cartItem={item}

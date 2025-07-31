@@ -11,13 +11,14 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
     <Box
       component='section'
       sx={{
-        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
       }}
     >
       <Box
         sx={{
           borderBottom: isBorder ? '1px solid #E6E6E6' : { xs: '1px solid #E6E6E6', md: 'none' },
-          paddingBottom: isBorder ? { xs: '14px', md: '25px' } : { xs: '14px', md: '0px' },
+          paddingBottom: isBorder ? { xs: '10px', md: '25px' } : { xs: '14px', md: '0px' },
+          marginTop: { xs: '-10px', md: '0' },
         }}
       >
         <Typography
@@ -25,7 +26,7 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
           component='h1'
           sx={{
             color: (theme: any) => theme?.palette.custom.heading,
-            marginBottom: '10px',
+            marginBottom: { xs: '2px', md: '10px' },
             textAlign: { xs: 'left', md: 'center' },
           }}
         >
@@ -38,6 +39,7 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
           sx={{
             color: (theme: any) => theme.palette.custom.secondary,
             textAlign: { xs: 'left', md: 'center' },
+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
           }}
         >
           {description}

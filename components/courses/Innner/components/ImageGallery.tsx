@@ -9,12 +9,15 @@ function ImageGallery() {
         display: 'grid',
         gridTemplateColumns: {
           xs: 'repeat(2, 1fr)',
+          sm: 'repeat(2, 1fr)',
           md: 'repeat(12, 1fr)',
         },
         gap: {
           xs: '10px',
           md: '14px',
         },
+        overflow: 'hidden',
+        width: '100%',
       }}
     >
       {courseInnerImages.map((img, index) => {
@@ -46,12 +49,14 @@ function ImageGallery() {
             <Image
               src={img}
               alt={`image-${index + 1}`}
-              width={280}
-              height={300}
+              // width={280}
+              // height={300}
               style={{
                 width: '100%',
                 height: 'auto',
                 objectFit: 'cover',
+                borderRadius: '8px',
+                overflow: 'hidden',
               }}
             />
           </Box>

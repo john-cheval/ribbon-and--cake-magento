@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import CustomSelectInput from '../../Inputs/CustomSelectInput'
 import rightArrow from './arrow_right.svg'
@@ -32,7 +32,13 @@ export interface InnerTopProps {
 
 export function InnerTop(props: InnerTopProps) {
   const { count, title, isFilter, mainTitle, sx } = props
-  // const router = useRouter()
+  const router = useRouter()
+
+  const nestedRoutes = Array.isArray(router.query.url)
+    ? router.query.url
+    : router.query.url
+      ? [router.query.url]
+      : []
   // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
   // const capitalizedRoute = capitalizeFirstLetter(routes)
   const [sortValue, setSortValue] = useState('Latest')
@@ -65,7 +71,7 @@ export function InnerTop(props: InnerTopProps) {
             aria-label='breadcrumb'
             sx={{
               display: 'flex',
-              columnGap: '10px',
+              columnGap: { xs: '3px', sm: '5px', md: '10px' },
               alignItems: 'center',
             }}
           >
@@ -80,29 +86,77 @@ export function InnerTop(props: InnerTopProps) {
               <Link href='/'>Home</Link>
             </Typography>
 
-            <Image
-              src={rightArrow}
-              width={18}
-              height={18}
-              sizes='100vw'
-              sx={{
-                width: '18px',
-                height: 'auto',
-                verticalAlign: 'middle',
-                flexShrink: 0,
-              }}
-            />
+            {title && (
+              <>
+                <Image
+                  src={rightArrow}
+                  width={18}
+                  height={18}
+                  sizes='100vw'
+                  sx={{
+                    width: '18px',
+                    height: 'auto',
+                    verticalAlign: 'middle',
+                    flexShrink: 0,
+                  }}
+                />
 
-            <Typography
-              component='p'
-              sx={{
-                color: (theme: any) => theme.palette.custom.tertiary,
-                fontWeight: 400,
-                fontSize: { xs: '14px', md: '16px' },
-              }}
-            >
-              {title}
-            </Typography>
+                <Typography
+                  component='p'
+                  sx={{
+                    color: (theme: any) => theme.palette.custom.tertiary,
+                    fontWeight: 400,
+                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  }}
+                >
+                  {title}
+                </Typography>
+              </>
+            )}
+
+            {!title &&
+              nestedRoutes?.length > 0 &&
+              nestedRoutes.map((link, index) => {
+                const formattedLink = link
+                  .split('-')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')
+
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      columnGap: { xs: '3px', sm: '5px', md: '10px' },
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Image
+                      src={rightArrow}
+                      width={18}
+                      height={18}
+                      sizes='100vw'
+                      sx={{
+                        width: '18px',
+                        height: 'auto',
+                        verticalAlign: 'middle',
+                        flexShrink: 0,
+                      }}
+                    />
+
+                    <Typography
+                      component='p'
+                      sx={{
+                        color: (theme: any) => theme.palette.custom.tertiary,
+                        fontWeight: 400,
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      }}
+                    >
+                      {formattedLink}
+                    </Typography>
+                  </Box>
+                )
+              })}
           </Box>
         </Box>
 

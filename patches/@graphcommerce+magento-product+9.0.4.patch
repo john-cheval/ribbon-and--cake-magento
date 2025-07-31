@@ -73,7 +73,7 @@ index a1ec789..b365a43 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..f438f99 100644
+index fb82adb..8a8b1e7 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -149,7 +149,7 @@ index fb82adb..f438f99 100644
 +            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out', 
 +          },
 +          '&  .MuiSlider-thumb[data-index="0"] .MuiSlider-valueLabelOpen':{
-+            transform: 'translate(15px, 40%) scale(1)'
++            transform: 'translate(25px, 40%) scale(1)'
 +          },
 +          '&  .MuiSlider-thumb[data-index="1"] .MuiSlider-valueLabelOpen':{
 +            transform: 'translate(-20px, 40%) scale(1)'
@@ -496,6 +496,36 @@ index 80912c1..9b47d50 100644
                  key={item.value}
                  {...item}
                  size='responsive'
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
+index e238d8c..4dec1cc 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
+@@ -7,10 +7,11 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
+ 
+ type AllFiltersSidebar = ProductFiltersProAggregationsProps & {
+   sx?: SxProps<Theme>
++  title?:string
+ }
+ 
+ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+-  const { sx = [] } = props
++  const { sx = [] , title='Clear all filters'} = props
+ 
+   const clearAll = useProductFiltersProClearAllAction()
+   const hasFilters = useProductFilterProHasFiltersApplied()
+@@ -27,10 +28,11 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+       disableElevation
+       onClick={(e) => {
+         e.preventDefault()
++        console.log("hello cleards")
+         return clearAll()
+       }}
+     >
+-      <Trans id='Clear all filters' />
++      <Trans id={title} />
+     </Button>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
 index 27fdd62..d3398c8 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx

@@ -95,7 +95,14 @@ function CategoryPage(props: CategoryProps) {
       ) */}
 
       {isCategory && !isLanding && (
-        <InnerTop count={products?.total_count} title={category.name ?? ''} isFilter={true} />
+        <InnerTop
+          {...productList}
+          count={products?.total_count}
+          title={category.name ?? ''}
+          isFilter={true}
+          id={category.uid}
+          category={category}
+        />
       )}
       {isCategory && !isLanding && (
         <>

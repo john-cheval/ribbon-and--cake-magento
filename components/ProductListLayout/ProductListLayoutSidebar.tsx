@@ -1,3 +1,4 @@
+import { Image } from '@graphcommerce/image'
 import {
   CategoryBreadcrumbs,
   CategoryChildren,
@@ -20,6 +21,8 @@ import {
   ProductListFiltersContainer,
   ProductListPagination,
   ProductListSuggestions,
+  useProductFiltersPro,
+  useProductFiltersProClearAllAction,
 } from '@graphcommerce/magento-product'
 import {
   ProductFiltersProCategorySectionSearch,
@@ -27,10 +30,19 @@ import {
 } from '@graphcommerce/magento-search'
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
 import { Trans } from '@lingui/macro'
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { iconCloseAccordion, iconFilterProduct, iconOpenAccordion } from '../../plugins/icons'
 import filterSvg from '../Assets/filter.svg'
+import mix from '../Assets/mix.svg'
 import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
 import type { ProductListLayoutProps } from './types'
@@ -53,14 +65,10 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const { total_count, sort_fields, page_info } = products
 
   const configuration = useLayoutConfiguration(true)
+
   const [sortValue, setSortValue] = useState('Latest')
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortValue(event.target.value as string)
-    // Here you would typically trigger a re-fetch of products based on the new sortValue
-    // router.push({
-    //   pathname: router.pathname,
-    //   query: { ...router.query, sort: event.target.value },
-    // });
   }
   const [scroll, setScroll] = useState<boolean>(false)
   useEffect(() => {
@@ -72,6 +80,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
     // return window.removeEventListener('scroll', handleScroll)
   }, [])
+  // const { form } = useProductFiltersPro()
+  //const clearAll = useProductFiltersProClearAllAction()
   return (
     <ProductFiltersPro
       params={params}
@@ -81,72 +91,25 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       autoSubmitMd
       handleSubmit={handleSubmit}
     >
-      {/* import.meta.graphCommerce.breadcrumbs && category && (
-        <Container maxWidth={false}>
-          <CategoryBreadcrumbs
-            category={category}
-            sx={(theme) => ({
-              mb: theme.spacings.sm,
-              [theme.breakpoints.down('md')]: {
-                '& .MuiBreadcrumbs-ol': { justifyContent: 'center' },
-              },
-            })}
-          />
-        </Container>
-      ) */}
-
       <Container
         maxWidth={false}
         sx={(theme) => ({
           display: 'grid',
           alignItems: 'start',
           rowGap: { xs: 0, md: theme.spacings.md },
-          columnGap: { xs: '30px', md: '50px', lg: '60px', xl: '90px' },
+          columnGap: { xs: '30px', md: '50px', lg: '60px', xl: '70px' },
           mb: theme.spacings.xl,
           gridTemplate: {
             xs: '"title" "horizontalFilters"  "items" ',
             md: `
             "sidebar count"      auto
             "sidebar items"      auto
+            /${configuration.sidebarWidth}   auto
             `,
           },
           paddingInline: { xs: '18px', md: '25px', xl: '55px' },
         })}
       >
-        {/* <Box
-          className='title'
-          sx={(theme) => ({
-            gridArea: 'title',
-            display: 'grid',
-            gridAutoFlow: 'row',
-            rowGap: theme.spacings.xs,
-          })}
-        >
-          {category ? (
-            <>
-              <Typography variant='h1'>{title}</Typography>
-
-              <CategoryDescription
-                textAlignMd='start'
-                textAlignSm='start'
-                description={category?.description}
-              />
-              <MediaQuery query={(theme) => theme.breakpoints.down('md')}>
-                <CategoryChildren params={params}>{category?.children}</CategoryChildren>
-              </MediaQuery>
-            </>
-          ) : (
-            <>
-              <Typography variant='h2'>
-                <ProductFiltersProSearchTerm params={params}>
-                  <Trans>All products</Trans>
-                </ProductFiltersProSearchTerm>
-              </Typography>
-              <ProductListSuggestions products={products} />
-            </>
-          )}
-        </Box> */}
-
         <Box
           sx={{
             gridArea: 'items',
@@ -156,7 +119,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 xs: 'repeat(2, 1fr)',
                 sm: 'repeat(2, 1fr)',
                 md: 'repeat(2, 1fr)',
-                lg: 'repeat(4, 1fr)',
+                lg: 'repeat(3, 1fr)',
+                xl: 'repeat(4,1fr)',
               },
 
               '& .ProductListItem-titleContainer .MuiButtonBase-root': {
@@ -353,12 +317,44 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           display='block'
           sx={(theme) => ({
             gridArea: 'sidebar',
-            mt: import.meta.graphCommerce.breadcrumbs === true ? 0 : theme.spacings.lg,
+            // mt: import.meta.graphCommerce.breadcrumbs === true ? 0 : theme.spacings.lg,
             position: 'sticky',
             top: '100px',
+            mt: { xs: '30px' },
           })}
         >
           {/*  <ProductFiltersProClearAll sx={{ alignSelf: 'center' }} /> */}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box
+              sx={{
+                fontSize: { xs: '14px', sm: '16px', md: '20px' },
+                fontWeight: 500,
+                lineHeight: '120%',
+                color: '#000',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                paddingTop: '15px',
+              }}
+            >
+              <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: 'auto' }} /> Filter
+            </Box>
+
+            <ProductFiltersProClearAll
+              sx={{
+                alignSelf: 'center',
+                background: 'transparent',
+                padding: 0,
+                borderRadius: '0 !important',
+                color: (theme: any) => theme.palette.custom.tertiary,
+                fontSize: { sm: '12px', md: '14px' },
+                '&:hover:not(.Mui-disabled)': {
+                  backgroundColor: 'transparent',
+                },
+              }}
+              title='clear'
+            />
+          </Box>
 
           <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
           <>
@@ -375,7 +371,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           </>
 
           {/* Product filters */}
-          <ProductFiltersProSortSection
+          {/*  <ProductFiltersProSortSection
             sort_fields={sort_fields}
             total_count={total_count}
             category={category}
@@ -385,7 +381,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
               paddingTop: (theme) => theme.spacings.xs,
             }}
           />
-          <ProductFiltersProLimitSection />
+          <ProductFiltersProLimitSection />*/}
         </MediaQuery>
       </Container>
     </ProductFiltersPro>

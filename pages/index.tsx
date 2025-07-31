@@ -36,7 +36,7 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 export type CmsPageRouteProps = LayoutNavigationProps & CmsPageProps & StoryProductsProps
 
 function CmsPage(props: CmsPageRouteProps) {
-  const { cmsPage, storyproducts } = props
+  const { cmsPage } = props
 
   // console.log(storyproducts, 'this is the story page from the api')
 
@@ -95,24 +95,24 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const cmsPage = (await cmsPageQuery).data.cmsPage
 
-  const sweetStoryQuery = staticClient.query({
-    query: ProductListDocument,
-    variables: {
-      pageSize: 30,
-      filter: {
-        category_id: { in: ['3', '7'] },
-      },
-    },
-  })
+  // const sweetStoryQuery = staticClient.query({
+  //   query: ProductListDocument,
+  //   variables: {
+  //     pageSize: 30,
+  //     filter: {
+  //       category_id: { in: ['3', '7'] },
+  //     },
+  //   },
+  // })
 
-  const storyproducts = (await sweetStoryQuery).data.products?.items
+  // const storyproducts = (await sweetStoryQuery).data.products?.items
 
   // console.log(storyproducts, 'this is the sweet story query')
 
   return {
     props: {
       cmsPage: cmsPage,
-      storyproducts: storyproducts,
+      // storyproducts: storyproducts,
       ...(await layout).data,
       apolloState: await conf.then(() => client.cache.extract()),
     },

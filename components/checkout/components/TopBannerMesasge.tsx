@@ -8,7 +8,7 @@ function TopBannerMesasge() {
       <Typography
         component='p'
         sx={{
-          color: '#000',
+          color: (theme: any) => theme.palette.custom.dark,
           fontSize: { xs: '12px', sm: '14px', md: '16px' },
           fontWeight: 300,
           textAlign: 'center',

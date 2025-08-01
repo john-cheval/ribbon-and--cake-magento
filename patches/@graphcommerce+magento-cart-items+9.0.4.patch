@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..f417eae 100644
+index de7b68f..f6fe9e3 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -112,7 +112,7 @@ index de7b68f..f417eae 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -131,32 +162,124 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +162,127 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
@@ -138,17 +138,20 @@ index de7b68f..f417eae 100644
 +                     },
 +                    '& .MuiButtonBase-root':{
 +                      color:'#333333',
-+                      fontsize:'18px',
++                      fontsize: { xs: '12px', md: '14px', lg: '18px' },
 +                      fontWeight:500
 +                    },'& .MuiInputBase-input':{
 +                      color:'#333333',
 +                      fontWeight:'500',
-+                      fontSize:'18px'
- 
-+                    }
++                      fontsize: { xs: '12px', md: '14px', lg: '18px' }
++
++                    },  '& .MuiButtonBase-root svg': {
++              fontSize: { xs: '15px', md: '20px', xl:'24px' },
++            },
++                    
 +                  }} uid={uid} quantity={quantity} />}
 +            {/*' ⨉ ' */}
-+
+ 
 +            {/* <Money sx={{color:'red'}} value={price} currency={prices?.price.currency} /> */}
 +              <Box sx={{
 +            ['& span']:{

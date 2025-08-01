@@ -34,11 +34,15 @@ function CartTop({ item }) {
             {configurationOptions[1] && configurationOptions[1].toUpperCase()}
           </Typography>
         )}
+
+        <Box sx={{ display: { xs: 'block', md: 'none' }, marginTop: '10px' }}>
+          <CartPriceAndQuantity product={item} />
+        </Box>
       </Box>
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <CartActions product={item} />
       </Box>
-      <Box>
+      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
         <CartPriceAndQuantity product={item} />
       </Box>
     </Box>

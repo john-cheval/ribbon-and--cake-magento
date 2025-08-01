@@ -17,20 +17,20 @@ function CartActions({ product, size = 'responsive' }) {
         columnGap: { xs: '5px', md: '20px' },
       }}
     >
-      {hasOptions && (
-        <Button
-          variant='inline'
-          sx={{
-            color: '#9D9D9D',
-            '&:hover': {
-              backgroundColor: 'transparent',
-            },
-          }}
-          href={`${productEditLink(product)}?cartItemId=${product?.uid}`}
-        >
-          <CiEdit size={'20px'} />
-        </Button>
-      )}
+      {/*   {hasOptions && ( * */}
+      <Button
+        variant='inline'
+        sx={{
+          color: '#9D9D9D',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+        }}
+        href={`${productEditLink(product)}?cartItemId=${product?.uid}`}
+      >
+        <CiEdit size={'20px'} />
+      </Button>
+      {/*  )} */}
 
       <RemoveItemFromCart
         removeIcon={iconDelete}

@@ -1,6 +1,5 @@
 /// <reference types="@graphcommerce/next-ui/types" />
 
-import { type } from 'os'
 import {
   breakpointVal,
   MuiButtonInline,
@@ -45,8 +44,6 @@ const lightPalette: ThemePaletteOptions = {
     smallHeading: '#2A110A',
     borderInput: '#D5B1B8',
     wishlistColor: '#F1A8B6',
-
-    //carry on okay
   },
   primary: {
     main: '#441E14',
@@ -490,5 +487,35 @@ declare module '@mui/material/Link' {
   interface LinkPropsVariantOverrides {
     navlink: true
     p: true
+  }
+}
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    custom: {
+      main?: string
+      secondary?: string
+      tertiary?: string
+      heading?: string
+      dark?: string
+      border?: string
+      smallHeading?: string
+      borderInput?: string
+      wishlistColor?: string
+    }
+  }
+
+  interface PaletteOptions {
+    custom?: {
+      main?: string
+      secondary?: string
+      tertiary?: string
+      heading?: string
+      dark?: string
+      border?: string
+      smallHeading?: string
+      borderInput?: string
+      wishlistColor?: string
+    }
   }
 }

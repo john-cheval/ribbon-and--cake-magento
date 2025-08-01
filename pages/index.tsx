@@ -85,6 +85,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const conf = client.query({ query: StoreConfigDocument })
 
   const url = (await conf).data.storeConfig?.cms_home_page ?? 'home'
+  console.log(url, 'this is the url')
 
   const cmsPageQuery = staticClient.query({ query: cmsPageDocument, variables: { urlKey: url } })
 

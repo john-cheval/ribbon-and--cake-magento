@@ -19,20 +19,17 @@ import CartItems from './Cart/CartItems'
 export type OrderSummaryPropsType = {
   orderData?: CartPageQuery
   error?: any
+  IsItems?: boolean
 }
 
-function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
-  // console.log(orderData, 'this si the orderData')
-  const hasItems =
-    (orderData?.cart?.total_quantity ?? 0) > 0 &&
-    typeof orderData?.cart?.prices?.grand_total?.value !== 'undefined'
+function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
   const cartItems = orderData?.cart?.items
 
   return (
     <Box>
       <Typography
         sx={{
-          color: '#000',
+          color: (theme: any) => theme.palette.custom.dark,
           fontsize: { xs: '16px', md: '20px' },
           lineHeight: '120%',
           marginBottom: { xs: '10px', md: '14px' },
@@ -45,7 +42,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
         sx={{
           width: '100%',
           borderRadius: '8px',
-          backgroundColor: 'white',
+          backgroundColor: (theme: any) => theme.palette.primary.contrastText,
           padding: { xs: '10px', md: '24px 20px' },
           position: 'relative',
           display: 'flex',
@@ -53,7 +50,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
           height: '100%',
         }}
       >
-        {hasItems ? (
+        {IsItems ? (
           <>
             <Box
               sx={{
@@ -81,7 +78,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
             >
               <Box>
                 {cartItems?.map((item, index) => (
-                  <CartItems items={item} key={index} />
+                  <CartItems items={item} key={index} length={cartItems?.length} />
                 ))}
               </Box>
 
@@ -91,6 +88,12 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
             <OverlayStickyBottom
               sx={{
                 py: 0.1,
+                // pt: 0.1,
+                // pb: { xs: '10px', md: '20px', lg: '30px' },
+                // px: { xs: '15px', sm: '20px', lg: '30px' },
+                // boxShadow: '1px 3px 8px #000',
+                // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+                // width: '100%',
                 bottom: 'unset !important',
                 // px: '55px',
                 '& .CartTotals-root ': {
@@ -122,7 +125,7 @@ function OrderSummary({ orderData, error }: OrderSummaryPropsType) {
                     width: '100%',
                     borderRadius: '4px',
                     backgroundColor: '#9B7C38',
-                    border: '1px solid #9B7C38',
+                    border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
                     color: '#fff',
                     boxShadow: 'none !important',
                     // fontSize: { xs: '12px', sm: '14px', md: '16px' },

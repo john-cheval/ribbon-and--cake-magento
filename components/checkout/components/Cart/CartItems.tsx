@@ -7,29 +7,38 @@ import CartTop from './CartTop'
 export type CartItemsProps = {
   items?: any
   size?: string
+  length?: number | undefined
+  index?: number
 }
 
-function CartItems({ items, size = 'responsive' }: CartItemsProps) {
+function CartItems({ items, size = 'responsive', length, index }: CartItemsProps) {
   return (
     <Box
       sx={{
         display: 'flex',
         columnGap: { xs: '10px', md: '15px' },
-        borderBottom: '1px solid #c7cacd6b',
+        borderBottom: {
+          xs: index !== (length ?? 0) - 1 ? '1px solid #c7cacd6b' : 'none',
+          md: '1px solid #c7cacd6b',
+        },
         paddingBlock: { xs: '10px', md: '18px' },
+        width: '100%',
       }}
     >
-      <Box sx={{ flexShrink: 0 }}>
+      <Box sx={{ flexShrink: 0, width: 'fit-content' }}>
         <Image
           layout='fill'
           src={items?.product?.thumbnail?.url}
           sx={{
-            width: actionCardImageSizes[size],
-            height: actionCardImageSizes[size],
+            // width: actionCardImageSizes[size],
+            // height: actionCardImageSizes[size],
+            // height: '100%',
+            // width: '100%',
             display: 'block',
             borderRadius: '8px',
             objectFit: 'cover',
             marginRight: '5px',
+            minWidth: '100px',
           }}
           sizes={actionCardImageSizes[size]}
         />

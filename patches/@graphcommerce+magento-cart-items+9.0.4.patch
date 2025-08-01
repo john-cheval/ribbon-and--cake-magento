@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..d50874c 100644
+index de7b68f..f417eae 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -112,8 +112,11 @@ index de7b68f..d50874c 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -133,30 +164,107 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +162,124 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+               mt: 1,
+               gap: '10px',
                justifyContent: 'start',
++              flexDirection:{xs:'column', md:'unset'}
              }}
            >
 -            {readOnly ? quantity : <UpdateItemQuantity uid={uid} quantity={quantity} />}
@@ -142,12 +145,23 @@ index de7b68f..d50874c 100644
 +                      fontWeight:'500',
 +                      fontSize:'18px'
  
--            <Money value={price} currency={prices?.price.currency} />
 +                    }
 +                  }} uid={uid} quantity={quantity} />}
 +            {/*' ⨉ ' */}
 +
 +            {/* <Money sx={{color:'red'}} value={price} currency={prices?.price.currency} /> */}
++              <Box sx={{
++            ['& span']:{
++              fontSize:{xs:'16px', lg:'20px'},
++              lineHeight:"24px",
++              fontWeight:"700",
++              color:(theme:any)=>theme.palette.custom.dark,
++              ['&:first-child']:{
++                paddingRight:"6px"
++              }
++            }
++          }}>
+             <Money value={price} currency={prices?.price.currency} />
            </Box>
 -          {hasOptions && !readOnly && (
 -            <Button
@@ -158,6 +172,7 @@ index de7b68f..d50874c 100644
 -              <Trans id='Edit options' />
 -            </Button>
 -          )}
++          </Box>
          </>
        }
 -      price={<Money {...(inclTaxes ? prices?.row_total_including_tax : prices?.row_total)} />}
@@ -179,7 +194,7 @@ index de7b68f..d50874c 100644
 +          }}>
 +          <Box sx={{
 +            display:"flex",
-+            flexDirection:"column",
++           flexDirection:{xs:'row', md:'column'},
 +            alignItems:"center",
 +            justifyContent:"center",
 +            gap:'5px'
@@ -190,13 +205,14 @@ index de7b68f..d50874c 100644
 +                // color='secondary'
 +                sx={{
 +                  color:'#9D9D9D',
++                  justifyContent:{xs:'end', md:'center'},
 +                  
 +                  '&:hover':{
 +                    backgroundColor:'transparent'
 +                  },
 +
 +                  '&.MuiButtonBase-root svg':{
-+                    marginBlock:'15px 10px'
++                    marginBlock:{xs:0, md:'15px 10px'},
 +                  }
 +                }}
 +                href={`${productEditLink(product)}?cartItemId=${uid}`}

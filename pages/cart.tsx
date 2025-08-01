@@ -109,9 +109,9 @@ function CartPage() {
 
                 overflowY: 'scroll',
                 // overflowX: 'hidden',
-                pr: { xs: '5px', md: '20px' },
+                pr: { xs: '15px', sm: '20px' },
                 paddingBottom: '50px',
-                pl: { xs: '5px', md: '20px', lg: '30px' },
+                pl: { xs: '15px', sm: '20px', lg: '30px' },
 
                 '&::-webkit-scrollbar': {
                   //   width: '6px',
@@ -143,11 +143,17 @@ function CartPage() {
                 sx={{
                   position: 'relative',
                   zIndex: 1,
+
                   '& .ActionCard-title': {
-                    color: '#000',
+                    color: (theme: any) => theme.palette.custom.dark,
                     fontSize: { xs: '14px', md: '16px' },
                     fontWeight: 600,
                     lineHeight: '120%',
+                  },
+                  '& .ActionCard-image img': {
+                    width: { xs: '110px', sm: '125px' },
+                    height: '100% !important',
+                    // width: '100% !important',
                   },
                   '& .ActionCard-details ': {
                     display: 'flex',
@@ -156,6 +162,13 @@ function CartPage() {
                     fontWeight: 'normal',
                     colummGap: '2px',
                   },
+                  '& .ActionCard-end .ActionCard-action .MuiBox-root:nth-child(2)': {
+                    display: { xs: 'none', md: 'inline-flex' },
+                  },
+                  '& .ActionCard-secondaryAction .MuiBox-root .MuiBox-root': {
+                    display: { xs: 'inline-flex', md: 'none' },
+                  },
+
                   '& .ActionCard-end .ActionCard-price span': (theme) => ({
                     color: '#000',
                     fontSize: { xs: '16px', md: '20px' },
@@ -176,7 +189,7 @@ function CartPage() {
               sx={{
                 pt: 0.1,
                 pb: { xs: '10px', md: '20px', lg: '30px' },
-                px: { xs: '5px', md: '20px', lg: '30px' },
+                px: { xs: '15px', sm: '20px', lg: '30px' },
                 boxShadow: '1px 3px 8px #000',
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 width: '100%',
@@ -263,7 +276,7 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   layoutProps: {
     variantMd: 'right',
     variantSm: 'bottom',
-    widthMd: '900px',
+    widthMd: '750px',
     sizeMd: 'floating',
     sizeSm: 'full',
     justifyMd: 'start',

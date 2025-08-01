@@ -157,7 +157,7 @@ function CartPage() {
                   },
                   '& .ActionCard-details ': {
                     display: 'flex',
-                    color: '#2a110a',
+                    color: (theme: any) => theme.palette.custom.smallHeading,
                     fontSize: { xs: '14px', md: '16px' },
                     fontWeight: 'normal',
                     colummGap: '2px',
@@ -170,7 +170,7 @@ function CartPage() {
                   },
 
                   '& .ActionCard-end .ActionCard-price span': (theme) => ({
-                    color: '#000',
+                    color: (theme: any) => theme.palette.custom.dark,
                     fontSize: { xs: '16px', md: '20px' },
                     fontWeight: '700 !important',
                     lineHeight: '120%',
@@ -223,17 +223,17 @@ function CartPage() {
                   '& .MuiButtonBase-root': {
                     width: '100%',
                     borderRadius: '4px',
-                    backgroundColor: '#9B7C38',
+                    backgroundColor: (theme: any) => theme.palette.custom.heading,
                     border: '1px solid #9B7C38',
                     color: '#fff',
                     // fontSize: { xs: '12px', sm: '14px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent',
-                      color: '#2A110A',
+                      color: (theme: any) => theme.palette.custom.smallHeading,
                     },
                     '&:hover:not(.Mui-disabled)': {
                       backgroundColor: 'transparent',
-                      color: '#2A110A',
+                      color: (theme: any) => theme.palette.custom.smallHeading,
                       boxShadow: 'none',
                     },
                   },

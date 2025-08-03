@@ -19,7 +19,7 @@ function AboutPage(props) {
         canonical='/about'
       />
 
-      <InnerTop title={'About'} isFilter={false} />
+      <InnerTop title={'About'} isFilter={false} responsiveTitle='Our Story' />
 
       <About />
     </>

@@ -46,7 +46,17 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
           delay: 3000,
           disableOnInteraction: false,
         }}
-        slidesPerView={1.5}
+        // slidesPerView={1.5}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 1.5,
+            spaceBetween: 28,
+          },
+        }}
         spaceBetween={28}
         grabCursor
         centeredSlides
@@ -60,11 +70,11 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                 backgroundColor: activeSlide === index ? '#F6DBE0' : '#Ffff',
                 border: activeSlide === index ? 'none' : '1px solid #E6E6E6',
                 transition: 'all 0.3s ease',
-                padding: '30px 80px 60px',
+                padding: { xs: '30px', xl: '30px 80px 60px' },
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '25px',
+                gap: { x: '10px', md: '15px', lg: '25px' },
               }}
             >
               <Box>
@@ -83,7 +93,7 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                 component='p'
                 variant='p'
                 sx={{
-                  color: '#2A110A',
+                  color: (theme: any) => theme.palette.custom.smallHeading,
                   fontSize: { xs: '14px !important', md: '16px !important', lg: '20px !important' },
                   fontWeight: 700,
                   textAlign: 'center',
@@ -96,46 +106,55 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                 component='p'
                 variant='p'
                 sx={{
-                  color: '#6F6F6F',
-                  fontSize: { xs: '14px !important', md: '16px !important' },
+                  color: (theme: any) => theme.palette.custom.secondary,
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
                   textAlign: 'center',
                   // maxWidth: '650px',
                 }}
               >
                 {item?.description}
               </Typography>
-
-              {activeSlide === index && (
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: '-80px', // Moves the quote above the card
-                    left: '50px',
-                    zIndex: 19, // Ensure it stays on top of the card
-                  }}
-                >
-                  <Image
-                    src={quote}
-                    alt='quote'
-                    width={200}
-                    height={200}
-                    sx={{ width: '100%', height: 'auto', maxHeight: '200px' }}
-                  />
-                </Box>
-              )}
             </Box>
+            {activeSlide === index && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '-80px',
+                  left: '50px',
+                  zIndex: 1999999,
+                }}
+              >
+                <Image
+                  src={quote}
+                  alt='quote'
+                  width={200}
+                  height={200}
+                  sx={{ width: '100%', height: '200px' }}
+                />
+              </Box>
+            )}
           </SwiperSlide>
         ))}
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: '28px', marginTop: '25px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '28px',
+            marginTop: { xs: '20px', md: '25px' },
+          }}
+        >
           <Button
             sx={{
               border: '1px solid #DEDEDE',
-              padding: '18px 15px',
+              padding: '20px 15px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              '& svg': {
+                fontSize: '20px',
+              },
             }}
             disableRipple
             onClick={handlePrev}
@@ -145,11 +164,14 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
           <Button
             sx={{
               border: '1px solid #DEDEDE',
-              padding: '18px 15px',
+              padding: '20px 15px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              '& svg': {
+                fontSize: '20px',
+              },
             }}
             disableRipple
             onClick={handleNext}

@@ -28,10 +28,11 @@ export interface InnerTopProps {
   isFilter?: boolean
   mainTitle?: string | null
   sx?: SxProps<Theme>
+  responsiveTitle?: string
 }
 
 export function InnerTop(props: InnerTopProps) {
-  const { count, title, isFilter, mainTitle, sx } = props
+  const { count, title, isFilter, mainTitle, responsiveTitle, sx } = props
   const router = useRouter()
 
   const nestedRoutes = Array.isArray(router.query.url)
@@ -241,6 +242,21 @@ export function InnerTop(props: InnerTopProps) {
               </FormControl>
             </Box>
           </Box>
+        )}
+
+        {responsiveTitle && (
+          <Typography
+            component='h2'
+            variant='h2'
+            sx={{
+              display: { xs: 'block', lg: 'none' },
+              borderBottom: { xs: '1px solid #d4d4d4', lg: 'none' },
+              marginBottom: { xs: '10px', md: '15px', lg: '0' },
+              paddingBottom: { xs: '10px', md: '15px', lg: '0' },
+            }}
+          >
+            {responsiveTitle}
+          </Typography>
         )}
       </Box>
     </Box>

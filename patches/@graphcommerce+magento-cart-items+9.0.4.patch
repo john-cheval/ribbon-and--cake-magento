@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..f6fe9e3 100644
+index de7b68f..90c9795 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -108,7 +108,7 @@ index de7b68f..f6fe9e3 100644
 -              objectFit: 'contain',
 +              borderRadius: '8px',
 +              objectFit: 'cover',
-+              marginRight:'5px'
++              marginRight:'10px'
              }}
              sizes={actionCardImageSizes[size]}
            />

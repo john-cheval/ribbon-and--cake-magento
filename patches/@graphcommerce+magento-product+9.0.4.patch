@@ -1,3 +1,59 @@
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
+index 6ae6263..8d63d21 100644
+--- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
+@@ -4,6 +4,7 @@ import { Button } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/macro'
+ import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
+ import { useAddProductsToCartAction } from './useAddProductsToCartAction'
++import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab'
+ 
+ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+   Pick<
+@@ -27,17 +28,32 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+ 
+   if (!cartEnabled) return null
+ 
++
+   return (
+-    <Button
+-      type='submit'
+-      color='primary'
+-      variant='pill'
+-      size='large'
+-      {...rest}
+-      {...action}
+-      disabled={disabled}
+-    >
+-      {children || <Trans>Add to Cart</Trans>}
+-    </Button>
++   // <Button
++   //   type='submit'
++   //   color='primary'
++   //   variant='pill'
++   //   size='large'
++   //   {...rest}
++   //   {...action}
++   //   disabled={disabled}
++   // >
++   //   {children || <Trans>Hello Dhosto</Trans>}
++   // </Button>
++
++    <AddProductsToCartFab sku={product?.sku} sx={{
++       height:'50px',
++       width:'50px',
++        '& svg': {
++        fontSize: '25px',
++        stroke: 'unset !important',
++        left:{xs:'5px', md:'6px'},
++         top: {xs:'1px',md:'3px'},
++         position:'relative'
++            },
++            
++      }}  />
++
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 index 2050980..d81c376 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx

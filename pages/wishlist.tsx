@@ -1,15 +1,15 @@
 import { WaitForQueries } from '@graphcommerce/ecommerce-ui'
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
-import { WishlistItemActionCard, useWishlistItems } from '@graphcommerce/magento-wishlist'
+import { useWishlistItems, WishlistItemActionCard } from '@graphcommerce/magento-wishlist'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   Button,
   FullPageMessage,
+  iconHeart,
   IconSvg,
   LayoutOverlayHeader,
   LayoutTitle,
-  iconHeart,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
@@ -48,7 +48,68 @@ function WishlistPage() {
           </FullPageMessage>
         }
       >
-        <Container maxWidth='md'>
+        <Container
+          maxWidth='md'
+          sx={{
+            '& .AddProductsToCartForm': {
+              '& .ActionCard-image img': {
+                borderRadius: '8px',
+                marginRight: '10px',
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%',
+                minWidth: '100px',
+              },
+              '& .ActionCard-secondaryAction': {
+                '& .MuiBox-root': {
+                  alignItems: 'center',
+                  columnGap: '10px',
+
+                  '&:nth-child(2)': {
+                    marginTop: { xs: '5px', md: '10px' },
+                    display: { xs: 'inline-flex', md: 'none' },
+                  },
+                },
+                '& .MuiFormControl-root .MuiInputBase-root': {
+                  border: '1px solid #F6DBE0 ',
+                  padding: '5px',
+                  borderRadius: '8px',
+                  color: '#333',
+                  fontsize: { xs: '12px', md: '14px', lg: '18px' },
+                  fontWeight: 500,
+                },
+
+                '& button': {
+                  boxShadow: 'none',
+
+                  '& svg': {
+                    fontSize: { xs: '20px', md: '20px', lg: '25px' },
+                  },
+                },
+              },
+              '& .ActionCard-end .ActionCard-action .MuiButtonBase-root': {
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                },
+                '&:active': {
+                  backgroundColor: 'transparent',
+                },
+
+                '&.Mui-focusVisible': {
+                  backgroundColor: 'transparent',
+                },
+
+                '&:focus': {
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                },
+              },
+              '& .ActionCard-end .ActionCard-price ': {
+                display: { xs: 'none', md: 'inline-flex' },
+              },
+            },
+          }}
+        >
           {wishlistItems.items.length === 0 ? (
             <FullPageMessage
               title={<Trans id='Your wishlist is empty' />}

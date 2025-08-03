@@ -11,6 +11,7 @@ import { AppProps } from 'next/app'
 import { darkTheme, lightTheme } from '../components/theme'
 import { saxoGrammaticus } from '../lib/fonts'
 import { I18nProvider } from '../lib/i18n/I18nProvider'
+import '../styles/global.css'
 
 export default function ThemedApp(props: AppProps) {
   const { router } = props

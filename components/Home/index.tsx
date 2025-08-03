@@ -7,17 +7,17 @@ import { HomeSectionFour } from './components/HomeSectionFour'
 import { HomeSectionThree } from './components/HomeSectionThree'
 import { HomeStory } from './components/HomeStory'
 
-export function HomePage() {
+export function HomePage({ dummy }) {
   return (
     <>
-      <HomeBanner />
-      <HomeStory />
+      {/* <HomeBanner h={dummy} />  */}
+      {/* <HomeStory />
       <HomeSectionThree />
       <HomeSectionFour />
       <HomeCta />
       <HomeOccasion />
       <HomeCollection />
-      <HomeJar />
+      <HomeJar /> */}
     </>
   )
 }

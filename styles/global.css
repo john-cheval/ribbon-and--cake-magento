@@ -1,0 +1,196 @@
+:root {
+  /* Custom Palette Colors */
+  --color-custom-main: #441e14;
+  --color-custom-heading: #9b7c38;
+  --color-custom-secondary: #6f6f6f;
+  --color-custom-tertiary: #969696;
+  --color-custom-dark: #000;
+  --color-custom-border: #f6dbe0;
+  --color-custom-smallHeading: #2a110a;
+  --color-custom-borderInput: #d5b1b8;
+  --color-custom-wishlistColor: #f1a8b6;
+
+  /* Primary Colors */
+  --color-primary-main: #441e14;
+  --color-primary-contrastText: #ffffff;
+  --color-primary-dark: #000000;
+
+  /* Background Colors */
+  --color-background-default: #f9f9fa;
+  --color-background-paper: #ffffff;
+  --color-background-image: #ffffff;
+
+  /* Text Colors */
+  --color-text-primary: #0f0f10;
+  --color-text-secondary: rgba(3, 3, 23, 0.33); /* 03031755 is 0x030317 at 55% alpha */
+  --color-text-disabled: rgba(3, 3, 23, 0.21); /* 03031735 is 0x030317 at 35% alpha */
+
+  /* Breakpoints (if you want to use them as variables) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1536px;
+}
+
+@font-face {
+  font-family: 'Saxo Grammaticus';
+  src: url('../public/fonts/SaxoGrammaticusRegular.woff') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Saxo Grammaticus';
+  src: url('../public/fonts/SaxoGrammaticusLight.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Saxo Grammaticus';
+  src: url('../public/fonts/SaxoGrammaticusBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Home Hero Section */
+.home-banner-section {
+  background-image: url('https://ap-south-1.graphassets.com/cmbta5lm400l901wb51h39wvi/cmcitkne9247407oel27xdbb6');
+  background-size: cover;
+  background-position: top center;
+  height: 600px; /* Default for mobile */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.home-banner-content {
+  padding-inline: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  top: -13%;
+}
+
+.heading {
+  font-family: 'Saxo Grammaticus', sans-serif;
+  text-transform: uppercase;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0;
+  color: #302100;
+  margin-bottom: 0;
+}
+.banner-text {
+  max-width: 250px;
+  color: #302100;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.home-banner-content .heading {
+  width: 200px;
+}
+
+.explore-menu-btn {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  position: relative;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 158%;
+  letter-spacing: 0%;
+  width: fit-content;
+  padding: 12px 20px;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1;
+  color: #441e14;
+  background-color: #f6dbe0;
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+
+.explore-menu-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%;
+  background-color: #f6dbe0;
+  border-radius: 4px;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.explore-menu-btn:hover {
+  color: #fff;
+}
+
+.explore-menu-btn:hover::before {
+  background-color: #9b7c38;
+  width: 100%;
+}
+.explore-menu-btn:hover .arrow-icon {
+  transform: translateX(5px);
+}
+.explore-menu-btn .arrow-icon {
+  display: inline-flex;
+  transition: transform 0.5s ease;
+}
+
+.banner-overlay-gradient {
+  backdrop-filter: blur(0px);
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  width: 100%;
+  height: 100%;
+  max-height: 73px;
+  position: absolute;
+  top: 64px; /* Default for mobile */
+  left: 0;
+  pointer-events: none;
+}
+
+/* md breakpoint */
+@media (min-width: 768px) {
+  .home-banner-content {
+    padding-inline: 25px;
+  }
+  .home-banner-content .heading {
+    width: 450px;
+  }
+  .banner-text {
+    max-width: 400px;
+    font-size: 16px;
+  }
+  .explore-menu-btn {
+    font-size: 16px;
+    width: 200px;
+    padding: 15px 20px;
+    background-color: inherit;
+  }
+}
+
+/* lg breakpoint */
+
+@media (min-width: 1200px) {
+  .home-banner-section {
+    height: 90vh;
+  }
+  .banner-overlay-gradient {
+    top: 79px;
+  }
+}
+
+/* Extra Large breakpoint */
+@media (min-width: 1536px) {
+  .home-banner-content {
+    padding-inline: 55px;
+  }
+}

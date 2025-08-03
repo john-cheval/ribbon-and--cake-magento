@@ -37,13 +37,13 @@ function CartItems({ items, size = 'responsive', length, index }: CartItemsProps
             display: 'block',
             borderRadius: '8px',
             objectFit: 'cover',
-            marginRight: '5px',
+            marginRight: '10px',
             minWidth: '100px',
           }}
           sizes={actionCardImageSizes[size]}
         />
       </Box>
-      <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+      <Box sx={{ flexGrow: 1, minWidth: 0, marginLeft: '10px' }}>
         <CartTop item={items} />
         <Box
           sx={{ display: { xs: 'none', md: 'block' }, marginRight: 'auto', width: 'fit-content' }}

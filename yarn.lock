@@ -2255,6 +2255,7 @@ __metadata:
     eslint: "npm:^8.57.1"
     framer-motion: "npm:11.15.0"
     graphql: "npm:^16.10.0"
+    html-entities: "npm:^2.6.0"
     next: "npm:15.1.0"
     next-sitemap: "npm:4.2.3"
     prettier: "npm:^3"
@@ -9657,6 +9658,13 @@ __metadata:
   dependencies:
     react-is: "npm:^16.7.0"
   checksum: 10c0/fe0889169e845d738b59b64badf5e55fa3cf20454f9203d1eb088df322d49d4318df774828e789898dcb280e8a5521bb59b3203385662ca5e9218a6ca5820e74
+  languageName: node
+  linkType: hard
+
+"html-entities@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "html-entities@npm:2.6.0"
+  checksum: 10c0/7c8b15d9ea0cd00dc9279f61bab002ba6ca8a7a0f3c36ed2db3530a67a9621c017830d1d2c1c65beb9b8e3436ea663e9cf8b230472e0e413359399413b27c8b7
   languageName: node
   linkType: hard
 

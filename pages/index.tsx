@@ -31,7 +31,7 @@ export type CmsPageRouteProps = LayoutNavigationProps &
 function CmsPage(props: CmsPageRouteProps) {
   const { cmsPage, cmsBlocks, storyproducts } = props
 
-  console.log(storyproducts, 'this is the story page from the api')
+  // console.log(storyproducts, 'this is the story page from the api')
   const cmsDummy = cmsBlocks.find((block) => block.identifier === 'slider')
   const cmsform = cmsBlocks.find((block) => block.identifier === 'test-form')
 
@@ -52,8 +52,8 @@ function CmsPage(props: CmsPageRouteProps) {
       {/* decodedH && <div dangerouslySetInnerHTML={{ __html: decodedH }}></div> */}
       <HomePage dummy={hh} />
 
-      {/* <div>{cmsDummy?.content}</div> */}
-      <div dangerouslySetInnerHTML={{ __html: cmsform?.content }}></div>
+      {/* <div>{cmsDummy?.content}</div> 
+      <div dangerouslySetInnerHTML={{ __html: cmsform?.content }}></div>*/}
     </>
   )
 }

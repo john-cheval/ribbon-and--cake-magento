@@ -5,11 +5,21 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import About from '../../components/About'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
-
-function AboutPage(props) {
+export type CmsBlocksProps = { cmsBlocks?: any }
+function AboutPage(props: CmsBlocksProps) {
+  const { cmsBlocks } = props
+  const abuotLeft = cmsBlocks.find((block) => block.identifier === 'about-left')
+  const abuotTopCenter = cmsBlocks.find((block) => block.identifier === 'about-top-center')
+  const aboutTopRight = cmsBlocks.find((block) => block.identifier === 'about-top-right')
+  const decodedAboutLeft = decodeHtmlEntities(abuotLeft?.content)
+  const decodedAboutTopCenter = decodeHtmlEntities(abuotTopCenter?.content)
+  const decodedAboutTopRight = decodeHtmlEntities(aboutTopRight?.content)
+  console.log(decodedAboutTopRight, 'decodedAboutTopCenter')
   return (
     <>
       <PageMeta
@@ -21,7 +31,11 @@ function AboutPage(props) {
 
       <InnerTop title={'About'} isFilter={false} responsiveTitle='Our Story' />
 
-      <About />
+      <About
+        left={decodedAboutLeft}
+        topCenter={decodedAboutTopCenter}
+        topRight={decodedAboutTopRight}
+      />
     </>
   )
 }
@@ -44,9 +58,19 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
+  const cmsPageBlocksQuery = staticClient.query({
+    query: cmsMultipleBlocksDocument,
+    variables: {
+      blockIdentifiers: ['about-left', 'about-top-center', 'about-top-right'],
+    },
+  })
+
+  const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
+
   return {
     props: {
       ...(await layout).data,
+      cmsBlocks,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

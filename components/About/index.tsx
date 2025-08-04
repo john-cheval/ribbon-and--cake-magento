@@ -6,9 +6,17 @@ import svgIcon from '../Assets/about/Vector.svg'
 import { HoveredButton } from '../shared/Button/HoveredButon'
 import Clients from '../shared/Clients'
 import Testimonials from '../shared/Testimonials'
-import AboutLeft from './Left'
 
-export function About() {
+// import AboutLeft from './Left'
+
+export type AboutPageProps = {
+  left?: string
+  topCenter?: string
+  topRight?: string
+}
+
+export function About(props: AboutPageProps) {
+  const { left, topCenter, topRight } = props
   return (
     <Box sx={{ position: 'relative' }}>
       <Box
@@ -26,7 +34,8 @@ export function About() {
         <Box
           sx={{ gridColumn: { xs: 'auto', md: 'span 2' }, display: { xs: 'none', lg: 'block' } }}
         >
-          <AboutLeft />
+          {/*<AboutLeft /> */}
+          {left && <div dangerouslySetInnerHTML={{ __html: left }} />}
         </Box>
 
         <Box
@@ -38,7 +47,7 @@ export function About() {
             width: '100%',
           }}
         >
-          <Typography
+          {/*  <Typography
             component='h2'
             variant='h2'
             sx={{
@@ -65,12 +74,13 @@ export function About() {
                 height: 'auto',
               }}
             />
-          </Box>
+          </Box>*/}
+          {topCenter && <div dangerouslySetInnerHTML={{ __html: topCenter }} />}
         </Box>
 
         <Box sx={{ gridColumn: { xs: 'auto', md: 'span 6', lg: 'span 4' } }}>
-          <Box sx={{ marginBottom: { xs: '20px', md: '35px' } }}>
-            <Typography
+          {/*<Box sx={{ marginBottom: { xs: '20px', md: '35px' } }}>
+             <Typography
               component='p'
               variant='p'
               sx={{
@@ -103,9 +113,9 @@ export function About() {
               works of art that are guaranteed to make a lasting impression on your mood and senses.
               Each product is methodically created with this in mind. This is why she calls it a
               creation, not just a cake! Founded in
-            </Typography>
-          </Box>
-
+            </Typography> 
+          </Box>*/}
+          {topRight && <div dangerouslySetInnerHTML={{ __html: topRight }} />}
           <HoveredButton
             text='Explore our collections'
             href='/explore'

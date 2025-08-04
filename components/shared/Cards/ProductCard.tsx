@@ -23,8 +23,9 @@ export function ProductCard({
   if (!item) {
     return null
   }
-
+  const product = item
   const isLeftIcon = iconPosition === 'left'
+
   // const ActionIcon = isLeftIcon ? IoIosHeartEmpty : IoBagHandleOutline
   // const currentIconHoverColor = isLeftIcon ? '#F1A8B6' : iconColor
 
@@ -37,9 +38,6 @@ export function ProductCard({
         transition: 'all 0.3s ease-in-out',
         overflow: 'hidden',
         transformOrigin: 'top',
-        '&:hover': {
-          transform: 'scaleY(0.85)', // slightly reduce height
-        },
       }}
     >
       <Box sx={{ position: 'relative' }}>

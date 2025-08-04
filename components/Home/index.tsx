@@ -10,14 +10,14 @@ import { HomeStory } from './components/HomeStory'
 export function HomePage({ dummy }) {
   return (
     <>
-      {/* <HomeBanner h={dummy} />  */}
-      {/* <HomeStory />
+      <HomeBanner h={dummy} />
+      <HomeStory />
       <HomeSectionThree />
       <HomeSectionFour />
       <HomeCta />
       <HomeOccasion />
       <HomeCollection />
-      <HomeJar /> */}
+      <HomeJar />
     </>
   )
 }

@@ -49,7 +49,7 @@ function CmsPage(props: CmsPageRouteProps) {
         canonical='/'
       />
 
-      {decodedH && <div dangerouslySetInnerHTML={{ __html: decodedH }}></div>}
+      {/* decodedH && <div dangerouslySetInnerHTML={{ __html: decodedH }}></div> */}
       <HomePage dummy={hh} />
 
       {/* <div>{cmsDummy?.content}</div> */}

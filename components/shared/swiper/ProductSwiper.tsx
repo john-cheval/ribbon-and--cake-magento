@@ -90,7 +90,7 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          // modules={[Autoplay]}
+          modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,

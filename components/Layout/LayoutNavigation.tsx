@@ -158,8 +158,9 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                       // padding: { lg: '5px 8px', xl: '8px 16px' },
                       borderRadius: '999px',
                       fontSize: '16px',
+                      border: '1px solid transparent',
                       '&:hover': {
-                        backgroundColor: '#F6DBE0',
+                        border: '1px solid #F6DBE0',
                       },
                     }}
                     key={menus?.uid}

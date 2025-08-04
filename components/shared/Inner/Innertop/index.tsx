@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import CustomSelectInput from '../../Inputs/CustomSelectInput'
 import rightArrow from './arrow_right.svg'
@@ -28,11 +28,18 @@ export interface InnerTopProps {
   isFilter?: boolean
   mainTitle?: string | null
   sx?: SxProps<Theme>
+  responsiveTitle?: string
 }
 
 export function InnerTop(props: InnerTopProps) {
-  const { count, title, isFilter, mainTitle, sx } = props
-  // const router = useRouter()
+  const { count, title, isFilter, mainTitle, responsiveTitle, sx } = props
+  const router = useRouter()
+
+  const nestedRoutes = Array.isArray(router.query.url)
+    ? router.query.url
+    : router.query.url
+      ? [router.query.url]
+      : []
   // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
   // const capitalizedRoute = capitalizeFirstLetter(routes)
   const [sortValue, setSortValue] = useState('Latest')
@@ -48,13 +55,13 @@ export function InnerTop(props: InnerTopProps) {
   }
 
   return (
-    <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
+    <Box sx={{ paddingInline: { xs: '18px', md: '25px', xl: '55px' } }}>
       <Box
         sx={[
           {
             borderTop: '1px solid #d4d4d4',
             ...((isFilter || mainTitle) && { borderBottom: '1px solid #d4d4d4' }),
-            paddingBlock: '15px',
+            paddingBlock: { xs: '10px', lg: '15px' },
           },
 
           ...(Array.isArray(sx) ? sx : [sx]),
@@ -65,44 +72,92 @@ export function InnerTop(props: InnerTopProps) {
             aria-label='breadcrumb'
             sx={{
               display: 'flex',
-              columnGap: '10px',
+              columnGap: { xs: '3px', sm: '5px', md: '10px' },
               alignItems: 'center',
             }}
           >
             <Typography
               component='p'
-              variant='p'
               sx={{
-                color: '#969696 !important',
+                color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
+                fontSize: { xs: '14px', md: '16px' },
               }}
             >
               <Link href='/'>Home</Link>
             </Typography>
 
-            <Image
-              src={rightArrow}
-              width={18}
-              height={18}
-              sizes='100vw'
-              sx={{
-                width: '18px',
-                height: 'auto',
-                verticalAlign: 'middle',
-                flexShrink: 0,
-              }}
-            />
+            {title && (
+              <>
+                <Image
+                  src={rightArrow}
+                  width={18}
+                  height={18}
+                  sizes='100vw'
+                  sx={{
+                    width: '18px',
+                    height: 'auto',
+                    verticalAlign: 'middle',
+                    flexShrink: 0,
+                  }}
+                />
 
-            <Typography
-              component='p'
-              variant='p'
-              sx={{
-                color: '#969696 !important',
-                fontWeight: 400,
-              }}
-            >
-              {title}
-            </Typography>
+                <Typography
+                  component='p'
+                  sx={{
+                    color: (theme: any) => theme.palette.custom.tertiary,
+                    fontWeight: 400,
+                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  }}
+                >
+                  {title}
+                </Typography>
+              </>
+            )}
+
+            {!title &&
+              nestedRoutes?.length > 0 &&
+              nestedRoutes.map((link, index) => {
+                const formattedLink = link
+                  .split('-')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')
+
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      columnGap: { xs: '3px', sm: '5px', md: '10px' },
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Image
+                      src={rightArrow}
+                      width={18}
+                      height={18}
+                      sizes='100vw'
+                      sx={{
+                        width: '18px',
+                        height: 'auto',
+                        verticalAlign: 'middle',
+                        flexShrink: 0,
+                      }}
+                    />
+
+                    <Typography
+                      component='p'
+                      sx={{
+                        color: (theme: any) => theme.palette.custom.tertiary,
+                        fontWeight: 400,
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      }}
+                    >
+                      {formattedLink}
+                    </Typography>
+                  </Box>
+                )
+              })}
           </Box>
         </Box>
 
@@ -113,12 +168,19 @@ export function InnerTop(props: InnerTopProps) {
         )}
 
         {isFilter && (
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'unset', md: 'space-between' },
+              alignItems: 'center',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 columnGap: '40px',
+                justifyContent: { xs: 'space-between', md: 'start' },
               }}
             >
               <Typography component='h2' variant='h2' sx={{}}>
@@ -127,11 +189,17 @@ export function InnerTop(props: InnerTopProps) {
 
               <ProductListCount
                 total_count={count}
-                sx={{ gridArea: 'count', width: '100%', my: 0, height: '1em-' }}
+                sx={{
+                  gridArea: 'count',
+                  width: '100%',
+                  my: 0,
+                  height: '1em-',
+                  textAlign: { xs: 'right', md: 'left' },
+                }}
               />
             </Box>
 
-            <Box>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <Typography
                 variant='p'
                 sx={{
@@ -174,6 +242,21 @@ export function InnerTop(props: InnerTopProps) {
               </FormControl>
             </Box>
           </Box>
+        )}
+
+        {responsiveTitle && (
+          <Typography
+            component='h2'
+            variant='h2'
+            sx={{
+              display: { xs: 'block', lg: 'none' },
+              borderBottom: { xs: '1px solid #d4d4d4', lg: 'none' },
+              marginBottom: { xs: '10px', md: '15px', lg: '0' },
+              paddingBottom: { xs: '10px', md: '15px', lg: '0' },
+            }}
+          >
+            {responsiveTitle}
+          </Typography>
         )}
       </Box>
     </Box>

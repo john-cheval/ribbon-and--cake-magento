@@ -1,6 +1,5 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Grid, Typography } from '@mui/material'
-// import { HomeCollectionFragment } from './HomeCollection.gql'
 import bannerImage from '../../Assets/collection.jpg'
 import { HoveredButton } from '../../shared/Button/HoveredButon'
 
@@ -8,7 +7,12 @@ export function HomeCollection(props) {
   const { title } = props
   return (
     <Box
-      sx={{ paddingInline: '55px', paddingTop: '80px', position: 'relative', overflow: 'hidden' }}
+      sx={{
+        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px' },
+        position: 'relative',
+        overflow: 'hidden',
+      }}
       component='section'
     >
       <Grid
@@ -17,7 +21,7 @@ export function HomeCollection(props) {
           position: 'relative',
         }}
       >
-        <Grid item md={7}>
+        <Grid item xs={12} lg={7}>
           <Image
             src={bannerImage}
             alt={title || 'banner image'}
@@ -26,6 +30,8 @@ export function HomeCollection(props) {
             sizes='100vw'
             sx={{
               borderRadius: '8px',
+              zIndex: { xs: 100, lg: 99 },
+              position: 'relative',
             }}
           />
         </Grid>
@@ -33,33 +39,42 @@ export function HomeCollection(props) {
         <Grid container>
           <Grid
             item
-            md={6}
+            xs={12}
+            lg={6}
             sx={{
               borderRadius: '8px',
               background: 'rgba(243, 243, 243, 0.83)',
               backdropFilter: 'blur(5.300000190734863px)',
-              padding: '100px 88px',
+              padding: { xs: '50px 40px 40px', lg: '60px 50px ', xl: '100px 88px' },
               marginLeft: 'auto',
-              position: 'absolute',
-              top: '50%',
-              right: '55px',
-              transform: 'translateY(-50%)',
+              position: { xs: 'unset', lg: 'absolute' },
+              top: { xs: 'unset', lg: '50%' },
+              right: { xs: 'unset', lg: '55px' },
+              transform: { xs: 'unset', lg: 'translateY(-50%)' },
               width: '100%',
+              zIndex: { xs: 99, lg: 101 },
+              marginTop: { xs: '-30px', lg: 0 },
             }}
           >
-            <Typography component='h2' variant='h2'>
+            <Typography
+              component='h2'
+              variant='h2'
+              sx={{ textAlign: { xs: 'center', lg: 'left' } }}
+            >
               {title || 'Lorem Ipsum is simply'}
             </Typography>
 
             <Typography
               component='p'
               variant='p'
-              style={{
+              sx={{
                 fontWeight: 400,
                 lineHeight: '174% !important',
-                maxWidth: '465px',
-                marginBottom: '40px',
-                marginTop: '16px',
+                maxWidth: { xs: '100%', lg: '465px' },
+                marginBottom: { xs: '20px', xl: '25px' },
+                marginTop: { xl: '16px' },
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                textAlign: { xs: 'center', lg: 'left' },
               }}
             >
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
@@ -71,6 +86,7 @@ export function HomeCollection(props) {
               href='/explore '
               isArrow={false}
               width='fit-content'
+              isCenter={true}
             />
           </Grid>
         </Grid>

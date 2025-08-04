@@ -52,6 +52,7 @@ import type { GetStaticPaths } from 'next'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation, productListRenderer } from '../../components'
 import { AddProductsToCartView } from '../../components/ProductView/AddProductsToCartView'
+import { InnerTop } from '../../components/shared/Inner/Innertop'
 // import { Reviews } from '../../components/ProductView/Reviews'
 import { fontSize } from '../../components/theme'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
@@ -94,11 +95,15 @@ function ProductPage(props: Props) {
 
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
+      <InnerTop title={product?.name ?? ''} isFilter={false} />
       <AddProductsToCartForm
         key={product.uid}
         defaultValues={defaultValues}
         sx={{
-          paddingTop: '40px',
+          backgroundColor: 'red',
+          '& .SidebarGallery-row.breakoutLeft': {
+            paddingLeft: { xs: '18px', md: '25px', xl: '55px' },
+          },
         }}
       >
         {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
@@ -140,7 +145,8 @@ function ProductPage(props: Props) {
               display: 'grid',
               rowGap: { xs: '10px', md: '15px' },
               // backgroundColor: 'red',
-              padding: '0 !important',
+              //  padding: '0 !important',
+              // paddingLeft: { xs: '18px', md: '25px', xl: '55px' },
             },
           })}
           disableSticky
@@ -148,26 +154,35 @@ function ProductPage(props: Props) {
           <Box
             sx={{
               flexGrow: 1,
-              height: '600px',
+              // height: '600px',
               overflowY: 'scroll',
               overflowX: 'hidden',
-              pr: { xs: '5px', md: '20px' },
+              // pr: { xs: '5px', md: '20px' },
               paddingBottom: '50px',
-              pl: { xs: '5px', md: '20px', lg: '30px' },
+              // pl: { xs: '5px', md: '20px', lg: '30px', xl: 0 },
 
               '&::-webkit-scrollbar': {
-                width: '6px',
-                borderRadius: '0px',
-                backgroundColor: '#EBEBEB',
+                //   width: '6px',
+                //   borderRadius: '0px',
+                //   backgroundColor: '#EBEBEB',
+                display: 'none',
+                width: 0,
+                background: 'transparent',
               },
               '&::-webkit-scrollbar-track': {
-                backgroundColor: '#EBEBEB',
-                borderRadius: '0px',
+                //   backgroundColor: '#EBEBEB',
+                //    borderRadius: '0px',
+                display: 'none',
               },
               '&::-webkit-scrollbar-thumb': {
-                backgroundColor: (theme) => theme.palette.primary.main,
-                borderRadius: '0px',
+                //     backgroundColor: (theme) => theme.palette.primary.main,
+                //     borderRadius: '0px',
+                display: 'none',
               },
+
+              // --- Hide scrollbar for Firefox ---
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
             }}
           >
             <div>
@@ -186,7 +201,7 @@ function ProductPage(props: Props) {
                   component='div'
                   gutterBottom
                   sx={{
-                    color: '#000',
+                    color: (theme: any) => theme.palette.custom.dark,
                     fontWeight: 400,
                     lineHeight: '120%',
                     margin: 0,
@@ -199,7 +214,7 @@ function ProductPage(props: Props) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    paddingBottom: '20px',
+                    paddingBottom: '15px',
                     borderBottom: '1px solid rgba(199, 202, 205, 0.42)',
                   }}
                 >
@@ -217,27 +232,32 @@ function ProductPage(props: Props) {
                   <ProductWishlistIconButton
                     {...product}
                     sx={{
-                      backgroundColor: '#F6DBE0',
+                      backgroundColor: (theme: any) => theme.palette.custom.border,
                       padding: 0,
-                      height: '44px',
-                      width: '44px',
+                      height: '40px',
+                      width: '40px',
+                      border: '1px solid #F6DBE0',
+                      transition: 'all 0.4s ease-in-out',
                       '&:hover': {
-                        backgroundColor: '#F6DBE0',
+                        backgroundColor: 'transparent',
                       },
                       '&:focus': {
-                        backgroundColor: '#F6DBE0',
+                        backgroundColor: (theme: any) => theme.palette.custom.border,
                       },
                       '&:active': {
-                        backgroundColor: '#F6DBE0',
+                        backgroundColor: (theme: any) => theme.palette.custom.border,
                       },
                       '&.Mui-focusVisible': {
-                        backgroundColor: '#F6DBE0',
+                        backgroundColor: (theme: any) => theme.palette.custom.border,
                       },
                       '& .MuiTouchRipple-root': {
-                        color: '#F6DBE0',
+                        color: (theme: any) => theme.palette.custom.border,
                       },
-                      '& .ProductWishlistChipBase-wishlistIcon': {
-                        color: '#441E14',
+                      '& svg': {
+                        stroke: (theme: any) => theme.palette.custom.main,
+                      },
+                      '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                        stroke: (theme: any) => theme.palette.custom.border,
                       },
                     }}
                   />
@@ -370,7 +390,7 @@ function ProductPage(props: Props) {
           productListRenderer={productListRenderer}
           sizes={responsiveVal(200, 400)}
           sx={{
-            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
           }}
           itemScrollerProps={{
             sx: (theme) => ({

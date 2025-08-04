@@ -23,8 +23,9 @@ export function ProductCard({
   if (!item) {
     return null
   }
-
+  const product = item
   const isLeftIcon = iconPosition === 'left'
+
   // const ActionIcon = isLeftIcon ? IoIosHeartEmpty : IoBagHandleOutline
   // const currentIconHoverColor = isLeftIcon ? '#F1A8B6' : iconColor
 
@@ -32,14 +33,11 @@ export function ProductCard({
     <Box
       sx={{
         display: 'flex',
-        gap: '13px',
+        gap: { xs: '5px', md: '8px', lg: '13px' },
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
         overflow: 'hidden',
         transformOrigin: 'top',
-        '&:hover': {
-          transform: 'scaleY(0.85)', // slightly reduce height
-        },
       }}
     >
       <Box sx={{ position: 'relative' }}>
@@ -58,17 +56,17 @@ export function ProductCard({
           component='div'
           sx={{
             position: 'absolute',
-            right: right,
+            right: { xs: '10px', md: right },
             // left: isLeftIcon ? left : 'auto',
-            top,
-            backgroundColor: '#fff',
-            color: '#F1A8B6',
+            top: { xs: '10px', md: top },
+            backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+            color: (theme: any) => theme.palette.custom.wishlistColor,
             zIndex: 5,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'cemter',
             columnGap: '4px',
-            padding,
+            padding: { xs: '10px', md: padding },
             borderRadius: '50%',
             width: 'fit-content',
             cursor: 'pointer',
@@ -118,7 +116,7 @@ export function ProductCard({
                   width={18}
                   height={18}
                   sizes='100vw'
-                  sx={{ width: '100%', maxWidth: '18px' }}
+                  sx={{ width: { xs: '14px', md: '18px' }, maxWidth: '18px' }}
                 />
                 {item?.startPrice}
               </Typography>
@@ -141,7 +139,7 @@ export function ProductCard({
                   width={18}
                   height={18}
                   sizes='100vw'
-                  sx={{ width: '100%', maxWidth: '18px' }}
+                  sx={{ width: { xs: '14px', md: '18px' }, maxWidth: '18px' }}
                 />
                 {item?.endPrice}
               </Typography>
@@ -149,7 +147,7 @@ export function ProductCard({
           )}
 
           {item?.price && (
-            <Box component='div' sx={{ display: 'flex', columnGap: '3px' }}>
+            <Box component='div' sx={{ display: 'flex', columnGap: '3px', alignItems: 'center' }}>
               <Typography
                 component='p'
                 variant='p'
@@ -167,7 +165,7 @@ export function ProductCard({
                   height={18}
                   sizes='100vw'
                   sx={{
-                    width: '100%',
+                    width: { xs: '14px', md: '18px' },
                     maxWidth: '18px',
                     // objectFit: 'cover',
                   }}
@@ -178,15 +176,15 @@ export function ProductCard({
           )}
         </Box>
 
-        <Box
+        {/*  <Box
           component='div'
           sx={{
             display: 'flex',
             alignItems: 'center',
             columnGap: '4px',
             justifyContent: 'center',
-            backgroundColor: '#F6DBE0',
-            color: '#441E14',
+            backgroundColor: (theme: any) => theme.palette.custom.border,
+            color: (theme: any) => theme.palette.custom.main,
             padding: '17px',
             borderRadius: '50%',
             width: 'fit-content',
@@ -200,19 +198,32 @@ export function ProductCard({
         >
           <IoBagHandleOutline size='18px' />
         </Box>
-        {/*   <AddProductsToCartForm>
+        */}
+        <AddProductsToCartForm>
           <AddProductsToCartFab
-            sku={item.sku}
+            sku={item?.sku || '1'}
             icon={iconShoppingBag}
             sx={{
               backgroundColor: '#F6DBE0 !important',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               color: '#441E14!important',
               boxShadow: 'none !important',
-              padding: '17px',
+              padding: { xs: '8px', md: '12px' },
               borderRadius: '50%',
               width: 'fit-content',
               height: 'fit-content',
               transition: 'all 0.4s ease',
+              ['& .MuiBox-root']: {
+                left: { xs: '6px', md: '8px' },
+                top: { xs: '2px', md: '3px' },
+                position: 'relative',
+              },
+              '& svg': {
+                fontSize: { xs: '24px', md: '27px', xl: '30px' },
+                stroke: 'unset !important',
+              },
               '&:hover': {
                 backgroundColor: 'transparent !important',
                 color: '#441E14 !important',
@@ -220,7 +231,7 @@ export function ProductCard({
               },
             }}
           />
-        </AddProductsToCartForm> */}
+        </AddProductsToCartForm>
       </Box>
     </Box>
   )

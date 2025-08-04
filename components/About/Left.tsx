@@ -24,11 +24,15 @@ function AboutLeft() {
         <Image
           src={LwdtImage}
           alt={'product Image'}
-          width={243}
-          height={235}
-          sizes='100vw'
+          //width={243}
+          //height={235}
+          // sizes='100vw'
           sx={{
             borderRadius: '8px',
+            height: '100%',
+            width: '100%',
+            // minHeight: '280px',
+            objectFit: 'cover',
           }}
         />
       </Box>

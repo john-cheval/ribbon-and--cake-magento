@@ -16,20 +16,17 @@ export function HoveredButton({
   backgroundColor = '#F6DBE0',
   hoverColor = '#fff',
   hoverBackgroundColor = '#9B7C38',
+  isCenter = false,
 }: HoveredButtonProps) {
   const buttonStyles = css`
     display: flex;
     align-items: center;
     column-gap: 8px;
     position: relative;
-    font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 500;
-    font-size: 16px;
     line-height: 158%;
     letter-spacing: 0%;
-    width: ${width};
     height: ${height};
-    padding: ${padding};
     overflow: hidden;
     border-radius: 4px;
     cursor: pointer;
@@ -71,7 +68,17 @@ export function HoveredButton({
   `
   return (
     <Link href={href || '/'} passHref legacyBehavior>
-      <Box component='a' css={buttonStyles}>
+      <Box
+        component='a'
+        css={buttonStyles}
+        sx={{
+          marginInline: { xs: isCenter ? 'auto' : 'none', lg: '0px' },
+          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          padding: { xs: '12px 20px', lg: padding },
+          width: { xs: 'fit-content', lg: width },
+          backgroundColor: { xs: '#F6DBE0', md: 'inherit' },
+        }}
+      >
         {text}
         {isArrow && (
           <Box component='span' className='arrow-icon'>

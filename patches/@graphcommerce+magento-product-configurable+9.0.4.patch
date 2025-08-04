@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
-index 0482241..deb628c 100644
+index 0482241..eb7b81e 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 +++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 @@ -43,6 +43,9 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
@@ -52,7 +52,7 @@ index 0482241..deb628c 100644
 +          textTransform:'capitalize',
 +          fontSize:{xs:'12px',sm:'14px',md:'16px'},
 +          fontWeight:600,
-+         '& .ActionCard-root':{
++         '& .ActionCard-root.variantOutlined':{
 +          border:'1px solid #F6DBE0',
 +          boxShadow:'none',
 +         },

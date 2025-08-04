@@ -2,9 +2,9 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst, flushMeasurePerf, PrivateQueryMaskProvider } from '@graphcommerce/graphql'
 import {
   appendSiblingsAsChildren,
-  CategoryBreadcrumbs,
-  CategoryHeroNav,
-  CategoryHeroNavTitle,
+  //CategoryBreadcrumbs,
+  //CategoryHeroNav,
+  //CategoryHeroNavTitle,
   CategoryMeta,
   findParentBreadcrumbItem,
   getCategoryStaticPaths,
@@ -95,7 +95,12 @@ function CategoryPage(props: CategoryProps) {
       ) */}
 
       {isCategory && !isLanding && (
-        <InnerTop count={products?.total_count} title={category.name ?? ''} isFilter={true} />
+        <InnerTop
+          {...productList}
+          count={products?.total_count}
+          title={category.name ?? ''}
+          isFilter={true}
+        />
       )}
       {isCategory && !isLanding && (
         <>
@@ -109,7 +114,7 @@ function CategoryPage(props: CategoryProps) {
                 category={category}
               />
             )}
-          {import.meta.graphCommerce.productFiltersPro &&
+          {/*import.meta.graphCommerce.productFiltersPro &&
             import.meta.graphCommerce.productFiltersLayout !== 'SIDEBAR' && (
               <ProductListLayoutDefault
                 {...productList}
@@ -118,8 +123,8 @@ function CategoryPage(props: CategoryProps) {
                 id={category.uid}
                 category={category}
               />
-            )}
-          {!import.meta.graphCommerce.productFiltersPro && (
+            )*/}
+          {/*!import.meta.graphCommerce.productFiltersPro && (
             <ProductListLayoutClassic
               {...productList}
               key={category.uid}
@@ -127,7 +132,7 @@ function CategoryPage(props: CategoryProps) {
               id={category.uid}
               category={category}
             />
-          )}
+          )*/}
         </>
       )}
     </PrivateQueryMaskProvider>

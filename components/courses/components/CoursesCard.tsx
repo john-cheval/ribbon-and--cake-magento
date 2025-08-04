@@ -37,33 +37,33 @@ function CourseCard(props: CardProps) {
         >
           <Box
             sx={{
-              padding: '5px 15px',
+              padding: { xs: '3px 12px', md: '5px 15px' },
               background: (theme) => theme.palette.primary.contrastText,
               borderRadius: '999px',
               border: '1px solid #F6DBE0',
               backdropFilter: 'blur(4.699999809265137px)',
               color: 'primary.main',
-              fontSize: '14px',
+              fontSize: { xs: '12px', sm: '14px' },
             }}
           >
             Course 1
           </Box>
           <Box
             sx={{
-              padding: '5px 15px',
+              padding: { xs: '3px 12px', md: '5px 15px' },
               background: (theme) => theme.palette.primary.contrastText,
               borderRadius: '999px',
               border: '1px solid #F6DBE0',
               backdropFilter: 'blur(4.699999809265137px)',
               color: 'primary.main',
-              fontSize: '14px',
+              fontSize: { xs: '12px', sm: '14px' },
             }}
           >
             2 Days
           </Box>
         </Box>
       </CardMedia>
-      <CardContent sx={{ padding: '10px 17px 17px' }}>
+      <CardContent sx={{ padding: { xs: '2px 17px 17px', md: '10px 17px 17px' } }}>
         <Typography
           gutterBottom
           variant='h5'
@@ -74,6 +74,7 @@ function CourseCard(props: CardProps) {
             fontFamily: `${saxoGrammaticus.style.fontFamily}, sans-serif`,
             textTransform: 'uppercase',
             fontWeight: '300 !important',
+            marginBottom: { xs: 0 },
           }}
         >
           {courseCardData?.title}

@@ -1,0 +1,9 @@
+query cmsMultipleBlocks($blockIdentifiers: [String]) {
+  cmsBlocks(identifiers: $blockIdentifiers) {
+    items {
+      identifier
+      title
+      content
+    }
+  }
+}

@@ -21,12 +21,12 @@ function EventsAndCoursesTile(props: EventsCourseTitleProps) {
         color: isSelected
           ? (theme: any) => theme.palette.custom.main
           : (theme: any) => theme.palette.custom.heading,
-        fontSize: { xs: '14px', md: '25px', lg: '35px' },
+        fontSize: { xs: '14px', md: '25px', lg: '30px', xl: '35px' },
         textTransform: 'uppercase',
         fontWeight: '300 !important',
         borderBottom: length && length - 1 ? '1px solid #E6E6E6' : '',
-        paddingBottom: '20px',
-        paddingTop: id === 0 ? '20px' : '20px',
+        paddingBottom: { md: '10px', lg: '20px' },
+        paddingTop: id === 0 ? { md: '10px', lg: '20px' } : { md: '10px', lg: '20px' },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

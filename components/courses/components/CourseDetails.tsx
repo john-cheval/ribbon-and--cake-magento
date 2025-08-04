@@ -3,6 +3,7 @@ import { m, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { cardVariants, containerVariants } from '../../../constants/animationVariation'
 import { coursesData } from '../../../constants/courses/coursesData'
+import EventsAndCoursesTileResponsive from '../../shared/components/CoursetileResponsive'
 import EventsAndCoursesTile from '../../shared/components/EventsAndCoursesTile'
 import Loading from '../../shared/Loading'
 import CourseCard from './CoursesCard'
@@ -27,7 +28,6 @@ function CourseDetail() {
             setVisibleCount((prev) => {
               const newCount = prev + 4
 
-              // 🛑 Stop loading if all courses are shown
               if (newCount >= coursesData.length) {
                 setHasMore(false)
               }
@@ -59,22 +59,22 @@ function CourseDetail() {
         paddingInline: {
           xs: '18px',
           md: '25px',
-          lg: '55px',
+          xl: '55px',
         },
         // paddingTop: '18px',
         marginBottom: '30px',
         display: 'grid',
         gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
         gridTemplateRows: { xs: 'auto', md: 'auto' },
-        gap: { xs: '20px', md: '20px', xl: '40px' },
+        gap: { xs: '0px', md: '20px', xl: '40px' },
       }}
     >
       <Box
         sx={{
           gridColumn: { xs: 'auto', md: 'span 4' },
-          paddingTop: { md: '35px', lg: '50px' },
+          paddingTop: { xs: '20px', md: '35px', lg: '50px' },
           position: { xs: 'static', md: 'sticky' },
-          top: { xs: 'auto', md: '100px' },
+          top: { xs: 'auto', md: '80px', lg: '100px' },
           alignSelf: { xs: 'unset', md: 'start' },
         }}
       >
@@ -111,9 +111,44 @@ function CourseDetail() {
         </Box>
       </Box>
       <Box
+        component='div'
+        sx={{
+          display: { xs: 'flex', md: 'none' },
+          columnGap: { xs: '6px', sm: '8px' },
+          marginTop: { xs: '14px' },
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          // width: '330px',
+          paddingBottom: '4px',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+
+          scrollbarWidth: 'none',
+
+          '-ms-overflow-style': 'none',
+        }}
+      >
+        {uniqueCategories?.map((course, index) => (
+          <EventsAndCoursesTileResponsive
+            key={course || index}
+            title={course}
+            id={index}
+            isSelected={selectedCategory === course}
+            length={uniqueCategories?.length}
+            onClick={() => {
+              setSelectedCategory((prev) => (prev === course ? null : course))
+              setVisibleCount(8)
+            }}
+          />
+        ))}
+      </Box>
+
+      {/* Card  Goes Here */}
+      <Box
         sx={{
           gridColumn: { xs: 'auto', md: 'span 8' },
-          paddingTop: { md: '20px', lg: '18px' },
+          paddingTop: { xs: '20px', lg: '18px' },
         }}
       >
         <Typography
@@ -134,11 +169,11 @@ function CourseDetail() {
             display: 'grid',
             gridTemplateColumns: {
               xs: '1fr',
-              md: 'repeat(3, 1fr)',
+              sm: 'repeat(2, 1fr)',
               lg: 'repeat(3, 1fr)',
               // xl: 'repeat(4, 1fr)',
             },
-            columnGap: { xs: '0', md: '10px', lg: '17px', xl: '20px' },
+            columnGap: { xs: '0', sm: '10px', lg: '17px', xl: '20px' },
             rowGap: { xs: '10px', md: '8px', lg: '15px' },
           }}
         >

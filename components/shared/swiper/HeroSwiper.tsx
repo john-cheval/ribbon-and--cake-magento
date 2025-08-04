@@ -25,8 +25,24 @@ export function HeroSwiper() {
           delay: 3000,
           disableOnInteraction: false,
         }}
-        slidesPerView={4.5}
+        // slidesPerView={4.5}
         spaceBetween={20}
+        breakpoints={{
+          0: {
+            slidesPerView: 1.5,
+            spaceBetween: 7,
+          },
+          768: {
+            slidesPerView: 2.5,
+            spaceBetween: 15,
+          },
+          1200: {
+            slidesPerView: 3.5,
+          },
+          1500: {
+            slidesPerView: 4.5,
+          },
+        }}
         grabCursor
       >
         {swiperHero?.map((item, index) => (
@@ -36,23 +52,25 @@ export function HeroSwiper() {
                 background:
                   'linear-gradient(90deg, rgba(255, 255, 255, 0.73) 0%, rgba(255, 255, 255, 0.79) 100%)',
                 backdropFilter: 'blur(4.050000190734863px)',
-                padding: '10px',
+                padding: { xs: '7px', md: '10px' },
                 borderRadius: '8px',
                 display: 'flex',
-                gap: '18px',
+                gap: { xs: '10px', md: '18px' },
                 alignItems: 'center',
               }}
             >
               <Image
                 src={item?.image}
                 alt={item?.title || 'product Image'}
-                width={100}
-                height={100}
-                sizes='100vw'
+                // width={100}
+                // height={100}
+                // sizes='100vw'
+                layout='fill'
                 sx={{
-                  maxWidth: 'auto',
+                  width: 'auto',
+                  minWidth: { xs: '70px', md: '100px' },
                   height: 'auto',
-                  maxHeight: '100px',
+                  // maxHeight: '100px',
                   objectFit: 'cover',
                   borderRadius: '4px',
                 }}
@@ -72,7 +90,6 @@ export function HeroSwiper() {
                 <Typography
                   component='p'
                   sx={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
                     fontWeight: 300,
                     lineHeight: '170%',
                     fontSize: '12px !important',
@@ -85,9 +102,10 @@ export function HeroSwiper() {
 
                 <Typography
                   component='p'
-                  variant='p'
                   sx={{
                     color: '#000 !important',
+                    fontSize: { xs: '14px', md: '16px' },
+                    maxWidth: { xs: '100px', md: '100%' },
                   }}
                 >
                   {item?.title}
@@ -112,35 +130,39 @@ export function HeroSwiper() {
                     height={18}
                     sizes='100vw'
                     sx={{
-                      width: '100%',
-                      maxWidth: '18px',
+                      // width: '100%',
+                      width: '18px',
                       // objectFit: 'cover',
                     }}
                   />
                   {item?.price}
                 </Typography>
 
-                <Link
-                  href='/cart'
-                  style={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                    fontWeight: 400,
-                    lineHeight: '170%',
-                    fontSize: '14px !important',
-                    color: '#302100',
-                    textDecoration: 'underline',
-                    display: 'flex',
-                    alignItems: 'center',
-                    columnGap: '4px',
-                    justifyContent: 'flex-end',
-                    marginLeft: 'auto',
+                <Box
+                  sx={{
                     position: 'absolute',
                     bottom: '0px',
-                    right: '15px',
+                    right: { xs: '5px', md: '15px' },
                   }}
                 >
-                  Cart <IoArrowForwardSharp />
-                </Link>
+                  <Link
+                    href='/cart'
+                    style={{
+                      fontWeight: 400,
+                      lineHeight: '170%',
+                      fontSize: '14px !important',
+                      color: '#302100',
+                      textDecoration: 'underline',
+                      display: 'flex',
+                      alignItems: 'center',
+                      columnGap: '4px',
+                      justifyContent: 'flex-end',
+                      marginLeft: 'auto',
+                    }}
+                  >
+                    Cart <IoArrowForwardSharp />
+                  </Link>
+                </Box>
               </Box>
             </Box>
           </SwiperSlide>

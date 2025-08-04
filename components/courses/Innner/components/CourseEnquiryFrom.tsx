@@ -26,15 +26,15 @@ const inputFieldSx: SxProps<Theme> = {
   },
 
   '& .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
 
   '&:hover .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8 !important',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
 
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8 !important',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
     borderWidth: '1px !important',
   },
 }
@@ -42,7 +42,7 @@ function CourseEnquiryForm() {
   return (
     <Box
       sx={{
-        marginTop: '40px',
+        marginTop: { xs: '20px', md: '0' },
         backgroundColor: '#F6F6F6',
         borderRadius: '8px',
         padding: { xs: '26px 14px', md: '35px 38px 40px' },
@@ -52,7 +52,14 @@ function CourseEnquiryForm() {
         Apply Now
       </Typography>
 
-      <Box sx={{ marginTop: '30px', display: 'flex', rowGap: '11px', flexDirection: 'column' }}>
+      <Box
+        sx={{
+          marginTop: { xs: '10px', md: '30px' },
+          display: 'flex',
+          rowGap: '11px',
+          flexDirection: 'column',
+        }}
+      >
         <OutlinedInput
           fullWidth
           placeholder='Create Design with Butter Cream icing'
@@ -76,24 +83,23 @@ function CourseEnquiryForm() {
             variant='outlined'
             sx={{
               mt: 2,
-              backgroundColor: '#fff',
-              color: '#441E14',
+              backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+              color: (theme: any) => theme.palette.custom.main,
               fontSizse: '20px',
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#D5B1B8',
+                  borderColor: (theme: any) => theme.palette.custom.borderInput,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#D5B1B8 !important', // Hover border color
+                  borderColor: (theme: any) => theme.palette.custom.borderInput,
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#D5B1B8 !important', // Focus border color
+                  borderColor: (theme: any) => theme.palette.custom.borderInput,
                   borderWidth: '1px !important',
                 },
                 '& textarea': {
                   padding: '10px',
-                  fontFamily: '"Bricolage Grotesque"',
                 },
               },
             }}
@@ -104,8 +110,8 @@ function CourseEnquiryForm() {
           <Button
             sx={{
               // marginTop: '18px',
-              backgroundColor: '#441E14',
-              color: '#F6DBE0',
+              backgroundColor: (theme: any) => theme.palette.custom.main,
+              color: (theme: any) => theme.palette.custom.border,
               fontSize: { xs: '12px', sm: '14px', md: '18px' },
               fontWeight: 500,
               lineHeight: '158%',
@@ -114,11 +120,11 @@ function CourseEnquiryForm() {
               transition: 'all 0.3s ease',
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
-              width: '500px',
+              width: '100%',
 
               '&:hover': {
-                backgroundColor: '#f6dbe0 !important',
-                color: '#441E14',
+                backgroundColor: (theme: any) => theme.palette.custom.border,
+                color: (theme: any) => theme.palette.custom.main,
               },
             }}
           >

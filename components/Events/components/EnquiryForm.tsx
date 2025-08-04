@@ -3,12 +3,13 @@ import type { SxProps, Theme } from '@mui/material'
 
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
-  color: '#441E14',
-  padding: '18px ',
+  color: (theme: any) => theme.palette.custom.main,
+  // padding: '18px ',
+  height: 'fit-content',
 
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
-    fontSize: '20px',
+    fontSize: { xs: '12px', sm: '14px', md: '16px' },
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '158%',
@@ -19,37 +20,52 @@ const inputFieldSx: SxProps<Theme> = {
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '158%',
-    color: '#441E14',
+    color: (theme: any) => theme.palette.custom.main,
     opacity: 1,
   },
 
   '& .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
 
   '&:hover .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8 !important',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
 
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#D5B1B8 !important',
+    borderColor: (theme: any) => theme.palette.custom.borderInput,
     borderWidth: '1px !important',
   },
 }
 function EnquiryForm() {
   return (
-    <Box sx={{ marginTop: '40px' }}>
+    <Box sx={{ marginTop: { xs: '20px', md: '30px', xl: '40px' } }}>
       <Typography variant='h2' component='h3' sx={{ textTransform: 'uppercase' }}>
         Enquire Now
       </Typography>
 
-      <Box sx={{ marginTop: '30px' }}>
-        <Box sx={{ display: 'flex', columnGap: '16px' }}>
+      <Box sx={{ marginTop: { xs: '15px', md: '20px', xl: '30px' } }}>
+        <Box
+          sx={{
+            display: 'flex',
+            columnGap: { xs: 0, sm: '10px', lg: '16px' },
+            rowGap: { xs: '10px', sm: 0 },
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
           <OutlinedInput fullWidth placeholder='First Name' sx={inputFieldSx} />
           <OutlinedInput fullWidth placeholder='Email' sx={inputFieldSx} />
         </Box>
 
-        <Box sx={{ display: 'flex', columnGap: '12px', marginTop: '16px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            columnGap: { xs: 0, sm: '10px', lg: '16px' },
+            rowGap: { xs: '10px', sm: 0 },
+            marginTop: { xs: '10px', lg: '16px' },
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
           <OutlinedInput fullWidth placeholder='Phone Number' sx={inputFieldSx} />
           <OutlinedInput
             fullWidth
@@ -73,19 +89,19 @@ function EnquiryForm() {
             variant='outlined'
             sx={{
               mt: 2,
-              backgroundColor: '#fff',
-              color: '#441E14',
-              fontSizse: '20px',
+              backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+              color: (theme: any) => theme.palette.custom.main,
+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#D5B1B8',
+                  borderColor: (theme: any) => theme.palette.custom.borderInput,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#D5B1B8 !important', // Hover border color
+                  borderColor: (theme: any) => theme.palette.custom.borderInput, // Hover border color
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#D5B1B8 !important', // Focus border color
+                  borderColor: (theme: any) => theme.palette.custom.borderInput, // Focus border color
                   borderWidth: '1px !important',
                 },
                 '& textarea': {
@@ -101,8 +117,8 @@ function EnquiryForm() {
           <Button
             sx={{
               // marginTop: '18px',
-              backgroundColor: '#441E14',
-              color: '#F6DBE0',
+              backgroundColor: (theme: any) => theme.palette.custom.main,
+              color: (theme: any) => theme.palette.custom.border,
               fontSize: { xs: '12px', sm: '14px', md: '18px' },
               fontWeight: 500,
               lineHeight: '158%',
@@ -111,11 +127,12 @@ function EnquiryForm() {
               transition: 'all 0.3s ease',
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
-              width: '500px',
+              // width: '500px',
+              width: '100%',
 
               '&:hover': {
-                backgroundColor: '#f6dbe0 !important',
-                color: '#441E14',
+                backgroundColor: (theme: any) => theme.palette.custom.border,
+                color: (theme: any) => theme.palette.custom.main,
               },
             }}
           >

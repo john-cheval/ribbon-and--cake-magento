@@ -1,6 +1,5 @@
 /// <reference types="@graphcommerce/next-ui/types" />
 
-import { type } from 'os'
 import {
   breakpointVal,
   MuiButtonInline,
@@ -27,6 +26,9 @@ type ThemePaletteOptions = PaletteOptions & {
     heading?: string
     dark?: string
     border?: string
+    smallHeading?: string
+    borderInput?: string
+    wishlistColor?: string
   }
 }
 
@@ -39,8 +41,9 @@ const lightPalette: ThemePaletteOptions = {
     tertiary: '#969696',
     dark: '#000',
     border: '#F6DBE0',
-
-    //carry on okay
+    smallHeading: '#2A110A',
+    borderInput: '#D5B1B8',
+    wishlistColor: '#F1A8B6',
   },
   primary: {
     main: '#441E14',
@@ -125,11 +128,11 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       // @see docs typography.md
       h1: {
         ...commonHeadingProperties,
-        ...fontSize(28, 45),
+        ...fontSize(25, 45),
       },
       h2: {
         ...commonHeadingProperties,
-        ...fontSize(28, 45),
+        ...fontSize(25, 45),
         color: '#9B7C38',
       },
       h3: {
@@ -231,6 +234,15 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       containerSizingContent:
         import.meta.graphCommerce.containerSizingContent === 'BREAKPOINT' ? 'lg' : false,
     },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 640,
+        md: 768,
+        lg: 1024,
+        xl: 1536,
+      },
+    },
   })
 
 // todo: move most of the styles to the graphcommerce library while still allowing for extensibility.
@@ -264,7 +276,7 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
 
   MuiLink: { defaultProps: { component: NextLink } as LinkProps },
 
-  MuiButtonBase: { defaultProps: { LinkComponent: NextLink } },
+  MuiButtonBase: { defaultProps: { LinkComponent: NextLink, disableRipple: true } },
 
   MuiContainer: {
     variants: [
@@ -475,5 +487,35 @@ declare module '@mui/material/Link' {
   interface LinkPropsVariantOverrides {
     navlink: true
     p: true
+  }
+}
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    custom: {
+      main?: string
+      secondary?: string
+      tertiary?: string
+      heading?: string
+      dark?: string
+      border?: string
+      smallHeading?: string
+      borderInput?: string
+      wishlistColor?: string
+    }
+  }
+
+  interface PaletteOptions {
+    custom?: {
+      main?: string
+      secondary?: string
+      tertiary?: string
+      heading?: string
+      dark?: string
+      border?: string
+      smallHeading?: string
+      borderInput?: string
+      wishlistColor?: string
+    }
   }
 }

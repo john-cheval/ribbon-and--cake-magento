@@ -160,6 +160,100 @@ index 4c94637..3741f15 100644
      </NoSsr>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
+index a533979..d713ae9 100644
+--- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
++++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
+@@ -28,6 +28,7 @@ export function AddWishlistItemToCart(props: AddWishlistItemToCartProps) {
+         variant='text'
+         size='medium'
+       />
++      
+     </Box>
+   )
+ }
+diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
+index 81c7382..f1a60c0 100644
+--- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
++++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
+@@ -6,11 +6,12 @@ import type { ActionCardProps } from '@graphcommerce/next-ui'
+ import { ActionCard, actionCardImageSizes, extendableComponent } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+ import type { SxProps, Theme, ButtonProps } from '@mui/material'
+-import { Button, Link } from '@mui/material'
++import { Box, Button, Link } from '@mui/material'
+ import type { ReactNode } from 'react'
+ import { useRemoveProductsFromWishlist } from '../../hooks'
+ import type { WishlistItemFragment } from '../../queries/WishlistItem.gql'
+ import { AddWishlistItemToCart } from '../WishlistItem/AddWishlistItemToCart'
++import { RiDeleteBin6Line } from "react-icons/ri";
+ 
+ export type WishlistItemActionCardProps = {
+   item: WishlistItemFragment
+@@ -128,11 +129,10 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
+               layout='fill'
+               src={product?.small_image?.url}
+               sx={{
+-                objectFit: 'contain',
++                objectFit: 'cover',
+                 width: actionCardImageSizes[size],
+                 height: actionCardImageSizes[size],
+                 display: 'block',
+-                borderRadius: 1,
+               }}
+               sizes={actionCardImageSizes[size]}
+             />
+@@ -160,20 +160,47 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
+           secondaryAction ||
+           ((product?.__typename === 'SimpleProduct' ||
+             product?.__typename === 'VirtualProduct') && (
++              <Box>
+             <AddWishlistItemToCart product={product} selectedOptions={[]} />
++            <Box sx={{
++            ['& span']:{
++              fontSize:{xs:'16px', lg:'20px'},
++              lineHeight:"24px",
++              fontWeight:"700",
++              color:(theme:any)=>theme.palette.custom.dark,
++              ['&:first-child']:{
++                paddingRight:"6px"
++              }
++            }
++          }}><Money {...product?.price_range.minimum_price.final_price} /></Box>
++            </Box>
+           ))
+         }
+-        price={<Money {...product?.price_range.minimum_price.final_price} />}
++        price={<Box sx={{
++            ['& span']:{
++              fontSize:{xs:'16px', lg:'20px'},
++              lineHeight:"24px",
++              fontWeight:"700",
++              color:(theme:any)=>theme.palette.custom.dark,
++              ['&:first-child']:{
++                paddingRight:"6px"
++              }
++            }
++          }}><Money {...product?.price_range.minimum_price.final_price} /></Box>}
+         action={
+           <Button
+             variant='inline'
+             color='secondary'
+             size='medium'
+-            type='button'
++            type='button'sx={{
++              '& svg':{
++                color:'#333'
++              }
++            }}
+             onClick={() => remove([id])}
+             {...actionButtonProps}
+           >
+-            <Trans id='Remove' />
++           {/* <Trans id='Removes' /> */} <RiDeleteBin6Line />
+           </Button>
+         }
+         size={size}
 diff --git a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx b/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx
 index d62cdaf..b50d2e2 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/hooks/useRemoveProductsFromWishlist/useRemoveProductsFromWishlist.tsx

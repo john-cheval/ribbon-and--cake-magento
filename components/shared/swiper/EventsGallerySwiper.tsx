@@ -63,7 +63,7 @@ function EventsGallerySwiper({ imageGallery }: GalleryProps) {
           columnGap: '15px',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '30px',
+          marginTop: { xs: '5px', md: '10px', lg: '30px' },
           transition: 'all 0.3s ease-in-out',
           width: '100%',
         }}

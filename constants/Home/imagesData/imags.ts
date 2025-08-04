@@ -8,6 +8,10 @@ import event1 from '../../images/events/image-1.jpg'
 import event2 from '../../images/events/image-2.png'
 import event4 from '../../images/events/image-4.jpg'
 import event3 from '../../images/events/image3.jpg'
+import heroImage1 from '../../images/Home/hero/image-1.jpg'
+import heroImage2 from '../../images/Home/hero/image-2.jpg'
+import heroImage3 from '../../images/Home/hero/image-3.jpg'
+import heroImage from '../../images/Home/hero/image.jpg'
 import image7 from '../../images/Home/Jars/image.jpg'
 import image10 from '../../images/Home/Jars/image.jpg'
 import image8 from '../../images/Home/Jars/image1.jpg'
@@ -40,4 +44,8 @@ export {
   event2,
   event3,
   event4,
+  heroImage,
+  heroImage1,
+  heroImage2,
+  heroImage3,
 }

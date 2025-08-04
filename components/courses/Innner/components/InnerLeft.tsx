@@ -21,7 +21,7 @@ function InnerLeft() {
         Create designs with butter cream icing
       </Typography>
 
-      <Box sx={{ marginBlock: { xs: '14px 20px', md: '26px 34px' }, position: 'relative' }}>
+      <Box sx={{ marginBlock: { xs: '14px 10px', md: '15px 15px' }, position: 'relative' }}>
         <Image
           src={banner}
           alt='banner'
@@ -45,12 +45,12 @@ function InnerLeft() {
         >
           <Box
             sx={{
-              padding: '15px 25px',
+              padding: '6px 20px',
               background: (theme: any) => theme.palette.custom.border,
               borderRadius: '999px',
               border: '1px solid #F6DBE0',
               backdropFilter: 'blur(4.699999809265137px)',
-              color: '#2A110A',
+              color: (theme: any) => theme.palette.custom.smallHeading,
               fontSize: { xs: '12px', sm: '14px', md: '16px' },
             }}
           >
@@ -58,12 +58,12 @@ function InnerLeft() {
           </Box>
           <Box
             sx={{
-              padding: '15px 25px',
+              padding: '6px 20px',
               background: (theme: any) => theme.palette.custom.border,
               borderRadius: '999px',
               border: '1px solid #F6DBE0',
               backdropFilter: 'blur(4.699999809265137px)',
-              color: '#2A110A',
+              color: (theme: any) => theme.palette.custom.smallHeading,
               fontSize: { xs: '12px', sm: '14px', md: '16px' },
             }}
           >
@@ -99,10 +99,10 @@ function InnerLeft() {
       ))}
       <Box
         sx={{
-          marginBlock: { xs: '27px 35px', md: '40px 50px' },
+          marginBlock: { xs: '15px 20px', md: '25px 35px' },
           display: 'flex',
           flexDirection: 'column',
-          rowGap: { xs: '15px', md: '30px' },
+          rowGap: { xs: '15px', md: '20px' },
         }}
       >
         {coursesInnerPara?.map((para, index) => (

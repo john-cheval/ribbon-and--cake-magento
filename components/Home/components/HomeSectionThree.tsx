@@ -12,20 +12,22 @@ export function HomeSectionThree(props) {
     <Box
       component='section'
       sx={{
-        paddingInline: '55px',
-        paddingTop: '100px',
+        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingTop: { xs: '35px', md: '50px', lg: '75px', xl: '100px' },
         display: 'flex',
-        columnGap: '30px',
+        columnGap: { xs: 0, md: '15px', lg: '30px' },
         position: 'relative',
+        flexDirection: { xs: 'column', lg: 'row' },
+        rowGap: '20px',
       }}
     >
       <Box
         component='div'
         sx={{
-          width: '30%',
+          width: { xs: '100%', lg: '30%' },
         }}
       >
-        <Typography component='h2' variant='h2'>
+        <Typography component='h2' variant='h2' sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
           {title || 'Your Imagination, Our Creation'}
         </Typography>
 
@@ -33,10 +35,12 @@ export function HomeSectionThree(props) {
           component='p'
           variant='p'
           sx={{
-            color: '#6F6F6F',
+            color: (theme: any) => theme.palette.custom.secondary,
             lineHeight: '170% !important',
             fontWeight: '400',
             marginBottom: '20px',
+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+            textAlign: { xs: 'center', lg: 'left' },
           }}
         >
           Our cakes are not just desserts they are edible masterpieces. We specialize in creating
@@ -49,20 +53,21 @@ export function HomeSectionThree(props) {
             alignItems: 'center',
             columnGap: '8px',
             position: 'relative',
-            fontFamily: "'Bricolage Grotesque', sans-serif",
             fontWeight: 500,
-            fontSize: '16px',
+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
             lineHeight: '158%',
             letterSpacing: '0%',
-            width: '230px',
-            padding: '15px 20px',
+            width: { xs: 'fit-content', md: '230px' },
+            padding: { xs: '12px 20px', lg: '15px 20px' },
             overflow: 'hidden',
             borderRadius: '4px',
             cursor: 'pointer',
             zIndex: 1,
-            color: '#441E14',
+            marginInline: { xs: 'auto', lg: '0' },
+            backgroundColor: { xs: '#F6DBE0', md: 'inherit' },
+            color: (theme: any) => theme.palette.custom.main,
             '&:hover': {
-              color: '#fff',
+              color: (theme: any) => theme.palette.primary.contrastText,
             },
 
             '&::before': {
@@ -72,14 +77,14 @@ export function HomeSectionThree(props) {
               left: 0,
               height: '100%',
               width: '50%',
-              backgroundColor: '#F6DBE0',
+              backgroundColor: (theme: any) => theme.palette.custom.border,
               borderRadius: '4px',
               zIndex: -1,
               transition: 'all 0.5s ease',
             },
 
             '&:hover::before': {
-              backgroundColor: '#9B7C38',
+              backgroundColor: (theme: any) => theme.palette.custom.heading,
               width: '100%',
             },
             '&:hover .arrow-icon': {
@@ -104,7 +109,7 @@ export function HomeSectionThree(props) {
       <Box
         component='div'
         sx={{
-          width: '45%',
+          width: { xs: '100%', lg: '45%' },
         }}
       >
         <Image
@@ -117,7 +122,8 @@ export function HomeSectionThree(props) {
             // maxWidth: '456px',
             objectFit: 'cover',
             borderRadius: '8px',
-            maxHeight: '612px',
+            height: '100%',
+            maxHeight: { xs: '100%', md: '100%', xl: '612px' },
           }}
         />
       </Box>
@@ -129,14 +135,14 @@ export function HomeSectionThree(props) {
             component='div'
             sx={{
               display: 'flex',
-              columnGap: '30px',
+              columnGap: { xs: '25px', md: '30px' },
             }}
           >
             <Typography
               component='p'
               variant='h2'
               sx={{
-                color: '#F6DBE0 !important',
+                color: (theme: any) => theme.palette.custom.border,
                 paddingBlock: '26px 30px',
               }}
             >
@@ -147,8 +153,7 @@ export function HomeSectionThree(props) {
               component='div'
               sx={{
                 position: 'relative',
-                paddingBlock: '26px 30px',
-
+                paddingBlock: { xs: '20px ', md: '26px 30px' },
                 '&::before': {
                   content: '""',
                   position: 'absolute',
@@ -178,9 +183,9 @@ export function HomeSectionThree(props) {
                 component='p'
                 sx={{
                   fontWeight: 400,
-                  fontSize: '20px !important',
+                  fontSize: { xs: '14px', sm: '16px', md: '20px' },
                   textTransform: 'uppercase',
-                  marginBottom: '10px',
+                  marginBottom: { xs: '5px', lg: '10px' },
                 }}
               >
                 {item?.title}
@@ -191,8 +196,9 @@ export function HomeSectionThree(props) {
                 sx={{
                   fontWeight: 400,
                   lineHeight: '170% !important',
-                  color: '#6F6F6F',
+                  color: (theme: any) => theme.palette.custom.secondary,
                   textTransform: 'uppercase',
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
                 }}
               >
                 {item?.description}
@@ -206,8 +212,9 @@ export function HomeSectionThree(props) {
         component='div'
         sx={{
           position: 'absolute',
-          left: '20%',
-          bottom: '0',
+          left: { xs: '20px', lg: '20%' },
+          bottom: { xs: 'unset', lg: 'none' },
+          top: { xs: '13%', sm: '8%', lg: 'unset' },
         }}
       >
         <Image
@@ -222,7 +229,7 @@ export function HomeSectionThree(props) {
             borderRadius: '8px',
             width: '100%',
             height: 'auto',
-            minHeight: { xs: '200px', md: '250px', lg: '300px' },
+            minHeight: { xs: '180px', md: '200px', lg: '300px' },
           }}
         />
       </Box>

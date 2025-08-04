@@ -68,7 +68,7 @@ export function DesktopNavItem(
       sx={[
         {
           whiteSpace: 'nowrap',
-          padding: activeValue ? '7px 16px' : '6px 0 0 ',
+          padding: activeValue ? '7px 16px' : { lg: '5px 8px', xl: '8px 16px' },
           background: activeValue && '#F6DBE0',
           borderRadius: activeValue && '999px',
         },

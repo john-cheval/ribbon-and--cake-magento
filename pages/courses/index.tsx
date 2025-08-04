@@ -20,7 +20,7 @@ function CoursesPage(props) {
         canonical='/courses'
       />
 
-      <InnerTop title={'Baking Classes'} isFilter={false} />
+      <InnerTop title={'courses'} isFilter={false} />
 
       <Courses />
     </>

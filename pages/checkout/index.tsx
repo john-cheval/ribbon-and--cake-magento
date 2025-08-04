@@ -8,8 +8,11 @@ import {
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst } from '@graphcommerce/graphql'
 import {
+  ApolloCartErrorAlert,
   ApolloCartErrorFullPage,
   ApolloCartErrorSnackbar,
+  CartStartCheckout,
+  CartTotals,
   EmptyCart,
   getCheckoutIsDisabled,
   useCartQuery,
@@ -36,6 +39,7 @@ import {
   iconBox,
   LayoutHeader,
   LayoutTitle,
+  OverlayStickyBottom,
   Stepper,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
@@ -45,6 +49,7 @@ import { useRouter } from 'next/router'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation } from '../../components'
 import { AdsOnProduct, OrderSummary, TopBannerMesasge } from '../../components/checkout'
+import CartItems from '../../components/checkout/components/Cart/CartItems'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { AdsOnProductsDocument, AdsOnProductsQuery } from '../../graphql/AdsOnProduct.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
@@ -74,35 +79,46 @@ function ShippingPage(props: ShippingPageProps) {
     (shippingPage.data.cart?.items?.length ?? 0) > 0
 
   const { error, data: cartData } = cart
-  const hasItems = (cartData?.cart?.total_quantity ?? 0) > 0
+  const hasItems =
+    (cartData?.cart?.total_quantity ?? 0) > 0 &&
+    typeof cartData?.cart?.prices?.grand_total?.value !== 'undefined'
+  const cartItems = cartData?.cart?.items
+
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>
       <PageMeta title={i18n._(/* i18n */ 'Shipping')} metaRobots={['noindex']} />
       <WaitForQueries
         waitFor={[shippingPage, customerAddresses]}
         fallback={
-          <FullPageMessage icon={<CircularProgress />} title={<Trans id='Loading' />}>
+          <FullPageMessage
+            sx={{ backgroundColor: 'transparent' }}
+            icon={<CircularProgress />}
+            title={<Trans id='Loading' />}
+          >
             <Trans id='This may take a second' />
           </FullPageMessage>
         }
       >
-        <InnerTop title={'Cart'} isFilter={false} mainTitle='Your shopping cart' />
+        <InnerTop title={'Checkout'} isFilter={false} mainTitle='Your shopping cart' />
 
         <Box
           component='section'
           sx={{
-            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
             gridTemplateRows: { xs: 'auto', md: 'auto' },
-            gap: { xs: '20px', md: '30px' },
+            gap: { xs: '20px', lg: '30px' },
             position: 'relative',
             zIndex: 100,
-            paddingTop: { xs: '15px', md: '30px', lg: '35px' },
+            paddingTop: { xs: '15px', md: '20px', lg: '30px', xl: '35px' },
             paddingBottom: { xs: '19px', md: '30px', lg: '45px' },
           }}
         >
-          <Box component='article' sx={{ gridColumn: { xs: 'auto', md: 'span 8' } }}>
+          <Box
+            component='article'
+            sx={{ gridColumn: { xs: 'span 12', lg: 'span 7', xl: 'span 8' } }}
+          >
             {!session.loggedIn && <TopBannerMesasge />}
 
             {/* Add On */}
@@ -110,12 +126,74 @@ function ShippingPage(props: ShippingPageProps) {
               <AdsOnProduct adsOnData={addonProductsData} />
             </Box>
 
+            {/* Cart Items */}
+            <Box
+              sx={{ display: { xs: 'block', lg: 'none' }, marginTop: { xs: '20px', md: '25px' } }}
+            >
+              <Typography
+                sx={{
+                  color: (theme: any) => theme.palette.custom.dark,
+                  fontsize: { xs: '16px', md: '20px' },
+                  lineHeight: '120%',
+                  marginBottom: { xs: '10px', md: '14px' },
+                }}
+              >
+                Your Oder
+              </Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+                  padding: { xs: '10px', md: '24px 20px' },
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+              >
+                {hasItems ? (
+                  <Box>
+                    {cartItems?.map((item, index) => (
+                      <CartItems
+                        items={item}
+                        key={index}
+                        length={cartItems?.length}
+                        index={index}
+                      />
+                    ))}
+                  </Box>
+                ) : (
+                  <EmptyCart
+                    sx={{
+                      // minHeight: '100vh',
+                      margin: 'auto',
+                      display: 'flex',
+                      '&  .FullPageMessage-button .MuiButtonBase-root': {
+                        backgroundColor: (theme: any) => theme.palette.custom.heading,
+                        borderRadius: '8px',
+                        color: 'white',
+                        boxShadow: 'none !important',
+                      },
+                      '& svg': {
+                        fontSize: '40px',
+                        stroke: 'unset !important',
+                      },
+                    }}
+                    disableMargin
+                  >
+                    {error && <ApolloCartErrorAlert error={error} />}
+                  </EmptyCart>
+                )}
+              </Box>
+            </Box>
+
             {/* Shiping */}
             <Box>
               {' '}
               <Typography
                 sx={{
-                  color: '#000',
+                  color: (theme: any) => theme.palette.custom.dark,
                   fontsize: { xs: '18px', md: '20px' },
                   lineHeight: '120%',
                   marginTop: { xs: '18px', md: '27px' },
@@ -127,7 +205,6 @@ function ShippingPage(props: ShippingPageProps) {
               <Box
                 sx={{
                   width: '100%',
-                  height: '380px',
                   borderRadius: '8px',
                   backgroundColor: 'white',
                   padding: { xs: '20px 14px', md: '25px 30px' },
@@ -144,90 +221,152 @@ function ShippingPage(props: ShippingPageProps) {
                   Add your delivery location or select pick you if you wish to pick up from one of
                   our stores.
                 </Typography>
+
+                {!shippingPage.error && cartExists && (
+                  <ComposedForm>
+                    <LayoutHeader>
+                      {shippingPage.data?.cart?.is_virtual ? (
+                        <LayoutTitle size='small' icon={iconAddresses}>
+                          <Trans id='Billing address' />
+                        </LayoutTitle>
+                      ) : (
+                        <LayoutTitle size='small' icon={iconBox}>
+                          <Trans id='Shipping' />
+                        </LayoutTitle>
+                      )}
+                    </LayoutHeader>
+                    <Container maxWidth='md'>
+                      <>
+                        {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
+                          <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
+                            <ShippingAddressForm step={3} />
+                          </CustomerAddressForm>
+                        ) : (
+                          <>
+                            <Typography
+                              variant='h4'
+                              gutterBottom
+                              sx={(theme) => ({ mt: theme.spacings.lg, mb: theme.spacings.sm })}
+                            >
+                              <Trans id='Personal details' />
+                            </Typography>
+                            <EmailForm step={1} />
+                            <ShippingAddressForm step={3} />
+                          </>
+                        )}
+
+                        {!shippingPage.data?.cart?.is_virtual && (
+                          <ShippingMethodForm
+                            step={4}
+                            sx={(theme) => ({ mt: theme.spacings.lg })}
+                          />
+                        )}
+
+                        <ComposedSubmit
+                          onSubmitSuccessful={() => router.push('/checkout/payment')}
+                          render={(renderProps) => (
+                            <>
+                              <FormActions>
+                                <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                  <Trans id='Next' />
+                                </ComposedSubmitButton>
+                              </FormActions>
+                              <ApolloCartErrorSnackbar
+                                error={
+                                  renderProps.buttonState.isSubmitting
+                                    ? undefined
+                                    : renderProps.error
+                                }
+                              />
+                            </>
+                          )}
+                        />
+                      </>
+                    </Container>
+                  </ComposedForm>
+                )}
               </Box>
             </Box>
           </Box>
 
-          <Box component='article' sx={{ gridColumn: { xs: 'auto', md: 'span 4' } }}>
-            <OrderSummary orderData={cartData} error={error} />
+          <Box
+            component='article'
+            sx={{
+              gridColumn: { xs: 'span 12', lg: 'span 5', xl: 'span 4' },
+              display: { xs: 'none', lg: 'block' },
+              position: { xs: 'static', lg: 'sticky' },
+              top: { xs: 'auto', lg: '100px' },
+              alignSelf: { xs: 'unset', lg: 'start' },
+            }}
+          >
+            <OrderSummary orderData={cartData} error={error} IsItems={hasItems} />
           </Box>
         </Box>
 
         {shippingPage.error && <ApolloCartErrorFullPage error={shippingPage.error} />}
-        {!shippingPage.error && !cartExists && <EmptyCart disableMargin />}
-        {!shippingPage.error && cartExists && (
-          <ComposedForm>
-            <LayoutHeader
-            // switchPoint={0}
-            // primary={
-            //  <ComposedSubmit
-            //    onSubmitSuccessful={() => router.push('/checkout/payment')}
-            //    render={(renderProps) => (
-            //      <ComposedSubmitLinkOrButton {...renderProps}>
-            //        <Trans id='Next' />
-            //     </ComposedSubmitLinkOrButton>
-            //   )}
-            // />
-            //  }
-            // divider={
-            //   <Container maxWidth='md'>
-            //     <Stepper currentStep={2} steps={3} />
-            //   </Container>
-            // }
-            >
-              {shippingPage.data?.cart?.is_virtual ? (
-                <LayoutTitle size='small' icon={iconAddresses}>
-                  <Trans id='Billing address' />
-                </LayoutTitle>
-              ) : (
-                <LayoutTitle size='small' icon={iconBox}>
-                  <Trans id='Shipping' />
-                </LayoutTitle>
-              )}
-            </LayoutHeader>
-            <Container maxWidth='md'>
-              <>
-                {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
-                  <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
-                    <ShippingAddressForm step={3} />
-                  </CustomerAddressForm>
-                ) : (
-                  <>
-                    <Typography
-                      variant='h4'
-                      gutterBottom
-                      sx={(theme) => ({ mt: theme.spacings.lg, mb: theme.spacings.sm })}
-                    >
-                      <Trans id='Personal details' />
-                    </Typography>
-                    <EmailForm step={1} />
-                    <ShippingAddressForm step={3} />
-                  </>
-                )}
+        {/*!shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
 
-                {!shippingPage.data?.cart?.is_virtual && (
-                  <ShippingMethodForm step={4} sx={(theme) => ({ mt: theme.spacings.lg })} />
-                )}
-
-                <ComposedSubmit
-                  onSubmitSuccessful={() => router.push('/checkout/payment')}
-                  render={(renderProps) => (
-                    <>
-                      <FormActions>
-                        <ComposedSubmitButton {...renderProps} size='large' id='next'>
-                          <Trans id='Next' />
-                        </ComposedSubmitButton>
-                      </FormActions>
-                      <ApolloCartErrorSnackbar
-                        error={renderProps.buttonState.isSubmitting ? undefined : renderProps.error}
-                      />
-                    </>
-                  )}
-                />
-              </>
-            </Container>
-          </ComposedForm>
-        )}
+        <Box
+          sx={{
+            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+            display: { xs: 'block', lg: 'none' },
+          }}
+        >
+          <OverlayStickyBottom
+            sx={{
+              py: 0.1,
+              // pt: 0.1,
+              // pb: { xs: '10px', md: '20px', lg: '30px' },
+              // px: { xs: '15px', sm: '20px', lg: '30px' },
+              // boxShadow: '1px 3px 8px #000',
+              // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+              // width: '100%',
+              bottom: 'unset !important',
+              // px: '55px',
+              '& .CartTotals-root ': {
+                backgroundColor: 'transparent',
+                borderRadius: 0,
+              },
+              flexShrink: 0,
+              mt: 'auto',
+            }}
+          >
+            <CartTotals
+              containerMargin
+              sx={{
+                typography: 'body1',
+                '& .CartTotals-costsRow': {
+                  color: '#2A110A',
+                },
+                '& .CartTotals-costsRow:nth-child(2)': {
+                  color: '#2A110A',
+                  fontWeight: '600 !important',
+                  fontSize: '16px !important',
+                },
+              }}
+            />
+            <CartStartCheckout
+              title='Proceed To Pay'
+              sx={{
+                '& .MuiButtonBase-root': {
+                  width: '100%',
+                  borderRadius: '4px',
+                  backgroundColor: '#9B7C38',
+                  border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                  color: '#fff',
+                  boxShadow: 'none !important',
+                  '&:hover': {
+                    backgroundColor: 'transparent !important',
+                    color: '#2A110A',
+                    boxShadow: 'none !important',
+                  },
+                },
+              }}
+              cart={cartData?.cart}
+              // disabled={hasError}
+            />
+          </OverlayStickyBottom>
+        </Box>
       </WaitForQueries>
     </Box>
   )

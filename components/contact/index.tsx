@@ -10,21 +10,21 @@ function Contact() {
         paddingInline: {
           xs: '18px',
           md: '25px',
-          lg: '55px',
+          xl: '55px',
         },
         // paddingTop: '18px',
         marginBottom: { xs: '20px', md: '35px', lg: '45px' },
         display: 'grid',
-        gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
-        gridTemplateRows: { xs: 'auto', md: 'auto' },
+        gridTemplateColumns: { xs: '1fr', lg: 'repeat(12, 1fr)' },
+        gridTemplateRows: { xs: 'auto', lg: 'auto' },
         gap: { xs: '15px', md: '20px', lg: '25px', xl: '30px' },
-        paddingTop: { xs: '10px', md: '20px' },
+        paddingTop: { xs: '0px', md: '5px' },
       }}
     >
       <Box
         component='article'
         sx={{
-          gridColumn: { xs: 'auto', md: 'span 8' },
+          gridColumn: { xs: 'auto', lg: 'span 8' },
         }}
       >
         <ContactLeft />
@@ -32,10 +32,10 @@ function Contact() {
       <Box
         component='article'
         sx={{
-          gridColumn: { xs: 'auto', md: 'span 4' },
-          position: { xs: 'static', md: 'sticky' },
-          top: { xs: 'auto', md: '100px' },
-          alignSelf: { xs: 'unset', md: 'start' },
+          gridColumn: { xs: 'auto', lg: 'span 4' },
+          position: { xs: 'static', lg: 'sticky' },
+          top: { xs: 'auto', lg: '100px' },
+          alignSelf: { xs: 'unset', lg: 'start' },
         }}
       >
         <ContactEnquiryForm />

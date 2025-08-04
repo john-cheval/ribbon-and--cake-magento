@@ -218,7 +218,7 @@ index c705a8c..4d3370c 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
-index ca14954..ace8db2 100644
+index ca14954..e0261c9 100644
 --- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 +++ b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 @@ -3,8 +3,8 @@ import type { MotionImageAspectProps, ScrollerButtonProps } from '@graphcommerce
@@ -241,16 +241,18 @@ index ca14954..ace8db2 100644
  import { IconSvg } from '../IconSvg'
  import { Row } from '../Row/Row'
  import { extendableComponent } from '../Styles'
-@@ -146,7 +146,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -146,7 +146,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
          className={classes.row}
          breakoutLeft={variantMd === 'default' && !theme.appShell.containerSizingContent}
          sx={[
 -          { bgcolor: theme.palette.mode === 'light' ? 'background.image' : 'background.paper' },
-+          { bgcolor: theme.palette.mode === 'light' ? 'background.image' : 'background.paper',paddingInline:{xs:'18px',sm:'25px',md:'35px', lg:"55px"}, },
++          { bgcolor: theme.palette.mode === 'light' ? 'background.image' : 'background.paper',paddingInline:{xs:'18px',sm:'25px',md:'35px', xl:"55px", '& .breakoutLeft':{
++            paddingLeft:'inherit !important'
++          }}, },
            ...(Array.isArray(sx) ? sx : [sx]),
          ]}
        >
-@@ -161,9 +161,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -161,9 +163,8 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                gridTemplate: '"left" "right"',
                [theme.breakpoints.up('md')]: {
                  '&:not(.variantMdOneColumn)': {
@@ -258,11 +260,16 @@ index ca14954..ace8db2 100644
 -                    theme.page.horizontal
 -                  } * 2)`,
 +                  gridTemplate: `"left right" / 1fr 1fr`,
++                  columnGap:'30px'
                  },
                },
  
-@@ -192,7 +190,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
-                   height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
+@@ -189,10 +190,10 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                 {
+                   gridArea: 'left',
+                   willChange: 'transform',
+-                  height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
++                 // height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
                    backgroundColor: theme.palette.background.image,
                    position: 'relative',
 -                  paddingTop: `min(${ratio}, ${maxHeight})`,
@@ -270,7 +277,7 @@ index ca14954..ace8db2 100644
                    [theme.breakpoints.down('md')]: {
                      width: '100%',
                    },
-@@ -244,12 +242,12 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -244,12 +245,12 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    <MotionImageAspect
                      key={typeof image.src === 'string' ? image.src : idx}
                      layout
@@ -285,7 +292,7 @@ index ca14954..ace8db2 100644
                      sizes={{
                        0: '100vw',
                        [theme.breakpoints.values.md]: zoomed ? '100vw' : '60vw',
-@@ -260,6 +258,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -260,6 +261,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                  ))}
                </Scroller>
                {afterScroller}
@@ -293,7 +300,7 @@ index ca14954..ace8db2 100644
                <MotionBox
                  layout='position'
                  layoutDependency={zoomed}
-@@ -289,8 +288,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -289,8 +291,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                      )}
                    </Fab>
                  )}
@@ -305,7 +312,7 @@ index ca14954..ace8db2 100644
                  className={classes.centerLeft}
                  sx={{
                    display: 'grid',
-@@ -332,7 +332,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -332,7 +335,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                  >
                    <IconSvg src={iconChevronRight} />
                  </ScrollerButton>
@@ -314,7 +321,7 @@ index ca14954..ace8db2 100644
  
                <Box
                  className={classes.bottomCenter}
-@@ -349,12 +349,17 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -349,12 +352,17 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    },
                  }}
                >
@@ -566,6 +573,25 @@ index 3a5a250..20686c4 100644
        <OverlayBase
          active={active}
          direction={direction}
+diff --git a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
+index bbf6b28..59385e6 100644
+--- a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
++++ b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
+@@ -25,11 +25,11 @@ const useUtilityClasses = ({ classes }: LogoClassProps) =>
+ 
+ const commonLogoStyles: SxProps<Theme> = {
+   height: '100%',
+-  width: 'max-content',
++  width: {xs:'100%', lg:'max-content'},
+   display: 'flex',
+   alignItems: 'center',
+-  margin: '0 auto',
+-  justifyContent: 'center',
++  margin: {xs:'0', lg:'0 auto'},
++  justifyContent: {xs:'start',lg:'center'},
+   pointerEvents: 'all',
+ }
+ 
 diff --git a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
 index b792f5c..1aaece7 100644
 --- a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
@@ -579,6 +605,18 @@ index b792f5c..1aaece7 100644
        style={{ bottom }}
        {...divProps}
      />
+diff --git a/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx b/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
+index 574754c..b4f2c56 100644
+--- a/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
++++ b/node_modules/@graphcommerce/next-ui/OverlayOrPopperChip/OverlayOrPopperChip.tsx
+@@ -114,6 +114,7 @@ export function ChipOverlayOrPopper(props: ChipOverlayOrPopperProps) {
+         {...panelProps}
+         title={label}
+         activeEl={activeEl}
++        
+         onReset={
+           onReset
+             ? () => {
 diff --git a/node_modules/@graphcommerce/next-ui/icons.interceptor.ts b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
 new file mode 100644
 index 0000000..414f989

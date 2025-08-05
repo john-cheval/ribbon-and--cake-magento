@@ -1,6 +1,6 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
-import mainImage from '../Assets/about/abt-img.jpg'
+import { MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
 import aboutSvg from '../Assets/about/Vector_1.svg'
 import svgIcon from '../Assets/about/Vector.svg'
 import { HoveredButton } from '../shared/Button/HoveredButon'
@@ -13,10 +13,12 @@ export type AboutPageProps = {
   left?: string
   topCenter?: string
   topRight?: string
+  testimonials?: MpBlogPostsQuery
+  clients?: string
 }
 
 export function About(props: AboutPageProps) {
-  const { left, topCenter, topRight } = props
+  const { left, topCenter, topRight, testimonials, clients } = props
   return (
     <Box sx={{ position: 'relative' }}>
       <Box
@@ -141,8 +143,8 @@ export function About(props: AboutPageProps) {
         </Box>
       </Box>
 
-      <Testimonials />
-      <Clients />
+      <Testimonials testiData={testimonials} />
+      <Clients clientsData={clients} />
 
       <Box
         sx={{

@@ -1,21 +1,23 @@
-import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
-import { testimonialsData } from '../../../constants/Home/swiper'
 
-function Clients() {
+export type ClientPropsType = {
+  clientsData?: string
+}
+
+function Clients({ clientsData }: ClientPropsType) {
   return (
     <Box
       component='section'
-      sx={{ marginTop: '65px', marginBottom: { xs: '30px', md: '45px', lg: '50px', xl: '90px' } }}
+      sx={{ marginTop: '65px', marginBottom: { xs: '30px', md: '45px', lg: '50px' } }}
     >
       <Typography
         variant='h2'
         component='h3'
-        sx={{ textAlign: 'center', marginBottom: { xs: '20px', md: '30px', xl: '47px' } }}
+        sx={{ textAlign: 'center', marginBottom: { xs: '20px', md: '30px', xl: '40px' } }}
       >
         Clients
       </Typography>
-      <Box
+      {/*  <Box
         component='div'
         sx={{
           display: 'flex',
@@ -37,7 +39,8 @@ function Clients() {
             />
           </Box>
         ))}
-      </Box>
+      </Box> */}
+      {clientsData && <div dangerouslySetInnerHTML={{ __html: clientsData }} />}
     </Box>
   )
 }

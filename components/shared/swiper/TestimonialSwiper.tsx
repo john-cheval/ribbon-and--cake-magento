@@ -10,9 +10,20 @@ import type SwiperCore from 'swiper'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import quote from '../../Assets/about/quote.svg'
-import { TestimonialSwiperPropsType } from '../types/SwiperPropsType'
 
-function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
+export type BlogPostItem = {
+  post_id: string
+  name: string
+  url_key: string
+  short_description: string
+  created_at: string
+  image: string
+}
+
+export type TestimonialsPropsType = {
+  data?: BlogPostItem[]
+}
+export function TestimonialSwiper({ data }: TestimonialsPropsType) {
   const swiperRef = useRef<SwiperCore | null>(null)
   const [activeSlide, setActiveSlide] = useState<number>(0)
 
@@ -33,6 +44,8 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
       setActiveSlide(swiperRef.current.realIndex)
     }
   }
+
+  if (!data) return
   return (
     <Box component='div' sx={{ position: 'relative' }}>
       <Swiper
@@ -60,9 +73,10 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
         spaceBetween={28}
         grabCursor
         centeredSlides
+        className='swiper-prop-testi'
       >
         {data?.map((item, index) => (
-          <SwiperSlide key={item?.id || index}>
+          <SwiperSlide key={item?.post_id || index}>
             <Box
               sx={{
                 borderRadius: '8px',
@@ -79,12 +93,13 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
             >
               <Box>
                 <Image
-                  src={item?.imageUrl}
-                  alt={item?.title}
+                  src={item?.image}
+                  alt={item?.name}
+                  layout='fill'
                   sx={{
                     width: 'auto',
                     height: 'auto',
-                    maxHeight: '100px',
+                    minHeight: '100px',
                   }}
                 />
               </Box>
@@ -99,7 +114,7 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                   textAlign: 'center',
                 }}
               >
-                {item?.title}
+                {item?.name}
               </Typography>
 
               <Typography
@@ -112,14 +127,14 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                   // maxWidth: '650px',
                 }}
               >
-                {item?.description}
+                {item?.short_description}
               </Typography>
             </Box>
             {activeSlide === index && (
               <Box
                 sx={{
                   position: 'absolute',
-                  top: '-80px',
+                  top: { xs: '-60px', xl: '-80px' },
                   left: '50px',
                   zIndex: 1999999,
                 }}
@@ -129,7 +144,7 @@ function TestimonialSwiper({ data }: TestimonialSwiperPropsType) {
                   alt='quote'
                   width={200}
                   height={200}
-                  sx={{ width: '100%', height: '200px' }}
+                  sx={{ width: '100%', height: { xs: '100px', xl: '150px' } }}
                 />
               </Box>
             )}

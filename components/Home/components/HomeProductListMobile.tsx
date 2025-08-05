@@ -15,7 +15,7 @@ function HomeProductListMobile({ data, link = '/', initial = '', count = 4, isCa
     return null
   }
 
-  const isMobile = useMediaQuery('(max-width:450px)')
+  const isMobile = useMediaQuery('(max-width:500px)')
   return (
     <Box>
       {/* Prodct Cards Categories */}

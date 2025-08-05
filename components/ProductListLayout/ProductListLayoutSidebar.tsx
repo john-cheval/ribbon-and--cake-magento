@@ -323,7 +323,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             mt: { xs: '30px' },
           })}
         >
-          {/*  <ProductFiltersProClearAll sx={{ alignSelf: 'center' }} /> */}
+          <ProductFiltersProClearAll sx={{ alignSelf: 'center' }} />
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box
               sx={{

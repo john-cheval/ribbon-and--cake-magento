@@ -39,6 +39,7 @@ function CmsPage(props: CmsPageRouteProps) {
   const hh = hd.replaceAll('&lt;', '<')
 
   const decodedH = decodeHtmlEntities(cmsDummy?.content || '')
+  console.log(storyproducts, 'thiis is the story products')
 
   return (
     <>

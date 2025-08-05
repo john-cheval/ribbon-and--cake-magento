@@ -1,0 +1,17 @@
+query MpBlogPosts($action: String, $categoryId: Int!, $pageSize: Int, $currentPage: Int) {
+  mpBlogPosts(
+    action: $action
+    categoryId: $categoryId
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      post_id
+      name
+      url_key
+      short_description
+      created_at
+      image
+    }
+  }
+}

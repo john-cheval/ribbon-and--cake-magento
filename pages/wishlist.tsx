@@ -125,7 +125,7 @@ function WishlistPage() {
           ) : (
             <>
               {wishlistItems.items.map((item) => (
-                <WishlistItemActionCard key={item.id} item={item} />
+                <WishlistItemActionCard key={item.id} item={item} isIcon={true} />
               ))}
             </>
           )}

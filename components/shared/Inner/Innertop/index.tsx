@@ -59,8 +59,11 @@ export function InnerTop(props: InnerTopProps) {
       <Box
         sx={[
           {
-            borderTop: '1px solid #d4d4d4',
-            ...((isFilter || mainTitle) && { borderBottom: '1px solid #d4d4d4' }),
+            // borderTop: '1px solid #d4d4d4',
+            borderTop: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+            ...((isFilter || mainTitle) && {
+              borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+            }),
             paddingBlock: { xs: '10px', lg: '15px' },
           },
 
@@ -203,7 +206,7 @@ export function InnerTop(props: InnerTopProps) {
               <Typography
                 variant='p'
                 sx={{
-                  color: '#441E14 !important',
+                  color: (theme: any) => theme.palette.custom.main,
                   fontWeight: 500,
                 }}
               >
@@ -221,11 +224,10 @@ export function InnerTop(props: InnerTopProps) {
                   MenuProps={{
                     PaperProps: {
                       sx: {
-                        bgcolor: '#F6DBE0',
+                        bgcolor: (theme: any) => theme.palette.custom.border,
                         '& .MuiMenuItem-root': {
                           // padding: 2,
-                          color: '#441E14',
-                          fontFamily: '"Bricolage Grotesque", sans-serif',
+                          color: (theme: any) => theme.palette.custom.main,
                           fontSize: { xs: '14px', md: '16px' },
                           fontWeight: 500,
                           lineHeight: '158%',
@@ -250,7 +252,10 @@ export function InnerTop(props: InnerTopProps) {
             variant='h2'
             sx={{
               display: { xs: 'block', lg: 'none' },
-              borderBottom: { xs: '1px solid #d4d4d4', lg: 'none' },
+              borderBottom: {
+                xs: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                lg: 'none',
+              },
               marginBottom: { xs: '10px', md: '15px', lg: '0' },
               paddingBottom: { xs: '10px', md: '15px', lg: '0' },
             }}

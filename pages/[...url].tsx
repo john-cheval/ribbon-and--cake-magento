@@ -60,8 +60,8 @@ function CategoryPage(props: CategoryProps) {
     ...rest,
     category: categories?.items?.[0],
   })
-  console.log(layoutData, 'this is layout data')
-  console.log(menu, 'this is menu data')
+  // console.log(layoutData, 'this is layout data')
+  // console.log(menu, 'this is menu data')
 
   const { products, params, category } = productList
 

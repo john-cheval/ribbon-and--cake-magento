@@ -330,7 +330,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 fontSize: { xs: '14px', sm: '16px', md: '20px' },
                 fontWeight: 500,
                 lineHeight: '120%',
-                color: '#000',
+                color: (theme: any) => theme.palette.custom.dark,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',

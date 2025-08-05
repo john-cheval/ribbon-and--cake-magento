@@ -18,6 +18,7 @@ export type BlogPostItem = {
   short_description: string
   created_at: string
   image: string
+  post_content?: string
 }
 
 export type TestimonialsPropsType = {

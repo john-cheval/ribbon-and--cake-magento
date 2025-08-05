@@ -1,7 +1,7 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Divider, Typography } from '@mui/material'
 import { useState } from 'react'
-import { eventsData, eventsList } from '../../../constants/Home/swiper'
+import { eventsData } from '../../../constants/Home/swiper'
 import events1 from '../../Assets/events/image-1.jpg'
 import events2 from '../../Assets/events/image-2.jpg'
 import EventsAndCoursesTileResponsive from '../../shared/components/CoursetileResponsive'
@@ -9,12 +9,12 @@ import EventsAndCoursesTile from '../../shared/components/EventsAndCoursesTile'
 import EventsGallerySwiper from '../../shared/swiper/EventsGallerySwiper'
 import EnquiryForm from './EnquiryForm'
 
-function EventsDetails() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(eventsData[0]?.title)
+function EventsDetails({ list }) {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(list[0]?.name)
 
   const filteredEvents = selectedCategory
-    ? eventsData.filter((event) => event.title === selectedCategory)
-    : eventsData
+    ? list.filter((event) => event?.name === selectedCategory)
+    : list
 
   return (
     <Box
@@ -45,15 +45,15 @@ function EventsDetails() {
           display: { xs: 'none', lg: 'block' },
         }}
       >
-        {eventsData?.map((item, index) => (
+        {list?.map((item, index) => (
           <EventsAndCoursesTile
-            key={item?.id || index}
-            isSelected={selectedCategory === item?.title}
-            title={item?.title}
+            key={item?.post_id || index}
+            isSelected={selectedCategory === item?.name}
+            title={item?.name}
             id={index}
-            length={eventsData?.length}
+            length={list?.length}
             onClick={() => {
-              setSelectedCategory((prev) => (prev === item?.title ? null : item?.title))
+              setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
             }}
           />
         ))}
@@ -79,15 +79,15 @@ function EventsDetails() {
           width: '100%',
         }}
       >
-        {eventsData?.map((item, index) => (
+        {list?.map((item, index) => (
           <EventsAndCoursesTileResponsive
-            key={item?.id || index}
-            title={item?.title}
+            key={item?.post_id || index}
+            title={item?.name}
             id={index}
-            isSelected={selectedCategory === item?.title}
-            length={eventsData?.length}
+            isSelected={selectedCategory === item?.name}
+            length={list?.length}
             onClick={() => {
-              setSelectedCategory((prev) => (prev === item?.title ? null : item?.title))
+              setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
             }}
           />
         ))}
@@ -100,70 +100,10 @@ function EventsDetails() {
       >
         <EventsGallerySwiper imageGallery={eventsData[0]?.images} />
 
-        <Typography
-          component='p'
-          variant='p'
-          sx={{
-            color: (theme: any) => theme.palette.custom.secondary,
-            lineHeight: '174%',
-            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-            marginTop: { xs: '10px', md: '10px', lg: '18px' },
-          }}
-        >
-          Elevate your next event with Ribbons & Balloons. Our expert team specializes in
-          personalizing cakes, cupcakes, and desserts with your brand or image. Just complete the
-          form below to get started, no event is too big or small!Elevate your next event with
-          Ribbons & Balloons. Our expert team specializes in personalizing cakes, cupcakes, and
-          desserts with your brand or image. Just complete the form below to get started, no event
-          is too big or small!Elevate your next event with Ribbons & Balloons. Our expert team
-          specializes in personalizing cakes, cupcakes, and desserts with your brand or image. Just
-          complete the form below to get started, no event is too big or small!Elevate your next
-          event with Ribbons & Balloons. Our expert team specializes in personalizing cakes,
-          cupcakes, and desserts with your brand or image. Just complete the form bel ow to get
-          started, no event is too big or small!
-        </Typography>
-
-        <Box sx={{ marginBlock: { xs: '14px', sm: '20px', md: '25px', lg: '34px' } }}>
-          <Typography
-            sx={{
-              color: (theme: any) => theme.palette.custom.dark,
-              fontSize: { xs: '16px', md: '20px' },
-              lineHeight: '120%',
-              marginBottom: { xs: '10px', md: '15px', lg: '20px' },
-            }}
-          >
-            Lorem Ipsum
-          </Typography>
-
-          {eventsList?.map((list, index) => (
-            <Box
-              key={index}
-              sx={{ display: 'flex', alignItems: 'start', columnGap: { xs: '5px', lg: '10px' } }}
-            >
-              <span
-                style={{
-                  height: '5px',
-                  width: '5px',
-                  backgroundColor: '#F1A8B6',
-                  borderRadius: '50%',
-                  display: 'inline-block',
-                  marginTop: '12px',
-                }}
-              ></span>
-              <Typography
-                variant='p'
-                component='p'
-                sx={{
-                  color: (theme: any) => theme.palette.custom.secondary,
-                  lineHeight: '242%',
-                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                }}
-              >
-                {list}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
+        <div
+          className='events-detail'
+          dangerouslySetInnerHTML={{ __html: filteredEvents?.[0]?.post_content }}
+        />
 
         <Box
           sx={{

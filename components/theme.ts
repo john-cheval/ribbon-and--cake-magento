@@ -29,6 +29,7 @@ type ThemePaletteOptions = PaletteOptions & {
     smallHeading?: string
     borderInput?: string
     wishlistColor?: string
+    borderSecondary?: string
   }
 }
 
@@ -44,6 +45,7 @@ const lightPalette: ThemePaletteOptions = {
     smallHeading: '#2A110A',
     borderInput: '#D5B1B8',
     wishlistColor: '#F1A8B6',
+    borderSecondary: '#d4d4d4',
   },
   primary: {
     main: '#441E14',
@@ -75,7 +77,7 @@ const lightPalette: ThemePaletteOptions = {
   },
 }
 
-const darkPalette: PaletteOptions = {
+const darkPalette: ThemePaletteOptions = {
   mode: 'dark',
   custom: {
     main: '#441E14',
@@ -87,6 +89,7 @@ const darkPalette: PaletteOptions = {
     smallHeading: '#2A110A',
     borderInput: '#D5B1B8',
     wishlistColor: '#F1A8B6',
+    borderSecondary: '#d4d4d4',
   },
   primary: {
     main: '#006bff',
@@ -513,6 +516,7 @@ declare module '@mui/material/styles' {
       smallHeading?: string
       borderInput?: string
       wishlistColor?: string
+      borderSecondary?: string
     }
   }
 
@@ -527,6 +531,7 @@ declare module '@mui/material/styles' {
       smallHeading?: string
       borderInput?: string
       wishlistColor?: string
+      borderSecondary?: string
     }
   }
 }

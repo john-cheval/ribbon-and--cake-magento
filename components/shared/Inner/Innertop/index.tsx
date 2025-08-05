@@ -107,7 +107,7 @@ export function InnerTop(props: InnerTopProps) {
                   sx={{
                     color: (theme: any) => theme.palette.custom.tertiary,
                     fontWeight: 400,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '14px', md: '16px' },
                   }}
                 >
                   {title}

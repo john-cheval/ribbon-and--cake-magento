@@ -5,21 +5,23 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import About from '../../components/About'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { MpBlogPostsDocument, MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
 import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
-export type CmsBlocksProps = { cmsBlocks?: any }
+export type CmsBlocksProps = { cmsBlocks?: any; testimoanialsData?: MpBlogPostsQuery }
 function AboutPage(props: CmsBlocksProps) {
-  const { cmsBlocks } = props
+  const { cmsBlocks, testimoanialsData } = props
   const abuotLeft = cmsBlocks.find((block) => block.identifier === 'about-left')
   const abuotTopCenter = cmsBlocks.find((block) => block.identifier === 'about-top-center')
   const aboutTopRight = cmsBlocks.find((block) => block.identifier === 'about-top-right')
+  const aboutClients = cmsBlocks.find((block) => block.identifier === 'clients')
   const decodedAboutLeft = decodeHtmlEntities(abuotLeft?.content)
   const decodedAboutTopCenter = decodeHtmlEntities(abuotTopCenter?.content)
   const decodedAboutTopRight = decodeHtmlEntities(aboutTopRight?.content)
-  console.log(decodedAboutTopRight, 'decodedAboutTopCenter')
+  const decodedAboutclients = decodeHtmlEntities(aboutClients?.content)
   return (
     <>
       <PageMeta
@@ -35,6 +37,8 @@ function AboutPage(props: CmsBlocksProps) {
         left={decodedAboutLeft}
         topCenter={decodedAboutTopCenter}
         topRight={decodedAboutTopRight}
+        testimonials={testimoanialsData}
+        clients={decodedAboutclients}
       />
     </>
   )
@@ -61,16 +65,28 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const cmsPageBlocksQuery = staticClient.query({
     query: cmsMultipleBlocksDocument,
     variables: {
-      blockIdentifiers: ['about-left', 'about-top-center', 'about-top-right'],
+      blockIdentifiers: ['about-left', 'about-top-center', 'about-top-right', 'clients'],
+    },
+  })
+
+  const testimoanialQuery = staticClient.query({
+    query: MpBlogPostsDocument,
+    variables: {
+      action: 'get_post_by_categoryId',
+      categoryId: 6,
+      pageSize: 50,
+      currentPage: 1,
     },
   })
 
   const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
+  const testimoanialsData = (await testimoanialQuery)?.data?.mpBlogPosts?.items
 
   return {
     props: {
       ...(await layout).data,
       cmsBlocks,
+      testimoanialsData,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

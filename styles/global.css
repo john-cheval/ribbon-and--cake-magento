@@ -166,7 +166,7 @@
   pointer-events: none;
 }
 
-/*----------------------------- About----------------*/
+/*----------------------------- About ----------------*/
 .about-left-container .heading {
   color: var(--color-custom-heading);
   margin: 0;
@@ -209,12 +209,102 @@
 .responsive-fonts {
   font-size: 12px;
 }
+.clients {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+}
+.clients img {
+  width: auto;
+  height: auto;
+  max-height: 100px;
+}
+.swiper-prop-testi {
+  overflow: visible !important;
+}
 
+/*----------------------------- Contact ----------------*/
+.contactLeftWrapper {
+  position: relative;
+}
+.left-image-wrapper {
+  position: relative;
+  z-index: 500;
+}
+.left-image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.left-content-wrapper {
+  padding: 55px 30px 30px;
+  background-color: var(--color-custom-border);
+  border-radius: 8px;
+  margin-top: -20px;
+}
+.contents {
+  border-bottom: 1px solid #f1a8b6;
+  padding-bottom: 12px;
+}
+.content-description {
+  color: var(--color-custom-secondary);
+  line-height: 170%;
+  margin-top: 5px;
+}
+.left-social-wrapper {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  flex-direction: column;
+  padding-top: 12px;
+}
+.social-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.social-box img {
+  width: 20px;
+  height: auto;
+  object-fit: cover;
+  max-width: 45px;
+}
+.social-box .content {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.social-box .content span,
+.social-box .content a {
+  color: var(--color-custom-dark);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.left-svg {
+  position: absolute;
+  z-index: 500;
+  right: 14px;
+  top: 20%;
+}
+.left-svg img {
+  height: auto;
+  width: auto;
+  border-radius: 8px;
+  min-height: 160px;
+}
 /* sm breakpoint */
 
 @media (min-width: 640px) {
-  .responsive-fonts {
+  .responsive-fonts,
+  .social-box .content span,
+  .social-box .content a {
     font-size: 14px;
+  }
+  .left-svg {
+    top: 50%;
   }
 }
 
@@ -249,6 +339,38 @@
   .responsive-fonts {
     font-size: 16px;
   }
+  .clients {
+    column-gap: 30px;
+  }
+  .left-content-wrapper {
+    padding: 90px 58px 70px;
+    margin-top: -40px;
+  }
+  .contents {
+    padding-bottom: 20px;
+  }
+  .left-social-wrapper {
+    align-items: center;
+    gap: 28px;
+    flex-direction: row;
+    padding-top: 20px;
+  }
+  .social-box {
+    gap: 27px;
+  }
+  .social-box img {
+    width: 30px;
+  }
+  .social-box .content a {
+    font-size: 16px;
+  }
+  .left-svg {
+    right: 28px;
+    top: 40%;
+  }
+  .left-svg img {
+    min-height: 200px;
+  }
 }
 
 /* lg breakpoint */
@@ -269,11 +391,32 @@
   .text-center-lg {
     text-align: left;
   }
+  .contents {
+    padding-bottom: 25px;
+  }
+  .left-social-wrapper {
+    padding-top: 30px;
+  }
+  .social-box img {
+    width: 45px;
+  }
+  .social-box .content a {
+    font-size: 20px;
+  }
+  .left-svg {
+    top: 50%;
+  }
 }
 
 /* Extra Large breakpoint */
 @media (min-width: 1536px) {
   .home-banner-content {
     padding-inline: 55px;
+  }
+  .clients {
+    column-gap: 40px;
+  }
+  .left-svg img {
+    min-height: 250px;
   }
 }

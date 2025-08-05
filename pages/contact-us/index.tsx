@@ -4,13 +4,18 @@ import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import Contact from '../../components/contact'
-import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
+export type CmsBlocksProps = { cmsBlocks?: any }
+function ContactPage(props: CmsBlocksProps) {
+  const { cmsBlocks } = props
 
-function ContactPage(props) {
+  const contactLeft = cmsBlocks.find((block) => block.identifier === 'contact-left')
+  const decodedContactLeft = decodeHtmlEntities(contactLeft?.content)
   return (
     <>
       <PageMeta
@@ -22,7 +27,7 @@ function ContactPage(props) {
 
       <InnerTop title={'Contact'} isFilter={false} />
 
-      <Contact />
+      <Contact contactLeft={decodedContactLeft} />
     </>
   )
 }
@@ -45,9 +50,19 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
+  const cmsPageBlocksQuery = staticClient.query({
+    query: cmsMultipleBlocksDocument,
+    variables: {
+      blockIdentifiers: ['contact-left'],
+    },
+  })
+
+  const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
+
   return {
     props: {
       ...(await layout).data,
+      cmsBlocks,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

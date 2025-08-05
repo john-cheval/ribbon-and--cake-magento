@@ -2,7 +2,12 @@ import { Box } from '@mui/material'
 import ContactEnquiryForm from './components/ContactEnquiryForm'
 import ContactLeft from './components/ContactLeft'
 
-function Contact() {
+export type ContactPageTypeProps = {
+  contactLeft?: string
+}
+
+function Contact(props: ContactPageTypeProps) {
+  const { contactLeft } = props
   return (
     <Box
       component='section'

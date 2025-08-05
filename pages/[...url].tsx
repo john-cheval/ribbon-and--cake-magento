@@ -45,19 +45,23 @@ import { CategoryPageDocument } from '../graphql/CategoryPage.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
 
 export type CategoryProps = CategoryPageQuery &
+  layoutProps &
   ProductListQuery &
   ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams }
 export type CategoryRoute = { url: string[] }
+export type layoutProps = { layoutData?: any; menu?: any }
 
 type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
-  const { categories, ...rest } = props
+  const { categories, layoutData, menu, ...rest } = props
   const productList = useProductList({
     ...rest,
     category: categories?.items?.[0],
   })
+  console.log(layoutData, 'this is layout data')
+  console.log(menu, 'this is menu data')
 
   const { products, params, category } = productList
 
@@ -228,12 +232,14 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       : { href: '/', title: i18n._(/* i18n */ 'Home') }
 
   await waitForSiblings
+  const layoutData = (await layout)?.data
   const result = {
     props: {
       ...(await categoryPage).data,
       ...(await products)?.data,
       ...(await filters)?.data,
       ...(await layout).data,
+      layoutData,
       filterTypes: await filterTypes,
       params: productListParams,
       apolloState: await conf.then(() => client.cache.extract()),

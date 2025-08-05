@@ -1,8 +1,12 @@
 import { Box, Typography } from '@mui/material'
-import { testimonialsData } from '../../../constants/Home/swiper'
+import { MpBlogPostsQuery } from '../../../graphql/BlogsByCatergoryId.gql'
 import TestimonialSwiper from '../swiper/TestimonialSwiper'
 
-function Testimonials() {
+export type TestimonialsPropsType = {
+  testiData?: MpBlogPostsQuery
+}
+
+function Testimonials({ testiData }) {
   return (
     <Box
       component='section'
@@ -18,13 +22,13 @@ function Testimonials() {
         component='h3'
         sx={{
           textAlign: 'center',
-          marginBottom: { xs: '25px', md: '30px', lg: '40px', xl: '60px' },
+          marginBottom: { xs: '25px', md: '30px', lg: '40px' },
         }}
       >
         Testimonials
       </Typography>
       <Box component='div'>
-        <TestimonialSwiper data={testimonialsData} />
+        <TestimonialSwiper data={testiData} />
       </Box>
     </Box>
   )

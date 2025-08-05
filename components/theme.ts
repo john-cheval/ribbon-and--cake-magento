@@ -77,6 +77,17 @@ const lightPalette: ThemePaletteOptions = {
 
 const darkPalette: PaletteOptions = {
   mode: 'dark',
+  custom: {
+    main: '#441E14',
+    heading: '#9B7C38',
+    secondary: '#6F6F6F',
+    tertiary: '#969696',
+    dark: '#000',
+    border: '#F6DBE0',
+    smallHeading: '#2A110A',
+    borderInput: '#D5B1B8',
+    wishlistColor: '#F1A8B6',
+  },
   primary: {
     main: '#006bff',
     contrastText: '#ffffff',

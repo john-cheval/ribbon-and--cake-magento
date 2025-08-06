@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { IoArrowForwardSharp } from 'react-icons/io5'
 import { HeroSwiper } from '../../shared/swiper/HeroSwiper'
 
-export function HomeBanner({ h }) {
+export function HomeBanner() {
   return (
     <>
       <Box

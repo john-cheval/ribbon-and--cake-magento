@@ -1,4 +1,6 @@
 import 'swiper/css'
+import { AddProductsToCartForm /*, ProductListItem */ } from '@graphcommerce/magento-product'
+import { RenderType } from '@graphcommerce/next-ui'
 import { css } from '@emotion/react'
 import { Box } from '@mui/material'
 import Link from 'next/link'
@@ -6,8 +8,9 @@ import { useRef, useState } from 'react'
 import type SwiperCore from 'swiper'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { ProductCard } from '../Cards/ProductCard'
-import type { SwiperPropType } from '../types/SwiperPropsType'
+import 'swiper/css'
+import 'swiper/css/autoplay'
+import { productListRenderer } from '../../ProductListItems'
 
 export const linkStyle = css`
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -20,24 +23,18 @@ export const linkStyle = css`
     text-decoration: none;
   }
 `
-export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType) {
+export function ProductSwiper({ data, link = '/', initial = '', productList }) {
   const swiperRef = useRef<SwiperCore | null>(null)
 
-  const categories = [...new Set(data?.map((tab) => tab?.category).filter(Boolean))]
-  const [selectedCategory, setSelectedCategory] = useState(categories?.[0] || initial)
+  const [selectedCategory, setSelectedCategory] = useState(initial || data?.[0]?.name)
 
-  const filteredData = data.filter((item) => item.category === selectedCategory)
-
-  if (!filteredData) {
-    return null
-  }
   return (
     <Box component='div'>
       <Box
         component='div'
         sx={{
-          paddingTop: { xs: '15px', md: '20px', lg: '27px' },
-          paddingBottom: { xs: '20px', md: '25px', lg: '45px' },
+          paddingTop: { xs: '15px', md: '20px', lg: '22px' },
+          paddingBottom: { xs: '20px', md: '20px', lg: '30px' },
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -51,30 +48,43 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
             alignItems: 'center',
           }}
         >
-          {categories?.map((category, index) => (
+          {data?.map((category, index) => (
             <Box
               component='span'
-              key={category || index}
-              onClick={() => setSelectedCategory(category as string)}
+              key={category?.uid || index}
+              onClick={() => setSelectedCategory(category?.name as string)}
               sx={{
-                backgroundColor: selectedCategory === category ? '#F6DBE0' : 'transparent',
+                backgroundColor:
+                  selectedCategory === category?.name
+                    ? (theme: any) => theme.palette.custom.border
+                    : 'transparent',
                 fontWeight: 400,
-                // color: '#969696',
-                color: selectedCategory === category ? '#2A110A' : '#969696',
-                borderRadius: selectedCategory === category ? '999px' : 'none',
+                textAlign: 'center',
+                color:
+                  selectedCategory === category?.name
+                    ? (theme: any) => theme.palette.custom.smallHeading
+                    : (theme: any) => theme.palette.custom.tertiary,
+                borderRadius: selectedCategory === category?.name ? '999px' : 'none',
                 cursor: 'pointer',
-                padding: '10px 20px',
+                padding: { md: '5px 15px', lg: '8px 20px' },
                 transition: 'all 0.3s ease',
-                border: '1px solid #fff',
-                fontSize: { xs: '14px', md: '16px' },
+                border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
+                fontSize: { xs: '14px', lg: '16px' },
                 '&:hover': {
-                  border: '1px solid #F6DBE0',
+                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   borderRadius: '999px',
-                  color: '#2A110A',
+                  color: (theme: any) => theme.palette.custom.smallHeading,
                 },
               }}
             >
-              {category}
+              <Link
+                style={{
+                  textDecoration: 'none',
+                }}
+                href={category?.url_path}
+              >
+                {category?.name}
+              </Link>
             </Box>
           ))}
         </Box>
@@ -84,41 +94,72 @@ export function ProductSwiper({ data, link = '/', initial = '' }: SwiperPropType
         </Link>
       </Box>
 
-      <Box component='div'>
-        <Swiper
-          key={selectedCategory}
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper
-          }}
-          modules={[Autoplay]}
-          loop
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          breakpoints={{
-            0: {
-              slidesPerView: 1.5,
-            },
-            768: {
-              slidesPerView: 2.5,
-            },
-            1200: {
-              slidesPerView: 4.5,
-            },
-            1500: {
-              slidesPerView: 5.5,
-            },
-          }}
-          spaceBetween={28}
-          grabCursor
-        >
-          {filteredData?.map((item, index) => (
-            <SwiperSlide key={item?.id || index}>
-              <ProductCard item={item} iconPosition='left' padding='14px' left='25px' />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      <Box
+        component='div'
+        onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
+        onMouseLeave={() => swiperRef.current?.autoplay?.start()}
+      >
+        <AddProductsToCartForm>
+          <Swiper
+            key={selectedCategory}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper
+            }}
+            //   modules={[Autoplay]}
+            loop
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            breakpoints={{
+              0: {
+                slidesPerView: 1.5,
+              },
+              768: {
+                slidesPerView: 2.5,
+              },
+              1200: {
+                slidesPerView: 4.5,
+              },
+              1500: {
+                slidesPerView: 5.5,
+              },
+            }}
+            spaceBetween={28}
+            grabCursor
+          >
+            {productList?.map((product, index) => (
+              <SwiperSlide key={product?.uid || index}>
+                {/* <ProductListItem {...product} />*/}
+                <Box
+                  sx={{
+                    '& .ProductListItem-imageContainer ': {
+                      borderRadius: 'none !important',
+                      '& img': {
+                        borderRadius: '8px',
+                      },
+                      '& .ProductListItem-topRight .MuiButtonBase-root': {
+                        border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                        transition: 'all 0.4s ease-in-out',
+                        '&:hover': {
+                          boxShadow: '1px 3px 1px 0px rgb(0 0 0/ 0.6)',
+                        },
+                      },
+                    },
+                    '& .ProductListItem-titleContainer .ProductListItem-title': {
+                      color: (theme: any) => theme.palette.custom.dark,
+                      minHeight: '50px',
+                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      lineHeight: '158%',
+                    },
+                  }}
+                >
+                  <RenderType renderer={productListRenderer} {...product} />
+                </Box>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </AddProductsToCartForm>
       </Box>
     </Box>
   )

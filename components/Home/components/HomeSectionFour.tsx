@@ -1,20 +1,17 @@
-import { Image } from '@graphcommerce/image'
-import { Box, Grid, Typography } from '@mui/material'
-import { celebrations } from '../../../constants/Home/swiper'
-// import { HomeSectionFourFragment } from './HomeSectionFour.gql'
-import leftImage from '../../Assets/left.jpg'
-import { HoveredButton } from '../../shared/Button/HoveredButon'
-import { ProductCard } from '../../shared/Cards/ProductCard'
+import { AddProductsToCartForm } from '@graphcommerce/magento-product'
+import { RenderType } from '@graphcommerce/next-ui'
+import { Box, Grid } from '@mui/material'
+import { productListRenderer } from '../../ProductListItems'
 import HomeProductListMobile from './HomeProductListMobile'
 
 export function HomeSectionFour(props) {
-  const { title } = props
+  const { title, content, products } = props
   return (
     <Box
       component='section'
       sx={{
         paddingInline: { xs: '18px', md: '25px', xl: '55px' },
-        paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px', xl: '100px' },
+        paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px' },
         display: 'grid',
         columnGap: { xs: '0', md: '20px', lg: '25px', xl: '35px' },
         position: 'relative',
@@ -33,7 +30,9 @@ export function HomeSectionFour(props) {
             alignSelf: 'start',
           }}
         >
-          <Box
+          {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
+
+          {/*  <Box
             component='div'
             sx={{
               position: 'relative',
@@ -100,7 +99,7 @@ export function HomeSectionFour(props) {
                 isCenter={true}
               />
             </Box>
-          </Box>
+          </Box>*/}
         </Grid>
 
         <Grid
@@ -115,23 +114,75 @@ export function HomeSectionFour(props) {
         >
           <Grid container columnSpacing={{ xs: 0, sm: '15px', lg: '20px', xl: '30px' }}>
             <Grid item xs={12} sm={6}>
-              <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
-                {celebrations?.slice(0, 4)?.map((data, index) => (
-                  <Grid item xs={12} key={data?.id || index}>
-                    <ProductCard item={data} iconPosition='left' padding='14px' left='25px' />
-                  </Grid>
-                ))}
-              </Grid>
+              <AddProductsToCartForm>
+                <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
+                  {products?.slice(0, 4)?.map((product, index) => (
+                    <Grid item xs={12} key={product?.uid || index}>
+                      <Box
+                        sx={{
+                          '& .ProductListItem-imageContainer ': {
+                            borderRadius: 'none !important',
+                            '& img': {
+                              borderRadius: '8px',
+                            },
+                            '& .ProductListItem-topRight .MuiButtonBase-root': {
+                              border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                              transition: 'all 0.4s ease-in-out',
+                              '&:hover': {
+                                boxShadow: '1px 3px 1px 0px rgb(0 0 0/ 0.6)',
+                              },
+                            },
+                          },
+                          '& .ProductListItem-titleContainer .ProductListItem-title': {
+                            color: (theme: any) => theme.palette.custom.dark,
+                            minHeight: '50px',
+                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                            lineHeight: '158%',
+                          },
+                        }}
+                      >
+                        <RenderType renderer={productListRenderer} {...product} />
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </AddProductsToCartForm>
             </Grid>
 
             <Grid item xs={12} sm={6} sx={{ marginTop: { lg: '50px', xl: '60px' } }}>
-              <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
-                {celebrations?.slice(4)?.map((data, index) => (
-                  <Grid item xs={12} key={data?.id || index}>
-                    <ProductCard item={data} iconPosition='left' padding='14px' left='25px' />
-                  </Grid>
-                ))}
-              </Grid>
+              <AddProductsToCartForm>
+                <Grid container rowSpacing={{ xs: '20px', lg: '25px', xl: '37px' }}>
+                  {products?.slice(4, 8)?.map((product, index) => (
+                    <Grid item xs={12} key={product?.uid || index}>
+                      <Box
+                        sx={{
+                          '& .ProductListItem-imageContainer ': {
+                            borderRadius: 'none !important',
+                            '& img': {
+                              borderRadius: '8px',
+                            },
+                            '& .ProductListItem-topRight .MuiButtonBase-root': {
+                              border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                              transition: 'all 0.4s ease-in-out',
+                              '&:hover': {
+                                boxShadow: '1px 3px 1px 0px rgb(0 0 0/ 0.6)',
+                              },
+                            },
+                          },
+                          '& .ProductListItem-titleContainer .ProductListItem-title': {
+                            color: (theme: any) => theme.palette.custom.dark,
+                            minHeight: '50px',
+                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                            lineHeight: '158%',
+                          },
+                        }}
+                      >
+                        <RenderType renderer={productListRenderer} {...product} />
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </AddProductsToCartForm>
             </Grid>
           </Grid>
         </Grid>
@@ -139,11 +190,12 @@ export function HomeSectionFour(props) {
 
       <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
         <HomeProductListMobile
-          data={celebrations}
+          data={products}
           link='/cakes'
           initial='Custom Cake'
           count={6}
           isCategory={false}
+          productList={products}
         />
       </Box>
     </Box>

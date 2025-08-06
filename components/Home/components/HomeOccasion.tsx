@@ -1,12 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import { occasionsData } from '../../../constants/Home/swiper'
 import { ProductSwiper } from '../../shared/swiper/ProductSwiper'
 import HomeProductListMobile from './HomeProductListMobile'
 
-// import { HomeOccasionFragment } from './HomeOccasion.gql'
-
 export function HomeOccasion(props) {
-  const { title } = props
+  const { occasionCategories, products, title } = props
+  const splittedOccastionCategories = occasionCategories?.children?.slice(0, 6)
+
   return (
     <Box
       sx={{
@@ -15,16 +14,25 @@ export function HomeOccasion(props) {
       }}
       component='section'
     >
-      <Typography component='h2' variant='h2' sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-        {title || 'shop for occasions'}
-      </Typography>
+      {title && <div dangerouslySetInnerHTML={{ __html: title }} />}
 
       <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
-        <ProductSwiper data={occasionsData} link='/cakes' initial='Birthday' />
+        <ProductSwiper
+          data={splittedOccastionCategories}
+          link='/cakes'
+          initial={splittedOccastionCategories?.[0]?.name}
+          productList={products}
+        />
       </Box>
 
       <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
-        <HomeProductListMobile data={occasionsData} link='/cakes' initial='Birthday' count={4} />
+        <HomeProductListMobile
+          data={splittedOccastionCategories}
+          link='/cakes'
+          initial={splittedOccastionCategories?.[0]?.name}
+          count={4}
+          productList={products}
+        />
       </Box>
     </Box>
   )

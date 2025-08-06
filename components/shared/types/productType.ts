@@ -1,14 +1,15 @@
 import { StaticImageData } from 'next/image'
 
 export interface ProductItemType {
-  id?: number
+  uid?: string
   image: string | StaticImageData
-  title: string
+  name: string
   price?: number | undefined | string
   category?: string
   startPrice?: number | undefined | string
   endPrice?: number | undefined | string
   sku?: string
+  url_path?: string
 }
 
 export interface TestiProductItemType {

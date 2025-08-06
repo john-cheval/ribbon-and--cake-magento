@@ -9,7 +9,6 @@ import { saxoGrammaticus } from '../../../../lib/fonts'
 import ImageGallery from './ImageGallery'
 
 function InnerLeft({ coursesData }) {
-  console.log(coursesData[0]?.image, 'this is courses data')
   return (
     <Box>
       <Typography

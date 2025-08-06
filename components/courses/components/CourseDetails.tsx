@@ -17,7 +17,6 @@ function CourseDetail({ categories }) {
   const [hasMore, setHasMore] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
   const uniqueCategories = Array.from(new Set(coursesData?.map((course) => course.category)))
-  console.log(selectedCategory, 'this is hte selectedCategory categories')
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -7,7 +7,7 @@ import { OrderPrimaryButton } from '../../shared/Button/order/Primary'
 // import { HomeCtaFragment } from './HomeCTA.gql'
 
 export function HomeCta(props) {
-  const { title } = props
+  const { title, content } = props
 
   const data = Array.from({ length: 15 }, (_, i) => i + 1)
   return (
@@ -18,6 +18,8 @@ export function HomeCta(props) {
         overflow: 'hidden',
       }}
     >
+      {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
+      {/* 
       <Box
         component='div'
         sx={{
@@ -80,6 +82,7 @@ export function HomeCta(props) {
           />
         </Box>
       </Box>
+      */}
 
       <Box
         sx={{

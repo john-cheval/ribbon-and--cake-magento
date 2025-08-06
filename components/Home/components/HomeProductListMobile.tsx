@@ -1,21 +1,25 @@
+import { AddProductsToCartForm } from '@graphcommerce/magento-product'
+import { RenderType } from '@graphcommerce/next-ui'
 import { Box, Typography, useMediaQuery } from '@mui/material'
+import Link from 'next/link'
 import { useState } from 'react'
-import { ProductCard } from '../../shared/Cards/ProductCard'
+import { productListRenderer } from '../../ProductListItems'
 
-function HomeProductListMobile({ data, link = '/', initial = '', count = 4, isCategory = true }) {
-  const categories = [...new Set(data?.map((tab) => tab?.category).filter(Boolean))]
-  const [selectedCategory, setSelectedCategory] = useState(categories?.[0] || initial)
+function HomeProductListMobile({
+  data,
+  link = '/',
+  initial = '',
+  count = 4,
+  isCategory = true,
+  productList,
+}) {
+  const [selectedCategory, setSelectedCategory] = useState(data?.[0]?.name || initial)
   const [showAll, setShowAll] = useState(false)
 
-  const filteredData = isCategory ? data.filter((item) => item.category === selectedCategory) : data
+  const itemsToRender = showAll ? productList : productList.slice(0, count)
 
-  const itemsToRender = showAll ? filteredData : filteredData.slice(0, count)
+  const isMobile = useMediaQuery('(max-width:550px)')
 
-  if (!filteredData || filteredData.length === 0) {
-    return null
-  }
-
-  const isMobile = useMediaQuery('(max-width:500px)')
   return (
     <Box>
       {/* Prodct Cards Categories */}
@@ -41,61 +45,92 @@ function HomeProductListMobile({ data, link = '/', initial = '', count = 4, isCa
             marginTop: '10px',
           }}
         >
-          {categories?.map((category, index) => (
+          {data?.map((category, index) => (
             <Box
               component='span'
               key={index}
-              onClick={() => setSelectedCategory(category as string)}
+              onClick={() => setSelectedCategory(category?.name as string)}
               sx={{
                 backgroundColor:
-                  selectedCategory === category
+                  selectedCategory === category?.name
                     ? (theme: any) => theme.palette.custom.border
                     : 'transparent',
                 fontWeight: 400,
-                // color: '#969696',
                 color:
-                  selectedCategory === category
+                  selectedCategory === category?.name
                     ? (theme: any) => theme.palette.custom.main
                     : (theme: any) => theme.palette.custom.tertiary,
-                borderRadius: selectedCategory === category ? '999px' : 'none',
+                borderRadius: selectedCategory === category?.name ? '999px' : 'none',
                 cursor: 'pointer',
                 padding: { xs: '6px 15px', md: '10px 20px' },
                 transition: 'all 0.3s ease',
-                border: '1px solid #fff',
+                border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
                 fontSize: { xs: '12px', sm: '14px', md: '16px' },
                 '&:hover': {
-                  border: '1px solid #F6DBE0',
+                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   borderRadius: '999px',
                   color: (theme: any) => theme.palette.custom.main,
                 },
               }}
             >
-              {String(category)}
+              <Link
+                style={{
+                  textDecoration: 'none',
+                }}
+                href={category?.url_path}
+              >
+                {String(category?.name)}
+              </Link>
             </Box>
           ))}
         </Box>
       )}
       {/* Prodct Cards */}
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
-          columnGap: '13px',
-          rowGap: '16px',
-          marginTop: { xs: '10px', sm: '15px' },
-        }}
-      >
-        {itemsToRender?.map((item, index) => (
-          <ProductCard
-            item={item}
-            iconPosition='left'
-            padding='14px'
-            left='25px'
-            key={item?.id || index}
-          />
-        ))}
-      </Box>
-      {filteredData.length > count && (
+      <AddProductsToCartForm>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
+            columnGap: '13px',
+            rowGap: '16px',
+            marginTop: { xs: '10px', sm: '15px' },
+          }}
+        >
+          {itemsToRender?.map((product, index) => (
+            <Box
+              key={product?.uid || index}
+              sx={{
+                '& .ProductListItem-imageContainer ': {
+                  borderRadius: 'none !important',
+                  '& img': {
+                    borderRadius: '8px',
+                  },
+                },
+                '& .ProductListItem-titleContainer': {
+                  '& .ProductListItem-title': {
+                    color: (theme: any) => theme.palette.custom.dark,
+                    minHeight: { xs: '40px', md: '50px' },
+                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    lineHeight: '158%',
+                    minWidth: { xs: '130px' },
+                    maxWidth: { xs: '100%' },
+                  },
+                  '& .MuiButtonBase-root': {
+                    width: { xs: '45px', sm: '50px' },
+                    height: { xs: '45px', sm: '50px' },
+                  },
+                },
+              }}
+            >
+              <RenderType renderer={productListRenderer} {...product} />
+            </Box>
+          ))}
+        </Box>
+      </AddProductsToCartForm>
+
+      {/* Show */}
+
+      {productList?.length > count && (
         <Box textAlign='center' mt={2}>
           <Typography
             onClick={() => setShowAll(!showAll)}

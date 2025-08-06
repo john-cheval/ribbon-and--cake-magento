@@ -5,12 +5,25 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { cmsPageDocument } from '../../graphql/CmsPage.gql'
+import {
+  GetSubCategoriesDocument,
+  GetSubCategoriesQuery,
+} from '../../graphql/CourseSubCategories.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
+type CoursePropsType = {
+  courseCategoryData?: GetSubCategoriesQuery
+  cmsBlocks?: any
+}
 
-function CoursesPage(props) {
+function CoursesPage(props: CoursePropsType) {
+  const { courseCategoryData, cmsBlocks } = props
+  const coursesTop = cmsBlocks.find((block) => block.identifier === 'courses-top')
+  const decodedCoursesTop = decodeHtmlEntities(coursesTop?.content)
   return (
     <>
       <PageMeta
@@ -22,7 +35,7 @@ function CoursesPage(props) {
 
       <InnerTop title={'courses'} isFilter={false} />
 
-      <Courses />
+      <Courses coursesCategory={courseCategoryData} coursesTop={decodedCoursesTop} />
     </>
   )
 }
@@ -45,19 +58,37 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
-  const cmspage = staticClient.query({
+  {
+    /*  const cmspage = staticClient.query({
     query: cmsPageDocument,
     variables: {
       urlKey: 'courses',
     },
     fetchPolicy: cacheFirst(staticClient),
+  })*/
+  }
+
+  const cmsBlocksQuery = staticClient.query({
+    query: cmsMultipleBlocksDocument,
+    variables: {
+      blockIdentifiers: ['courses-top'],
+    },
   })
 
-  console.log((await cmspage).data, '===>cmspage')
+  const courseCategoryQueries = staticClient.query({
+    query: GetSubCategoriesDocument,
+    variables: {
+      parentId: '2',
+    },
+  })
 
+  const courseCategoryData = (await courseCategoryQueries)?.data?.mpBlogCategories?.items
+  const cmsBlocks = (await cmsBlocksQuery)?.data?.cmsBlocks?.items
   return {
     props: {
       ...(await layout).data,
+      courseCategoryData,
+      cmsBlocks,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

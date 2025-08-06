@@ -5,10 +5,11 @@ import {
   coursesInnerPara,
 } from '../../../../constants/courses/inner/coursesInnerData'
 import { saxoGrammaticus } from '../../../../lib/fonts'
-import banner from './banner.jpg'
+// import banner from './banner.jpg'
 import ImageGallery from './ImageGallery'
 
-function InnerLeft() {
+function InnerLeft({ coursesData }) {
+  console.log(coursesData[0]?.image, 'this is courses data')
   return (
     <Box>
       <Typography
@@ -18,13 +19,13 @@ function InnerLeft() {
           color: (theme: any) => theme.palette.custom.heading,
         }}
       >
-        Create designs with butter cream icing
+        {coursesData[0]?.name}
       </Typography>
 
       <Box sx={{ marginBlock: { xs: '14px 10px', md: '15px 15px' }, position: 'relative' }}>
         <Image
-          src={banner}
-          alt='banner'
+          src={coursesData[0]?.image}
+          alt={coursesData[0]?.name}
           width={775}
           height={400}
           sx={{
@@ -72,7 +73,12 @@ function InnerLeft() {
         </Box>
       </Box>
 
-      {courseInnerDataList?.map((list, index) => (
+      <div
+        className='coursesInner'
+        dangerouslySetInnerHTML={{ __html: coursesData[0]?.post_content }}
+      />
+
+      {/*courseInnerDataList?.map((list, index) => (
         <Box key={index} sx={{ display: 'flex', alignItems: 'center', columnGap: '3px' }}>
           <Box
             component='span'
@@ -96,8 +102,8 @@ function InnerLeft() {
             {list}
           </Typography>
         </Box>
-      ))}
-      <Box
+      ))*/}
+      {/*  <Box
         sx={{
           marginBlock: { xs: '15px 20px', md: '25px 35px' },
           display: 'flex',
@@ -118,7 +124,7 @@ function InnerLeft() {
             {para}
           </Typography>
         ))}
-      </Box>
+      </Box> */}
 
       <ImageGallery />
     </Box>

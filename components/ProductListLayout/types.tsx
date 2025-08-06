@@ -33,9 +33,15 @@ type CategoryLayoutProps = {
     NonNullable<NonNullable<CategoryPageQuery['categories']>['items']>[number]
 }
 
+export type MenuPropsTypes = {
+  menuList?: any
+}
+
 type ProductListProps = ReturnType<typeof useProductList<BaseProps>>
 
-export type ProductListLayoutProps = ProductListProps & (SearchLayoutProps | CategoryLayoutProps)
+export type ProductListLayoutProps = ProductListProps &
+  MenuPropsTypes &
+  (SearchLayoutProps | CategoryLayoutProps)
 
 type Configuration = {
   columnGap: { xs: string; xl: string }

@@ -10,13 +10,14 @@ import CourseCard from './CoursesCard'
 
 const MotionDiv = styled(m.div)({})
 
-function CourseDetail() {
+function CourseDetail({ categories }) {
   const [visibleCount, setVisibleCount] = useState(8)
   const [loading, setLoading] = useState(false)
   const observerRef = useRef<HTMLDivElement | null>(null)
   const [hasMore, setHasMore] = useState(true)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(coursesData[0]?.category)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
   const uniqueCategories = Array.from(new Set(coursesData?.map((course) => course.category)))
+  console.log(selectedCategory, 'this is hte selectedCategory categories')
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -95,15 +96,16 @@ function CourseDetail() {
             display: { xs: 'none', md: 'block' },
           }}
         >
-          {uniqueCategories?.map((course, index) => (
+          {categories?.map((course, index) => (
             <EventsAndCoursesTile
-              key={course || index}
-              title={course}
+              key={course?.category_id || index}
+              title={course?.name}
               id={index}
-              isSelected={selectedCategory === course}
-              length={uniqueCategories?.length}
+              isSelected={selectedCategory === course?.name}
+              length={categories?.length}
               onClick={() => {
-                setSelectedCategory((prev) => (prev === course ? null : course))
+                const name = course?.name
+                setSelectedCategory((prev) => (prev === name ? null : name))
                 setVisibleCount(8)
               }}
             />
@@ -129,16 +131,17 @@ function CourseDetail() {
           '-ms-overflow-style': 'none',
         }}
       >
-        {uniqueCategories?.map((course, index) => (
+        {categories?.map((course, index) => (
           <EventsAndCoursesTileResponsive
-            key={course || index}
-            title={course}
+            key={course?.category_id || index}
+            title={course?.name}
             id={index}
-            isSelected={selectedCategory === course}
+            isSelected={selectedCategory === course?.name}
             length={uniqueCategories?.length}
             onClick={() => {
-              setSelectedCategory((prev) => (prev === course ? null : course))
-              setVisibleCount(8)
+              const name = course?.name
+              setSelectedCategory((prev) => (prev === name ? null : name))
+              setVisibleCount(4)
             }}
           />
         ))}

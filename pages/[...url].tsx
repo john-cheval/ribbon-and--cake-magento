@@ -55,13 +55,12 @@ type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
-  const { categories, layoutData, menu, ...rest } = props
+  const { categories, menu, ...rest } = props
   const productList = useProductList({
     ...rest,
     category: categories?.items?.[0],
   })
-  // console.log(layoutData, 'this is layout data')
-  // console.log(menu, 'this is menu data')
+  // console.log(menu?.items[0]?.children, 'this is menu data')
 
   const { products, params, category } = productList
 
@@ -116,6 +115,7 @@ function CategoryPage(props: CategoryProps) {
                 title={category.name ?? ''}
                 id={category.uid}
                 category={category}
+                menuList={menu?.items[0]?.children}
               />
             )}
           {/*import.meta.graphCommerce.productFiltersPro &&

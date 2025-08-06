@@ -439,10 +439,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..9b47d50 100644
+index 80912c1..860e8f1 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,91 @@ import {
+@@ -10,47 +10,97 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -462,20 +462,27 @@ index 80912c1..9b47d50 100644
    sx?: SxProps<Theme>
    categoryTree: CategoryTreeItem[]
 +  filterIcons?: string | StaticImport
++  menus?:any
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons } = props
++  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons,menus } = props
    const { form } = useProductFiltersPro()
  
++  console.log(menus,"this is the menusssssssssssssssssssss")
++  console.log(categoryTree,"this isht  category tree")
++
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
 -
 +  const clearAll = useProductFiltersProClearAllAction()
    return (
-     <ActionCardAccordion
+-    <ActionCardAccordion
++<>
++   
++  {   <ActionCardAccordion
        sx={[
          hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
 +        {
@@ -549,7 +556,7 @@ index 80912c1..9b47d50 100644
        }
        details={
          <ActionCardList
-@@ -68,6 +112,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+@@ -68,6 +118,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard
@@ -557,6 +564,130 @@ index 80912c1..9b47d50 100644
                  key={item.value}
                  {...item}
                  size='responsive'
+@@ -103,6 +154,123 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+         </ActionCardList>
+       }
+     />
++    }
++{/*menus ?.map((menu,index)=>(
++  <ActionCardAccordion
++      sx={[
++        hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
++        {
++
++          '& .MuiAccordionSummary-expandIconWrapper': {
++            display: 'none',
++          },
++          '& .MuiAccordionSummary-root': {
++            cursor: 'default',
++            //pointerEvents: 'none',
++            minHeight: 'auto !important',
++
++            '&:hover, &.Mui-focusVisible': {
++              backgroundColor: 'transparent',
++            },
++          },
++
++        },
++        sx,
++        ...(Array.isArray(sx) ? sx : [sx]),
++      ]}
++      defaultExpanded={defaultExpanded}
++      summary={<Box sx={{
++        fontFamily: "'Bricolage Grotesque', sans-serif",
++        fontSize: { xs: '14px', sm: '16px', md: '20px' },
++        fontWeight: 500,
++        lineHeight: '120%',
++        color: '#000',
++        display: 'flex',
++        alignItems: 'center',
++        gap: '8px',
++        paddingTop:'15px'
++      }}>
++        {filterIcons && (
++          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
++        )} {menu?.name}</Box>}
++      right={
++
++        <Button
++          sx={{
++            color: '#969696',
++            fontSize: { sm: '12px', md: '14px' },
++            fontWeight: 400,
++            cursor:'pointer',
++            textDecoration: 'underline',
++            '&:hover': {
++              backgroundColor: 'transparent'
++            }
++          }}
++          onClick={(e) => {
++            e.stopPropagation()
++            // form.setValue(name, null)
++            return clearAll()
++          }}
++        >
++          <Trans id='Clear' />
++        </Button>
++
++      }
++      details={
++        <ActionCardList
++          size='responsive'
++          variant='default'
++          sx={{ mb: 2 }}
++          value={form.getValues('url')}
++          onChange={async (e, value) => {
++            const item = menu.children?.find((i) => i.url_path === value)
++            if (!item) return
++            await onChange(item)
++          }}
++        >
++          {menu?.children?.map(({ isBack=false, indent, ...item }) => {
++            const indentVal = isBack ? 0 : indent + 1
++            return (
++              <ActionCard
++                isFilter={true}
++                key={item.url_path}
++                {...item}
++                size='responsive'
++                title={
++                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
++                    <Box sx={{ marginRight: 1 }}>
++                      {isBack ? (
++                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
++                          <IconSvg src={iconChevronLeft} size='medium' />
++                          {item.name}
++                        </Box>
++                      ) : (
++                        item.name
++                      )}
++                    </Box>
++                    {item.count !== null && (
++                      <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
++                        ({item.count})
++                      </Box>
++                    )}
++                  </Box>
++                }
++                sx={{
++                  '&.sizeSmall': { pl: responsiveVal(8 * indentVal, 12 * indentVal) },
++                  '&.sizeMedium': { pl: responsiveVal(10 * indentVal, 14 * indentVal) },
++                  '&.sizeLarge': { pl: responsiveVal(12 * indentVal, 16 * indentVal) },
++                  '&.sizeResponsive': { pl: responsiveVal(8 * indentVal, 16 * indentVal) },
++                  '& .ActionCard-title.selected': { fontWeight: 'bold' },
++                }}
++              />
++            )
++          })}
++        </ActionCardList>
++      }
++    />
++
++))*/}
++    </>
+   )
+ }
+ 
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 index e238d8c..4dec1cc 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx

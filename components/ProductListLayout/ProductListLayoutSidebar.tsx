@@ -52,7 +52,8 @@ const INITIAL_LOAD_SIZE = 12
 const LAZY_LOAD_INCREMENT = 6
 
 export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
-  const { filters, filterTypes, params, products, handleSubmit, category, title, menu } = props
+  const { filters, filterTypes, params, products, handleSubmit, category, title, menu, menuList } =
+    props
 
   const [loadedProducts, setLoadedProducts] = useState(products?.items || [])
   const [currentPage, setCurrentPage] = useState(products?.page_info?.current_page || 1)
@@ -364,6 +365,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 category={category}
                 params={params}
                 hideBreadcrumbs
+                menus={menuList}
               />
             ) : (
               <ProductFiltersProCategorySectionSearch menu={menu} defaultExpanded />

@@ -372,6 +372,33 @@
   display: inline-block;
 }
 
+/*------ Courses ---------*/
+.course-top-wrapper {
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 10px;
+  margin-top: -10px;
+}
+
+/*------ Courses Inner ---------*/
+.coursesInner p,
+ol {
+  margin: 0;
+}
+.coursesInner ol {
+  padding-inline: 15px;
+}
+.coursesInner ol,
+.coursesInner ol li,
+.coursesInner p {
+  color: var(--color-custom-secondary);
+  font-size: 12px;
+  line-height: 174%;
+}
+
+.coursesInner p {
+  margin-block: 15px 20px;
+}
+
 /* sm breakpoint */
 
 @media (min-width: 641px) {
@@ -379,6 +406,9 @@
   .social-box .content span,
   .events-detail p:first-of-type,
   .events-detail ul li,
+  .coursesInner ol,
+  .coursesInner ol li,
+  .coursesInner p,
   .social-box .content a {
     font-size: 14px;
   }
@@ -419,7 +449,10 @@
     display: block;
     margin-top: 40px;
   }
-  .responsive-fonts {
+  .responsive-fonts,
+  .coursesInner ol,
+  .coursesInner ol li,
+  .coursesInner p {
     font-size: 16px;
   }
   .clients {
@@ -461,7 +494,8 @@
   .event-top-wrapper {
     padding-bottom: 10px;
   }
-  .event-top-wrapper .heading-main {
+  .event-top-wrapper .heading-main,
+  .course-top-wrapper .heading-main {
     margin-bottom: 10px;
     text-align: center;
   }
@@ -476,6 +510,13 @@
     font-size: 20px;
     margin-bottom: 15px;
     margin-top: 25px;
+  }
+  .course-top-wrapper {
+    padding-bottom: 25px;
+    margin-top: 0px;
+  }
+  .coursesInner p {
+    margin-block: 25px 35px;
   }
 }
 

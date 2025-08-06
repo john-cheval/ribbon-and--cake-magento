@@ -1,0 +1,61 @@
+diff --git a/node_modules/@graphcommerce/react-hook-form/src/useFormAutoSubmit.tsx b/node_modules/@graphcommerce/react-hook-form/src/useFormAutoSubmit.tsx
+index c172d75..eba1b01 100644
+--- a/node_modules/@graphcommerce/react-hook-form/src/useFormAutoSubmit.tsx
++++ b/node_modules/@graphcommerce/react-hook-form/src/useFormAutoSubmit.tsx
+@@ -4,11 +4,12 @@ import { useMemoObject } from '@graphcommerce/next-ui/hooks/useMemoObject'
+ import { cloneDeep } from '@apollo/client/utilities'
+ // eslint-disable-next-line import/no-extraneous-dependencies
+ import { debounce } from '@mui/material'
+-import React, { startTransition, useCallback, useEffect, useRef, useState } from 'react'
++import React, { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+ import type {
+   DeepPartialSkipArrayKey,
+   FieldPath,
+   FieldValues,
++  Path,
+   UseFormReturn,
+   UseWatchProps,
+ } from 'react-hook-form'
+@@ -94,7 +95,7 @@ export function useFormAutoSubmit<
+       submitDebounced()
+       return () => submitDebounced.clear()
+     }
+-    return () => {}
++    return () => { }
+   }, [canSubmit, force, shouldSubmit, submitDebounced, disabled])
+ 
+   return submitting
+@@ -143,8 +144,32 @@ function useAutoSubmitBase<TFieldValues extends FieldValues = FieldValues>(
+     ...watchOptions
+   } = props
+ 
++  const normalizedName = useMemo(() => {
++    const name = watchOptions?.name
++    if (!name) return [] as readonly Path<TFieldValues>[]
++    if (Array.isArray(name)) return name as readonly Path<TFieldValues>[]
++    return [name] as readonly Path<TFieldValues>[]
++  }, [watchOptions?.name])
++
++  const compute =
++    typeof watchOptions?.compute === 'function'
++      ? (fieldValues: readonly any[]) => watchOptions.compute!(fieldValues)
++      : () => null // fallback compute if undefined
++
++  const values = useMemoObject(
++    cloneDeep(
++      useWatch({
++        name: normalizedName,
++        control: watchOptions?.control,
++        exact: watchOptions?.exact,
++        disabled: watchOptions?.disabled,
++        compute,
++      })
++    )
++  )
++
+   // We create a stable object from the values, so that we can compare them later
+-  const values = useMemoObject(cloneDeep(useWatch(watchOptions)))
++  // const values = useMemoObject(cloneDeep(useWatch(watchOptions)))
+   const oldValues = useRef<DeepPartialSkipArrayKey<TFieldValues>>(values)
+   const { isValidating, isSubmitting, isValid } = useFormState(watchOptions)
+ 

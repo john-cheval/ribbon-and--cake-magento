@@ -1,19 +1,22 @@
 import { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst } from '@graphcommerce/graphql'
 import { getCategoryStaticPaths } from '@graphcommerce/magento-category'
+import { extractUrlQuery } from '@graphcommerce/magento-product'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { GetStaticPaths } from 'next'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import CourseInner from '../../components/courses/Innner'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { GetPostByNameDocument, GetPostByNameQuery } from '../../graphql/GetCourseByName.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 export type RouteProps = { url: string[] }
 type GetPageStaticPaths = GetStaticPaths<RouteProps>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
-
+export type CmsBlocksProps = { coursesData?: GetPostByNameQuery }
 function CoursesInnerPage(props) {
+  const { coursesData } = props
   return (
     <>
       <PageMeta
@@ -24,7 +27,7 @@ function CoursesInnerPage(props) {
       />
 
       <InnerTop title={''} isFilter={false} />
-      <CourseInner />
+      <CourseInner course={coursesData} />
     </>
   )
 }
@@ -43,25 +46,36 @@ export const getStaticPaths: GetPageStaticPaths = async ({ locales = [] }) => {
 
   const path = (locale: string) => getCategoryStaticPaths(graphqlSsrClient({ locale }), locale)
   const paths = (await Promise.all(locales.map(path))).flat(1)
-  console.log(paths, 'this is the paths')
   return { paths, fallback: 'blocking' }
 }
 export const getStaticProps: GetPageStaticProps = async (context) => {
   const { params, locale } = context
+  // const { url, query } = extractUrlQuery(context)
+  // if (!url || !query) return { notFound: true }
+
   const client = graphqlSharedClient(context)
   const conf = client.query({ query: StoreConfigDocument })
 
   const staticClient = graphqlSsrClient(context)
-  console.log(params?.url, 'params')
+  const pageurl = params?.url
+  if (!pageurl?.[1]) return { notFound: true }
 
   const layout = staticClient.query({
     query: LayoutDocument,
     fetchPolicy: cacheFirst(staticClient),
   })
 
+  const courseQuery = staticClient.query({
+    query: GetPostByNameDocument,
+    variables: {
+      url_key: pageurl?.[1],
+    },
+  })
+  const coursesData = (await courseQuery)?.data?.mpBlogPosts?.items
   return {
     props: {
       ...(await layout).data,
+      coursesData,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

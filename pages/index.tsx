@@ -17,7 +17,7 @@ import { decodeHtmlEntities } from '../utils/htmlUtils'
 // import type { CmsPageQueryFragment } from '@graphcommerce/magento-cms'
 
 export type CmsPageProps = { cmsPage?: any }
-export type CmsBlocksProps = { cmsBlocks?: any }
+export type CmsBlocksProps = { cmsBlocks?: any; layoutData?: any; menu?: any }
 
 export type StoryProductsProps = { storyproducts?: any[] }
 
@@ -29,7 +29,7 @@ export type CmsPageRouteProps = LayoutNavigationProps &
   StoryProductsProps
 
 function CmsPage(props: CmsPageRouteProps) {
-  const { cmsPage, cmsBlocks, storyproducts } = props
+  const { cmsPage, cmsBlocks, storyproducts, layoutData, menu } = props
 
   // console.log(storyproducts, 'this is the story page from the api')
   const cmsDummy = cmsBlocks.find((block) => block.identifier === 'slider')
@@ -39,7 +39,8 @@ function CmsPage(props: CmsPageRouteProps) {
   const hh = hd.replaceAll('&lt;', '<')
 
   const decodedH = decodeHtmlEntities(cmsDummy?.content || '')
-  console.log(storyproducts, 'thiis is the story products')
+  console.log(layoutData, 'layoutData')
+  console.log(menu, 'layoutDamenuta')
 
   return (
     <>
@@ -107,13 +108,14 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   })
 
   const storyproducts = (await sweetStoryQuery).data.products?.items
-
+  const layoutData = (await layout)?.data
   return {
     props: {
       cmsPage: cmsPage,
       cmsBlocks,
       storyproducts: storyproducts,
       ...(await layout).data,
+      layoutData,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

@@ -90,7 +90,7 @@ function CourseCard(props: CardProps) {
           across all continents except Antarctica
         </Typography>
         <Link
-          href={`/courses/baking-classes/create-designs-with-buttercream-icing`}
+          href={`/courses/baking-classes/create-designs-with-butter-cream-icing`}
           passHref
           legacyBehavior
         >

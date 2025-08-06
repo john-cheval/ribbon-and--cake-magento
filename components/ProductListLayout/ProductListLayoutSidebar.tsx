@@ -52,7 +52,8 @@ const INITIAL_LOAD_SIZE = 12
 const LAZY_LOAD_INCREMENT = 6
 
 export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
-  const { filters, filterTypes, params, products, handleSubmit, category, title, menu } = props
+  const { filters, filterTypes, params, products, handleSubmit, category, title, menu, menuList } =
+    props
 
   const [loadedProducts, setLoadedProducts] = useState(products?.items || [])
   const [currentPage, setCurrentPage] = useState(products?.page_info?.current_page || 1)
@@ -330,7 +331,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 fontSize: { xs: '14px', sm: '16px', md: '20px' },
                 fontWeight: 500,
                 lineHeight: '120%',
-                color: '#000',
+                color: (theme: any) => theme.palette.custom.dark,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -364,6 +365,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 category={category}
                 params={params}
                 hideBreadcrumbs
+                menus={menuList}
               />
             ) : (
               <ProductFiltersProCategorySectionSearch menu={menu} defaultExpanded />

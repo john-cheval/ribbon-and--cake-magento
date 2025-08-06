@@ -1,0 +1,19 @@
+query GetPostByName($url_key: String!) {
+  mpBlogPosts(
+    action: "get_post_list"
+    filter: { url_key: { eq: $url_key } }
+    pageSize: 10
+    currentPage: 1
+  ) {
+    items {
+      post_id
+      name
+      url_key
+      short_description
+      post_content
+      created_at
+      image
+      post_content
+    }
+  }
+}

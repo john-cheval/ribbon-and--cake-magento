@@ -1,0 +1,10 @@
+query GetSubCategories($parentId: String!) {
+  mpBlogCategories(action: "get_category_list", filter: { parent_id: { eq: $parentId } }) {
+    items {
+      name
+      url_key
+      category_id
+      parent_id
+    }
+  }
+}

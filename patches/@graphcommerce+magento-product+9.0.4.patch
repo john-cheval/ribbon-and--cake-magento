@@ -1,45 +1,39 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..8d63d21 100644
+index 6ae6263..e990a46 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-@@ -4,6 +4,7 @@ import { Button } from '@graphcommerce/next-ui'
+@@ -4,8 +4,13 @@ import { Button } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
 +import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab'
  
- export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+-export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
++
++export type customAddToCrtProps = {
++  isIcon?:boolean
++}
++export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
    Pick<
-@@ -27,17 +28,32 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+     ButtonProps<'button'>,
+     | 'variant'
+@@ -21,14 +26,30 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+   >
+ 
+ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+-  const { children, product, disabled, ...rest } = props
++  const { children, product, disabled,isIcon, ...rest } = props
+   const { showSuccess, ...action } = useAddProductsToCartAction(props)
+   const cartEnabled = useCartEnabled()
  
    if (!cartEnabled) return null
  
 +
    return (
 -    <Button
--      type='submit'
--      color='primary'
--      variant='pill'
--      size='large'
--      {...rest}
--      {...action}
--      disabled={disabled}
--    >
--      {children || <Trans>Add to Cart</Trans>}
--    </Button>
-+   // <Button
-+   //   type='submit'
-+   //   color='primary'
-+   //   variant='pill'
-+   //   size='large'
-+   //   {...rest}
-+   //   {...action}
-+   //   disabled={disabled}
-+   // >
-+   //   {children || <Trans>Hello Dhosto</Trans>}
-+   // </Button>
-+
-+    <AddProductsToCartFab sku={product?.sku} sx={{
++<>
++    {isIcon ? (
++<AddProductsToCartFab sku={product?.sku} sx={{
 +       height:'50px',
 +       width:'50px',
 +        '& svg': {
@@ -51,7 +45,18 @@ index 6ae6263..8d63d21 100644
 +            },
 +            
 +      }}  />
-+
++    ):(
++ <Button
+       type='submit'
+       color='primary'
+       variant='pill'
+@@ -39,5 +60,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+     >
+       {children || <Trans>Add to Cart</Trans>}
+     </Button>
++    )}
++  
++</>
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
@@ -434,10 +439,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..9b47d50 100644
+index 80912c1..860e8f1 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,91 @@ import {
+@@ -10,47 +10,97 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -457,20 +462,27 @@ index 80912c1..9b47d50 100644
    sx?: SxProps<Theme>
    categoryTree: CategoryTreeItem[]
 +  filterIcons?: string | StaticImport
++  menus?:any
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons } = props
++  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons,menus } = props
    const { form } = useProductFiltersPro()
  
++  console.log(menus,"this is the menusssssssssssssssssssss")
++  console.log(categoryTree,"this isht  category tree")
++
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
 -
 +  const clearAll = useProductFiltersProClearAllAction()
    return (
-     <ActionCardAccordion
+-    <ActionCardAccordion
++<>
++   
++  {   <ActionCardAccordion
        sx={[
          hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
 +        {
@@ -544,7 +556,7 @@ index 80912c1..9b47d50 100644
        }
        details={
          <ActionCardList
-@@ -68,6 +112,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+@@ -68,6 +118,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard
@@ -552,6 +564,130 @@ index 80912c1..9b47d50 100644
                  key={item.value}
                  {...item}
                  size='responsive'
+@@ -103,6 +154,123 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+         </ActionCardList>
+       }
+     />
++    }
++{/*menus ?.map((menu,index)=>(
++  <ActionCardAccordion
++      sx={[
++        hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
++        {
++
++          '& .MuiAccordionSummary-expandIconWrapper': {
++            display: 'none',
++          },
++          '& .MuiAccordionSummary-root': {
++            cursor: 'default',
++            //pointerEvents: 'none',
++            minHeight: 'auto !important',
++
++            '&:hover, &.Mui-focusVisible': {
++              backgroundColor: 'transparent',
++            },
++          },
++
++        },
++        sx,
++        ...(Array.isArray(sx) ? sx : [sx]),
++      ]}
++      defaultExpanded={defaultExpanded}
++      summary={<Box sx={{
++        fontFamily: "'Bricolage Grotesque', sans-serif",
++        fontSize: { xs: '14px', sm: '16px', md: '20px' },
++        fontWeight: 500,
++        lineHeight: '120%',
++        color: '#000',
++        display: 'flex',
++        alignItems: 'center',
++        gap: '8px',
++        paddingTop:'15px'
++      }}>
++        {filterIcons && (
++          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
++        )} {menu?.name}</Box>}
++      right={
++
++        <Button
++          sx={{
++            color: '#969696',
++            fontSize: { sm: '12px', md: '14px' },
++            fontWeight: 400,
++            cursor:'pointer',
++            textDecoration: 'underline',
++            '&:hover': {
++              backgroundColor: 'transparent'
++            }
++          }}
++          onClick={(e) => {
++            e.stopPropagation()
++            // form.setValue(name, null)
++            return clearAll()
++          }}
++        >
++          <Trans id='Clear' />
++        </Button>
++
++      }
++      details={
++        <ActionCardList
++          size='responsive'
++          variant='default'
++          sx={{ mb: 2 }}
++          value={form.getValues('url')}
++          onChange={async (e, value) => {
++            const item = menu.children?.find((i) => i.url_path === value)
++            if (!item) return
++            await onChange(item)
++          }}
++        >
++          {menu?.children?.map(({ isBack=false, indent, ...item }) => {
++            const indentVal = isBack ? 0 : indent + 1
++            return (
++              <ActionCard
++                isFilter={true}
++                key={item.url_path}
++                {...item}
++                size='responsive'
++                title={
++                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
++                    <Box sx={{ marginRight: 1 }}>
++                      {isBack ? (
++                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
++                          <IconSvg src={iconChevronLeft} size='medium' />
++                          {item.name}
++                        </Box>
++                      ) : (
++                        item.name
++                      )}
++                    </Box>
++                    {item.count !== null && (
++                      <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
++                        ({item.count})
++                      </Box>
++                    )}
++                  </Box>
++                }
++                sx={{
++                  '&.sizeSmall': { pl: responsiveVal(8 * indentVal, 12 * indentVal) },
++                  '&.sizeMedium': { pl: responsiveVal(10 * indentVal, 14 * indentVal) },
++                  '&.sizeLarge': { pl: responsiveVal(12 * indentVal, 16 * indentVal) },
++                  '&.sizeResponsive': { pl: responsiveVal(8 * indentVal, 16 * indentVal) },
++                  '& .ActionCard-title.selected': { fontWeight: 'bold' },
++                }}
++              />
++            )
++          })}
++        </ActionCardList>
++      }
++    />
++
++))*/}
++    </>
+   )
+ }
+ 
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 index e238d8c..4dec1cc 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
@@ -782,22 +918,21 @@ index 68f7cab..a573247 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
-index 0b9f236..9dba016 100644
+index 0b9f236..bab2f6d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
-@@ -87,8 +87,11 @@ export function ProductListItemReal(props: ProductProps) {
+@@ -87,8 +87,10 @@ export function ProductListItemReal(props: ProductProps) {
      sx = [],
      onClick,
      slotProps = {},
 +    sku
    } = props
  
-+  // console.log(sku, 'this is the props from the api')
 +
    return (
      <ProductListItemLinkOrDiv
        href={productLink(props)}
-@@ -137,6 +140,7 @@ export function ProductListItemReal(props: ProductProps) {
+@@ -137,6 +139,7 @@ export function ProductListItemReal(props: ProductProps) {
              titleComponent={titleComponent}
              title={name}
              subTitle={subTitle}

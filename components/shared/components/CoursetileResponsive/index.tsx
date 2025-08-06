@@ -4,8 +4,6 @@ import { EventsCourseTitleProps } from '../EventsAndCoursesTile'
 function EventsAndCoursesTileResponsive(props: EventsCourseTitleProps) {
   const { id, title, length, isSelected, onClick } = props
 
-  console.log(isSelected, 'heklllloooo')
-
   return (
     <Typography
       onClick={onClick}

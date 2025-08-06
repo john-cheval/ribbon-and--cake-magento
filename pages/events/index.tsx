@@ -5,11 +5,17 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import Events from '../../components/Events'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { MpBlogPostsDocument, MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
+import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
-
-function EventsPage(props) {
+export type CmsBlocksProps = { cmsBlocks?: any; eventsData?: MpBlogPostsQuery }
+function EventsPage(props: CmsBlocksProps) {
+  const { cmsBlocks, eventsData } = props
+  const eventsTop = cmsBlocks.find((block) => block.identifier === 'events-top')
+  const decodedEventsTop = decodeHtmlEntities(eventsTop?.content)
   return (
     <>
       <PageMeta
@@ -21,7 +27,7 @@ function EventsPage(props) {
 
       <InnerTop title={'Corporate & events'} isFilter={false} />
 
-      <Events />
+      <Events eventsTopContent={decodedEventsTop} eventsList={eventsData} />
     </>
   )
 }
@@ -44,9 +50,31 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
+  const cmsBlocksQuery = staticClient.query({
+    query: cmsMultipleBlocksDocument,
+    variables: {
+      blockIdentifiers: ['events-top'],
+    },
+  })
+
+  const eventsQuery = staticClient.query({
+    query: MpBlogPostsDocument,
+    variables: {
+      action: 'get_post_by_categoryId',
+      categoryId: 5,
+      pageSize: 50,
+      currentPage: 1,
+    },
+  })
+
+  const cmsBlocks = (await cmsBlocksQuery)?.data?.cmsBlocks?.items
+  const eventsData = (await eventsQuery)?.data?.mpBlogPosts?.items
+
   return {
     props: {
       ...(await layout).data,
+      cmsBlocks,
+      eventsData,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import CourseEnquiryForm from './components/CourseEnquiryFrom'
 import InnerLeft from './components/InnerLeft'
 
-function CourseInner() {
+function CourseInner({ course }) {
   return (
     <Box
       sx={{
@@ -24,7 +24,7 @@ function CourseInner() {
           gridColumn: { xs: 'auto', lg: 'span 8' },
         }}
       >
-        <InnerLeft />
+        <InnerLeft coursesData={course} />
       </Box>
       <Box
         sx={{

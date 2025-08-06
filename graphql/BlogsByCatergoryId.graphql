@@ -12,6 +12,7 @@ query MpBlogPosts($action: String, $categoryId: Int!, $pageSize: Int, $currentPa
       short_description
       created_at
       image
+      post_content
     }
   }
 }

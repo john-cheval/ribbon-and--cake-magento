@@ -36,6 +36,7 @@ import { useEffect, useState } from 'react'
 //import { MdOutlineInterests } from 'react-icons/md'
 //import { AiOutlineShopping } from 'react-icons/ai'
 import personicon from '../../assets/personicon.svg'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
 // import { Footer } from './Footer'
@@ -43,12 +44,18 @@ import type { LayoutQuery } from './Layout.gql'
 import { Logo } from './Logo'
 import MobileMenu from './MobileMenu/MobileMenu'
 
+type LayoutProps = {
+  layoutData?: any
+}
+
 export type LayoutNavigationProps = LayoutQuery &
+  LayoutProps &
   Omit<LayoutDefaultProps, 'footer' | 'header' | 'cartFab' | 'menuFab'>
 
 export function LayoutNavigation(props: LayoutNavigationProps) {
-  const { menu, children, ...uiProps } = props
-  console.log(props, '==>props')
+  const { menu, children, layoutData, ...uiProps } = props
+  const footerCmsData = layoutData?.footer?.items?.[0]
+  const decodedFooterData = decodeHtmlEntities(footerCmsData?.content)
 
   const [scroll, setScroll] = useState<boolean>(false)
 
@@ -290,7 +297,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
             </MobileTopRight>*/}
           </>
         }
-        footer={<Footer />}
+        footer={<Footer footerContent={decodedFooterData} />}
         // cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
         // menuFab={<NavigationFab onClick={() => selection.set([])} />}
       >

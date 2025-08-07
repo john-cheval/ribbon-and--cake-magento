@@ -36,9 +36,7 @@ function CmsPage(props: CmsPageRouteProps) {
     statementCakesProducts,
   } = props
 
-  // console.log(storyproducts, 'this is the story page from the api')
   const homesHeroData = cmsBlocks.find((block) => block.identifier === 'slider')
-  const cmsform = cmsBlocks.find((block) => block.identifier === 'test-form')
   const justInHome = cmsBlocks.find((block) => block.identifier === 'just-in-home')
   const homeStoryData = cmsBlocks.find((block) => block.identifier === 'home-story-title')
   const homeOccasionsData = cmsBlocks.find((block) => block.identifier === 'home-occasion-title')

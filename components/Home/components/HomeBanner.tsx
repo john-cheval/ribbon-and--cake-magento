@@ -2,7 +2,6 @@ import { Box, Typography } from '@mui/material'
 import { HeroSwiper } from '../../shared/swiper/HeroSwiper'
 
 export function HomeBanner({ content, productList, title }) {
-  console.log(title, 'this isht e title')
   return (
     <>
       <Box

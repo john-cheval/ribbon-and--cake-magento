@@ -47,7 +47,7 @@ import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsr
 export type CategoryProps = CategoryPageQuery &
   layoutProps &
   ProductListQuery &
-  ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams }
+  ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams } & { apolloState?: any }
 export type CategoryRoute = { url: string[] }
 export type layoutProps = { layoutData?: any; menu?: any }
 
@@ -55,7 +55,7 @@ type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
-  const { categories, menu, ...rest } = props
+  const { categories, menu, apolloState, ...rest } = props
   const productList = useProductList({
     ...rest,
     category: categories?.items?.[0],
@@ -116,6 +116,7 @@ function CategoryPage(props: CategoryProps) {
                 id={category.uid}
                 category={category}
                 menuList={menu?.items[0]?.children}
+                conf={apolloState}
               />
             )}
           {/*import.meta.graphCommerce.productFiltersPro &&
@@ -194,22 +195,22 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-        query: ProductFiltersDocument,
-        variables: categoryDefaultsToProductListFilters(
-          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-        ),
-      })
+      query: ProductFiltersDocument,
+      variables: categoryDefaultsToProductListFilters(
+        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+      ),
+    })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-        query: ProductListDocument,
-        variables: await productListApplyCategoryDefaults(
-          productListParams,
-          (await conf).data,
-          category,
-        ),
-      })
+      query: ProductListDocument,
+      variables: await productListApplyCategoryDefaults(
+        productListParams,
+        (await conf).data,
+        category,
+      ),
+    })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

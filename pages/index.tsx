@@ -4,49 +4,40 @@ import { ProductListDocument } from '@graphcommerce/magento-product'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import { PageMeta } from '@graphcommerce/next-ui'
-// import { Button, Container, Typography } from '@mui/material'
 import type { LayoutNavigationProps } from '../components'
-import { LayoutDocument, LayoutNavigation, productListRenderer } from '../components'
+import { LayoutDocument, LayoutNavigation } from '../components'
 import { HomePage } from '../components/Home'
 import { cmsMultipleBlocksDocument } from '../graphql/CmsMultipleBlocks.gql'
-import { cmsPageDocument } from '../graphql/CmsPage.gql'
-import { GetProductsByCategoryDocument } from '../graphql/ProductsBasedOnCategory.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
 import { decodeHtmlEntities } from '../utils/htmlUtils'
 
-// import { CmsPageContent, CmsPageDocument } from '@graphcommerce/magento-cms'
-// import type { CmsPageQueryFragment } from '@graphcommerce/magento-cms'
-
-export type CmsPageProps = { cmsPage?: any }
 export type CmsBlocksProps = { cmsBlocks?: any; layoutData?: any; menu?: any }
 
 export type StoryProductsProps = {
+  justInProducts?: any[]
   storyproducts?: any[]
   occasionsproducts: any[]
   minBytesproducts: any[]
-  storyproductsTwo: any[]
+  statementCakesProducts: any[]
 }
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 
-export type CmsPageRouteProps = LayoutNavigationProps &
-  CmsPageProps &
-  CmsBlocksProps &
-  StoryProductsProps
+export type CmsPageRouteProps = LayoutNavigationProps & CmsBlocksProps & StoryProductsProps
 
 function CmsPage(props: CmsPageRouteProps) {
   const {
-    cmsPage,
     cmsBlocks,
+    justInProducts,
     storyproducts,
     menu,
     occasionsproducts,
     minBytesproducts,
-    storyproductsTwo,
+    statementCakesProducts,
   } = props
 
   // console.log(storyproducts, 'this is the story page from the api')
-  const cmsDummy = cmsBlocks.find((block) => block.identifier === 'slider')
+  const homesHeroData = cmsBlocks.find((block) => block.identifier === 'slider')
   const cmsform = cmsBlocks.find((block) => block.identifier === 'test-form')
   const justInHome = cmsBlocks.find((block) => block.identifier === 'just-in-home')
   const homeStoryData = cmsBlocks.find((block) => block.identifier === 'home-story-title')
@@ -56,7 +47,9 @@ function CmsPage(props: CmsPageRouteProps) {
   const homeCtaData = cmsBlocks.find((block) => block.identifier === 'home-cta')
   const homeCeleberationsData = cmsBlocks.find((block) => block.identifier === 'home-celeberation')
   const homeImaginationData = cmsBlocks.find((block) => block.identifier === 'home-imagination')
-  // const decodedJustInHome = decodeHtmlEntities(justInHome)
+
+  const decodedHomeHero = decodeHtmlEntities(homesHeroData?.content)
+  const decodedHomeHeroJustIn = decodeHtmlEntities(justInHome?.content)
   const decodedHomeStory = decodeHtmlEntities(homeStoryData?.content)
   const decodedHomeOccasions = decodeHtmlEntities(homeOccasionsData?.content)
   const decodedHomeMinibyts = decodeHtmlEntities(homeMinibytsData?.content)
@@ -64,11 +57,6 @@ function CmsPage(props: CmsPageRouteProps) {
   const decodedHomeCta = decodeHtmlEntities(homeCtaData?.content)
   const decodedHomeCeleberations = decodeHtmlEntities(homeCeleberationsData?.content)
   const decodedHomeImagination = decodeHtmlEntities(homeImaginationData?.content)
-
-  // console.log(storyproducts, 'this is storyproducts')
-  // console.log(occasionsproducts, 'this is occasionsproducts')
-  // console.log(minBytesproducts, 'this is minBytesproducts')
-  // console.log(storyproductsTwo, 'storyproductsTwo')
 
   const section4Data = minBytesproducts
 
@@ -83,7 +71,10 @@ function CmsPage(props: CmsPageRouteProps) {
 
       <HomePage
         Categories={menu?.items[0]?.children}
+        justInProductList={justInProducts}
+        justinHeading={decodedHomeHeroJustIn}
         cakes={storyproducts}
+        statementProducts={statementCakesProducts}
         occasionProdcutList={occasionsproducts}
         miniBytesProductList={minBytesproducts}
         storyTitle={decodedHomeStory}
@@ -94,6 +85,7 @@ function CmsPage(props: CmsPageRouteProps) {
         homeCeleberate={decodedHomeCeleberations}
         sectionFourProducts={section4Data}
         homeImagination={decodedHomeImagination}
+        homeHeroData={decodedHomeHero}
       />
     </>
   )
@@ -110,14 +102,14 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const staticClient = graphqlSsrClient(context)
   const conf = client.query({ query: StoreConfigDocument })
 
-  const url = (await conf).data.storeConfig?.cms_home_page ?? 'home'
+  // const url = (await conf).data.storeConfig?.cms_home_page ?? 'home'
 
-  const cmsPageQuery = staticClient.query({
-    query: cmsPageDocument,
-    variables: {
-      urlKey: url,
-    },
-  })
+  // const cmsPageQuery = staticClient.query({
+  //   query: cmsPageDocument,
+  //   variables: {
+  //     urlKey: url,
+  //   },
+  // })
 
   const cmsPageBlocksQuery = staticClient.query({
     query: cmsMultipleBlocksDocument,
@@ -136,34 +128,41 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
-  const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
-
   const layout = staticClient.query({
     query: LayoutDocument,
     fetchPolicy: cacheFirst(staticClient),
   })
 
-  const result = await cmsPageQuery
-
-  const cmsPage = result.data.cmsPage
+  const JustInQuery = await staticClient.query({
+    query: ProductListDocument,
+    variables: {
+      pageSize: 10,
+      currentPage: 1,
+      filters: {
+        category_id: { eq: '34' },
+      },
+    },
+  })
 
   const sweetStoryQuery = await staticClient.query({
     query: ProductListDocument,
     variables: {
       pageSize: 10,
       currentPage: 1,
-      filter: {
-        category_id: { eq: 16 },
+      filters: {
+        category_id: { eq: '16' },
       },
     },
   })
 
-  const sweetStoryQuerytwo = await staticClient.query({
-    query: GetProductsByCategoryDocument,
+  const statementCakesQuery = await staticClient.query({
+    query: ProductListDocument,
     variables: {
       pageSize: 10,
       currentPage: 1,
-      category_id: '16',
+      filters: {
+        category_id: { eq: '35' },
+      },
     },
   })
 
@@ -172,8 +171,8 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     variables: {
       pageSize: 10,
       currentPage: 1,
-      filter: {
-        category_id: 11,
+      filters: {
+        category_id: { eq: '25' },
       },
     },
   })
@@ -183,23 +182,28 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     variables: {
       pageSize: 10,
       currentPage: 1,
-      filter: {
-        category_id: { in: ['10'] },
+      filters: {
+        category_id: { eq: '28' },
       },
     },
   })
 
+  // const result = await cmsPageQuery
+  // const cmsPage = result.data.cmsPage
+  const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
+  const justInProducts = (await JustInQuery).data?.products?.items
   const storyproducts = (await sweetStoryQuery).data.products?.items
-  const storyproductsTwo = (await sweetStoryQuerytwo).data.products?.items
+  const statementCakesProducts = (await statementCakesQuery).data.products?.items
   const occasionsproducts = (await OccasionsQuery).data.products?.items
   const minBytesproducts = (await MniBytesQuery).data.products?.items
   const layoutData = (await layout)?.data
   return {
     props: {
-      cmsPage: cmsPage,
+      // cmsPage: cmsPage,
       cmsBlocks,
-      storyproducts: storyproducts,
-      storyproductsTwo,
+      justInProducts,
+      storyproducts,
+      statementCakesProducts,
       occasionsproducts,
       minBytesproducts,
       ...(await layout).data,

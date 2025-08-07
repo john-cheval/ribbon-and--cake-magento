@@ -1,5 +1,4 @@
-import { Box, Typography } from '@mui/material'
-import { storyData } from '../../../constants/Home/swiper'
+import { Box } from '@mui/material'
 import { ProductSwiper } from '../../shared/swiper/ProductSwiper'
 import HomeProductListMobile from './HomeProductListMobile'
 

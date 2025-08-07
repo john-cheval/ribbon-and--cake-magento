@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import svgImage from '../../Assets/name.svg'
 
 export function HomeSectionThree(props) {
-  const { title, content } = props
+  const { content } = props
   return (
     <Box
       component='section'

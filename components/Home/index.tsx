@@ -1,5 +1,5 @@
 import { HomeBanner } from './components/HomeBanner'
-import { HomeCollection } from './components/HomeCollection'
+// import { HomeCollection } from './components/HomeCollection'
 import { HomeCta } from './components/HomeCta'
 import { HomeJar } from './components/HomeJar'
 import { HomeOccasion } from './components/HomeOccasion'
@@ -9,6 +9,8 @@ import { HomeStory } from './components/HomeStory'
 
 export function HomePage({
   Categories,
+  justinHeading,
+  justInProductList,
   cakes,
   occasionProdcutList,
   miniBytesProductList,
@@ -20,17 +22,18 @@ export function HomePage({
   homeCeleberate,
   sectionFourProducts,
   homeImagination,
+  homeHeroData,
+  statementProducts,
 }) {
   const cakesCategory = Categories.find((cat) => cat.uid === 'Mw==')
   const occasionsCategory = Categories.find((cat) => cat.uid === 'MTE=')
   const jarsAndMniBytesCategory = Categories.find((cat) => cat.uid === 'MTA=')
-  console.log(homeImagination, '-->  homeImagination')
   return (
     <>
-      <HomeBanner />
+      <HomeBanner content={homeHeroData} productList={justInProductList} title={justinHeading} />
       <HomeStory title={storyTitle} cakesCategories={cakesCategory} products={cakes} />
       <HomeSectionThree content={homeImagination} />
-      <HomeSectionFour content={homeCeleberate} products={miniBytesProductList} />
+      <HomeSectionFour content={homeCeleberate} products={statementProducts} />
       <HomeCta content={homeCta} />
       <HomeOccasion
         title={occasionTitle}

@@ -48,6 +48,7 @@ export type LayoutNavigationProps = LayoutQuery &
 
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
+  console.log(props, '==>props')
 
   const [scroll, setScroll] = useState<boolean>(false)
 

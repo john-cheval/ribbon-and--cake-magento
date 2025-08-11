@@ -520,7 +520,7 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..c9e809d 100644
+index 80912c1..e8f3948 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,47 +10,97 @@ import {
@@ -552,8 +552,8 @@ index 80912c1..c9e809d 100644
 +  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons,menus } = props
    const { form } = useProductFiltersPro()
  
-+  console.log(menus,"this is the menusssssssssssssssssssss")
-+  console.log(categoryTree,"this isht  category tree")
++  // console.log(menus,"this is the menusssssssssssssssssssss")
++  // console.log(categoryTree,"this isht  category tree")
 +
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
@@ -1196,7 +1196,7 @@ index 1d42a06..c70ff79 100644
          <Money {...final_price} />
        </PrivateQueryMask>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-index e920423..e993817 100644
+index e920423..7ecf61e 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 @@ -12,7 +12,7 @@ export type ProductPageGalleryProps = Omit<SidebarGalleryProps, 'sidebar' | 'ima
@@ -1208,11 +1208,12 @@ index e920423..e993817 100644
    const { media_gallery } = product
  
    const images =
-@@ -40,6 +40,8 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+@@ -40,6 +40,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
        sidebar={children}
        aspectRatio={[width, height]}
        images={images}
 +      disableZoom={true}
++      product={product}
 +     
      />
    )

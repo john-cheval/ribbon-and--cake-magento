@@ -213,7 +213,6 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           </>
         }
         footer={<Footer footerContent={decodedFooterData} />}
-        // footer={<p>Hello Footer</p>}
       >
         {children}
       </LayoutDefault>

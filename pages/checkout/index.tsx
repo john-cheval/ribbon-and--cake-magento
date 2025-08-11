@@ -91,7 +91,7 @@ function ShippingPage(props: ShippingPageProps) {
         waitFor={[shippingPage, customerAddresses]}
         fallback={
           <FullPageMessage
-            sx={{ backgroundColor: 'transparent' }}
+            sx={{ backgroundColor: 'inherit' }}
             icon={<CircularProgress />}
             title={<Trans id='Loading' />}
           >
@@ -100,7 +100,6 @@ function ShippingPage(props: ShippingPageProps) {
         }
       >
         <InnerTop title={'Checkout'} isFilter={false} mainTitle='Your shopping cart' />
-
         <Box
           component='section'
           sx={{
@@ -336,10 +335,10 @@ function ShippingPage(props: ShippingPageProps) {
               sx={{
                 typography: 'body1',
                 '& .CartTotals-costsRow': {
-                  color: '#2A110A',
+                  color: (theme) => theme.palette.custom.smallHeading,
                 },
                 '& .CartTotals-costsRow:nth-child(2)': {
-                  color: '#2A110A',
+                  color: (theme) => theme.palette.custom.smallHeading,
                   fontWeight: '600 !important',
                   fontSize: '16px !important',
                 },
@@ -351,13 +350,13 @@ function ShippingPage(props: ShippingPageProps) {
                 '& .MuiButtonBase-root': {
                   width: '100%',
                   borderRadius: '4px',
-                  backgroundColor: '#9B7C38',
-                  border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                  backgroundColor: (theme) => theme.palette.custom.heading,
+                  border: (theme) => `1px solid ${theme.palette.custom.heading}`,
                   color: '#fff',
                   boxShadow: 'none !important',
                   '&:hover': {
                     backgroundColor: 'transparent !important',
-                    color: '#2A110A',
+                    color: (theme) => theme.palette.custom.smallHeading,
                     boxShadow: 'none !important',
                   },
                 },

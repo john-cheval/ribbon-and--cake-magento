@@ -4,7 +4,7 @@ import { ProductSwiper } from '../../shared/swiper/ProductSwiper'
 import HomeProductListMobile from './HomeProductListMobile'
 
 export function HomeJar(props) {
-  const { title } = props
+  const { jarsAndMniBytesCategories, products, title } = props
 
   return (
     <Box
@@ -15,17 +15,20 @@ export function HomeJar(props) {
       }}
       component='section'
     >
-      <Typography component='h2' variant='h2' sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-        {title || 'Mini Bites & Jars'}
-      </Typography>
+      {title && <div dangerouslySetInnerHTML={{ __html: title }} />}
 
       <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
-        <ProductSwiper data={miniBitesData} link='/cakes' initial='Brownie' />
+        <ProductSwiper
+          data={jarsAndMniBytesCategories?.children}
+          link='/cakes'
+          initial={jarsAndMniBytesCategories?.children[0]?.name}
+          productList={products}
+        />
       </Box>
 
-      <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
+      {/*  <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
         <HomeProductListMobile data={miniBitesData} link='/cakes' initial='Brownie' count={4} />
-      </Box>
+      </Box> */}
     </Box>
   )
 }

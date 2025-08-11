@@ -25,7 +25,7 @@ function EventsDetails({ list }) {
           md: '25px',
           xl: '55px',
         },
-        paddingTop: { xs: '0px', md: '10px', lg: '40px', xl: '65px' },
+        paddingTop: { xs: '0px', md: '10px', lg: '40px', xl: '50px' },
         marginBottom: { xs: '30px', lg: '44px' },
         display: 'grid',
         gridTemplateColumns: { xs: '1fr', lg: 'repeat(12, 1fr)' },
@@ -38,7 +38,7 @@ function EventsDetails({ list }) {
         sx={{
           gridColumn: { xs: 'span 12', lg: 'span 4' },
           borderTop: '1px solid #E6E6E6',
-          paddingBlock: { xs: '10px', md: '15px', xl: '22px' },
+          // paddingBlock: { xs: '10px', md: '15px', xl: '22px' },
           position: { xs: 'static', lg: 'sticky' },
           top: { xs: 'auto', lg: '100px' },
           alignSelf: { xs: 'unset', lg: 'start' },
@@ -98,7 +98,9 @@ function EventsDetails({ list }) {
           gridColumn: { xs: 'span 12', lg: 'span 8' },
         }}
       >
-        <EventsGallerySwiper imageGallery={eventsData[0]?.images} />
+        {filteredEvents[0]?.gallery_images?.length > 0 && (
+          <EventsGallerySwiper imageGallery={filteredEvents[0]?.gallery_images} />
+        )}
 
         <div
           className='events-detail'

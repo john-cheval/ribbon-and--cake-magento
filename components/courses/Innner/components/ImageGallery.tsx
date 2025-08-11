@@ -1,8 +1,12 @@
+import { Image } from '@graphcommerce/image'
 import { Box } from '@mui/material'
-import Image from 'next/image'
-import { courseInnerImages } from '../../../../constants/courses/inner/coursesInnerData'
 
-function ImageGallery() {
+// import Image from 'next/image'
+
+//import { courseInnerImages } from '../../../../constants/courses/inner/coursesInnerData'
+
+function ImageGallery({ courseInnerImages }) {
+  if (!courseInnerImages || courseInnerImages.length === 0) return null
   return (
     <Box
       sx={{
@@ -47,11 +51,14 @@ function ImageGallery() {
             }}
           >
             <Image
-              src={img}
+              src={`https://srv900162.hstgr.cloud/media/${img}`}
               alt={`image-${index + 1}`}
+              // fill
+              width={100}
+              height={100}
               // width={280}
               // height={300}
-              style={{
+              sx={{
                 width: '100%',
                 height: 'auto',
                 objectFit: 'cover',

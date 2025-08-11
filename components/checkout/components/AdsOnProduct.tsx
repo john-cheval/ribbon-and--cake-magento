@@ -61,6 +61,7 @@ function AdsOnProduct(props: AdsOnProductType) {
             )
 
             const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 3)
+            const hasMoreItems = (filteredItems?.length || 0) > 3
 
             return (
               <Box key={index + 1}>
@@ -235,6 +236,7 @@ function AdsOnProduct(props: AdsOnProductType) {
             textDecoration: 'underline',
             textAlign: 'center',
             transition: 'all 0.4s ease-in-out',
+            cursor: 'pointer',
             '&:hover': {
               textDecoration: 'none',
             },

@@ -66,7 +66,7 @@ function CartPriceAndQuantity({ product }) {
               fontsize: { xs: '12px', md: '14px', lg: '18px' },
             },
             '& .MuiButtonBase-root svg': {
-              fontSize: { xs: '15px', md: '20px', xl: '24px' },
+              fontSize: { xs: '15px', md: '18px' },
             },
           }}
           uid={product?.uid}

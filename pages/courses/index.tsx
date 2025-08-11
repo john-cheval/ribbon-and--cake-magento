@@ -5,6 +5,7 @@ import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
+import { MpBlogPostsDocument, MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
 import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import { cmsPageDocument } from '../../graphql/CmsPage.gql'
 import {
@@ -18,10 +19,11 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 type CoursePropsType = {
   courseCategoryData?: GetSubCategoriesQuery
   cmsBlocks?: any
+  coursesList?: MpBlogPostsQuery
 }
 
 function CoursesPage(props: CoursePropsType) {
-  const { courseCategoryData, cmsBlocks } = props
+  const { courseCategoryData, cmsBlocks, coursesList } = props
   const coursesTop = cmsBlocks.find((block) => block.identifier === 'courses-top')
   const decodedCoursesTop = decodeHtmlEntities(coursesTop?.content)
   return (
@@ -35,7 +37,11 @@ function CoursesPage(props: CoursePropsType) {
 
       <InnerTop title={'courses'} isFilter={false} />
 
-      <Courses coursesCategory={courseCategoryData} coursesTop={decodedCoursesTop} />
+      <Courses
+        coursesCategory={courseCategoryData}
+        coursesTop={decodedCoursesTop}
+        allCourses={coursesList}
+      />
     </>
   )
 }
@@ -82,13 +88,25 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
+  const CoursesQueries = staticClient.query({
+    query: MpBlogPostsDocument,
+    variables: {
+      action: 'get_post_by_categoryId',
+      categoryId: 2,
+      pageSize: 50,
+      currentPage: 1,
+    },
+  })
+
   const courseCategoryData = (await courseCategoryQueries)?.data?.mpBlogCategories?.items
   const cmsBlocks = (await cmsBlocksQuery)?.data?.cmsBlocks?.items
+  const coursesList = (await CoursesQueries)?.data?.mpBlogPosts?.items
   return {
     props: {
       ...(await layout).data,
       courseCategoryData,
       cmsBlocks,
+      coursesList,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

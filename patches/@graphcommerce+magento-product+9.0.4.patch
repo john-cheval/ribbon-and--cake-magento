@@ -60,15 +60,96 @@ index 6ae6263..e990a46 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..d81c376 100644
+index 2050980..b677d41 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-@@ -27,6 +27,7 @@ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
+@@ -2,18 +2,20 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
+ import type { FabProps } from '@graphcommerce/next-ui'
+ import { Fab, iconCheckmark, iconShoppingBag } from '@graphcommerce/next-ui'
+ import { t } from '@lingui/macro'
+-import type { SxProps, Theme } from '@mui/material'
++import { Box, Button, CircularProgress, type SxProps, type Theme } from '@mui/material'
+ import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
+ import { useAddProductsToCartAction } from './useAddProductsToCartAction'
++import { IoArrowForwardSharp } from 'react-icons/io5'
+ 
+ export type AddProductsToCartFabProps = {
+   sx?: SxProps<Theme>
+   icon?: FabProps['icon']
++  isButton?:boolean
+ } & Pick<FabProps, 'color' | 'size'> &
+   UseAddProductsToCartActionProps
+ 
+ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
+-  const { icon = iconShoppingBag, product, sku, ...rest } = props
++  const { icon = iconShoppingBag, product,isButton=false, sku, ...rest } = props
+   const { showSuccess, ...action } = useAddProductsToCartAction(props)
+ 
+   const cartEnabled = useCartEnabled()
+@@ -21,12 +23,64 @@ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
+   if (!cartEnabled) return null
+ 
+   return (
+-    <Fab
++    <>
++    {isButton ? (
++     <Button
++      type="submit" 
++     // {...action}   
++       onClick={action.onClick}
++      sx={{
++       fontWeight: 400,
++        lineHeight: '170%',
++        fontSize: '14px !important',
++        color: '#302100',
++        textDecoration: 'underline',
++        display: 'flex',
++        alignItems: 'center',
++        columnGap: '4px',
++        justifyContent: 'flex-end',
++        marginLeft: 'auto',
++        cursor: action.loading ? 'not-allowed' : 'pointer',
++        pointerEvents: action.loading ? 'none' : 'auto',
++        '& .arrow-icon': {
++          transition: 'transform 0.3s ease-in-out',
++        },
++        '&:hover .arrow-icon': {
++          transform: 'translateX(5px)',
++        },
++         background: 'none',
++    border: 'none',
++    padding: 0,
++    fontFamily: 'inherit',
++    textAlign: 'inherit',
++    width: 'fit-content',
++    '&:hover':{
++      background:'transparent'
++    }
++     }}> {action.loading? 'Adding':'Cart'}   <Box
++        component="span"
++        className="arrow-icon" 
++        sx={{ 
++          display: 'flex',
++          alignItems: 'center',
++        }}
++      >
++       {action.loading ? (
++      <CircularProgress size={20} color="inherit" />
++    ) : (
++      <IoArrowForwardSharp />
++    )}
++      </Box></Button>
++    ):(
++<Fab
+       type='submit'
+       {...rest}
        {...action}
        icon={showSuccess && !action.loading ? iconCheckmark : icon}
        aria-label={t`Add to Cart`}
 +      
      />
++    )}
++    </>
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
@@ -439,7 +520,7 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..860e8f1 100644
+index 80912c1..c9e809d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,47 +10,97 @@ import {
@@ -519,7 +600,7 @@ index 80912c1..860e8f1 100644
 +      }}>
 +        {filterIcons && (
 +          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
-+        )} Filter</Box>}
++        )} Cakes</Box>}
        right={
 -        currentFilter && currentFilter.length > 0 ? (
 -          <Button
@@ -792,7 +873,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..bdbc861 100644
+index b64ae6d..47f8d46 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,13 +5,17 @@ import type { SxProps, Theme } from '@mui/material'
@@ -814,15 +895,17 @@ index b64ae6d..bdbc861 100644
    const { form } = useProductFiltersPro()
    const { options, showReset, selected } = useProductFiltersProSort(props)
  
-@@ -21,6 +25,8 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -21,7 +25,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
      <ActionCardAccordion
        sx={sx}
        defaultExpanded={selected}
+-      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-       summary={<Trans id='Sort By' />}
++      summary={<Trans id='Sort by:' />}
        details={
          <ActionCardListForm
+           control={form.control}
 @@ -30,24 +36,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
@@ -1070,6 +1153,21 @@ index 9dc2505..6533582 100644
 +     
      </Box>
    )
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
+index ddf15be..f014665 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
+@@ -2,6 +2,10 @@ fragment ProductListItems on Products {
+   items {
+     __typename
+     uid
++    categories{
++      name
++      url_key
++    }
+     ...ProductListItem
+   }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
 index 1d42a06..c70ff79 100644

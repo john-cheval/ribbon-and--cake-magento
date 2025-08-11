@@ -1,7 +1,7 @@
 // import EventsTop from '../Events/components/EventsTop'
 import CourseDetail from './components/CourseDetails'
 
-function Courses({ coursesCategory, coursesTop }) {
+function Courses({ coursesCategory, coursesTop, allCourses }) {
   return (
     <>
       {/*    <EventsTop
@@ -10,7 +10,7 @@ function Courses({ coursesCategory, coursesTop }) {
         isBorder={true}
       />*/}
       {coursesTop && <div dangerouslySetInnerHTML={{ __html: coursesTop }} />}
-      <CourseDetail categories={coursesCategory} />
+      <CourseDetail categories={coursesCategory} coursesList={allCourses} />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
-import { BlogPostItem } from '../shared/swiper/TestimonialSwiper'
+// import { BlogPostItem } from '../shared/swiper/TestimonialSwiper'
 import EventsDetails from './components/EventsDetails'
 
 // import EventsTop from './components/EventsTop'

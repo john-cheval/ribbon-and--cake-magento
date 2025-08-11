@@ -25,9 +25,9 @@ export function HomePage({
   homeHeroData,
   statementProducts,
 }) {
-  const cakesCategory = Categories.find((cat) => cat.uid === 'Mw==')
-  const occasionsCategory = Categories.find((cat) => cat.uid === 'MTE=')
-  const jarsAndMniBytesCategory = Categories.find((cat) => cat.uid === 'MTA=')
+  const cakesCategory = Categories?.find((cat) => cat.uid === 'Mw==')
+  const occasionsCategory = Categories?.find((cat) => cat.uid === 'MTE=')
+  const jarsAndMniBytesCategory = Categories?.find((cat) => cat.uid === 'MTA=')
   return (
     <>
       <HomeBanner content={homeHeroData} productList={justInProductList} title={justinHeading} />

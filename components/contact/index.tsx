@@ -1,8 +1,6 @@
 import { Box } from '@mui/material'
 import ContactEnquiryForm from './components/ContactEnquiryForm'
 
-// import ContactLeft from './components/ContactLeft'
-
 export type ContactPageTypeProps = {
   contactLeft?: string
 }
@@ -33,7 +31,6 @@ function Contact(props: ContactPageTypeProps) {
           gridColumn: { xs: 'auto', lg: 'span 8' },
         }}
       >
-        {/*  <ContactLeft /> */}
         {contactLeft && <div dangerouslySetInnerHTML={{ __html: contactLeft }} />}
       </Box>
       <Box

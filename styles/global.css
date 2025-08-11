@@ -72,6 +72,7 @@
   font-weight: 300;
   line-height: normal;
   letter-spacing: 0;
+  margin: 0;
 }
 
 /* Home Hero Section */
@@ -443,6 +444,12 @@
   font-weight: 300;
   line-height: normal;
   letter-spacing: 0;
+  margin-top: 0;
+}
+.about-responsive-heading {
+  margin-top: 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(199, 202, 205, 0.42);
 }
 .about-responsive-heading {
   margin-bottom: 10px;
@@ -478,37 +485,59 @@
 .clients img {
   width: auto;
   height: auto;
-  max-height: 100px;
+  max-width: 60px;
 }
-.swiper-prop-testi {
-  overflow: visible !important;
+
+.swiper_testi {
+  position: relative;
+}
+.swiper_testi::after {
+  background: url('../components/Assets/about/quote.svg') no-repeat center center;
+  position: absolute;
+  top: -60px;
+  width: 110px;
+  height: 100px;
+  content: '';
+  left: 0%;
+  z-index: 1;
+  background-size: cover;
 }
 
 /*----------------------------- Contact ----------------*/
 .contactLeftWrapper {
   position: relative;
 }
-.left-image-wrapper {
+.contactLeftWrapper .left-image-wrapper {
   position: relative;
   z-index: 500;
 }
-.left-image-wrapper img {
+.contactLeftWrapper .left-image-wrapper img {
   width: 100%;
   height: auto;
   object-fit: cover;
   border-radius: 8px;
 }
+.contactLeftWrapper .left-content-wrapper {
+  padding: 30px 30px 30px;
+  background-color: var(--color-custom-border);
+  margin-top: -20px;
+  border-radius: 8px;
+  width: 100% !important;
+}
+.contactLeftWrapper .left-content-wrapper p {
+  text-align: left !important;
+}
+.contactLeftWrapper .left-content-wrapper .contents .heading {
+  margin-top: 0 !important;
+}
 .left-content-wrapper {
-  /*padding: 30px 30px 30px;
-   background-color: var(--color-custom-border);
-   margin-top: -20px;*/
   border-radius: 8px;
 }
 .left-content-wrapper h2 {
   margin: 0;
 }
 .left-content-wrapper p {
-  margin-top: 0;
+  margin: 0;
 }
 .contents {
   border-bottom: 1px solid #f1a8b6;
@@ -690,6 +719,11 @@ ol {
   .home-section-title {
     text-align: left;
   }
+  .about-responsive-heading {
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: none;
+  }
 
   .container-wrapper {
     padding-inline: 25px;
@@ -716,6 +750,10 @@ ol {
   .about-image-wrapper {
     display: block;
     margin-top: 40px;
+  }
+  .swiper_testi::after {
+    left: 20%;
+    width: 150px;
   }
   .responsive-fonts,
   .coursesInner ol,
@@ -849,6 +887,9 @@ ol {
   }
   .left-svg {
     top: 50%;
+  }
+  .contactLeftWrapper .left-content-wrapper {
+    padding: 50px 30px 60px;
   }
   .left-content-wrapper .contents .heading,
   .heading-main {

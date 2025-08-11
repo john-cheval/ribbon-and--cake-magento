@@ -1,9 +1,9 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
-import {
-  courseInnerDataList,
-  coursesInnerPara,
-} from '../../../../constants/courses/inner/coursesInnerData'
+// import {
+//   courseInnerDataList,
+//   coursesInnerPara,
+// } from '../../../../constants/courses/inner/coursesInnerData'
 import { saxoGrammaticus } from '../../../../lib/fonts'
 // import banner from './banner.jpg'
 import ImageGallery from './ImageGallery'
@@ -18,13 +18,13 @@ function InnerLeft({ coursesData }) {
           color: (theme: any) => theme.palette.custom.heading,
         }}
       >
-        {coursesData[0]?.name}
+        {coursesData?.name}
       </Typography>
 
       <Box sx={{ marginBlock: { xs: '14px 10px', md: '15px 15px' }, position: 'relative' }}>
         <Image
-          src={coursesData[0]?.image}
-          alt={coursesData[0]?.name}
+          src={coursesData?.image}
+          alt={coursesData?.name}
           width={775}
           height={400}
           sx={{
@@ -74,58 +74,10 @@ function InnerLeft({ coursesData }) {
 
       <div
         className='coursesInner'
-        dangerouslySetInnerHTML={{ __html: coursesData[0]?.post_content }}
+        dangerouslySetInnerHTML={{ __html: coursesData?.post_content }}
       />
 
-      {/*courseInnerDataList?.map((list, index) => (
-        <Box key={index} sx={{ display: 'flex', alignItems: 'center', columnGap: '3px' }}>
-          <Box
-            component='span'
-            sx={{
-              display: 'inline-block',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              color: '#6F6F6F',
-            }}
-          >
-            {index + 1}.
-          </Box>
-          <Typography
-            variant='p'
-            component='p'
-            sx={{
-              color: '#6F6F6F',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              lineHeight: ' 174%',
-            }}
-          >
-            {list}
-          </Typography>
-        </Box>
-      ))*/}
-      {/*  <Box
-        sx={{
-          marginBlock: { xs: '15px 20px', md: '25px 35px' },
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: { xs: '15px', md: '20px' },
-        }}
-      >
-        {coursesInnerPara?.map((para, index) => (
-          <Typography
-            component='p'
-            key={index}
-            sx={{
-              color: (theme: any) => theme.palette.custom.secondary,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              lineHeight: ' 174%',
-            }}
-          >
-            {para}
-          </Typography>
-        ))}
-      </Box> */}
-
-      <ImageGallery />
+      <ImageGallery courseInnerImages={coursesData?.gallery_images} />
     </Box>
   )
 }

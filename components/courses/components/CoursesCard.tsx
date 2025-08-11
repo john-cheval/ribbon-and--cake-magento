@@ -4,23 +4,14 @@ import Link from 'next/link'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import { saxoGrammaticus } from '../../../lib/fonts'
 
-export type CardProps = {
-  courseCardData: {
-    id: number
-    title: string
-    image: string | StaticImport
-    description: string
-  }
-}
-
-function CourseCard(props: CardProps) {
+function CourseCard(props) {
   const { courseCardData } = props
   return (
     <Card sx={{ position: 'relative', border: '1px solid #E6E6E6', borderRadius: '8px' }}>
       <CardMedia sx={{ position: 'relative', padding: '8px 8px 0px' }}>
         <Image
-          src={courseCardData?.image}
-          alt={courseCardData?.title}
+          src={courseCardData?.image || 'https://via.placeholder.com/200x190'}
+          alt={courseCardData?.name}
           width={200}
           height={190}
           sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
@@ -35,20 +26,25 @@ function CourseCard(props: CardProps) {
             right: { xs: '15px', md: '20px' },
           }}
         >
-          <Box
-            sx={{
-              padding: { xs: '3px 12px', md: '5px 15px' },
-              background: (theme) => theme.palette.primary.contrastText,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: 'primary.main',
-              fontSize: { xs: '12px', sm: '14px' },
-            }}
-          >
-            Course 1
-          </Box>
-          <Box
+          {courseCardData?.tags?.items.length > 0 &&
+            courseCardData?.tags?.items?.map((tag, index) => (
+              <Box
+                key={tag?.name || index}
+                sx={{
+                  padding: { xs: '3px 12px', md: '5px 15px' },
+                  background: (theme) => theme.palette.primary.contrastText,
+                  borderRadius: '999px',
+                  border: '1px solid #F6DBE0',
+                  backdropFilter: 'blur(4.699999809265137px)',
+                  color: 'primary.main',
+                  fontSize: { xs: '12px', sm: '14px' },
+                }}
+              >
+                {tag?.name}
+              </Box>
+            ))}
+
+          {/*<Box
             sx={{
               padding: { xs: '3px 12px', md: '5px 15px' },
               background: (theme) => theme.palette.primary.contrastText,
@@ -60,7 +56,7 @@ function CourseCard(props: CardProps) {
             }}
           >
             2 Days
-          </Box>
+          </Box>*/}
         </Box>
       </CardMedia>
       <CardContent sx={{ padding: { xs: '2px 17px 17px', md: '10px 17px 17px' } }}>
@@ -77,23 +73,21 @@ function CourseCard(props: CardProps) {
             marginBottom: { xs: 0 },
           }}
         >
-          {courseCardData?.title}
+          {courseCardData?.name}
         </Typography>
-        <Typography
-          sx={{
-            color: (theme: any) => theme.palette.custom.secondary,
-            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-            lineHeight: '174%',
-          }}
-        >
-          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-          across all continents except Antarctica
-        </Typography>
-        <Link
-          href={`/courses/baking-classes/create-designs-with-butter-cream-icing`}
-          passHref
-          legacyBehavior
-        >
+        {courseCardData?.short_description && (
+          <Typography
+            sx={{
+              color: (theme: any) => theme.palette.custom.secondary,
+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              lineHeight: '174%',
+            }}
+          >
+            {courseCardData?.short_description}
+          </Typography>
+        )}
+
+        <Link href={`/courses/baking-classes/${courseCardData?.url_key}`} passHref legacyBehavior>
           <CardActions
             sx={{
               backgroundColor: (theme: any) => theme.palette.custom.heading,

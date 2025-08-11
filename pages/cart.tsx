@@ -106,6 +106,7 @@ function CartPage() {
               // maxWidth='md'
               sx={{
                 flexGrow: 1,
+                minHeight: { xs: '200px', lg: '500px' },
 
                 overflowY: 'scroll',
                 // overflowX: 'hidden',

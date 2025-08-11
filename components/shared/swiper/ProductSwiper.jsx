@@ -5,7 +5,7 @@ import { css } from '@emotion/react'
 import { Box } from '@mui/material'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
-import type SwiperCore from 'swiper'
+// import type SwiperCore from 'swiper'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
@@ -23,76 +23,78 @@ export const linkStyle = css`
     text-decoration: none;
   }
 `
-export function ProductSwiper({ data, link = '/', initial = '', productList }) {
-  const swiperRef = useRef<SwiperCore | null>(null)
+export function ProductSwiper({ data = [], link = '/', initial = '', productList }) {
+  const swiperRef = useRef(null)
 
   const [selectedCategory, setSelectedCategory] = useState(initial || data?.[0]?.name)
 
   return (
     <Box component='div'>
-      <Box
-        component='div'
-        sx={{
-          paddingTop: { xs: '15px', md: '20px', lg: '22px' },
-          paddingBottom: { xs: '20px', md: '20px', lg: '30px' },
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      {data?.length > 0 && (
         <Box
           component='div'
           sx={{
+            paddingTop: { xs: '15px', md: '20px', lg: '22px' },
+            paddingBottom: { xs: '20px', md: '20px', lg: '30px' },
             display: 'flex',
-            columnGap: '5px',
+            justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          {data?.map((category, index) => (
-            <Box
-              component='span'
-              key={category?.uid || index}
-              onClick={() => setSelectedCategory(category?.name as string)}
-              sx={{
-                backgroundColor:
-                  selectedCategory === category?.name
-                    ? (theme: any) => theme.palette.custom.border
-                    : 'transparent',
-                fontWeight: 400,
-                textAlign: 'center',
-                color:
-                  selectedCategory === category?.name
-                    ? (theme: any) => theme.palette.custom.smallHeading
-                    : (theme: any) => theme.palette.custom.tertiary,
-                borderRadius: selectedCategory === category?.name ? '999px' : 'none',
-                cursor: 'pointer',
-                padding: { md: '5px 15px', lg: '8px 20px' },
-                transition: 'all 0.3s ease',
-                border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
-                fontSize: { xs: '14px', lg: '16px' },
-                '&:hover': {
-                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                  borderRadius: '999px',
-                  color: (theme: any) => theme.palette.custom.smallHeading,
-                },
-              }}
-            >
-              <Link
-                style={{
-                  textDecoration: 'none',
+          <Box
+            component='div'
+            sx={{
+              display: 'flex',
+              columnGap: '5px',
+              alignItems: 'center',
+            }}
+          >
+            {data?.map((category, index) => (
+              <Box
+                component='span'
+                key={category?.uid || index}
+                onClick={() => setSelectedCategory(category?.name)}
+                sx={{
+                  backgroundColor:
+                    selectedCategory === category?.name
+                      ? (theme) => theme.palette.custom.border
+                      : 'transparent',
+                  fontWeight: 400,
+                  textAlign: 'center',
+                  color:
+                    selectedCategory === category?.name
+                      ? (theme) => theme.palette.custom.smallHeading
+                      : (theme) => theme.palette.custom.tertiary,
+                  borderRadius: selectedCategory === category?.name ? '999px' : 'none',
+                  cursor: 'pointer',
+                  padding: { md: '5px 15px', lg: '8px 20px' },
+                  transition: 'all 0.3s ease',
+                  border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
+                  fontSize: { xs: '14px', lg: '16px' },
+                  '&:hover': {
+                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                    borderRadius: '999px',
+                    color: (theme) => theme.palette.custom.smallHeading,
+                  },
                 }}
-                href={category?.url_path}
               >
-                {category?.name}
-              </Link>
-            </Box>
-          ))}
-        </Box>
+                <Link
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                  href={category?.url_path}
+                >
+                  {category?.name}
+                </Link>
+              </Box>
+            ))}
+          </Box>
 
-        <Link href={link} css={linkStyle}>
-          View All
-        </Link>
-      </Box>
+          <Link href={link} css={linkStyle}>
+            View All
+          </Link>
+        </Box>
+      )}
 
       <Box
         component='div'
@@ -147,7 +149,7 @@ export function ProductSwiper({ data, link = '/', initial = '', productList }) {
                       },
                     },
                     '& .ProductListItem-titleContainer .ProductListItem-title': {
-                      color: (theme: any) => theme.palette.custom.dark,
+                      color: (theme) => theme.palette.custom.dark,
                       minHeight: '50px',
                       fontSize: { xs: '12px', sm: '14px', md: '16px' },
                       lineHeight: '158%',

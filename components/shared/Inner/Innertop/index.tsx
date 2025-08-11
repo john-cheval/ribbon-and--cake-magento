@@ -1,5 +1,10 @@
 import { Image } from '@graphcommerce/image'
-import { ProductListCount } from '@graphcommerce/magento-product'
+import {
+  CategoryDefaultFragment,
+  ProductFiltersPro,
+  ProductFiltersProSortSection,
+  ProductListCount,
+} from '@graphcommerce/magento-product'
 import {
   Box,
   Breadcrumbs,
@@ -14,6 +19,9 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { CategoryPageQuery } from '../../../../graphql/CategoryPage.gql'
+import { iconCloseAccordion, iconOpenAccordion } from '../../../../plugins/icons'
+import { ProductListLayoutProps } from '../../../ProductListLayout'
 import CustomSelectInput from '../../Inputs/CustomSelectInput'
 import rightArrow from './arrow_right.svg'
 
@@ -22,16 +30,38 @@ function capitalizeFirstLetter(str?: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export interface InnerTopProps {
+type InnerTopBaseProps = {
   count?: number | null
   title?: string | null
-  isFilter?: boolean
   mainTitle?: string | null
   sx?: SxProps<Theme>
   responsiveTitle?: string
 }
+type InnerTopWithFiltersProps = InnerTopBaseProps &
+  ProductListLayoutProps & {
+    isFilter: true
+  }
+type InnerTopWithoutFiltersProps = InnerTopBaseProps & {
+  isFilter?: false
+}
+export type InnerTopProps = InnerTopWithFiltersProps | InnerTopWithoutFiltersProps
 
 export function InnerTop(props: InnerTopProps) {
+  // const {
+  //   count,
+  //   title,
+  //   isFilter,
+  //   mainTitle,
+  //   responsiveTitle,
+  //   sx,
+  //   filterTypes,
+  //   params,
+  //   products,
+  //   handleSubmit,
+  //   category,
+  //   menu,
+  //   filters,
+  // } = props
   const { count, title, isFilter, mainTitle, responsiveTitle, sx } = props
   const router = useRouter()
 
@@ -203,7 +233,7 @@ export function InnerTop(props: InnerTopProps) {
             </Box>
 
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-              <Typography
+              {/* <Typography
                 variant='p'
                 sx={{
                   color: (theme: any) => theme.palette.custom.main,
@@ -241,7 +271,53 @@ export function InnerTop(props: InnerTopProps) {
                   <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
                   <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl>*/}
+              {props.params && props.products?.items && props.filterTypes && (
+                <ProductFiltersPro
+                  params={props.params}
+                  aggregations={props.filters?.aggregations}
+                  appliedAggregations={props.products?.aggregations}
+                  filterTypes={props.filterTypes}
+                  autoSubmitMd
+                  handleSubmit={props.handleSubmit}
+                >
+                  <ProductFiltersProSortSection
+                    sort_fields={props.products?.sort_fields}
+                    total_count={props.products?.total_count}
+                    category={props.category}
+                    openAccordionIcon={iconOpenAccordion}
+                    closeAccordionIcon={iconCloseAccordion}
+                    sx={{
+                      borderBottom: 'none !important',
+                      '& .MuiAccordionSummary-content .MuiTypography-body1': {
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontWeight: 500,
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        marginBottom: '0 !important',
+                        position: 'relative',
+                      },
+                      '& .MuiAccordionDetails-root > div': {
+                        position: 'absolute',
+                        backgroundColor: (theme) => theme.palette.custom.border,
+                        width: '100%',
+                        borderRadius: '4px',
+                      },
+                      '& .ActionCardLayout-root .MuiButtonBase-root': {
+                        paddingBlock: '12px',
+                        borderRadius: '2px',
+                        '& .ActionCard-title': {
+                          color: (theme: any) => theme.palette.custom.main,
+                          fontSize: { xs: '14px', md: '16px' },
+                          fontWeight: 500,
+                          lineHeight: '158%',
+                        },
+                      },
+                    }}
+                    // isDropdown={true}
+                    // isButton={true}
+                  />
+                </ProductFiltersPro>
+              )}
             </Box>
           </Box>
         )}
@@ -256,8 +332,8 @@ export function InnerTop(props: InnerTopProps) {
                 xs: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
                 lg: 'none',
               },
-              marginBottom: { xs: '10px', md: '15px', lg: '0' },
-              paddingBottom: { xs: '10px', md: '15px', lg: '0' },
+              marginBottom: { xs: '0', md: '15px', lg: '0' },
+              paddingBottom: { xs: '0', md: '15px', lg: '0' },
             }}
           >
             {responsiveTitle}

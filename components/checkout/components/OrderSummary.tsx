@@ -7,10 +7,10 @@ import {
 } from '@graphcommerce/magento-cart'
 import { CartPageQuery } from '@graphcommerce/magento-cart-checkout'
 import { CouponAccordion } from '@graphcommerce/magento-cart-coupon'
-import { CartCrosssellsScroller, CartItemsActionCards } from '@graphcommerce/magento-cart-items'
-import { cartItemToCartItemInput } from '@graphcommerce/magento-cart-items/utils/cartItemToCartItemInput'
+//import { CartCrosssellsScroller, CartItemsActionCards } from '@graphcommerce/magento-cart-items'
+// import { cartItemToCartItemInput } from '@graphcommerce/magento-cart-items/utils/cartItemToCartItemInput'
 import { FullPageMessage, OverlayStickyBottom } from '@graphcommerce/next-ui'
-import { Trans } from '@lingui/react'
+// import { Trans } from '@lingui/react'
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
 import { iconDelete } from '../../../plugins/icons'
 import { productListRenderer } from '../../ProductListItems'
@@ -43,7 +43,6 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
           width: '100%',
           borderRadius: '8px',
           backgroundColor: (theme: any) => theme.palette.primary.contrastText,
-          padding: { xs: '10px', md: '24px 20px' },
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
@@ -55,34 +54,47 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
             <Box
               sx={{
                 flexGrow: 1,
-                height: '500px',
+                // height: '500px',
                 overflowY: 'scroll',
                 overflowX: 'hidden',
                 pr: { xs: '5px', md: '10px' },
                 paddingBottom: '50px',
+                minHeight: '300px',
 
-                '&::-webkit-scrollbar': {
-                  width: '6px',
-                  borderRadius: '0px',
-                  backgroundColor: '#EBEBEB',
-                },
-                '&::-webkit-scrollbar-track': {
-                  backgroundColor: '#EBEBEB',
-                  borderRadius: '0px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  borderRadius: '0px',
-                },
+                // '&::-webkit-scrollbar': {
+                //   width: '6px',
+                //   borderRadius: '0px',
+                //   backgroundColor: '#EBEBEB',
+                // },
+                // '&::-webkit-scrollbar-track': {
+                //   backgroundColor: '#EBEBEB',
+                //   borderRadius: '0px',
+                // },
+                // '&::-webkit-scrollbar-thumb': {
+                //   backgroundColor: (theme) => theme.palette.primary.main,
+                //   borderRadius: '0px',
+                // },
               }}
             >
-              <Box>
+              <Box
+                sx={{
+                  padding: { xs: '10px', md: '10px 15px' },
+                }}
+              >
                 {cartItems?.map((item, index) => (
                   <CartItems items={item} key={index} length={cartItems?.length} />
                 ))}
               </Box>
 
-              <CouponAccordion key='couponform' sx={(theme) => ({ mt: theme.spacings.md })} />
+              <CouponAccordion
+                sx={{
+                  '& .ApplyCouponForm-couponForm': {
+                    paddingInline: { xs: '10px', md: '10px 15px' },
+                  },
+                }}
+                key='couponform'
+                // sx={(theme) => ({ mt: theme.spacings.md })}
+              />
             </Box>
 
             <OverlayStickyBottom
@@ -90,11 +102,12 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 py: 0.1,
                 // pt: 0.1,
                 // pb: { xs: '10px', md: '20px', lg: '30px' },
-                // px: { xs: '15px', sm: '20px', lg: '30px' },
+                px: { xs: '15px', sm: '20px' },
                 // boxShadow: '1px 3px 8px #000',
-                // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+                backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+                zIndex: 9999,
                 // width: '100%',
-                bottom: 'unset !important',
+                // bottom: 'unset !important',
                 // px: '55px',
                 '& .CartTotals-root ': {
                   backgroundColor: 'transparent',
@@ -105,14 +118,15 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
               }}
             >
               <CartTotals
-                containerMargin
+                // containerMargin
                 sx={{
+                  padding: '10px 0px',
                   typography: 'body1',
                   '& .CartTotals-costsRow': {
-                    color: '#2A110A',
+                    color: (theme) => theme.palette.custom.smallHeading,
                   },
                   '& .CartTotals-costsRow:nth-child(2)': {
-                    color: '#2A110A',
+                    color: (theme) => theme.palette.custom.smallHeading,
                     fontWeight: '600 !important',
                     fontSize: '16px !important',
                   },
@@ -124,14 +138,14 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                   '& .MuiButtonBase-root': {
                     width: '100%',
                     borderRadius: '4px',
-                    backgroundColor: '#9B7C38',
-                    border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
+                    backgroundColor: (theme) => theme.palette.custom.heading,
+                    border: (theme) => `1px solid ${theme.palette.custom.heading}`,
                     color: '#fff',
                     boxShadow: 'none !important',
                     // fontSize: { xs: '12px', sm: '14px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent !important',
-                      color: '#2A110A',
+                      color: (theme) => theme.palette.custom.smallHeading,
                       boxShadow: 'none !important',
                     },
                   },

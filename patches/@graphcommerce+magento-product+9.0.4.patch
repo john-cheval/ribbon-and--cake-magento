@@ -520,7 +520,7 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..860e8f1 100644
+index 80912c1..c9e809d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,47 +10,97 @@ import {
@@ -600,7 +600,7 @@ index 80912c1..860e8f1 100644
 +      }}>
 +        {filterIcons && (
 +          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
-+        )} Filter</Box>}
++        )} Cakes</Box>}
        right={
 -        currentFilter && currentFilter.length > 0 ? (
 -          <Button
@@ -873,7 +873,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..bdbc861 100644
+index b64ae6d..47f8d46 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,13 +5,17 @@ import type { SxProps, Theme } from '@mui/material'
@@ -895,15 +895,17 @@ index b64ae6d..bdbc861 100644
    const { form } = useProductFiltersPro()
    const { options, showReset, selected } = useProductFiltersProSort(props)
  
-@@ -21,6 +25,8 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -21,7 +25,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
      <ActionCardAccordion
        sx={sx}
        defaultExpanded={selected}
+-      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-       summary={<Trans id='Sort By' />}
++      summary={<Trans id='Sort by:' />}
        details={
          <ActionCardListForm
+           control={form.control}
 @@ -30,24 +36,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'

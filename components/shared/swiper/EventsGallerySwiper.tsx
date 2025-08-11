@@ -21,7 +21,7 @@ function EventsGallerySwiper({ imageGallery }: GalleryProps) {
   const handleSlideChange = (swiper) => {
     setActiveIndex(swiper.realIndex)
   }
-
+  if (!imageGallery || imageGallery.length === 0) return null
   return (
     <Box component='section'>
       <Swiper
@@ -42,8 +42,9 @@ function EventsGallerySwiper({ imageGallery }: GalleryProps) {
           <SwiperSlide key={index}>
             <Box sx={{}}>
               <Image
-                src={item}
-                alt={item?.title || 'this is the title'}
+                src={`https://srv900162.hstgr.cloud/media/${item}`}
+                alt={`image-${index + 1}`}
+                layout='fill'
                 sx={{
                   width: '100%',
                   height: 'auto',

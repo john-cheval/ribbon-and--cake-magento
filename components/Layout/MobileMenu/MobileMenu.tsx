@@ -11,6 +11,7 @@ import { GoHome } from 'react-icons/go'
 import { IoMenuSharp } from 'react-icons/io5'
 import { MdOutlineInterests } from 'react-icons/md'
 import MenuDrawer from './MenuDrawer'
+import ShopMenuDrawer from './ShopMenuDrawer'
 
 const moreMenu = [
   { id: 1, title: 'About', link: '/about' },
@@ -20,8 +21,9 @@ const moreMenu = [
   { id: 5, title: 'Login / Register', link: '/account/sigin' },
 ]
 
-function MobileMenu() {
+function MobileMenu({ ShopCategories }) {
   const [openDrawer, setOpenDrawer] = useState(false)
+  const [openshopMenu, setOpenShopMenu] = useState(false)
 
   return (
     <>
@@ -40,7 +42,7 @@ function MobileMenu() {
         </Box>
       </Link>
 
-      <Box>
+      <Box onClick={() => setOpenShopMenu(!openshopMenu)}>
         <Box
           sx={{
             display: 'flex',
@@ -55,20 +57,22 @@ function MobileMenu() {
         </Box>
       </Box>
 
-      <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            rowGap: '4px',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          <AiOutlineShopping size={20} />
-          <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Cart</Typography>
+      <Link href='/cart'>
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              rowGap: '4px',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <AiOutlineShopping size={20} />
+            <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Cart</Typography>
+          </Box>
         </Box>
-      </Box>
+      </Link>
 
       <Link href='/'>
         <Box
@@ -105,6 +109,17 @@ function MobileMenu() {
       {/* moreMenu */}
       <AnimatePresence>
         {openDrawer && <MenuDrawer isOpen={openDrawer} setIsOpen={setOpenDrawer} more={moreMenu} />}
+      </AnimatePresence>
+
+      {/* Shop Menu */}
+      <AnimatePresence>
+        {openshopMenu && (
+          <ShopMenuDrawer
+            isOpen={openshopMenu}
+            setIsOpen={setOpenShopMenu}
+            shopMenu={ShopCategories}
+          />
+        )}
       </AnimatePresence>
     </>
   )

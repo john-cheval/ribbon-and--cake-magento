@@ -10,13 +10,12 @@ import CourseCard from './CoursesCard'
 
 const MotionDiv = styled(m.div)({})
 
-function CourseDetail({ categories }) {
+function CourseDetail({ categories, coursesList }) {
   const [visibleCount, setVisibleCount] = useState(8)
   const [loading, setLoading] = useState(false)
   const observerRef = useRef<HTMLDivElement | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
-  const uniqueCategories = Array.from(new Set(coursesData?.map((course) => course.category)))
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,8 +49,10 @@ function CourseDetail({ categories }) {
   }, [loading, hasMore])
 
   const filteredCourses = selectedCategory
-    ? coursesData.filter((course) => course.category === selectedCategory)
-    : coursesData
+    ? coursesList.filter((course) =>
+        course.categories?.items?.some((cat) => cat?.name === selectedCategory),
+      )
+    : coursesList
   return (
     <Box
       component='section'
@@ -136,7 +137,7 @@ function CourseDetail({ categories }) {
             title={course?.name}
             id={index}
             isSelected={selectedCategory === course?.name}
-            length={uniqueCategories?.length}
+            length={categories?.length}
             onClick={() => {
               const name = course?.name
               setSelectedCategory((prev) => (prev === name ? null : name))
@@ -179,11 +180,29 @@ function CourseDetail({ categories }) {
             rowGap: { xs: '10px', md: '8px', lg: '15px' },
           }}
         >
-          {filteredCourses.map((course, index) => (
+          {filteredCourses?.length === 0 ? (
+            <Typography
+              sx={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                color: (theme) => theme.palette.custom.dark,
+                fontSize: { xs: '16px', md: '20px' },
+              }}
+            >
+              No courses found for this category.
+            </Typography>
+          ) : (
+            filteredCourses.map((course, index) => (
+              <MotionDiv key={index} variants={cardVariants}>
+                <CourseCard courseCardData={course} />
+              </MotionDiv>
+            ))
+          )}
+          {/*filteredCourses.map((course, index) => (
             <MotionDiv key={index} variants={cardVariants}>
               <CourseCard courseCardData={course} />
             </MotionDiv>
-          ))}
+          ))*/}
         </MotionDiv>
 
         {/* Loading Indicator */}

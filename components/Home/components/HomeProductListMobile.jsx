@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { productListRenderer } from '../../ProductListItems'
 
 function HomeProductListMobile({
-  data,
+  data = [],
   link = '/',
   initial = '',
   count = 4,
@@ -15,7 +15,6 @@ function HomeProductListMobile({
 }) {
   const [selectedCategory, setSelectedCategory] = useState(data?.[0]?.name || initial)
   const [showAll, setShowAll] = useState(false)
-
   const itemsToRender = showAll ? productList : productList.slice(0, count)
 
   const isMobile = useMediaQuery('(max-width:550px)')
@@ -49,17 +48,17 @@ function HomeProductListMobile({
             <Box
               component='span'
               key={index}
-              onClick={() => setSelectedCategory(category?.name as string)}
+              onClick={() => setSelectedCategory(category?.name)}
               sx={{
                 backgroundColor:
                   selectedCategory === category?.name
-                    ? (theme: any) => theme.palette.custom.border
+                    ? (theme) => theme.palette.custom.border
                     : 'transparent',
                 fontWeight: 400,
                 color:
                   selectedCategory === category?.name
-                    ? (theme: any) => theme.palette.custom.main
-                    : (theme: any) => theme.palette.custom.tertiary,
+                    ? (theme) => theme.palette.custom.main
+                    : (theme) => theme.palette.custom.tertiary,
                 borderRadius: selectedCategory === category?.name ? '999px' : 'none',
                 cursor: 'pointer',
                 padding: { xs: '6px 15px', md: '10px 20px' },
@@ -69,7 +68,7 @@ function HomeProductListMobile({
                 '&:hover': {
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   borderRadius: '999px',
-                  color: (theme: any) => theme.palette.custom.main,
+                  color: (theme) => theme.palette.custom.main,
                 },
               }}
             >
@@ -79,7 +78,7 @@ function HomeProductListMobile({
                 }}
                 href={category?.url_path}
               >
-                {String(category?.name)}
+                {category?.name}
               </Link>
             </Box>
           ))}
@@ -108,7 +107,7 @@ function HomeProductListMobile({
                 },
                 '& .ProductListItem-titleContainer': {
                   '& .ProductListItem-title': {
-                    color: (theme: any) => theme.palette.custom.dark,
+                    color: (theme) => theme.palette.custom.dark,
                     minHeight: { xs: '40px', md: '50px' },
                     fontSize: { xs: '12px', sm: '14px', md: '16px' },
                     lineHeight: '158%',
@@ -137,11 +136,11 @@ function HomeProductListMobile({
             sx={{
               fontSize: '14px',
               fontWeight: 500,
-              color: (theme: any) => theme.palette.custom.main,
+              color: (theme) => theme.palette.custom.main,
               textDecoration: 'underline',
               cursor: 'pointer',
               '&:hover': {
-                color: (theme: any) => theme.palette.custom.main,
+                color: (theme) => theme.palette.custom.main,
                 background: 'transparent',
               },
             }}

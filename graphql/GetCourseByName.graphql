@@ -13,7 +13,7 @@ query GetPostByName($url_key: String!) {
       post_content
       created_at
       image
-      post_content
+      gallery_images
     }
   }
 }

@@ -1,0 +1,30 @@
+mutation CreateStorePickup($address: String, $city: String) {
+  createStorePickup(input: { address: $address, city: $city }) {
+    store_pick_up {
+      address
+      city
+      conditions
+      country_id
+      description
+      facebook_url
+      is_active
+      latitude
+      longitude
+      meta_description
+      meta_keywords
+      meta_title
+      region
+      region_id
+      storeemail
+      storeimage
+      storelocator_id
+      storename
+      storetime
+      telephone
+      twitter_url
+      url_key
+      website_url
+      zipcode
+    }
+  }
+}

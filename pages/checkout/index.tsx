@@ -20,6 +20,10 @@ import {
 import { CartPageDocument, ShippingPageDocument } from '@graphcommerce/magento-cart-checkout'
 import { EmailForm } from '@graphcommerce/magento-cart-email'
 import {
+  PaymentMethodActionCardListForm,
+  PaymentMethodContextProvider,
+} from '@graphcommerce/magento-cart-payment-method'
+import {
   CustomerAddressForm,
   ShippingAddressForm,
 } from '@graphcommerce/magento-cart-shipping-address'
@@ -29,6 +33,7 @@ import {
   useCustomerQuery,
   useCustomerSession,
 } from '@graphcommerce/magento-customer'
+// import { PaymentMethodContextProvider } from '@graphcommerce/magento-payment-included/plugins/AddIncludedMethods'
 // import { ProductListDocument } from '@graphcommerce/magento-product'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
@@ -44,18 +49,30 @@ import {
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { Box, CircularProgress, Container, Typography } from '@mui/material'
+//import { TabPanel } from '@mui/lab'
+import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation } from '../../components'
 import { AdsOnProduct, OrderSummary, TopBannerMesasge } from '../../components/checkout'
 import CartItems from '../../components/checkout/components/Cart/CartItems'
+import DeliveryDate from '../../components/checkout/components/DeliveryData'
+import PickupStoreForm from '../../components/checkout/components/PickUpStore/PickupstoreForm'
+import { a11yProps, TabPanel } from '../../components/checkout/TabPanel'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { AdsOnProductsDocument, AdsOnProductsQuery } from '../../graphql/AdsOnProduct.gql'
+import {
+  GetTimeSlotsByZipcodeDocument,
+  GetTimeSlotsByZipcodeQuery,
+} from '../../graphql/GetDeliverySlotData.gql'
+import { GetStorePickupDocument, GetStorePickupQuery } from '../../graphql/StorePickup.gql'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 export type adsOnProps = {
   addonProductsData?: AdsOnProductsQuery[]
+  prickupstoreData?: GetStorePickupQuery[]
+  slotData?: GetTimeSlotsByZipcodeQuery
 }
 type Props = Record<string, unknown>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props>
@@ -63,7 +80,7 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props>
 export type ShippingPageProps = GetPageStaticProps & adsOnProps
 
 function ShippingPage(props: ShippingPageProps) {
-  const { addonProductsData } = props
+  const { addonProductsData, prickupstoreData, slotData } = props
   const router = useRouter()
   const session = useCustomerSession()
   const shippingPage = useCartQuery(ShippingPageDocument, { fetchPolicy: 'cache-and-network' })
@@ -84,6 +101,12 @@ function ShippingPage(props: ShippingPageProps) {
     typeof cartData?.cart?.prices?.grand_total?.value !== 'undefined'
   const cartItems = cartData?.cart?.items
 
+  const [value, setValue] = useState(0)
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+  }
+
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>
       <PageMeta title={i18n._(/* i18n */ 'Shipping')} metaRobots={['noindex']} />
@@ -91,7 +114,7 @@ function ShippingPage(props: ShippingPageProps) {
         waitFor={[shippingPage, customerAddresses]}
         fallback={
           <FullPageMessage
-            sx={{ backgroundColor: 'inherit' }}
+            sx={{ backgroundColor: '#fff' }}
             icon={<CircularProgress />}
             title={<Trans id='Loading' />}
           >
@@ -205,7 +228,7 @@ function ShippingPage(props: ShippingPageProps) {
                 sx={{
                   width: '100%',
                   borderRadius: '8px',
-                  backgroundColor: 'white',
+                  backgroundColor: '#fff',
                   padding: { xs: '20px 14px', md: '25px 30px' },
                 }}
               >
@@ -221,69 +244,195 @@ function ShippingPage(props: ShippingPageProps) {
                   our stores.
                 </Typography>
 
-                {!shippingPage.error && cartExists && (
-                  <ComposedForm>
-                    <LayoutHeader>
-                      {shippingPage.data?.cart?.is_virtual ? (
-                        <LayoutTitle size='small' icon={iconAddresses}>
-                          <Trans id='Billing address' />
-                        </LayoutTitle>
+                <Box
+                  sx={{
+                    width: '100%',
+                  }}
+                >
+                  <Tabs
+                    sx={{
+                      justifyContent: 'unset',
+                      columnGap: '10px',
+
+                      // '& .MuiTabs-scroller': {
+                      //   overflow: 'unset',
+                      //   overflowX: 'unset',
+                      // },
+                      '& .MuiTabs-flexContainer': {
+                        gap: '11px',
+                      },
+
+                      '& .MuiTab-root': {
+                        // width: '50%',
+                        flexGrow: 1,
+                        maxWidth: 'unset',
+                        color: (theme) => theme.palette.custom.dark,
+                        fontSize: { xs: '14px', md: '16px' },
+                        lineHeight: '158%',
+                        borderRadius: '4px',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                        transition: 'background-color 0.3s ease, border 0.3s ease, color 0.3s ease',
+                        '&.Mui-selected': {
+                          backgroundColor: (theme) => theme.palette.custom.border,
+                          color: (theme) => theme.palette.custom.dark,
+                          border: (theme) => `1px solid ${theme.palette.custom.main}`,
+                        },
+                      },
+                      '& .MuiTabs-indicator': {
+                        display: 'none',
+                      },
+                    }}
+                    value={value}
+                    onChange={handleChange}
+                    centered
+                  >
+                    <Tab label='Delivery' {...a11yProps(0)} />
+                    <Tab label='Pickup' />
+                  </Tabs>
+                  <TabPanel
+                    sx={{
+                      '&.MuiBox-root.mui-style-19kzrtu': {
+                        padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
+
+                        '& .MuiTypography-h4': {},
+                      },
+                    }}
+                    value={value}
+                    index={0}
+                  >
+                    <ComposedForm>
+                      {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
+                        <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
+                          <ShippingAddressForm step={3} />
+                        </CustomerAddressForm>
                       ) : (
-                        <LayoutTitle size='small' icon={iconBox}>
-                          <Trans id='Shipping' />
-                        </LayoutTitle>
-                      )}
-                    </LayoutHeader>
-                    <Container maxWidth='md'>
-                      <>
-                        {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
-                          <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
-                            <ShippingAddressForm step={3} />
-                          </CustomerAddressForm>
-                        ) : (
-                          <>
-                            <Typography
-                              variant='h4'
-                              gutterBottom
-                              sx={(theme) => ({ mt: theme.spacings.lg, mb: theme.spacings.sm })}
-                            >
-                              <Trans id='Personal details' />
-                            </Typography>
-                            <EmailForm step={1} />
-                            <ShippingAddressForm step={3} />
-                          </>
-                        )}
+                        <>
+                          <Typography
+                            variant='h4'
+                            sx={{
+                              color: (theme) => theme.palette.custom.dark,
+                              fontSize: { xs: '16px', md: '20px' },
+                              lineHeight: '120%',
+                              // marginBottom: { xs: '10px', md: '15px' },
+                              textTransform: 'capitalize',
+                              fontWeight: 400,
+                              fontVariationSettings: '"wght" 400',
+                            }}
+                          >
+                            <Trans id='Your details' />
+                          </Typography>
+                          <ShippingAddressForm
+                            sx={{
+                              '& .MuiInputLabel-formControl': {
+                                color: (theme) => theme.palette.custom.main,
+                                fontSize: { xs: '14px', md: '16px' },
+                                lineHeight: '158%',
+                                fontWeight: 400,
 
-                        {!shippingPage.data?.cart?.is_virtual && (
-                          <ShippingMethodForm
-                            step={4}
-                            sx={(theme) => ({ mt: theme.spacings.lg })}
+                                '&.Mui-focused': {
+                                  color: (theme) => theme.palette.custom.main,
+                                },
+                                '& .MuiFormLabel-asterisk': {
+                                  display: 'none',
+                                },
+                                '&.MuiInputLabel-animated': {
+                                  backgroundColor: '#fff',
+                                  padding: '0 6px',
+                                },
+                              },
+
+                              '& .MuiOutlinedInput-root': {
+                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                borderRadius: '4px',
+                                paddingRight: '0',
+
+                                '& .InputCheckmark': {
+                                  display: 'none',
+                                },
+
+                                '&:hover': {
+                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                },
+                                '&.Mui-focused': {
+                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                },
+
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                  border: 'none',
+                                },
+                              },
+                            }}
+                            step={3}
                           />
-                        )}
+                        </>
+                      )}
+                    </ComposedForm>
+                  </TabPanel>
 
-                        <ComposedSubmit
-                          onSubmitSuccessful={() => router.push('/checkout/payment')}
-                          render={(renderProps) => (
-                            <>
-                              <FormActions>
-                                <ComposedSubmitButton {...renderProps} size='large' id='next'>
-                                  <Trans id='Next' />
-                                </ComposedSubmitButton>
-                              </FormActions>
-                              <ApolloCartErrorSnackbar
-                                error={
-                                  renderProps.buttonState.isSubmitting
-                                    ? undefined
-                                    : renderProps.error
-                                }
-                              />
-                            </>
-                          )}
-                        />
-                      </>
-                    </Container>
-                  </ComposedForm>
-                )}
+                  <TabPanel value={value} index={1}>
+                    <PickupStoreForm storeData={prickupstoreData} />
+                  </TabPanel>
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Delivery Date & Time */}
+            <Box>
+              <Typography
+                sx={{
+                  color: (theme: any) => theme.palette.custom.dark,
+                  fontsize: { xs: '18px', md: '20px' },
+                  lineHeight: '120%',
+                  marginTop: { xs: '18px', md: '27px' },
+                  marginBottom: { xs: '10px', md: '20px' },
+                }}
+              >
+                Choose Delivery Date & Time
+              </Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  backgroundColor: '#fff',
+                  padding: { xs: '20px 14px', md: '25px 30px' },
+                  display: 'flex',
+                  gap: '10px',
+                }}
+              >
+                <DeliveryDate slotList={slotData} />
+              </Box>
+            </Box>
+
+            {/* Shipping Method */}
+            <Box>
+              <Typography
+                sx={{
+                  color: (theme: any) => theme.palette.custom.dark,
+                  fontsize: { xs: '18px', md: '20px' },
+                  lineHeight: '120%',
+                  marginTop: { xs: '18px', md: '27px' },
+                  marginBottom: { xs: '10px', md: '20px' },
+                }}
+              >
+                Payment Method
+              </Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  backgroundColor: '#fff',
+                  padding: { xs: '20px 14px', md: '25px 30px' },
+                  display: 'flex',
+                  gap: '10px',
+                }}
+              >
+                <ComposedForm>
+                  <PaymentMethodContextProvider>
+                    <PaymentMethodActionCardListForm step={4} />
+                  </PaymentMethodContextProvider>
+                </ComposedForm>
               </Box>
             </Box>
           </Box>
@@ -301,7 +450,34 @@ function ShippingPage(props: ShippingPageProps) {
             <OrderSummary orderData={cartData} error={error} IsItems={hasItems} />
           </Box>
         </Box>
+        {/* Shipping Method */}
+        {!shippingPage.error && cartExists && (
+          <ComposedForm>
+            <Container maxWidth='md'>
+              <>
+                {!shippingPage.data?.cart?.is_virtual && (
+                  <ShippingMethodForm step={4} sx={(theme) => ({ mt: theme.spacings.lg })} />
+                )}
 
+                <ComposedSubmit
+                  onSubmitSuccessful={() => router.push('/checkout/payment')}
+                  render={(renderProps) => (
+                    <>
+                      <FormActions>
+                        <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                          <Trans id='Next' />
+                        </ComposedSubmitButton>
+                      </FormActions>
+                      <ApolloCartErrorSnackbar
+                        error={renderProps.buttonState.isSubmitting ? undefined : renderProps.error}
+                      />
+                    </>
+                  )}
+                />
+              </>
+            </Container>
+          </ComposedForm>
+        )}
         {shippingPage.error && <ApolloCartErrorFullPage error={shippingPage.error} />}
         {/*!shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
 
@@ -395,11 +571,27 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       categoryId: '13',
     },
   })
+
+  const getPickupstore = staticClient.query({
+    query: GetStorePickupDocument,
+  })
+
+  const GetDeliverySlotData = staticClient.query({
+    query: GetTimeSlotsByZipcodeDocument,
+    variables: {
+      zipcode: 12345,
+    },
+  })
+
+  // console.log('GetDeliverySlotData', (await GetDeliverySlotData).data.getTimeSlots?.slotData)
+
   return {
     props: {
       ...(await layout).data,
       up: { href: '/cart', title: i18n._(/* i18n */ 'Cart') },
+      slotData: (await GetDeliverySlotData).data.getTimeSlots?.slotData,
       addonProductsData: (await addonProducts).data?.products?.items || [],
+      prickupstoreData: (await getPickupstore).data.pickupLocations?.items || [],
       apolloState: await conf.then(() => client.cache.extract()),
     },
   }

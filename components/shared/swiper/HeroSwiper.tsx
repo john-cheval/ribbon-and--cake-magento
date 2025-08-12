@@ -3,12 +3,9 @@ import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRef } from 'react'
-import { IoArrowForwardSharp } from 'react-icons/io5'
 import type SwiperCore from 'swiper'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { swiperHero } from '../../../constants/Home/swiper'
-import dhirams from '../dhirams.svg'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import {
@@ -19,6 +16,7 @@ import {
 
 export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
+  console.log(products, 'this is the products')
 
   return (
     <Box
@@ -31,7 +29,7 @@ export function HeroSwiper({ products }) {
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          modules={[Autoplay]}
+          // modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
@@ -67,8 +65,13 @@ export function HeroSwiper({ products }) {
                   padding: { xs: '7px', md: '10px' },
                   borderRadius: '8px',
                   display: 'flex',
-                  gap: { xs: '10px', md: '18px' },
+                  gap: { xs: '10px', md: '12px' },
                   alignItems: 'center',
+                  border: '1px solid #fff',
+                  '& picture': {
+                    width: { xs: '70px', md: '100px' },
+                    height: { xs: '70px', md: '100px' },
+                  },
                 }}
               >
                 <Image
@@ -79,10 +82,10 @@ export function HeroSwiper({ products }) {
                   // sizes='100vw'
                   layout='fill'
                   sx={{
-                    width: 'auto',
-                    maxWidth: { xs: '70px', md: '100px' },
-                    maxHeight: { xs: '70px', md: '100px' },
-                    height: 'auto',
+                    width: '100%',
+                    // maxWidth: { xs: '70px', md: '100px' },
+                    //maxHeight: { xs: '70px', md: '100px' },
+                    height: '100%',
                     // maxHeight: '100px',
                     objectFit: 'cover',
                     borderRadius: '4px',
@@ -94,7 +97,7 @@ export function HeroSwiper({ products }) {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    rowGap: '3px',
+                    // rowGap: '3px',
                     flexGrow: 1,
                     justifyContent: 'center',
                     position: 'relative',
@@ -109,6 +112,7 @@ export function HeroSwiper({ products }) {
                         fontSize: '12px !important',
                         letterSpacing: '0%',
                         color: '#878787',
+                        textDecoration: 'underline',
                       }}
                     >
                       {item?.categories[0]?.name}
@@ -121,25 +125,27 @@ export function HeroSwiper({ products }) {
                       color: '#000 !important',
                       fontSize: { xs: '14px', md: '16px' },
                       maxWidth: { xs: '100px', md: '100%' },
+                      fontWeight: 300,
                     }}
                   >
                     {item?.name}
                   </Typography>
 
-                  <ProductListPrice
-                    sx={{
-                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                    }}
-                    {...item?.price_range?.minimum_price}
-                  />
-
                   <Box
                     sx={{
-                      position: 'absolute',
-                      bottom: '0px',
-                      right: { xs: '5px', md: '15px' },
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      columnGap: '3px',
                     }}
                   >
+                    <ProductListPrice
+                      sx={{
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      }}
+                      {...item?.price_range?.minimum_price}
+                    />
+
                     <AddProductsToCartFab sku={item?.sku} isButton={true} />
                   </Box>
                 </Box>

@@ -68,9 +68,10 @@ export function DesktopNavItem(
       sx={[
         {
           whiteSpace: 'nowrap',
-          padding: activeValue ? '7px 16px' : { lg: '5px 8px', xl: '8px 16px' },
+          padding: activeValue ? '7px 16px' : { lg: '7px 12px', xl: '7px 20px' },
           background: activeValue && '#F6DBE0',
           borderRadius: activeValue && '999px',
+          fontSize: { xs: '14px', xl: '16px' },
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

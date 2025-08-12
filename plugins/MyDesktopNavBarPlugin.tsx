@@ -15,7 +15,7 @@ export function DesktopNavBar(props: PluginProps<MenuTabsProps>) {
   const customRootSx = {
     display: { xs: 'none', lg: 'flex !important' },
     justifyContent: 'center',
-    columnGap: '5px',
+    columnGap: { xs: 0, lg: '2px', xl: '5px' },
     // columnGap: { md: '15px', xl: '30px' },
   }
 

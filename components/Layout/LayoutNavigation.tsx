@@ -51,7 +51,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           width: '100%',
           ['& .LayoutDefault-header']: {
             height: { xs: '65px', md: '80px' },
-            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
 
             ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
           },
@@ -71,6 +71,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                       borderRadius: '999px',
                       fontSize: '16px',
                       border: '1px solid transparent',
+                      fontWeight: 300,
+                      lineHeight: 'normal !important',
                       '&:hover': {
                         border: '1px solid #F6DBE0',
                       },
@@ -81,6 +83,22 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     {menus?.name}
                   </DesktopNavItem>
                 ))}
+              <DesktopNavItem
+                sx={{
+                  transition: 'all 0.4s ease',
+                  borderRadius: '999px',
+                  fontSize: '16px',
+                  border: '1px solid transparent',
+                  fontWeight: 300,
+                  lineHeight: 'normal !important',
+                  '&:hover': {
+                    border: '1px solid #F6DBE0',
+                  },
+                }}
+                href={`/events}`}
+              >
+                Corporate & events
+              </DesktopNavItem>
             </DesktopNavBar>
 
             <DesktopNavActions>
@@ -91,8 +109,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   sx: {
                     backgroundColor: (theme) => theme.palette.custom.border,
                     borderRadius: '50%',
-                    width: { xs: '35px', md: '35px', xl: '40px' },
-                    height: { xs: '30px', md: '35px', xl: '40px' },
+                    width: { xs: '35px', md: '36px' },
+                    height: { xs: '30px', md: '35px' },
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -107,11 +125,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     },
 
                     ['& .MuiBadge-root']: {
-                      left: '5px',
+                      left: '4px',
                       top: '5px',
                     },
                     '&  svg': {
-                      fontSize: { lg: '25px', xl: '28px' },
+                      fontSize: { lg: '24px' },
                       stroke: 'unset !important',
                     },
                   },
@@ -120,8 +138,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
               <WishlistFab
                 sx={{
-                  width: { xs: '35px', xl: '40px' },
-                  height: { xs: '30px', md: '35px', xl: '40px' },
+                  width: { xs: '36px' },
+                  height: { xs: '30px', md: '36px' },
                   borderRadius: '50%',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -130,7 +148,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   backgroundColor: (theme) => theme.palette.custom.border,
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   '&  svg': {
-                    fontSize: { xs: '20px', xl: '24px' },
+                    fontSize: { xs: '19px' },
                     strokeWidth: '1.5',
                   },
                   ' &:focus ': {
@@ -150,8 +168,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               />
               <CustomerFab
                 sx={{
-                  width: { md: '35px', xl: '40px' },
-                  height: { md: '35px', xl: '40px' },
+                  width: { md: '36px' },
+                  height: { md: '35px' },
                   borderRadius: '50%',
                   color: (theme) => theme.palette.custom.main,
                   display: { xs: 'none', lg: 'inline-flex' },
@@ -159,9 +177,10 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   justifyContent: 'center',
                   backgroundColor: (theme) => theme.palette.custom.border,
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
+
                   '&  svg': {
                     // width: '1em',
-                    fontSize: { md: '20px', lg: '25px', xl: '28px' },
+                    fontSize: { md: '22px' },
                     stroke: 'unset !important',
                   },
                   '&:focus': {
@@ -188,8 +207,8 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: (theme) => theme.palette.custom.main,
-                  width: { md: '35px', xl: '40px' },
-                  height: { md: '35px', xl: '40px' },
+                  width: { md: '38px' },
+                  height: { md: '37px' },
                   borderRadius: '50%',
                   backgroundColor: (theme) => theme.palette.custom.border,
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
@@ -200,12 +219,18 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     backgroundColor: 'transparent',
                   },
                   ['& .MuiBadge-root']: {
-                    left: '8px',
-                    top: '3px',
+                    left: '6px',
+                    top: '2px',
                   },
                   '& svg': {
-                    fontSize: { md: '27px', xl: '30px' },
+                    fontSize: { md: '25px' },
                     stroke: 'unset !important',
+                  },
+                  '& .MuiButtonBase-root': {
+                    height: 'unset !important',
+                    width: 'unset !important',
+                    boxShadow: 'none',
+                    backgroundColor: 'none',
                   },
                 }}
               />

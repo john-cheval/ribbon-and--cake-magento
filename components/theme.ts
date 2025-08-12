@@ -251,9 +251,9 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
     breakpoints: {
       values: {
         xs: 0,
-        sm: 640,
-        md: 768,
-        lg: 1024,
+        sm: 641,
+        md: 769,
+        lg: 1025,
         xl: 1536,
       },
     },

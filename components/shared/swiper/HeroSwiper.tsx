@@ -16,7 +16,6 @@ import {
 
 export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
-  console.log(products, 'this is the products')
 
   return (
     <Box
@@ -29,7 +28,7 @@ export function HeroSwiper({ products }) {
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          // modules={[Autoplay]}
+          modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
@@ -57,99 +56,112 @@ export function HeroSwiper({ products }) {
         >
           {products?.map((item, index) => (
             <SwiperSlide key={item?.id || index}>
-              <Box
-                sx={{
-                  background:
-                    'linear-gradient(90deg, rgba(255, 255, 255, 0.73) 0%, rgba(255, 255, 255, 0.79) 100%)',
-                  backdropFilter: 'blur(4.050000190734863px)',
-                  padding: { xs: '7px', md: '10px' },
-                  borderRadius: '8px',
-                  display: 'flex',
-                  gap: { xs: '10px', md: '12px' },
-                  alignItems: 'center',
-                  border: '1px solid #fff',
-                  '& picture': {
-                    width: { xs: '70px', md: '100px' },
-                    height: { xs: '70px', md: '100px' },
-                  },
+              <Link
+                href={`/p/${item?.url_key}`}
+                passHref
+                legacyBehavior
+                style={{
+                  textDecoration: 'none',
+                  cursor: 'pointer',
                 }}
               >
-                <Image
-                  src={item?.small_image?.url}
-                  alt={item?.name || 'product Image'}
-                  // width={100}
-                  // height={100}
-                  // sizes='100vw'
-                  layout='fill'
-                  sx={{
-                    width: '100%',
-                    // maxWidth: { xs: '70px', md: '100px' },
-                    //maxHeight: { xs: '70px', md: '100px' },
-                    height: '100%',
-                    // maxHeight: '100px',
-                    objectFit: 'cover',
-                    borderRadius: '4px',
-                  }}
-                />
-
                 <Box
-                  component='div'
+                  component='a'
                   sx={{
+                    background:
+                      'linear-gradient(90deg, rgba(255, 255, 255, 0.73) 0%, rgba(255, 255, 255, 0.79) 100%)',
+                    backdropFilter: 'blur(4.050000190734863px)',
+                    padding: { xs: '7px', md: '10px' },
+                    borderRadius: '8px',
                     display: 'flex',
-                    flexDirection: 'column',
-                    // rowGap: '3px',
-                    flexGrow: 1,
-                    justifyContent: 'center',
-                    position: 'relative',
+                    gap: { xs: '10px', md: '12px' },
+                    alignItems: 'center',
+                    border: '1px solid #fff',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                    '& picture': {
+                      width: { xs: '70px', md: '100px' },
+                      height: { xs: '70px', md: '100px' },
+                    },
                   }}
                 >
-                  {item?.categories?.length > 0 && (
+                  <Image
+                    src={item?.small_image?.url}
+                    alt={item?.name || 'product Image'}
+                    // width={100}
+                    // height={100}
+                    // sizes='100vw'
+                    layout='fill'
+                    sx={{
+                      width: '100%',
+                      // maxWidth: { xs: '70px', md: '100px' },
+                      //maxHeight: { xs: '70px', md: '100px' },
+                      height: '100%',
+                      // maxHeight: '100px',
+                      objectFit: 'cover',
+                      borderRadius: '4px',
+                    }}
+                  />
+
+                  <Box
+                    component='div'
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      // rowGap: '3px',
+                      flexGrow: 1,
+                      justifyContent: 'center',
+                      position: 'relative',
+                    }}
+                  >
+                    {item?.categories?.length > 0 && (
+                      <Typography
+                        component='p'
+                        sx={{
+                          fontWeight: 300,
+                          lineHeight: '170%',
+                          fontSize: '12px !important',
+                          letterSpacing: '0%',
+                          color: '#878787',
+                          textDecoration: 'underline',
+                        }}
+                      >
+                        {item?.categories[0]?.name}
+                      </Typography>
+                    )}
+
                     <Typography
                       component='p'
                       sx={{
+                        color: '#000 !important',
+                        fontSize: { xs: '14px', md: '16px' },
+                        maxWidth: { xs: '100px', md: '100%' },
                         fontWeight: 300,
-                        lineHeight: '170%',
-                        fontSize: '12px !important',
-                        letterSpacing: '0%',
-                        color: '#878787',
-                        textDecoration: 'underline',
                       }}
                     >
-                      {item?.categories[0]?.name}
+                      {item?.name}
                     </Typography>
-                  )}
 
-                  <Typography
-                    component='p'
-                    sx={{
-                      color: '#000 !important',
-                      fontSize: { xs: '14px', md: '16px' },
-                      maxWidth: { xs: '100px', md: '100%' },
-                      fontWeight: 300,
-                    }}
-                  >
-                    {item?.name}
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      columnGap: '3px',
-                    }}
-                  >
-                    <ProductListPrice
+                    <Box
                       sx={{
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        columnGap: '3px',
                       }}
-                      {...item?.price_range?.minimum_price}
-                    />
+                    >
+                      <ProductListPrice
+                        sx={{
+                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        }}
+                        {...item?.price_range?.minimum_price}
+                      />
 
-                    <AddProductsToCartFab sku={item?.sku} isButton={true} />
+                      <AddProductsToCartFab sku={item?.sku} isButton={true} />
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

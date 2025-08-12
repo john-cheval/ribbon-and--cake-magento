@@ -92,7 +92,7 @@ function ProductPage(props: Props) {
     products?.items?.[0],
     relatedUpsells?.items?.find((item) => item?.uid === products?.items?.[0]?.uid),
   )
-
+  console.log(product, 'this is product data')
   const cart = useCartQuery(CartPageDocument, {
     errorPolicy: 'all',
     fetchPolicy: 'cache-and-network',

@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { GoPlus } from 'react-icons/go'
 import { LuMinus } from 'react-icons/lu'
 
-export default function MenuAccordion({
+export default function SideBarFilterAccordion({
   linksData,
   expanded,
   onChange,

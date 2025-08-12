@@ -1,42 +1,45 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..e4c4a75 100644
+index f94c113..3dddebd 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-@@ -1,8 +1,9 @@
+@@ -1,8 +1,10 @@
  import type { BoxProps, ButtonProps, SxProps, Theme } from '@mui/material'
 -import { alpha, Box, ButtonBase, lighten } from '@mui/material'
 -import React from 'react'
-+import { alpha, Box, ButtonBase, Checkbox, FormControl, FormControlLabel, lighten } from '@mui/material'
++import { alpha, Box, ButtonBase, Checkbox, FormControl, FormControlLabel, lighten, Radio } from '@mui/material'
 +import React, { KeyboardEvent } from 'react'
  import { extendableComponent, responsiveVal } from '../Styles'
  import { breakpointVal } from '../Styles/breakpointVal'
 +import { Trans } from '@lingui/react'
++import { RadioButtonGroup } from '@graphcommerce/ecommerce-ui'
  
  type Variants = 'outlined' | 'default'
  type Size = 'large' | 'medium' | 'small' | 'responsive'
-@@ -50,7 +51,7 @@ export type ActionCardProps<C extends React.ElementType = typeof Box> = {
+@@ -50,7 +52,7 @@ export type ActionCardProps<C extends React.ElementType = typeof Box> = {
      reset?: BoxProps
      end?: BoxProps
    }
 -}
-+} & { isFilter?: boolean }
++} & { isFilter?: boolean,isRadioBtn?:boolean }
  
  const parts = [
    'root',
-@@ -121,8 +122,12 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -121,8 +123,14 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      layout = 'list',
      error = false,
      slotProps = {},
-+    isFilter = false
++    isFilter = false,
++    isRadioBtn = false
 +    // control
 +    // isCheckbox = false,
    } = props
  
++console.log(value,"==>value");
 +
    const classes = withState({
      disabled,
      selected,
-@@ -134,6 +139,26 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -134,6 +142,44 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
      error,
    })
  
@@ -60,10 +63,28 @@ index f94c113..e4c4a75 100644
 +    )
 +  }
 +
++  if(isRadioBtn){
++    return(
++      <FormControlLabel
++        control={
++          <Radio
++            sx={{
++              color: 'red',
++            }}
++            checked={selected}
++            onClick={onClick ? (event) => onClick(event, value) : undefined}
++          />
++        }
++        value={value}
++        label={title}
++      />
++    )
++  }
++
    return (
      <ButtonOrBox
        className={classes.root}
-@@ -305,6 +330,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
+@@ -305,6 +351,7 @@ export function ActionCard<C extends React.ElementType = typeof Box>(props: Acti
                alignItems: 'flex-start',
              }}
            >
@@ -218,7 +239,7 @@ index c705a8c..4d3370c 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
-index ca14954..d9cc8dd 100644
+index ca14954..df06aeb 100644
 --- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 +++ b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 @@ -3,8 +3,8 @@ import type { MotionImageAspectProps, ScrollerButtonProps } from '@graphcommerce
@@ -243,11 +264,11 @@ index ca14954..d9cc8dd 100644
  import { extendableComponent } from '../Styles'
  import { responsiveVal } from '../Styles/responsiveVal'
 +import { ProductPageGalleryFragment } from '@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.gql'
-+//import {
-+//  ProductWishlistIconButton,
-+//} from '@graphcommerce/magento-wishlist'
++import {
++  ProductWishlistIconButton,
++} from '@graphcommerce/magento-wishlist'
 +
-+import { AddProductsToCartForm } from '@graphcommerce/magento-product'
++import { AddProductsToCartForm, ProductListItemFragment } from '@graphcommerce/magento-product'
  
  const MotionBox = styled(m.div)({})
  
@@ -255,7 +276,7 @@ index ca14954..d9cc8dd 100644
    variantMd?: SidebarGalleryVariant
    beforeScroller?: React.ReactNode
    afterScroller?: React.ReactNode
-+  product:any
++  product?:ProductListItemFragment & ProductPageGalleryFragment
  } & Pick<ScrollerButtonProps, 'showButtons'>
  
  export function SidebarGallery(props: SidebarGalleryProps) {
@@ -350,51 +371,52 @@ index ca14954..d9cc8dd 100644
                      sizes={{
                        0: '100vw',
                        [theme.breakpoints.values.md]: zoomed ? '100vw' : '60vw',
-@@ -260,6 +272,43 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -258,8 +270,44 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                     dontReportWronglySizedImages
+                   />
                  ))}
++                {product?.sku&& <Box sx={{position:'absolute', right:'22px', top:'30px', zIndex:1000, display:{xs:'block',lg:'none'} }}>
++                  wislisticon
++                {/* <ProductWishlistIconButton
++                      {...product}
++                      sx={{
++                        backgroundColor: (theme) => theme.palette.primary.contrastText,
++                        padding: 0,
++                        height: '40px',
++                        width: '40px',
++                        border: '1px solid #F6DBE0',
++                        transition: 'all 0.4s ease-in-out',
++                        '&:hover': {
++                          backgroundColor: 'transparent',
++                        },
++                        '&:focus': {
++                          backgroundColor: (theme: any) => theme.palette.custom.border,
++                        },
++                        '&:active': {
++                          backgroundColor: (theme: any) => theme.palette.custom.border,
++                        },
++                        '&.Mui-focusVisible': {
++                          backgroundColor: (theme: any) => theme.palette.custom.border,
++                        },
++                        '& .MuiTouchRipple-root': {
++                          color: (theme: any) => theme.palette.custom.border,
++                        },
++                        '& svg': {
++                          stroke: (theme: any) => theme.palette.custom.main,
++                        },
++                        '& svg.ProductWishlistChipBase-wishlistIconActive': {
++                          stroke: (theme: any) => theme.palette.custom.border,
++                        },
++                      }}
++                    /> */}
++                 </Box>}
                </Scroller>
                {afterScroller}
-+              <Box sx={{position:'absolute', right:'22px', top:'30px', zIndex:1000, display:{xs:'block',lg:'none'} }}>
-+                wishlistIcon
-+
-+             {/*   <ProductWishlistIconButton
-+                    {...product}
-+                    sx={{
-+                      backgroundColor: (theme) => theme.palette.primary.contrastText,
-+                      padding: 0,
-+                      height: '40px',
-+                      width: '40px',
-+                      border: '1px solid #F6DBE0',
-+                      transition: 'all 0.4s ease-in-out',
-+                      '&:hover': {
-+                        backgroundColor: 'transparent',
-+                      },
-+                      '&:focus': {
-+                        backgroundColor: (theme: any) => theme.palette.custom.border,
-+                      },
-+                      '&:active': {
-+                        backgroundColor: (theme: any) => theme.palette.custom.border,
-+                      },
-+                      '&.Mui-focusVisible': {
-+                        backgroundColor: (theme: any) => theme.palette.custom.border,
-+                      },
-+                      '& .MuiTouchRipple-root': {
-+                        color: (theme: any) => theme.palette.custom.border,
-+                      },
-+                      '& svg': {
-+                        stroke: (theme: any) => theme.palette.custom.main,
-+                      },
-+                      '& svg.ProductWishlistChipBase-wishlistIconActive': {
-+                        stroke: (theme: any) => theme.palette.custom.border,
-+                      },
-+                    }}
-+                  />*/} 
-+              </Box>
 +              {/* 
                <MotionBox
                  layout='position'
                  layoutDependency={zoomed}
-@@ -289,8 +338,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -289,8 +337,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                      )}
                    </Fab>
                  )}
@@ -406,7 +428,7 @@ index ca14954..d9cc8dd 100644
                  className={classes.centerLeft}
                  sx={{
                    display: 'grid',
-@@ -332,7 +382,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -332,7 +381,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                  >
                    <IconSvg src={iconChevronRight} />
                  </ScrollerButton>
@@ -415,7 +437,7 @@ index ca14954..d9cc8dd 100644
  
                <Box
                  className={classes.bottomCenter}
-@@ -349,14 +399,20 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -349,14 +398,20 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    },
                  }}
                >
@@ -438,7 +460,7 @@ index ca14954..d9cc8dd 100644
            </TrapFocus>
            <Box
              className={classes.sidebarWrapper}
-@@ -401,6 +457,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -401,6 +456,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
            </Box>
          </MotionBox>
        </Row>

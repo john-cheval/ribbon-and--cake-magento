@@ -69,35 +69,12 @@ function CategoryPage(props: CategoryProps) {
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
 
+  // console.log(category, 'this is the category')
+  // console.log(menu?.items[0]?.children, 'this is the children of the menu')
+
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
-      {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
-        <LayoutTitle size='small' component='span'>
-          {category?.name}
-        </LayoutTitle>
-      </LayoutHeader> */}
-      {/* isCategory && isLanding && (
-        <>
-          {import.meta.graphCommerce.breadcrumbs && (
-            <Container maxWidth={false}>
-              <CategoryBreadcrumbs
-                category={category}
-                sx={(theme) => ({
-                  height: 0,
-                  [theme.breakpoints.down('md')]: {
-                    '& .MuiBreadcrumbs-ol': { justifyContent: 'center' },
-                  },
-                })}
-              />
-            </Container>
-          )}
-          <CategoryHeroNav
-            {...category}
-            title={<CategoryHeroNavTitle>{category?.name}</CategoryHeroNavTitle>}
-          />
-        </>
-      ) */}
 
       {isCategory && !isLanding && (
         <InnerTop

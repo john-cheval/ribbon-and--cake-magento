@@ -10,3 +10,110 @@ index 6f4add4..f5be44e 100644
    const cartShipping = cart?.shipping_addresses?.[0]
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
+diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
+index a128fe9..b6ddc0e 100644
+--- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
++++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
+@@ -1,6 +1,7 @@
+ import type { UseFormComposeOptions } from '@graphcommerce/ecommerce-ui'
+ import {
+   CheckboxElement,
++  ComposedForm,
+   FormAutoSubmit,
+   FormPersist,
+   TelephoneElement,
+@@ -24,7 +25,7 @@ import {
+ import { CountryRegionsDocument, StoreConfigDocument } from '@graphcommerce/magento-store'
+ import { Form, FormRow } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/macro'
+-import type { SxProps, Theme } from '@mui/material'
++import { Box, Typography, type SxProps, type Theme } from '@mui/material'
+ import React from 'react'
+ import { isCartAddressACustomerAddress } from '../../utils/findCustomerAddressFromCartAddress'
+ import { isSameAddress } from '../../utils/isSameAddress'
+@@ -32,6 +33,7 @@ import { GetAddressesDocument } from './GetAddresses.gql'
+ import { SetBillingAddressDocument } from './SetBillingAddress.gql'
+ import { SetShippingAddressDocument } from './SetShippingAddress.gql'
+ import { SetShippingBillingAddressDocument } from './SetShippingBillingAddress.gql'
++import { EmailForm } from '@graphcommerce/magento-cart-email'
+ 
+ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
+   /**
+@@ -138,10 +140,49 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+       />
+ 
+       <CompanyFields form={form} />
+-      <NameFields form={form} />
+-      <AddressFields form={form} />
+-
++     <NameFields form={form} />
+       <FormRow>
++      
++        <EmailForm
++          step={1}
++             sx={{
++                '& .MuiInputLabel-formControl': {
++                          color: (theme) => theme.palette.custom. main,
++                      //    marginBottom:'clamp(10px, (9.14px + 0.27vw), 16px)',
++                           fontSize: { xs: '14px', md: '16px' },
++                           lineHeight: '158%',
++                           fontWeight: 400,
++
++                                '&.Mui-focused': {
++                                  color: (theme) => theme.palette.custom.main,
++                                },
++                                '& .MuiFormLabel-asterisk': {
++                                  display: 'none',
++                                },
++                              },
++
++                              '& .MuiOutlinedInput-root': {
++                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
++                                borderRadius: '4px',
++
++                                '&:hover': {
++                                  border: (theme) => `1px solid ${theme.palette.custom.main}`,
++                                },
++                                '&.Mui-focused': {
++                                  border: (theme) => `1px solid ${theme.palette.custom.main}`,
++                                },
++
++                                '& .MuiOutlinedInput-notchedOutline': {
++                                  border: 'none',
++                                },
++                              },
++            }}
++           />
++   
++        <FormRow sx={{
++          paddingTop:0,
++          paddingBottom:0,
++        }}>
+         <TelephoneElement
+           control={form.control}
+           name='telephone'
+@@ -150,6 +191,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+           showValid
+         />
+       </FormRow>
++      </FormRow>
++
++      <Box>
++        <Typography sx={{
++          color: (theme) => theme.palette.custom.dark,
++          fontSize: { xs: '16px', md: '20px' },
++          marginTop:'15px',
++        //  marginBottom: { xs: '10px', md: '15px' },
++          textTransform: 'capitalize',
++          fontWeight: 400,
++          fontVariationSettings: '"wght" 400',
++        }}>Your Address</Typography>
++
++      <AddressFields form={form} />
++      </Box>
++      
++
++    
+       {customerQuery?.customer && (
+         <CheckboxElement
+           control={form.control}

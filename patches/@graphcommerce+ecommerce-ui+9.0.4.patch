@@ -151,3 +151,29 @@ index d6afcc5..d396279 100644
                  ...(Array.isArray(sx) ? sx : [sx]),
                  color: invalid ? 'error.main' : undefined,
                }}
+diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/EmailElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/EmailElement.tsx
+index 17f5055..2803608 100644
+--- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/EmailElement.tsx
++++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/EmailElement.tsx
+@@ -15,7 +15,7 @@ export function EmailElement<TFieldValues extends FieldValues>(
+   return (
+     <TextFieldElement
+       type='email'
+-      label={<Trans id='Email address' />}
++      label={<Trans id='Email ' />}
+       autoComplete='email'
+       rules={{
+         pattern: {
+diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
+index dc4fb00..ef8da17 100644
+--- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
++++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
+@@ -14,7 +14,7 @@ export function TelephoneElement<TFieldValues extends FieldValues>(
+   return (
+     <TextFieldElement
+       type='text'
+-      label={<Trans>Telephone</Trans>}
++      label={<Trans>Phone</Trans>}
+       autoComplete='tel'
+       rules={{
+         pattern: { value: phonePattern, message: t`Invalid phone number` },

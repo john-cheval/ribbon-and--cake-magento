@@ -119,10 +119,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }
 
   // console.log(isLoading, 'isloading')
-  console.log(allPageItems, 'allpageItems')
+  // console.log(allPageItems, 'allpageItems')
   // console.log(currentPage, 'products items')
-  console.log(totalPage, 'totalPage')
-  console.log(currentPage, 'currentPage')
+  // console.log(totalPage, 'totalPage')
+  // console.log(currentPage, 'currentPage')
+  // console.log(menuList, 'thisish')
 
   useEffect(() => {
     if (products?.items) {
@@ -133,11 +134,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }, [products?.items])
 
   useEffect(() => {
-    console.log('useEffect called', 'observing')
+    // console.log('useEffect called', 'observing')
     const observer = new IntersectionObserver(async ([entry]) => {
       console.log(entry?.isIntersecting, 'isIntersecting')
       if (entry.isIntersecting && currentPage < totalPage) {
-        console.log('IntersectionObserver triggered')
+        // console.log('IntersectionObserver triggered')
         setCurrentPage((prev) => prev + 1)
         await fetchProducts(currentPage + 1)
       }

@@ -155,7 +155,7 @@ function ShippingPage(props: ShippingPageProps) {
               <Typography
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontsize: { xs: '16px', md: '20px' },
+                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
                   lineHeight: '120%',
                   marginBottom: { xs: '10px', md: '14px' },
                 }}
@@ -201,6 +201,11 @@ function ShippingPage(props: ShippingPageProps) {
                         fontSize: '40px',
                         stroke: 'unset !important',
                       },
+                      '& .FullPageMessage-iconWrapper': {
+                        position: 'relative',
+                        top: { xs: '24px' },
+                        right: { xs: '-7px' },
+                      },
                     }}
                     disableMargin
                   >
@@ -216,7 +221,7 @@ function ShippingPage(props: ShippingPageProps) {
               <Typography
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontsize: { xs: '18px', md: '20px' },
+                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
                   lineHeight: '120%',
                   marginTop: { xs: '18px', md: '27px' },
                   marginBottom: { xs: '10px', md: '20px' },
@@ -272,6 +277,8 @@ function ShippingPage(props: ShippingPageProps) {
                         borderRadius: '4px',
                         textTransform: 'capitalize',
                         fontWeight: 400,
+                        minHeight: { xs: '40px', md: '48px' },
+                        padding: { xs: '10px 14x', md: '12px 16px' },
                         border: (theme) => `1px solid ${theme.palette.custom.border}`,
                         transition: 'background-color 0.3s ease, border 0.3s ease, color 0.3s ease',
                         '&.Mui-selected': {
@@ -383,7 +390,7 @@ function ShippingPage(props: ShippingPageProps) {
               <Typography
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontsize: { xs: '18px', md: '20px' },
+                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
                   lineHeight: '120%',
                   marginTop: { xs: '18px', md: '27px' },
                   marginBottom: { xs: '10px', md: '20px' },
@@ -410,7 +417,7 @@ function ShippingPage(props: ShippingPageProps) {
               <Typography
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontsize: { xs: '18px', md: '20px' },
+                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
                   lineHeight: '120%',
                   marginTop: { xs: '18px', md: '27px' },
                   marginBottom: { xs: '10px', md: '20px' },

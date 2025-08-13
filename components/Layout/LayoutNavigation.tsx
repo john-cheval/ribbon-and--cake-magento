@@ -305,7 +305,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     height: 'unset !important',
                     width: 'unset !important',
                     boxShadow: 'none',
-                    backgroundColor: 'transparent 1important',
+                    backgroundColor: 'transparent !important',
                   },
                   '& .mui-style-1jnnhmg-MuiButtonBase-root-MuiFab-root': {
                     minHeight: 'unset',

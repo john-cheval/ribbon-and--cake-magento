@@ -18,46 +18,29 @@ import {
   ProductPageAddToCartActionsRow,
   ProductPageBreadcrumbs,
   productPageCategory,
-  // ProductPageDescription,
   ProductPageGallery,
   ProductPageJsonLd,
   ProductPageMeta,
   ProductPageName,
-  ProductScroller,
   ProductShortDescription,
-  // ProductSpecs,
 } from '@graphcommerce/magento-product'
 import { defaultConfigurableOptionsSelection } from '@graphcommerce/magento-product-configurable'
-// import { RecentlyViewedProducts } from '@graphcommerce/magento-recently-viewed-products'
-import { jsonLdProductReview, ProductReviewChip } from '@graphcommerce/magento-review'
-import { Money, redirectOrNotFound, StoreConfigDocument } from '@graphcommerce/magento-store'
-import {
-  // ProductWishlistChip,
-  ProductWishlistChipDetail,
-  ProductWishlistIconButton,
-} from '@graphcommerce/magento-wishlist'
+import { jsonLdProductReview } from '@graphcommerce/magento-review'
+import { redirectOrNotFound, StoreConfigDocument } from '@graphcommerce/magento-store'
+import { ProductWishlistIconButton } from '@graphcommerce/magento-wishlist'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import {
-  // isTypename,
-  // LayoutHeader,
-  // LayoutTitle,
-  nonNullable,
-  OverlayStickyBottom,
-  responsiveVal,
-} from '@graphcommerce/next-ui'
+import { OverlayStickyBottom } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
-// import { Trans } from '@lingui/react'
 import { Box, Typography } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import type { GetStaticPaths } from 'next'
 import Link from 'next/link'
 import type { LayoutNavigationProps } from '../../components'
-import { LayoutDocument, LayoutNavigation, productListRenderer } from '../../components'
+import { LayoutDocument, LayoutNavigation } from '../../components'
 import HomeProductListMobile from '../../components/Home/components/HomeProductListMobile'
 import { AddProductsToCartView } from '../../components/ProductView/AddProductsToCartView'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { linkStyle, ProductSwiper } from '../../components/shared/swiper/ProductSwiper'
-// import { Reviews } from '../../components/ProductView/Reviews'
 import { fontSize } from '../../components/theme'
 import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
@@ -92,7 +75,6 @@ function ProductPage(props: Props) {
     products?.items?.[0],
     relatedUpsells?.items?.find((item) => item?.uid === products?.items?.[0]?.uid),
   )
-  console.log(product, 'this is product data')
   const cart = useCartQuery(CartPageDocument, {
     errorPolicy: 'all',
     fetchPolicy: 'cache-and-network',
@@ -153,13 +135,11 @@ function ProductPage(props: Props) {
             marginBottom: { xs: 0 },
           },
           '& .SidebarGallery-scrollerContainer': {
-            // height: '100%',
             overflow: 'hidden',
             '& .Scroller-root .MotionImageAspect picture': {
               aspectRatio: 'unset !important',
               overflow: 'hidden',
-              //  width: '100%',
-              //  height: '100%',
+
               borderRadius: '8px',
             },
             '& .SidebarGallery-bottomCenter': {
@@ -221,12 +201,6 @@ function ProductPage(props: Props) {
           },
         }}
       >
-        {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
-          <LayoutTitle size='small' component='span'>
-            <ProductPageName product={product} />
-          </LayoutTitle>
-        </LayoutHeader> */}
-
         <ProductPageJsonLd
           product={product}
           render={(p) => ({
@@ -258,10 +232,6 @@ function ProductPage(props: Props) {
           sx={(theme) => ({
             '& .SidebarGallery-sidebar': {
               display: 'grid',
-              rowGap: { xs: '10px', md: '15px' },
-              // backgroundColor: 'red',
-              //  padding: '0 !important',
-              // paddingLeft: { xs: '18px', md: '25px', xl: '55px' },
             },
           })}
           disableSticky
@@ -301,15 +271,6 @@ function ProductPage(props: Props) {
             }}
           >
             <div>
-              {/*isTypename(product, ['ConfigurableProduct', 'BundleProduct']) && (
-              <Typography component='div' variant='body1' color='text.disabled'>
-                <Trans
-                  id='As low as <0/>'
-                  components={{ 0: <Money {...product.price_range.minimum_price.final_price} /> }}
-                />
-              </Typography>
-            ) */}
-
               <Box
                 sx={{ display: { xs: 'none', lg: 'flex' }, flexDirection: 'column', rowGap: '3px' }}
               >
@@ -390,7 +351,6 @@ function ProductPage(props: Props) {
                 })}
                 product={product}
               />
-              {/*  <ProductReviewChip rating={product.rating_summary} reviewSectionId='reviews' /> */}
             </div>
 
             <AddProductsToCartView product={product} />
@@ -399,7 +359,6 @@ function ProductPage(props: Props) {
           <OverlayStickyBottom
             sx={{
               py: 0.1,
-              // px: { xs: '5px', md: '20px', lg: '30px' },
               bottom: 'unset !important',
               '& .CartTotals-root ': {
                 backgroundColor: 'transparent',
@@ -412,6 +371,7 @@ function ProductPage(props: Props) {
             <ProductPageAddToCartActionsRow
               product={product}
               sx={{
+                display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
                 columnGap: { xs: 0, sm: '10px', md: '15px' },
                 alignItems: { xs: 'center', lg: 'end' },
@@ -444,33 +404,13 @@ function ProductPage(props: Props) {
                   // paddingBlock: { xs: '15px', md: '18px' },
                   boxShadow: 'none !important',
                   width: { xs: '100%', sm: '50%' },
-                  paddingRight: 0,
+                  // paddingRight: 0,
                   '&:hover': {
                     backgroundColor: 'white !important',
                   },
                 }}
               />
-              {/*  <ProductWishlistChipDetail
-              {...product}
-              bigButton={true}
-              sx={{
-                backgroundColor: '#9B7C38',
-                color: '#FFFFFF',
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                fontWeight: 500,
-                lineHeight: '158%',
-                borderRadius: '4px',
-                border: '1px solid #9B7C38 ',
-                transition: 'all 0.3s ease',
-                boxShadow: 'none !important',
-                paddingBlock: { xs: '15px', md: '18px' },
-                '&:hover': {
-                  backgroundColor: 'white !important',
-                  color: '#441E14',
-                },
-              }}
-            />
-            */}
+
               <CartStartCheckout
                 title='Buy Now'
                 sx={{
@@ -498,12 +438,9 @@ function ProductPage(props: Props) {
             </ProductPageAddToCartActionsRow>
           </OverlayStickyBottom>
         </ProductPageGallery>
-
-        {/*    <ProductPageDescription product={product} fontSize='responsive' right='' />*/}
       </AddProductsToCartForm>
 
       {/* Relative Products */}
-
       {product?.related_products && product?.related_products?.length > 0 && (
         <Box
           sx={{
@@ -533,80 +470,21 @@ function ProductPage(props: Props) {
             </Box>
           </Box>
 
-          {/*   <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
-            <ProductSwiper
-              // data={cakesCategories?.children}
-              link='/cakes'
-              // initial={cakesCategories?.children[0]?.name}
-              productList={product?.related_products}
-            />
+          <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
+            <ProductSwiper link='/cakes' productList={product?.related_products ?? []} />
           </Box>
 
           <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
             <HomeProductListMobile
-              // data={cakesCategories?.children}
               link='/cakes'
-              // initial={cakesCategories?.children[0]?.name}
               count={4}
-              productList={product?.related_products}
+              productList={product?.related_products ?? []}
               isCategory={false}
+              isRelated={true}
             />
-          </Box>*/}
+          </Box>
         </Box>
       )}
-
-      {/* <ProductSpecs title='Specs' {...products} /> 
-       <Reviews title='Reviews' {...product} /> 
-       */}
-
-      {/*product.related_products && product.related_products.length > 0 && (
-        <ProductScroller
-          title='Explore our other cakes'
-          items={product.related_products.filter(nonNullable)}
-          productListRenderer={productListRenderer}
-          sizes={responsiveVal(200, 400)}
-          sx={{
-            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
-          }}
-          itemScrollerProps={{
-            sx: (theme) => ({
-              mb: theme.spacings.xxl,
-              '& .ItemScroller-scroller': { gridAutoColumns: responsiveVal(200, 400) },
-            }),
-          }}
-        />
-      )*/}
-
-      {/* 
-      {product.upsell_products && product.upsell_products.length > 0 && (
-        <ProductScroller
-          title='You may also like'
-          items={product.upsell_products.filter(nonNullable)}
-          productListRenderer={productListRenderer}
-          sizes={responsiveVal(200, 400)}
-          itemScrollerProps={{
-            sx: (theme) => ({
-              mb: theme.spacings.xxl,
-              '& .ItemScroller-scroller': { gridAutoColumns: responsiveVal(200, 400) },
-            }),
-          }}
-        />
-      )}
-
-      <RecentlyViewedProducts
-        title={<Trans id='Recently viewed products' />}
-        exclude={[product.sku]}
-        productListRenderer={productListRenderer}
-        sizes={responsiveVal(200, 400)}
-        itemScrollerProps={{
-          sx: (theme) => ({
-            mb: theme.spacings.xxl,
-            '& .ItemScroller-scroller': { gridAutoColumns: responsiveVal(200, 400) },
-          }),
-        }}
-        sx={(theme) => ({ mb: theme.spacings.xxl })}
-      />
-      */}
     </PrivateQueryMaskProvider>
   )
 }

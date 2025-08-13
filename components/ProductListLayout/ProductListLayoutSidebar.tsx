@@ -48,6 +48,7 @@ import filterSvg from '../Assets/filter.svg'
 import mix from '../Assets/mix.svg'
 import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
+import Loading from '../shared/Loading'
 import type { ProductListLayoutProps } from './types'
 import { useLayoutConfiguration } from './types'
 
@@ -117,13 +118,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     setAllPageItems([...allPageItems, ...(pageProducts.data.products?.items ?? [])])
     setIsLoading(false)
   }
-
-  // console.log(isLoading, 'isloading')
-  // console.log(allPageItems, 'allpageItems')
-  // console.log(currentPage, 'products items')
-  // console.log(totalPage, 'totalPage')
-  // console.log(currentPage, 'currentPage')
-  // console.log(menuList, 'thisish')
 
   useEffect(() => {
     if (products?.items) {
@@ -217,10 +211,10 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           )}
           <Box
             ref={loaderRef}
-            sx={{ height: 80, width: '100%', background: 'red' }}
+            //sx={{ height: 80, width: '100%', background: 'red' }}
             component='div'
           >
-            {isLoading ? 'loading' : 'Call the Api'}
+            {isLoading && <Loading />}
           </Box>
         </Box>
 

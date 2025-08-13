@@ -68,8 +68,6 @@ function CartPage() {
             justifySelf: 'flex-start',
           },
         }}
-        // switchPoint={0}
-        // primary={<CartStartCheckoutLinkOrButton cart={data?.cart} disabled={hasError} />}
         divider={
           <Container>
             <Divider sx={{ background: 'rgba(199, 202, 205, 0.42)' }} />
@@ -77,15 +75,6 @@ function CartPage() {
         }
       >
         <LayoutTitle size='small' component='span'>
-          {/*hasItems ? (
-            <Trans
-              id='Total <0/>'
-              components={{ 0: <Money {...data?.cart?.prices?.grand_total} /> }}
-            />
-          ) : (
-            <Trans id='Cart' />
-          )*/}
-
           <Typography variant='h2' component='h2'>
             Cart
           </Typography>
@@ -163,6 +152,13 @@ function CartPage() {
                     fontWeight: 'normal',
                     colummGap: '2px',
                   },
+                  '& .ActionCard-end .ActionCard-action .edit-actions': {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    '& form .MuiButtonBase-root': {
+                      marginTop: '-5px',
+                    },
+                  },
                   '& .ActionCard-end .ActionCard-action .MuiBox-root:nth-child(2)': {
                     display: { xs: 'none', md: 'inline-flex' },
                   },
@@ -191,7 +187,8 @@ function CartPage() {
                 pt: 0.1,
                 pb: { xs: '10px', md: '20px', lg: '30px' },
                 px: { xs: '15px', sm: '20px', lg: '30px' },
-                boxShadow: '1px 3px 8px #000',
+                //boxShadow: '1px 3px 8px #000',
+                position: 'absolute',
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 width: '100%',
                 // bottom: '0',

@@ -14,7 +14,9 @@ function HomeProductListMobile({
   count = 4,
   isCategory = true,
   productList = [],
+  isRelated = false,
 }) {
+  const itemToRenderer = productList ?? []
   const [selectedCategory, setSelectedCategory] = useState(data?.[0]?.name || initial)
   const [showAll, setShowAll] = useState(false)
   const [allPageItems, setAllPageItems] = useState([])
@@ -22,6 +24,7 @@ function HomeProductListMobile({
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchProducts = async (categoryId) => {
+    if (itemToRenderer?.length > 0) return
     setIsLoading(true)
 
     const pageProducts = await client.query({
@@ -37,7 +40,7 @@ function HomeProductListMobile({
     setAllPageItems([...(pageProducts.data.products?.items ?? [])])
     setIsLoading(false)
   }
-  const sourceArray = isCategory ? allPageItems : productList
+  const sourceArray = isCategory ? allPageItems : isRelated ? itemToRenderer : productList
   const itemsToRender = showAll ? sourceArray : sourceArray?.slice(0, count)
 
   function handleCategoryClick(category) {

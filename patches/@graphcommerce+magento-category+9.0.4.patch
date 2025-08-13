@@ -1,0 +1,20 @@
+diff --git a/node_modules/@graphcommerce/magento-category/queries/MenuQueryFragment.graphql b/node_modules/@graphcommerce/magento-category/queries/MenuQueryFragment.graphql
+index 0d018d1..92de014 100644
+--- a/node_modules/@graphcommerce/magento-category/queries/MenuQueryFragment.graphql
++++ b/node_modules/@graphcommerce/magento-category/queries/MenuQueryFragment.graphql
+@@ -5,12 +5,15 @@ fragment MenuQueryFragment on Query {
+       ...NavigationItem
+       children {
+         uid
++        id
+         ...NavigationItem
+         children {
+           uid
++          id
+           ...NavigationItem
+           children {
+             uid
++            id
+             ...NavigationItem
+           }
+         }

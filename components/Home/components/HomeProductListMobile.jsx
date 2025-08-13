@@ -1,9 +1,11 @@
-import { AddProductsToCartForm } from '@graphcommerce/magento-product'
+import { AddProductsToCartForm, ProductListDocument } from '@graphcommerce/magento-product'
 import { RenderType } from '@graphcommerce/next-ui'
+import { useApolloClient } from '@apollo/client'
 import { Box, Typography, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { productListRenderer } from '../../ProductListItems'
+import Loading from '../../shared/Loading'
 
 function HomeProductListMobile({
   data = [],
@@ -11,14 +13,43 @@ function HomeProductListMobile({
   initial = '',
   count = 4,
   isCategory = true,
-  productList,
+  productList = [],
 }) {
   const [selectedCategory, setSelectedCategory] = useState(data?.[0]?.name || initial)
   const [showAll, setShowAll] = useState(false)
-  const itemsToRender = showAll ? productList : productList.slice(0, count)
+  const [allPageItems, setAllPageItems] = useState([])
+  const client = useApolloClient()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const isMobile = useMediaQuery('(max-width:550px)')
+  const fetchProducts = async (categoryId) => {
+    setIsLoading(true)
 
+    const pageProducts = await client.query({
+      query: ProductListDocument,
+      variables: {
+        pageSize: 10,
+        currentPage: 1,
+        filters: {
+          category_id: { eq: categoryId },
+        },
+      },
+    })
+    setAllPageItems([...(pageProducts.data.products?.items ?? [])])
+    setIsLoading(false)
+  }
+  const sourceArray = isCategory ? allPageItems : productList
+  const itemsToRender = showAll ? sourceArray : sourceArray?.slice(0, count)
+
+  function handleCategoryClick(category) {
+    setSelectedCategory(category?.name)
+    fetchProducts(String(category?.id))
+  }
+
+  const isMobile = useMediaQuery('(max-width:420px)')
+
+  useEffect(() => {
+    fetchProducts(String(data?.[0]?.id))
+  }, [])
   return (
     <Box>
       {/* Prodct Cards Categories */}
@@ -48,7 +79,7 @@ function HomeProductListMobile({
             <Box
               component='span'
               key={index}
-              onClick={() => setSelectedCategory(category?.name)}
+              onClick={() => handleCategoryClick(category)}
               sx={{
                 backgroundColor:
                   selectedCategory === category?.name
@@ -85,69 +116,78 @@ function HomeProductListMobile({
         </Box>
       )}
       {/* Prodct Cards */}
-      <AddProductsToCartForm>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
-            columnGap: '13px',
-            rowGap: '16px',
-            marginTop: { xs: '10px', sm: '15px' },
-          }}
-        >
-          {itemsToRender?.map((product, index) => (
+
+      {isLoading ? (
+        <Box>
+          <Loading />
+        </Box>
+      ) : (
+        <>
+          <AddProductsToCartForm>
             <Box
-              key={product?.uid || index}
               sx={{
-                '& .ProductListItem-imageContainer ': {
-                  borderRadius: 'none !important',
-                  '& img': {
-                    borderRadius: '8px',
-                  },
-                },
-                '& .ProductListItem-titleContainer': {
-                  '& .ProductListItem-title': {
-                    color: (theme) => theme.palette.custom.dark,
-                    minHeight: { xs: '40px', md: '50px' },
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                    lineHeight: '158%',
-                    minWidth: { xs: '130px' },
-                    maxWidth: { xs: '100%' },
-                  },
-                  '& .MuiButtonBase-root': {
-                    width: { xs: '45px', sm: '50px' },
-                    height: { xs: '45px', sm: '50px' },
-                  },
-                },
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
+                columnGap: '13px',
+                rowGap: '16px',
+                marginTop: { xs: '10px', sm: '15px' },
               }}
             >
-              <RenderType renderer={productListRenderer} {...product} />
+              {itemsToRender?.map((product, index) => (
+                <Box
+                  key={product?.uid || index}
+                  sx={{
+                    '& .ProductListItem-imageContainer ': {
+                      borderRadius: 'none !important',
+                      '& img': {
+                        borderRadius: '8px',
+                      },
+                    },
+                    '& .ProductListItem-titleContainer': {
+                      '& .ProductListItem-title': {
+                        color: (theme) => theme.palette.custom.dark,
+                        // minHeight: { xs: '40px', md: '50px' },
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        lineHeight: '158%',
+                        minWidth: { xs: '130px' },
+                        maxWidth: { xs: '100%' },
+                      },
+                      '& .MuiButtonBase-root': {
+                        width: { xs: '45px', sm: '50px' },
+                        height: { xs: '45px', sm: '50px' },
+                      },
+                    },
+                  }}
+                >
+                  <RenderType renderer={productListRenderer} {...product} />
+                </Box>
+              ))}
             </Box>
-          ))}
-        </Box>
-      </AddProductsToCartForm>
+          </AddProductsToCartForm>
 
-      {/* Show */}
+          {/* Show */}
 
-      {productList?.length > count && (
-        <Box textAlign='center' mt={2}>
-          <Typography
-            onClick={() => setShowAll(!showAll)}
-            sx={{
-              fontSize: '14px',
-              fontWeight: 500,
-              color: (theme) => theme.palette.custom.main,
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              '&:hover': {
-                color: (theme) => theme.palette.custom.main,
-                background: 'transparent',
-              },
-            }}
-          >
-            {showAll ? 'Show Less' : 'View All'}
-          </Typography>
-        </Box>
+          {sourceArray?.length > count && (
+            <Box textAlign='center' mt={2}>
+              <Typography
+                onClick={() => setShowAll(!showAll)}
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: (theme) => theme.palette.custom.main,
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: (theme) => theme.palette.custom.main,
+                    background: 'transparent',
+                  },
+                }}
+              >
+                {showAll ? 'Show Less' : 'View All'}
+              </Typography>
+            </Box>
+          )}
+        </>
       )}
     </Box>
   )

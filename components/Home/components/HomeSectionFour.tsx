@@ -10,7 +10,7 @@ export function HomeSectionFour(props) {
     <Box
       component='section'
       sx={{
-        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px' },
         display: 'grid',
         columnGap: { xs: '0', md: '20px', lg: '25px', xl: '35px' },
@@ -56,19 +56,40 @@ export function HomeSectionFour(props) {
                             '& img': {
                               borderRadius: '8px',
                             },
+                            '& .ProductListItem-topLeft': {
+                              gridArea: 'unset',
+                            },
                             '& .ProductListItem-topRight .MuiButtonBase-root': {
-                              border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
-                              transition: 'all 0.4s ease-in-out',
-                              '&:hover': {
-                                boxShadow: '1px 3px 1px 0px rgb(0 0 0/ 0.6)',
+                              padding: '9px',
+                              '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                                fontSize: '18px',
+                              },
+
+                              '&:hover ': {
+                                '& svg': {
+                                  fill: (theme) => theme.palette.custom.wishlistColor,
+                                },
                               },
                             },
                           },
-                          '& .ProductListItem-titleContainer .ProductListItem-title': {
-                            color: (theme: any) => theme.palette.custom.dark,
-                            minHeight: '50px',
-                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                            lineHeight: '158%',
+                          '& .ProductListItem-titleContainer': {
+                            rowGap: { xs: '2px', md: '0' },
+                            '& .ProductListItem-title': {
+                              color: (theme) => theme.palette.custom.dark,
+                              //  minHeight: '50px',
+                              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                              lineHeight: '158%',
+                            },
+                            '& .MuiButtonBase-root': {
+                              width: '45px',
+                              height: '45px',
+
+                              '& svg': {
+                                fontSize: '28px',
+                                left: '7px',
+                                top: '4px',
+                              },
+                            },
                           },
                         }}
                       >
@@ -92,19 +113,40 @@ export function HomeSectionFour(props) {
                             '& img': {
                               borderRadius: '8px',
                             },
+                            '& .ProductListItem-topLeft': {
+                              gridArea: 'unset',
+                            },
                             '& .ProductListItem-topRight .MuiButtonBase-root': {
-                              border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
-                              transition: 'all 0.4s ease-in-out',
-                              '&:hover': {
-                                boxShadow: '1px 3px 1px 0px rgb(0 0 0/ 0.6)',
+                              padding: '9px',
+                              '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                                fontSize: '18px',
+                              },
+
+                              '&:hover ': {
+                                '& svg': {
+                                  fill: (theme) => theme.palette.custom.wishlistColor,
+                                },
                               },
                             },
                           },
-                          '& .ProductListItem-titleContainer .ProductListItem-title': {
-                            color: (theme: any) => theme.palette.custom.dark,
-                            minHeight: '50px',
-                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                            lineHeight: '158%',
+                          '& .ProductListItem-titleContainer': {
+                            rowGap: { xs: '2px', md: '0' },
+                            '& .ProductListItem-title': {
+                              color: (theme) => theme.palette.custom.dark,
+                              //  minHeight: '50px',
+                              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                              lineHeight: '158%',
+                            },
+                            '& .MuiButtonBase-root': {
+                              width: '45px',
+                              height: '45px',
+
+                              '& svg': {
+                                fontSize: '28px',
+                                left: '7px',
+                                top: '4px',
+                              },
+                            },
                           },
                         }}
                       >

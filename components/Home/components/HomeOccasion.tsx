@@ -1,9 +1,9 @@
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { ProductSwiper } from '../../shared/swiper/ProductSwiper'
 import HomeProductListMobile from './HomeProductListMobile'
 
 export function HomeOccasion(props) {
-  const { occasionCategories, products, title } = props
+  const { occasionCategories, title } = props
   const splittedOccastionCategories = occasionCategories?.children?.slice(0, 6)
 
   return (
@@ -21,7 +21,6 @@ export function HomeOccasion(props) {
           data={splittedOccastionCategories}
           link='/cakes'
           initial={splittedOccastionCategories?.[0]?.name}
-          productList={products}
         />
       </Box>
 
@@ -31,7 +30,6 @@ export function HomeOccasion(props) {
           link='/cakes'
           initial={splittedOccastionCategories?.[0]?.name}
           count={4}
-          productList={products}
         />
       </Box>
     </Box>

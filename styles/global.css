@@ -198,6 +198,14 @@
   flex-direction: column;
   row-gap: 20px;
 }
+.sectionThreeWrapper .left-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.sectionThreeWrapper .left-content-wrapper p {
+  margin-bottom: 5px;
+}
 .left-content-wrapper {
   width: 100%;
 }
@@ -234,6 +242,7 @@
   /*padding-top: 26px;
   padding-bottom: 30px;*/
   line-height: 1.2;
+  padding-top: 20px;
 }
 .customize-details {
   position: relative;
@@ -243,7 +252,6 @@
   color: #6f6f6f;
   font-weight: 400;
   line-height: 170%;
-  text-transform: uppercase;
   margin: 0;
 }
 .customize-details::before {
@@ -266,6 +274,7 @@
   background: linear-gradient(90deg, #f1a8b6 0%, #fff 100%);
   transition: all 0.5s ease;
 }
+
 .customize-title {
   color: #000;
   font-weight: 400;
@@ -330,7 +339,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 400px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -363,7 +372,7 @@
   border-radius: 8px;
 }
 .order-button {
-  padding: 16px 60px;
+  padding: 10px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -504,7 +513,19 @@
   z-index: 1;
   background-size: cover;
 }
-
+.cta-action::after {
+  position: absolute;
+  background-image: url('../components/Assets/banner.png');
+  content: '';
+  top: 30px;
+  width: 100%;
+  height: 25px;
+  left: 0;
+  background-size: cover;
+  z-index: 1;
+  background-position: center center;
+  rotate: -2deg;
+}
 /*----------------------------- Contact ----------------*/
 .contactLeftWrapper {
   position: relative;
@@ -698,7 +719,7 @@ ol {
     font-size: 14px;
   }
   .left-svg {
-    top: 45%;
+    top: 40%;
   }
   .events-detail p:nth-of-type(2) {
     margin-top: 20px;
@@ -719,6 +740,10 @@ ol {
   .justin {
     margin-bottom: 17px;
   }
+  .cta-action::after {
+    top: 50px;
+    height: 40px;
+  }
   .home-section-title {
     text-align: left;
   }
@@ -730,6 +755,9 @@ ol {
 
   .container-wrapper {
     padding-inline: 25px;
+  }
+  .order-button {
+    padding: 16px 60px;
   }
   .home-banner-content .heading {
     width: 450px;
@@ -761,6 +789,9 @@ ol {
   .swiper_testi::after {
     left: 20%;
     width: 150px;
+  }
+  .banner-section {
+    height: 300px;
   }
   .responsive-fonts,
   .coursesInner ol,
@@ -833,14 +864,15 @@ ol {
     margin-block: 25px 35px;
   }
   .sectionThreeWrapper {
-    padding-top: 50px;
+    padding-top: 40px;
     column-gap: 15px;
   }
-  .box-content-wrapper .customize-item {
-    column-gap: 30px;
-  }
+
   .customize-details {
     padding-block: 24px;
+  }
+  .customize-index {
+    padding-top: 24px;
   }
   .customize-title {
     font-size: 20px;
@@ -872,6 +904,13 @@ ol {
   .banner-overlay-gradient {
     top: 79px;
   }
+  .sectionThreeWrapper .left-content-wrapper {
+    row-gap: 15px;
+  }
+  .cta-action::after {
+    top: 90px;
+    height: 55px;
+  }
   .about-image-wrapper {
     margin-top: 70px;
   }
@@ -880,6 +919,9 @@ ol {
   }
   .text-center-lg {
     text-align: left;
+  }
+  .banner-section {
+    height: 400px;
   }
   .contents {
     padding-bottom: 25px;
@@ -892,6 +934,9 @@ ol {
   }
   .social-box .content a {
     font-size: 20px;
+  }
+  .sectionThreeWrapper .left-content-wrapper p {
+    margin-bottom: 7px;
   }
   .left-svg {
     top: 50%;
@@ -915,12 +960,12 @@ ol {
     margin-top: 34px;
   }
   .sectionThreeWrapper {
-    padding-top: 75px;
+    padding-top: 65px;
     column-gap: 30px;
     flex-direction: row;
   }
   .left-content-wrapper {
-    width: 30%;
+    width: 45%;
   }
   .left-content-wrapper .heading-main,
   .left-content-wrapper p {
@@ -939,11 +984,11 @@ ol {
     padding: 60px 50px;
     position: absolute;
     top: 50%;
-    right: 55px;
+    right: 0;
     transform: translateY(-50%);
     z-index: 101;
     margin-top: 0;
-    width: 50%;
+    width: 52%;
   }
   .home-collection-title {
     text-align: left;
@@ -973,7 +1018,7 @@ ol {
     padding-inline: 0;
   }
   .overlay-title {
-    margin-bottom: 8px;
+    /*margin-bottom: 8px;*/
     text-align: left;
   }
   .overlay-description {
@@ -1004,9 +1049,7 @@ ol {
   .home-banner-content .heading {
     font-size: 45px;
   }
-  .sectionThreeWrapper {
-    padding-top: 100px;
-  }
+
   .image-wrapper img {
     max-height: 612px;
   }
@@ -1021,7 +1064,7 @@ ol {
     width: 41.666667%;
   }
   .overlay-description {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     max-width: 350px;
   }
 }

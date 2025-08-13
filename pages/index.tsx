@@ -15,9 +15,6 @@ export type CmsBlocksProps = { cmsBlocks?: any; layoutData?: any; menu?: any }
 
 export type StoryProductsProps = {
   justInProducts?: any[]
-  storyproducts?: any[]
-  occasionsproducts: any[]
-  minBytesproducts: any[]
   statementCakesProducts: any[]
 }
 
@@ -26,15 +23,7 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 export type CmsPageRouteProps = LayoutNavigationProps & CmsBlocksProps & StoryProductsProps
 
 function CmsPage(props: CmsPageRouteProps) {
-  const {
-    cmsBlocks,
-    justInProducts,
-    storyproducts,
-    menu,
-    occasionsproducts,
-    minBytesproducts,
-    statementCakesProducts,
-  } = props
+  const { cmsBlocks, justInProducts, menu, statementCakesProducts } = props
 
   const homesHeroData = cmsBlocks.find((block) => block.identifier === 'slider')
   const justInHome = cmsBlocks.find((block) => block.identifier === 'just-in-home')
@@ -56,8 +45,7 @@ function CmsPage(props: CmsPageRouteProps) {
   const decodedHomeCeleberations = decodeHtmlEntities(homeCeleberationsData?.content)
   const decodedHomeImagination = decodeHtmlEntities(homeImaginationData?.content)
 
-  const section4Data = minBytesproducts
-
+  // console.log(menu?.items[0], 'this is the darta')
   return (
     <>
       <PageMeta
@@ -71,17 +59,13 @@ function CmsPage(props: CmsPageRouteProps) {
         Categories={menu?.items[0]?.children}
         justInProductList={justInProducts}
         justinHeading={decodedHomeHeroJustIn}
-        cakes={storyproducts}
         statementProducts={statementCakesProducts}
-        occasionProdcutList={occasionsproducts}
-        miniBytesProductList={minBytesproducts}
         storyTitle={decodedHomeStory}
         occasionTitle={decodedHomeOccasions}
         miniBytesTitle={decodedHomeMinibyts}
         CollectionSectionData={decodedHomeCollections}
         homeCta={decodedHomeCta}
         homeCeleberate={decodedHomeCeleberations}
-        sectionFourProducts={section4Data}
         homeImagination={decodedHomeImagination}
         homeHeroData={decodedHomeHero}
       />
@@ -142,17 +126,6 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
-  const sweetStoryQuery = await staticClient.query({
-    query: ProductListDocument,
-    variables: {
-      pageSize: 10,
-      currentPage: 1,
-      filters: {
-        category_id: { eq: '16' },
-      },
-    },
-  })
-
   const statementCakesQuery = await staticClient.query({
     query: ProductListDocument,
     variables: {
@@ -164,46 +137,18 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
-  const OccasionsQuery = await staticClient.query({
-    query: ProductListDocument,
-    variables: {
-      pageSize: 10,
-      currentPage: 1,
-      filters: {
-        category_id: { eq: '25' },
-      },
-    },
-  })
-
-  const MniBytesQuery = await staticClient.query({
-    query: ProductListDocument,
-    variables: {
-      pageSize: 10,
-      currentPage: 1,
-      filters: {
-        category_id: { eq: '28' },
-      },
-    },
-  })
-
   // const result = await cmsPageQuery
   // const cmsPage = result.data.cmsPage
   const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
   const justInProducts = (await JustInQuery).data?.products?.items
-  const storyproducts = (await sweetStoryQuery).data.products?.items
   const statementCakesProducts = (await statementCakesQuery).data.products?.items
-  const occasionsproducts = (await OccasionsQuery).data.products?.items
-  const minBytesproducts = (await MniBytesQuery).data.products?.items
   const layoutData = (await layout)?.data
   return {
     props: {
       // cmsPage: cmsPage,
       cmsBlocks,
       justInProducts,
-      storyproducts,
       statementCakesProducts,
-      occasionsproducts,
-      minBytesproducts,
       ...(await layout).data,
       layoutData,
       apolloState: await conf.then(() => client.cache.extract()),

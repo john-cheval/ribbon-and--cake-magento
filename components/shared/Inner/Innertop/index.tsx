@@ -1,34 +1,16 @@
 import { Image } from '@graphcommerce/image'
 import {
-  CategoryDefaultFragment,
   ProductFiltersPro,
   ProductFiltersProSortSection,
   ProductListCount,
 } from '@graphcommerce/magento-product'
-import {
-  Box,
-  Breadcrumbs,
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  SxProps,
-  Theme,
-  Typography,
-} from '@mui/material'
+import { Box, SelectChangeEvent, SxProps, Theme, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { CategoryPageQuery } from '../../../../graphql/CategoryPage.gql'
 import { iconCloseAccordion, iconOpenAccordion } from '../../../../plugins/icons'
 import { ProductListLayoutProps } from '../../../ProductListLayout'
-import CustomSelectInput from '../../Inputs/CustomSelectInput'
 import rightArrow from './arrow_right.svg'
-
-function capitalizeFirstLetter(str?: string) {
-  if (!str) return ''
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
 
 type InnerTopBaseProps = {
   count?: number | null
@@ -47,21 +29,6 @@ type InnerTopWithoutFiltersProps = InnerTopBaseProps & {
 export type InnerTopProps = InnerTopWithFiltersProps | InnerTopWithoutFiltersProps
 
 export function InnerTop(props: InnerTopProps) {
-  // const {
-  //   count,
-  //   title,
-  //   isFilter,
-  //   mainTitle,
-  //   responsiveTitle,
-  //   sx,
-  //   filterTypes,
-  //   params,
-  //   products,
-  //   handleSubmit,
-  //   category,
-  //   menu,
-  //   filters,
-  // } = props
   const { count, title, isFilter, mainTitle, responsiveTitle, sx } = props
   const router = useRouter()
 
@@ -70,22 +37,9 @@ export function InnerTop(props: InnerTopProps) {
     : router.query.url
       ? [router.query.url]
       : []
-  // const routes = Array.isArray(router.query.url) ? router.query.url[0] : undefined
-  // const capitalizedRoute = capitalizeFirstLetter(routes)
-  const [sortValue, setSortValue] = useState('Latest')
-  // console.log(title, 'this is the title')
-
-  const handleSortChange = (event: SelectChangeEvent) => {
-    setSortValue(event.target.value as string)
-    // Here you would typically trigger a re-fetch of products based on the new sortValue
-    // router.push({
-    //   pathname: router.pathname,
-    //   query: { ...router.query, sort: event.target.value },
-    // });
-  }
 
   return (
-    <Box sx={{ paddingInline: { xs: '18px', md: '25px', xl: '55px' } }}>
+    <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
       <Box
         sx={[
           {
@@ -107,6 +61,13 @@ export function InnerTop(props: InnerTopProps) {
               display: 'flex',
               columnGap: { xs: '3px', sm: '5px', md: '10px' },
               alignItems: 'center',
+              overflowX: { xs: 'auto', md: 'none' },
+              whiteSpace: 'nowrap',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              scrollbarWidth: 'none',
+              '-ms-overflow-style': 'none',
             }}
           >
             <Typography
@@ -114,7 +75,7 @@ export function InnerTop(props: InnerTopProps) {
               sx={{
                 color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
-                fontSize: { xs: '14px', md: '16px' },
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
               }}
             >
               <Link href='/'>Home</Link>
@@ -140,7 +101,7 @@ export function InnerTop(props: InnerTopProps) {
                   sx={{
                     color: (theme: any) => theme.palette.custom.tertiary,
                     fontWeight: 400,
-                    fontSize: { xs: '14px', md: '16px' },
+                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
                   }}
                 >
                   {title}
@@ -233,45 +194,6 @@ export function InnerTop(props: InnerTopProps) {
             </Box>
 
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-              {/* <Typography
-                variant='p'
-                sx={{
-                  color: (theme: any) => theme.palette.custom.main,
-                  fontWeight: 500,
-                }}
-              >
-                Sort by :{' '}
-              </Typography>
-
-              <FormControl variant='standard' sx={{ m: 0, minWidth: 120 }}>
-                {' '}
-                <Select
-                  value={sortValue}
-                  onChange={handleSortChange}
-                  displayEmpty
-                  input={<CustomSelectInput />}
-                  inputProps={{ 'aria-label': 'Sort by' }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        bgcolor: (theme: any) => theme.palette.custom.border,
-                        '& .MuiMenuItem-root': {
-                          // padding: 2,
-                          color: (theme: any) => theme.palette.custom.main,
-                          fontSize: { xs: '14px', md: '16px' },
-                          fontWeight: 500,
-                          lineHeight: '158%',
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value='Latest'>Latest</MenuItem>
-                  <MenuItem value='Price_ASC'>Price: Low to High</MenuItem>
-                  <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
-                  <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
-                </Select>
-              </FormControl>*/}
               {props.params && props.products?.items && props.filterTypes && (
                 <ProductFiltersPro
                   params={props.params}

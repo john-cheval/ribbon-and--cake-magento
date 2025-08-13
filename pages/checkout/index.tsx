@@ -126,7 +126,7 @@ function ShippingPage(props: ShippingPageProps) {
         <Box
           component='section'
           sx={{
-            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
             gridTemplateRows: { xs: 'auto', md: 'auto' },
@@ -483,7 +483,7 @@ function ShippingPage(props: ShippingPageProps) {
 
         <Box
           sx={{
-            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
             display: { xs: 'block', lg: 'none' },
           }}
         >

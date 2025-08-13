@@ -1,10 +1,6 @@
 import { Image } from '@graphcommerce/image'
 import { Box } from '@mui/material'
 
-// import Image from 'next/image'
-
-//import { courseInnerImages } from '../../../../constants/courses/inner/coursesInnerData'
-
 function ImageGallery({ courseInnerImages }) {
   if (!courseInnerImages || courseInnerImages.length === 0) return null
   return (
@@ -14,7 +10,8 @@ function ImageGallery({ courseInnerImages }) {
         gridTemplateColumns: {
           xs: 'repeat(2, 1fr)',
           sm: 'repeat(2, 1fr)',
-          md: 'repeat(12, 1fr)',
+          // Change this line to create 3 columns
+          md: 'repeat(3, 1fr)',
         },
         gap: {
           xs: '10px',
@@ -24,51 +21,30 @@ function ImageGallery({ courseInnerImages }) {
         width: '100%',
       }}
     >
-      {courseInnerImages.map((img, index) => {
-        let gridColumn: any = {}
-
-        if (index < 3) {
-          gridColumn = { md: 'span 4' }
-        } else if (index === 3) {
-          gridColumn = { md: 'span 8' }
-        } else if (index === 4) {
-          gridColumn = { md: 'span 4' }
-        }
-
-        if (index === 2) {
-          gridColumn.xs = 'span 2'
-        } else {
-          gridColumn.xs = 'span 1'
-        }
-
-        return (
-          <Box
-            key={index}
+      {courseInnerImages?.map((img, index) => (
+        <Box
+          key={index}
+          sx={{
+            borderRadius: '8px',
+            overflow: 'hidden',
+            gridColumn: 'span 1',
+          }}
+        >
+          <Image
+            src={`https://srv900162.hstgr.cloud/media/${img}`}
+            alt={`image-${index + 1}`}
+            width={500}
+            height={500}
             sx={{
-              gridColumn,
+              width: '100%',
+              height: 'auto',
+              objectFit: 'cover',
               borderRadius: '8px',
               overflow: 'hidden',
             }}
-          >
-            <Image
-              src={`https://srv900162.hstgr.cloud/media/${img}`}
-              alt={`image-${index + 1}`}
-              // fill
-              width={100}
-              height={100}
-              // width={280}
-              // height={300}
-              sx={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'cover',
-                borderRadius: '8px',
-                overflow: 'hidden',
-              }}
-            />
-          </Box>
-        )
-      })}
+          />
+        </Box>
+      ))}
     </Box>
   )
 }

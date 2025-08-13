@@ -9,7 +9,7 @@ function CourseInner({ course }) {
         paddingInline: {
           xs: '18px',
           md: '25px',
-          xl: '55px',
+          lg: '55px',
         },
         // paddingTop: { xs: '15px', sm: '25px', md: '35px', lg: '50px' },
         marginBottom: { xs: '35px', md: '45px' },
@@ -21,16 +21,16 @@ function CourseInner({ course }) {
     >
       <Box
         sx={{
-          gridColumn: { xs: 'auto', lg: 'span 8' },
+          gridColumn: { xs: 'auto', lg: 'span 7', xl: 'span 8' },
         }}
       >
         <InnerLeft coursesData={course} />
       </Box>
       <Box
         sx={{
-          gridColumn: { xs: 'auto', lg: 'span 4' },
+          gridColumn: { xs: 'auto', lg: 'span 5', xl: 'span 4' },
           position: { xs: 'static', lg: 'sticky' },
-          top: { xs: 'auto', lg: '100px' },
+          top: { xs: 'auto', lg: '50px', xl: '60px' },
           alignSelf: { xs: 'unset', lg: 'start' },
         }}
       >

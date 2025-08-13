@@ -84,7 +84,7 @@ function EnquiryForm() {
             id='custom-textarea'
             label='Message'
             multiline
-            rows={5}
+            rows={3}
             fullWidth
             variant='outlined'
             sx={{
@@ -127,8 +127,8 @@ function EnquiryForm() {
               transition: 'all 0.3s ease',
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
-              // width: '500px',
-              width: '100%',
+
+              width: { xs: '100%', md: '500px' },
 
               '&:hover': {
                 backgroundColor: (theme: any) => theme.palette.custom.border,

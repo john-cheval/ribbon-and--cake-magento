@@ -174,7 +174,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             /${configuration.sidebarWidth}   auto
             `,
           },
-          paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+          paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
         <Box

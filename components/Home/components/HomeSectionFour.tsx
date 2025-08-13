@@ -26,7 +26,7 @@ export function HomeSectionFour(props) {
           xl={5}
           sx={{
             position: { xs: 'unset', lg: 'sticky' },
-            top: { xs: 'unset', lg: '50px' },
+            top: { xs: 'unset', lg: '100px' },
             alignSelf: 'start',
           }}
         >

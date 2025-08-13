@@ -50,10 +50,10 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           left: '0',
           width: '100%',
           ['& .LayoutDefault-header']: {
-            height: { xs: '65px', md: '80px' },
+            height: { xs: '65px', md: '80px', lg: '90px' },
             paddingInline: { xs: '18px', md: '25px', lg: '55px' },
 
-            ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
+            ...(scroll ? { boxShadow: '0px -9px 24px #00000026' } : {}),
           },
         }}
         {...uiProps}
@@ -97,7 +97,23 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                 }}
                 href={`/events`}
               >
-                Corporate & events
+                Celebrate
+              </DesktopNavItem>
+              <DesktopNavItem
+                sx={{
+                  transition: 'all 0.4s ease',
+                  borderRadius: '999px',
+                  fontSize: '16px',
+                  border: '1px solid transparent',
+                  fontWeight: 300,
+                  lineHeight: 'normal !important',
+                  '&:hover': {
+                    border: '1px solid #F6DBE0',
+                  },
+                }}
+                href={`/courses`}
+              >
+                Baking Classes
               </DesktopNavItem>
             </DesktopNavBar>
 
@@ -109,7 +125,53 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               }}
             >
               <SearchField
-                formControl={{ sx: { width: '400px' } }}
+                formControl={{
+                  sx: {
+                    width: { xs: 'fit-content', sm: '300px', lg: '250px', xl: '350px' },
+                    color: (theme: any) => theme.palette.custom.main,
+                    '& .MuiOutlinedInput-root': {
+                      color: (theme) => theme.palette.custom.main,
+                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      borderRadius: '4px',
+                      '& input': {
+                        padding: {
+                          xs: '8px 12px',
+                          sm: '10px 12px',
+                          lg: '12px 14px',
+                          xl: '15px 14px',
+                        },
+                      },
+                      '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontStyle: 'normal',
+                        fontWeight: 400,
+                        lineHeight: '158%',
+                        color: (theme: any) => theme.palette.custom.main,
+                        opacity: 1,
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                      },
+
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                        borderWidth: '1px !important',
+                      },
+                      '& .MuiButtonBase-root': {
+                        '&:hover': {
+                          // backgroundColor: (theme) => theme.palette.custom.wishlistColor,
+                        },
+                        '& svg': {
+                          color: (theme) => theme.palette.custom.main,
+                          fontSize: '22px',
+                        },
+                      },
+                    },
+                  },
+                }}
                 searchField={{ productListRenderer }}
                 fab={{
                   sx: {
@@ -219,6 +281,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   borderRadius: '50%',
                   backgroundColor: (theme) => theme.palette.custom.border,
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                  transition: 'all 0.4s ease-in-out',
                   '&:focus': {
                     backgroundColor: (theme) => theme.palette.custom.border,
                   },
@@ -228,6 +291,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   ['& .MuiBadge-root']: {
                     left: '6px',
                     top: '2px',
+
+                    '& .MuiBadge-badge': {
+                      top: '3px',
+                      right: '11px',
+                    },
                   },
                   '& svg': {
                     fontSize: { md: '25px' },
@@ -237,7 +305,13 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     height: 'unset !important',
                     width: 'unset !important',
                     boxShadow: 'none',
-                    backgroundColor: 'none',
+                    backgroundColor: 'transparent 1important',
+                  },
+                  '& .mui-style-1jnnhmg-MuiButtonBase-root-MuiFab-root': {
+                    minHeight: 'unset',
+                    boxShadow: 'none',
+                    backgroundcolor: 'transparent',
+                    transition: 'unset',
                   },
                 }}
               />

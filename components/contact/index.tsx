@@ -14,7 +14,7 @@ function Contact(props: ContactPageTypeProps) {
         paddingInline: {
           xs: '18px',
           md: '25px',
-          xl: '55px',
+          lg: '55px',
         },
         // paddingTop: '18px',
         marginBottom: { xs: '20px', md: '35px', lg: '45px' },

@@ -14,6 +14,11 @@ query GetPostByName($url_key: String!) {
       created_at
       image
       gallery_images
+      tags {
+        items {
+          name
+        }
+      }
     }
   }
 }

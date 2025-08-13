@@ -28,7 +28,7 @@ export const linkStyle = css`
     text-decoration: none;
   }
 `
-export function ProductSwiper({ data = [], link = '/', initial = '' }) {
+export function ProductSwiper({ data = [], link = '/', initial = '', productList = [] }) {
   const swiperRef = useRef(null)
   const [isLoading, setIsLoading] = useState(false)
 

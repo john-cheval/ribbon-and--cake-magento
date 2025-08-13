@@ -1,11 +1,6 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
-// import {
-//   courseInnerDataList,
-//   coursesInnerPara,
-// } from '../../../../constants/courses/inner/coursesInnerData'
 import { saxoGrammaticus } from '../../../../lib/fonts'
-// import banner from './banner.jpg'
 import ImageGallery from './ImageGallery'
 
 function InnerLeft({ coursesData }) {
@@ -34,42 +29,35 @@ function InnerLeft({ coursesData }) {
             borderRadius: '8px',
           }}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            columnGap: { xs: '5px', md: '12px' },
-            position: 'absolute',
-            top: { xs: '15px', md: '30px' },
-            left: { xs: '15px', md: '30px' },
-          }}
-        >
+
+        {coursesData?.tags?.items?.length > 0 && (
           <Box
             sx={{
-              padding: '6px 20px',
-              background: (theme: any) => theme.palette.custom.border,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: (theme: any) => theme.palette.custom.smallHeading,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              display: 'flex',
+              columnGap: { xs: '5px', md: '12px' },
+              position: 'absolute',
+              top: { xs: '15px', md: '30px' },
+              left: { xs: '15px', md: '30px' },
             }}
           >
-            Course 1
+            {coursesData?.tags?.items?.map((tag, index) => (
+              <Box
+                key={tag?.name || index}
+                sx={{
+                  padding: '6px 20px',
+                  background: (theme: any) => theme.palette.custom.border,
+                  borderRadius: '999px',
+                  border: '1px solid #F6DBE0',
+                  backdropFilter: 'blur(4.699999809265137px)',
+                  color: (theme: any) => theme.palette.custom.smallHeading,
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                }}
+              >
+                {tag?.name || 'tag'}
+              </Box>
+            ))}
           </Box>
-          <Box
-            sx={{
-              padding: '6px 20px',
-              background: (theme: any) => theme.palette.custom.border,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: (theme: any) => theme.palette.custom.smallHeading,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-            }}
-          >
-            2 Days
-          </Box>
-        </Box>
+        )}
       </Box>
 
       <div

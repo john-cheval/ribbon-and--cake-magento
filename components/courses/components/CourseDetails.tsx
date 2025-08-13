@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from '@mui/material'
-import { m, motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { cardVariants, containerVariants } from '../../../constants/animationVariation'
 import { coursesData } from '../../../constants/courses/coursesData'
@@ -60,7 +60,7 @@ function CourseDetail({ categories, coursesList }) {
         paddingInline: {
           xs: '18px',
           md: '25px',
-          xl: '55px',
+          lg: '55px',
         },
         // paddingTop: '18px',
         marginBottom: '30px',
@@ -198,11 +198,6 @@ function CourseDetail({ categories, coursesList }) {
               </MotionDiv>
             ))
           )}
-          {/*filteredCourses.map((course, index) => (
-            <MotionDiv key={index} variants={cardVariants}>
-              <CourseCard courseCardData={course} />
-            </MotionDiv>
-          ))*/}
         </MotionDiv>
 
         {/* Loading Indicator */}

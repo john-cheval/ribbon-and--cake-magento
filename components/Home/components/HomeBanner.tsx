@@ -37,7 +37,7 @@ export function HomeBanner({ content, productList, title }) {
           height: '100%',
           maxHeight: '73px',
           position: 'absolute',
-          top: { xs: '64px', md: '79px' },
+          top: { xs: '64px', md: '79px', lg: '89px' },
           left: 0,
         }}
       />

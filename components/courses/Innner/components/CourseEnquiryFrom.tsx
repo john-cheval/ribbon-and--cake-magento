@@ -45,7 +45,7 @@ function CourseEnquiryForm() {
         marginTop: { xs: '20px', md: '0' },
         backgroundColor: '#F6F6F6',
         borderRadius: '8px',
-        padding: { xs: '26px 14px', md: '35px 38px 40px' },
+        padding: { xs: '26px 14px', md: '30px 38px 40px' },
       }}
     >
       <Typography variant='h2' component='h3' sx={{ textTransform: 'uppercase' }}>
@@ -54,7 +54,7 @@ function CourseEnquiryForm() {
 
       <Box
         sx={{
-          marginTop: { xs: '10px', md: '30px' },
+          marginTop: { xs: '10px', md: '20px' },
           display: 'flex',
           rowGap: '11px',
           flexDirection: 'column',
@@ -78,14 +78,14 @@ function CourseEnquiryForm() {
             id='custom-textarea'
             label='Your Message (Optional)'
             multiline
-            rows={5}
+            rows={3}
             fullWidth
             variant='outlined'
             sx={{
-              mt: 2,
-              backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+              // mt: 2,
+              // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
               color: (theme: any) => theme.palette.custom.main,
-              fontSizse: '20px',
+              fontSize: '20px',
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {

@@ -10,7 +10,7 @@ function Clients({ clientsData }: ClientPropsType) {
       component='section'
       sx={{
         marginTop: { xs: '20px', md: '35px', lg: '50px' },
-        marginBottom: { xs: '30px', md: '45px', lg: '50px' },
+        marginBottom: { xs: '30px', md: '45px' },
       }}
     >
       <Typography
@@ -18,7 +18,7 @@ function Clients({ clientsData }: ClientPropsType) {
         component='h3'
         sx={{
           textAlign: 'center',
-          marginBottom: { xs: '10px', sm: '15px', md: '30px', xl: '40px' },
+          marginBottom: { xs: '10px', sm: '15px', md: '30px', lg: '20px' },
         }}
       >
         Corporate clients

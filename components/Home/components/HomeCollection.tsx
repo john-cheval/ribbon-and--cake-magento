@@ -8,7 +8,7 @@ export function HomeCollection(props) {
   return (
     <Box
       sx={{
-        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         paddingTop: { xs: '27px', sm: '35px', md: '50px', lg: '75px' },
         position: 'relative',
         overflow: 'hidden',

@@ -8,7 +8,7 @@ export function HomeJar(props) {
   return (
     <Box
       sx={{
-        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         paddingTop: { xs: '30px', md: '45px', lg: '60px', xl: '80px' },
         paddingBottom: { xs: '30px', sm: '35px', md: '40px', lg: '55px' },
       }}

@@ -103,7 +103,7 @@ const darkPalette: ThemePaletteOptions = {
   },
   background: {
     default: '#121212',
-    paper: '#1E1E1E',
+    paper: '#fff',
     image: '#ffffff',
   },
   divider: '#ffffff30',

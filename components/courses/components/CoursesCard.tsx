@@ -17,17 +17,17 @@ function CourseCard(props) {
           sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
         />
 
-        <Box
-          sx={{
-            display: 'flex',
-            columnGap: '5px',
-            position: 'absolute',
-            top: { xs: '15px', md: '20px' },
-            right: { xs: '15px', md: '20px' },
-          }}
-        >
-          {courseCardData?.tags?.items.length > 0 &&
-            courseCardData?.tags?.items?.map((tag, index) => (
+        {courseCardData?.tags?.items.length > 0 && (
+          <Box
+            sx={{
+              display: 'flex',
+              columnGap: '5px',
+              position: 'absolute',
+              top: { xs: '15px', md: '20px' },
+              right: { xs: '15px', md: '20px' },
+            }}
+          >
+            {courseCardData?.tags?.items?.map((tag, index) => (
               <Box
                 key={tag?.name || index}
                 sx={{
@@ -43,21 +43,8 @@ function CourseCard(props) {
                 {tag?.name}
               </Box>
             ))}
-
-          {/*<Box
-            sx={{
-              padding: { xs: '3px 12px', md: '5px 15px' },
-              background: (theme) => theme.palette.primary.contrastText,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: 'primary.main',
-              fontSize: { xs: '12px', sm: '14px' },
-            }}
-          >
-            2 Days
-          </Box>*/}
-        </Box>
+          </Box>
+        )}
       </CardMedia>
       <CardContent sx={{ padding: { xs: '2px 17px 17px', md: '10px 17px 17px' } }}>
         <Typography

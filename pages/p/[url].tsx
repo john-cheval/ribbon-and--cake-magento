@@ -533,7 +533,7 @@ function ProductPage(props: Props) {
             </Box>
           </Box>
 
-          <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
+          {/*   <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
             <ProductSwiper
               // data={cakesCategories?.children}
               link='/cakes'
@@ -551,7 +551,7 @@ function ProductPage(props: Props) {
               productList={product?.related_products}
               isCategory={false}
             />
-          </Box>
+          </Box>*/}
         </Box>
       )}
 

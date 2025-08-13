@@ -95,7 +95,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     border: '1px solid #F6DBE0',
                   },
                 }}
-                href={`/events}`}
+                href={`/events`}
               >
                 Corporate & events
               </DesktopNavItem>

@@ -101,7 +101,13 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
               </DesktopNavItem>
             </DesktopNavBar>
 
-            <DesktopNavActions>
+            <DesktopNavActions
+              sx={{
+                '& .MuiformControl': {
+                  border: 'none',
+                },
+              }}
+            >
               <SearchField
                 formControl={{ sx: { width: '400px' } }}
                 searchField={{ productListRenderer }}
@@ -117,6 +123,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     color: (theme) => theme.palette.custom.main,
                     border: (theme) => `1px solid ${theme.palette.custom.border}`,
                     transition: 'all 0.4s ease-in-out',
+                    //  '& .'
                     '&:focus': {
                       backgroundColor: (theme) => theme.palette.custom.border,
                     },

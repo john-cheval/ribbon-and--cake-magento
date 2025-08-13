@@ -1582,3 +1582,8 @@ ol {
     padding-top: 65px;
   }
 }
+@media (min-width: 550px) {
+  .clients {
+    justify-content: center;
+  }
+}

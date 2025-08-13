@@ -1,4 +1,3 @@
-import { WaitForQueries } from '@graphcommerce/ecommerce-ui'
 import {
   ApolloCartErrorAlert,
   CartStartCheckout,
@@ -7,13 +6,8 @@ import {
 } from '@graphcommerce/magento-cart'
 import { CartPageQuery } from '@graphcommerce/magento-cart-checkout'
 import { CouponAccordion } from '@graphcommerce/magento-cart-coupon'
-//import { CartCrosssellsScroller, CartItemsActionCards } from '@graphcommerce/magento-cart-items'
-// import { cartItemToCartItemInput } from '@graphcommerce/magento-cart-items/utils/cartItemToCartItemInput'
-import { FullPageMessage, OverlayStickyBottom } from '@graphcommerce/next-ui'
-// import { Trans } from '@lingui/react'
-import { Box, CircularProgress, Container, Typography } from '@mui/material'
-import { iconDelete } from '../../../plugins/icons'
-import { productListRenderer } from '../../ProductListItems'
+import { OverlayStickyBottom } from '@graphcommerce/next-ui'
+import { Box, Typography } from '@mui/material'
 import CartItems from './Cart/CartItems'
 
 export type OrderSummaryPropsType = {
@@ -133,7 +127,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 }}
               />
               <CartStartCheckout
-                title='Proceed To Pay'
+                title='Confirm Order'
                 sx={{
                   '& .MuiButtonBase-root': {
                     width: '100%',
@@ -170,6 +164,11 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
               '& svg': {
                 fontSize: '40px',
                 stroke: 'unset !important',
+              },
+              '& .FullPageMessage-iconWrapper': {
+                position: 'relative',
+                top: { xs: '24px' },
+                right: { xs: '9px' },
               },
             }}
             disableMargin

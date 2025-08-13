@@ -4,7 +4,7 @@ import { CartPageDocument } from '@graphcommerce/magento-cart-checkout'
 import { UpdateItemQuantity } from '@graphcommerce/magento-cart-items'
 import { AddProductsToCartButton, AddProductsToCartForm } from '@graphcommerce/magento-product'
 import { Money } from '@graphcommerce/magento-store'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 import { useState } from 'react'
 import { AdsOnProductsQuery } from '../../../graphql/AdsOnProduct.gql'
 
@@ -30,6 +30,7 @@ function AdsOnProduct(props: AdsOnProductType) {
       }
     })
   })
+  const isMobile = useMediaQuery('(max-width:700px)')
 
   const uniqueCategories = Array.from(allCategories)
   const cartItems = data?.cart?.items
@@ -38,7 +39,7 @@ function AdsOnProduct(props: AdsOnProductType) {
       <Typography
         sx={{
           color: (theme: any) => theme.palette.custom.dark,
-          fontsize: { xs: '16px', md: '20px' },
+          fontSize: { xs: '16px', md: '18px', lg: '20px' },
           lineHeight: '120%',
           marginBottom: { xs: '10px', md: '14px' },
         }}
@@ -60,8 +61,8 @@ function AdsOnProduct(props: AdsOnProductType) {
               item.categories?.some((cat) => cat.name === cate),
             )
 
-            const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 3)
-            const hasMoreItems = (filteredItems?.length || 0) > 3
+            const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 4)
+            const hasMoreItems = (filteredItems?.length || 0) > 4
 
             return (
               <Box key={index + 1}>
@@ -81,7 +82,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                     display: 'flex',
                     gap: '8px',
                     flexWrap: 'wrap',
-                    flexDirection: { xs: 'column', sm: 'row' },
+                    flexDirection: { xs: 'column', sm: isMobile ? 'column' : 'row' },
                   }}
                 >
                   {itemsToShow &&
@@ -93,11 +94,21 @@ function AdsOnProduct(props: AdsOnProductType) {
                           border: '1px solid #F6DBE0',
                           background: (theme: any) => theme.palette.primary.contrastText,
                           display: 'flex',
-                          columnGap: '8px',
+                          columnGap: '10px',
                           padding: { xs: '5px 25px 5px 5px', md: '5px 15px 5px 5px' },
                         }}
                       >
-                        <Box>
+                        <Box
+                          sx={{
+                            '& picture': {
+                              display: 'inline-block',
+                              width: { xs: '62px', sm: '85px' },
+                              height: { xs: '63px', sm: '100px' },
+                              overflow: 'hidden',
+                              borderRadius: '8px',
+                            },
+                          }}
+                        >
                           <Image
                             src={item?.small_image?.url}
                             alt={item?.small_image?.label}
@@ -105,10 +116,10 @@ function AdsOnProduct(props: AdsOnProductType) {
                             width={85}
                             sx={{
                               width: '100%',
-                              height: 'auto',
+                              height: '100%',
                               objectFit: 'cover',
                               borderRadius: '8px',
-                              maxHeight: '100px',
+                              // maxHeight: '100px',
                             }}
                           />
                         </Box>
@@ -138,6 +149,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                 fontSize: { xs: '12px', sm: '14px', md: '16px' },
                                 lineHeight: '164%',
                                 minHeight: { lg: '50px', xl: 0 },
+                                marginBottom: '2px',
                               }}
                             >
                               {item?.name}
@@ -162,7 +174,12 @@ function AdsOnProduct(props: AdsOnProductType) {
                             </Box>
                           </Box>
 
-                          <Box sx={{ marginTop: { xs: '0', md: '10px' } }}>
+                          <Box
+                            sx={{
+                              marginTop: { xs: '0', md: '4px' },
+                              marginRight: { xs: '0', sm: isMobile ? '0' : 'auto' },
+                            }}
+                          >
                             {(() => {
                               const matchedCartItem = cartItems?.find(
                                 (cart) => cart?.product?.sku === item?.sku,
@@ -172,10 +189,19 @@ function AdsOnProduct(props: AdsOnProductType) {
                                 <UpdateItemQuantity
                                   sx={{
                                     flexShrink: '0',
+                                    maxWidth: '100px',
+
                                     '& .MuiOutlinedInput-root': {
                                       color: '#333',
                                       borderRadius: '8px',
+                                      '& input': {
+                                        padding: { xs: '5.5px 5px', md: '8.5px 14px' },
+                                      },
                                     },
+                                    '& .mui-style-173mjj2-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+                                      {
+                                        borderColor: (theme: any) => theme.palette.custom.border,
+                                      },
                                     '& .MuiOutlinedInput-notchedOutline': {
                                       borderColor: (theme: any) => theme.palette.custom.border,
                                     },
@@ -183,6 +209,9 @@ function AdsOnProduct(props: AdsOnProductType) {
                                       color: '#333333',
                                       fontSize: '18px',
                                       fontWeight: 500,
+                                      '& svg': {
+                                        fontSize: '17px',
+                                      },
                                     },
                                     '& .MuiInputBase-input': {
                                       color: '#333333',
@@ -205,6 +234,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                       paddingBlock: { xs: '5px' },
                                       boxShadow: 'none !important',
                                       width: '100%',
+                                      maxWidth: '90px',
                                       '&:hover': {
                                         backgroundColor: 'white !important',
                                         color: (theme: any) => theme.palette.custom.main,

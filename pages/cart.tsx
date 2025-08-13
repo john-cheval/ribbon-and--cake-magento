@@ -3,7 +3,6 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import {
   ApolloCartErrorAlert,
   CartStartCheckout,
-  // CartStartCheckoutLinkOrButton,
   CartTotals,
   EmptyCart,
   getCartDisabled,
@@ -16,11 +15,9 @@ import { Money, PageMeta, StoreConfigDocument } from '@graphcommerce/magento-sto
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   FullPageMessage,
-  // iconShoppingBag,
   LayoutOverlayHeader,
   LayoutTitle,
   OverlayStickyBottom,
-  // Stepper,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
@@ -54,9 +51,6 @@ function CartPage() {
         sx={{
           '& .MuiButtonBase-root': {
             color: (theme: any) => theme.palette.custom.dark,
-            '& .MuiButtonBase-root': {
-              // backgroundColor: 'red',
-            },
           },
           '& .MuiButtonBase-root svg': {
             color: (theme: any) => theme.palette.custom.dark,

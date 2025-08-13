@@ -145,6 +145,21 @@ function HomeProductListMobile({
                       '& img': {
                         borderRadius: '8px',
                       },
+                      '& .ProductListItem-topLeft': {
+                        gridArea: 'unset',
+                      },
+                      '& .ProductListItem-topRight .MuiButtonBase-root': {
+                        padding: '9px',
+                        '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                          fontSize: '18px',
+                        },
+
+                        '&:hover ': {
+                          '& svg': {
+                            fill: (theme) => theme.palette.custom.wishlistColor,
+                          },
+                        },
+                      },
                     },
                     '& .ProductListItem-titleContainer': {
                       '& .ProductListItem-title': {
@@ -156,8 +171,13 @@ function HomeProductListMobile({
                         maxWidth: { xs: '100%' },
                       },
                       '& .MuiButtonBase-root': {
-                        width: { xs: '45px', sm: '50px' },
-                        height: { xs: '45px', sm: '50px' },
+                        width: { xs: '45px' },
+                        height: { xs: '45px' },
+                        '& svg': {
+                          fontSize: '28px',
+                          left: '7px',
+                          top: '4px',
+                        },
                       },
                     },
                   }}

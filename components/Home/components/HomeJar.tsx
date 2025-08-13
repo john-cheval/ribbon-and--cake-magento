@@ -1,10 +1,9 @@
-import { Box, Typography } from '@mui/material'
-import { miniBitesData } from '../../../constants/Home/swiper'
+import { Box } from '@mui/material'
 import { ProductSwiper } from '../../shared/swiper/ProductSwiper'
 import HomeProductListMobile from './HomeProductListMobile'
 
 export function HomeJar(props) {
-  const { jarsAndMniBytesCategories, products, title } = props
+  const { jarsAndMniBytesCategories, title } = props
 
   return (
     <Box
@@ -22,13 +21,17 @@ export function HomeJar(props) {
           data={jarsAndMniBytesCategories?.children}
           link='/cakes'
           initial={jarsAndMniBytesCategories?.children[0]?.name}
-          productList={products}
         />
       </Box>
 
-      {/*  <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
-        <HomeProductListMobile data={miniBitesData} link='/cakes' initial='Brownie' count={4} />
-      </Box> */}
+      <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
+        <HomeProductListMobile
+          data={jarsAndMniBytesCategories?.children}
+          link='/cakes'
+          initial={jarsAndMniBytesCategories?.children[0]?.name}
+          count={4}
+        />
+      </Box>
     </Box>
   )
 }

@@ -1,5 +1,4 @@
 import { HomeBanner } from './components/HomeBanner'
-// import { HomeCollection } from './components/HomeCollection'
 import { HomeCta } from './components/HomeCta'
 import { HomeJar } from './components/HomeJar'
 import { HomeOccasion } from './components/HomeOccasion'
@@ -11,16 +10,12 @@ export function HomePage({
   Categories,
   justinHeading,
   justInProductList,
-  cakes,
-  occasionProdcutList,
-  miniBytesProductList,
   storyTitle,
   occasionTitle,
   miniBytesTitle,
   CollectionSectionData,
   homeCta,
   homeCeleberate,
-  sectionFourProducts,
   homeImagination,
   homeHeroData,
   statementProducts,
@@ -31,24 +26,14 @@ export function HomePage({
   return (
     <>
       <HomeBanner content={homeHeroData} productList={justInProductList} title={justinHeading} />
-      <HomeStory title={storyTitle} cakesCategories={cakesCategory} products={cakes} />
+      <HomeStory title={storyTitle} cakesCategories={cakesCategory} />
       <HomeSectionThree content={homeImagination} />
       <HomeSectionFour content={homeCeleberate} products={statementProducts} />
       <HomeCta content={homeCta} />
-      <HomeOccasion
-        title={occasionTitle}
-        occasionCategories={occasionsCategory}
-        products={occasionProdcutList}
-      />
+      <HomeOccasion title={occasionTitle} occasionCategories={occasionsCategory} />
       {CollectionSectionData && <div dangerouslySetInnerHTML={{ __html: CollectionSectionData }} />}
 
-      {/* <HomeCollection content={CollectionSectionData} /> */}
-
-      <HomeJar
-        title={miniBytesTitle}
-        jarsAndMniBytesCategories={jarsAndMniBytesCategory}
-        products={miniBytesProductList}
-      />
+      <HomeJar title={miniBytesTitle} jarsAndMniBytesCategories={jarsAndMniBytesCategory} />
     </>
   )
 }

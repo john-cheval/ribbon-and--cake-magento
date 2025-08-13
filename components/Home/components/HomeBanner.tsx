@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { HeroSwiper } from '../../shared/swiper/HeroSwiper'
 
 export function HomeBanner({ content, productList, title }) {

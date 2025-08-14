@@ -1083,10 +1083,10 @@ index 1d42a06..c70ff79 100644
          <Money {...final_price} />
        </PrivateQueryMask>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-index e920423..fdfe672 100644
+index e920423..607946f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-@@ -1,19 +1,21 @@
+@@ -1,19 +1,22 @@
  import type { SidebarGalleryProps, TypeRenderer } from '@graphcommerce/next-ui'
  import { SidebarGallery, nonNullable } from '@graphcommerce/next-ui'
  import type { ProductPageGalleryFragment } from './ProductPageGallery.gql'
@@ -1100,24 +1100,48 @@ index e920423..fdfe672 100644
 -  product: ProductPageGalleryFragment
 +  product: ProductListItemFragment & ProductPageGalleryFragment
    children?: React.ReactNode
++  wishlistButton?: React.ReactNode
  }
  
  export function ProductPageGallery(props: ProductPageGalleryProps) {
 -  const { product, children, aspectRatio: [width, height] = [1532, 1678], ...sidebarProps } = props
--  const { media_gallery } = product
-+  const { product, children,aspectRatio: [width, height] = [682, 682], ...sidebarProps } = props
-+  const {media_gallery} = product
++  const { product, children, aspectRatio: [width, height] = [682, 682], wishlistButton, ...sidebarProps } = props
+   const { media_gallery } = product
 +  console.log(product, 'this is product data ProductPageGallery')
  
    const images =
      media_gallery
-@@ -40,6 +42,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+@@ -23,15 +26,15 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+       .map((item) =>
+         item.__typename === 'ProductImage'
+           ? {
+-              src: item.url ?? '',
+-              alt: item.label || undefined,
+-              width,
+-              height,
+-            }
++            src: item.url ?? '',
++            alt: item.label || undefined,
++            width,
++            height,
++          }
+           : {
+-              src: '',
+-              alt: `{${item.__typename} not yet supported}`,
+-            },
++            src: '',
++            alt: `{${item.__typename} not yet supported}`,
++          },
+       ) ?? []
+ 
+   return (
+@@ -40,6 +43,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
        sidebar={children}
        aspectRatio={[width, height]}
        images={images}
 +      disableZoom={true}
 +      product={product}
-+     
++      wishlistButton={wishlistButton}
      />
    )
  }

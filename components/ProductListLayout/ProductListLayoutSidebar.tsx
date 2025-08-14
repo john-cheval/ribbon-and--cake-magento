@@ -50,6 +50,7 @@ import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
 import type { ProductListLayoutProps } from './types'
 import { useLayoutConfiguration } from './types'
+import { useApolloClient } from '@apollo/client'
 
 const INITIAL_LOAD_SIZE = 12
 const LAZY_LOAD_INCREMENT = 6
@@ -223,6 +224,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             {isLoading ? 'loading' : 'Call the Api'}
           </Box>
         </Box>
+
+        <div ref={loaderRef} style={{ height: 80 }} />
 
         <MediaQuery query={(theme) => theme.breakpoints.down('md')}>
           <StickyBelowHeader

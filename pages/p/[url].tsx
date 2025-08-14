@@ -265,6 +265,42 @@ function ProductPage(props: Props) {
             },
           })}
           disableSticky
+          wishlistButton={
+            <Box sx={{ position: 'absolute', right: '0px', top: '0px', zIndex: 1000, alignItems: "center", justifyContent: "flex-end", display: { xs: 'flex', lg: 'none' } }}>
+              <ProductWishlistIconButton
+                {...product}
+                sx={{
+                  backgroundColor: (theme: any) => theme.palette.custom.border,
+                  padding: 0,
+                  height: '40px',
+                  width: '40px',
+                  border: '1px solid #F6DBE0',
+                  transition: 'all 0.4s ease-in-out',
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                  },
+                  '&:focus': {
+                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                  },
+                  '&:active': {
+                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                  },
+                  '&.Mui-focusVisible': {
+                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                  },
+                  '& .MuiTouchRipple-root': {
+                    color: (theme: any) => theme.palette.custom.border,
+                  },
+                  '& svg': {
+                    stroke: (theme: any) => theme.palette.custom.main,
+                  },
+                  '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                    stroke: (theme: any) => theme.palette.custom.border,
+                  },
+                }}
+              />
+            </Box>
+          }
         >
           <Box
             sx={{

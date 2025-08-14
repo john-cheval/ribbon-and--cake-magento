@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
-index 1834408..d837058 100644
+index 1834408..c4f193b 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 @@ -1,12 +1,18 @@
@@ -43,13 +43,12 @@ index 1834408..d837058 100644
      ...other
    } = props
    const RenderItem = render as React.FC<ActionCardItemRenderProps<ActionCardItemBase>>
-@@ -53,9 +60,14 @@ export function ActionCardListForm<
+@@ -53,9 +60,13 @@ export function ActionCardListForm<
      [multiple],
    )
  
 +  // const inputRef = useRef(null);
 +  // const form  = useForm();
-+
 +
    const {
 -    field: { onChange, value, ref },
@@ -59,7 +58,7 @@ index 1834408..d837058 100644
      formState,
    } = useController({
      ...props,
-@@ -75,6 +87,9 @@ export function ActionCardListForm<
+@@ -75,6 +86,9 @@ export function ActionCardListForm<
      [onChange, requireOptionSelection],
    )
  
@@ -69,7 +68,7 @@ index 1834408..d837058 100644
    return (
      <ActionCardList
        {...other}
-@@ -86,6 +101,30 @@ export function ActionCardListForm<
+@@ -86,6 +100,30 @@ export function ActionCardListForm<
        error={formState.isSubmitted && !!fieldState.error}
        errorMessage={fieldState.error?.message}
      >
@@ -100,7 +99,7 @@ index 1834408..d837058 100644
        {items.map((item) => (
          <RenderItem
            {...item}
-@@ -93,8 +132,9 @@ export function ActionCardListForm<
+@@ -93,8 +131,9 @@ export function ActionCardListForm<
            value={item.value}
            selected={onSelect(item.value, value)}
            onReset={handleReset}

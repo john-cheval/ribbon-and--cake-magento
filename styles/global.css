@@ -1432,6 +1432,19 @@ ol {
   text-decoration: none;
   color: inherit;
 }
+.ProductListPrice-finalPrice span {
+  display: flex;
+}
+.ProductListPrice-finalPrice span span:first-child {
+  background: url(../components/Assets/aed.svg) center no-repeat;
+  background-size: 18px auto;
+  color: transparent;
+  /* font-size: 10px; */
+  width: 20px;
+  /* display: inline-block; */
+  /* height: 16px; */
+  /* vertical-align: top; */
+}
 /* sm breakpoint */
 
 @media (min-width: 641px) {
@@ -1586,4 +1599,8 @@ ol {
   .clients {
     justify-content: center;
   }
+}
+.MuiSlider-valueLabelLabel,
+.mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel {
+  color: black !important;
 }

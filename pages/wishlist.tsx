@@ -13,7 +13,7 @@ import {
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { CircularProgress, Container } from '@mui/material'
+import { CircularProgress, Container, Divider, Typography } from '@mui/material'
 import type { LayoutOverlayProps } from '../components'
 import { LayoutOverlay } from '../components'
 import { graphqlSharedClient } from '../lib/graphql/graphqlSsrClient'
@@ -30,13 +30,51 @@ function WishlistPage() {
       <LayoutOverlayHeader
         switchPoint={0}
         noAlign
-        sx={(theme) => ({
-          '&.noAlign': { marginBottom: theme.spacings.sm },
-          '& + .MuiContainer-root': { marginBottom: theme.spacings.sm },
-        })}
+        // sx={(theme) => ({
+        //   '&.noAlign': { marginBottom: theme.spacings.sm },
+        //   '& + .MuiContainer-root': { marginBottom: theme.spacings.sm },
+        // })}
+        sx={{
+          '& .MuiButtonBase-root': {
+            color: (theme: any) => theme.palette.custom.dark,
+          },
+          '& .MuiButtonBase-root svg': {
+            color: (theme: any) => theme.palette.custom.dark,
+            fontSize: { xs: '30px', lg: '37px' },
+          },
+          ['& .LayoutHeaderContent-center']: {
+            opacity: '1 !important',
+            gridArea: 'left',
+            justifySelf: 'flex-start',
+          },
+          '& .LayoutHeaderContent-right .MuiButtonBase-root': {
+            background: 'transparent',
+            boxShadow: 'none',
+            color: (theme) => theme.palette.custom.main,
+            '&:hover': {
+              background: 'transparent',
+              boxShadow: 'none',
+            },
+            '&:active': {
+              background: 'transparent',
+              boxShadow: 'none',
+            },
+            '&:focus': {
+              background: 'transparent',
+              boxShadow: 'none',
+            },
+          },
+        }}
+        divider={
+          <Container>
+            <Divider sx={{ background: 'rgba(199, 202, 205, 0.42)' }} />
+          </Container>
+        }
       >
-        <LayoutTitle component='span' size='small' icon={iconHeart}>
-          <Trans id='Wishlist' />
+        <LayoutTitle size='small' component='span'>
+          <Typography variant='h2' component='h2'>
+            Wishlist
+          </Typography>
         </LayoutTitle>
       </LayoutOverlayHeader>
 
@@ -83,7 +121,7 @@ function WishlistPage() {
                   boxShadow: 'none',
 
                   '& svg': {
-                    fontSize: { xs: '20px', md: '20px', lg: '25px' },
+                    fontSize: { xs: '20px' },
                   },
                 },
               },
@@ -106,12 +144,79 @@ function WishlistPage() {
               },
               '& .ActionCard-end .ActionCard-price ': {
                 display: { xs: 'none', md: 'inline-flex' },
+                '& .MuiBox-root .mui-style-38bqm6 span': {
+                  color: (theme) => theme.palette.custom.dark,
+                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
+                  fontWeight: '700',
+                  fontVariationSettings: "'wght' 700",
+                },
+              },
+              '& .ActionCard-secondaryAction [aria-label="Add to Cart"] svg ': {
+                fontSize: { xs: '26px', md: '30px' },
+                top: '3px',
+                right: '8px',
+              },
+              '& .ActionCard-secondaryAction a': {
+                color: (theme) => theme.palette.custom.main,
+                backgroundColor: 'transparent',
+                marginBlock: 0,
+                paddingBlock: 0,
+                transition: 'all 0.4s ease-in-out',
+
+                '&:hover span svg': {
+                  transform: 'translateX(5px)',
+                },
+              },
+              '& .ActionCard-title a': {
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'none',
+                },
+              },
+              '& .ActionCard-end .ActionCard-action .MuiButtonBase-root svg': {
+                color: '#9d9d9d',
               },
             },
           }}
         >
           {wishlistItems.items.length === 0 ? (
             <FullPageMessage
+              sx={{
+                '& .MuiContainer-root': {
+                  // height: '100%',
+
+                  '& .FullPageMessage-iconWrapper ': {
+                    position: 'relative',
+                    top: '15px',
+                    '& svg': {
+                      color: (theme) => theme.palette.custom.main,
+                      fontSize: { xs: '24px', md: '30px' },
+                    },
+                  },
+                  '& .FullPageMessage-subject': {
+                    '& .MuiTypography-h3': {
+                      color: (theme) => theme.palette.custom.main,
+                    },
+                    '& .MuiBox-root': {
+                      color: (theme) => theme.palette.custom.main,
+                    },
+                  },
+                  '& .FullPageMessage-button ': {
+                    '& .MuiButtonBase-root': {
+                      boxShadow: 'none',
+                      borderRadius: '8px',
+                      backgroundColor: (theme) => theme.palette.custom.heading,
+                      color: '#fff',
+                      border: (theme) => `1px solid ${theme.palette.custom.heading}`,
+                      transition: 'all 0.4s ease-in-out',
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                        color: (theme) => theme.palette.custom.heading,
+                      },
+                    },
+                  },
+                },
+              }}
               title={<Trans id='Your wishlist is empty' />}
               icon={<IconSvg src={iconHeart} size='xxl' />}
               button={
@@ -138,7 +243,31 @@ function WishlistPage() {
 const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'bottom',
   Layout: LayoutOverlay,
-  layoutProps: { variantMd: 'bottom', variantSm: 'bottom' },
+  layoutProps: {
+    variantMd: 'right',
+    variantSm: 'bottom',
+    widthMd: '750px',
+    sizeMd: 'floating',
+    sizeSm: 'full',
+    justifyMd: 'start',
+    sx: {
+      '& .LayoutOverlayBase-overlay': {
+        padding: '0 !important',
+      },
+      '& .LayoutOverlayBase-overlayPane': {
+        borderRadius: '0 !important',
+        height: '100%',
+        minHeight: '100vh',
+        position: 'relative',
+        '& .LayoutOverlayBase-background': {
+          paddingTop: '20px',
+        },
+      },
+      '& .LayoutOverlayBase-beforeOverlay': {
+        backdropFilter: 'blur(10px)',
+      },
+    },
+  },
 }
 WishlistPage.pageOptions = pageOptions
 

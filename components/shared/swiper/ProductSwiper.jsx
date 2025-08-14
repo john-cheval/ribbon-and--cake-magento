@@ -2,6 +2,7 @@ import 'swiper/css'
 import {
   AddProductsToCartForm /*, ProductListItem */,
   ProductListDocument,
+  ProductListQuery,
 } from '@graphcommerce/magento-product'
 import { RenderType } from '@graphcommerce/next-ui'
 import { css } from '@emotion/react'
@@ -28,7 +29,9 @@ export const linkStyle = css`
     text-decoration: none;
   }
 `
+
 export function ProductSwiper({ data = [], link = '/', initial = '', productList = [] }) {
+  const itemToRender = productList || []
   const swiperRef = useRef(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,6 +40,7 @@ export function ProductSwiper({ data = [], link = '/', initial = '', productList
   const client = useApolloClient()
 
   const fetchProducts = async (categoryId) => {
+    if (itemToRender?.length > 0) return
     setIsLoading(true)
 
     const pageProducts = await client.query({
@@ -59,7 +63,11 @@ export function ProductSwiper({ data = [], link = '/', initial = '', productList
   }
 
   useEffect(() => {
-    fetchProducts(String(data?.[0]?.id))
+    if (itemToRender.length > 0) {
+      setAllPageItems(itemToRender)
+    } else {
+      fetchProducts(String(data[0].id))
+    }
   }, [])
 
   return (

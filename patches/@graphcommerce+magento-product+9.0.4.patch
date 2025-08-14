@@ -60,7 +60,7 @@ index 6ae6263..e990a46 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..b677d41 100644
+index 2050980..f1885e3 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 @@ -2,18 +2,20 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
@@ -100,7 +100,7 @@ index 2050980..b677d41 100644
 +      sx={{
 +       fontWeight: 400,
 +        lineHeight: '170%',
-+        fontSize: '14px !important',
++        fontSize: {xs:'12px !important', md:'14px !important'},
 +        color: '#302100',
 +        textDecoration: 'underline',
 +        display: 'flex',
@@ -215,7 +215,7 @@ index a1ec789..b365a43 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..8a8b1e7 100644
+index fb82adb..735f787 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -272,19 +272,19 @@ index fb82adb..8a8b1e7 100644
          step={1}
 +        sx={(theme)=>({
 +          '& .MuiSlider-track': {
-+            backgroundColor: '#9B7C38',
++            backgroundColor: (theme:any)=>theme.palette.custom.heading,
 +            transition: 'background-color 0.3s ease-in-out', 
 +            height:'3px',
-+            color:'#9B7C38',
++            color:(theme:any)=>theme.palette.custom.heading,
 +            
 +          },
 +           '& .MuiSlider-rail': {
 +             height:'1px',
-+            backgroundColor: '#D4D4D4',
++            backgroundColor: (theme:any)=>theme.palette.custom.borderSecondary,
 +
 +            },
 +            '& .MuiSlider-thumb': {
-+            backgroundColor: '#9B7C38', 
++            backgroundColor: (theme:any)=>theme.palette.custom.heading, 
 +            width: '10px',
 +            height: '10px', 
 +            borderRadius: '50%', 
@@ -351,7 +351,7 @@ index 021469e..8344178 100644
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..c03bffc 100644
+index cabc140..cfa5bf7 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,11 +1,12 @@
@@ -369,7 +369,7 @@ index cabc140..c03bffc 100644
  
  export function ProductFilterRangeSection(props: FilterProps) {
    const { aggregation } = props
-@@ -35,21 +36,56 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -35,21 +36,75 @@ export function ProductFilterRangeSection(props: FilterProps) {
  
          return (
            <ActionCardAccordion
@@ -378,6 +378,9 @@ index cabc140..c03bffc 100644
              summary={label}
 +            sx={{
 +              
++             // '& .MuiAccordionDetails-root.mui-style-bp98xx-MuiPaper-root-MuiAccordion-root':{
++                borderBottom:'0 !important',
++              //},
 +              paddingTop:theme => theme.spacings.xs,
 +
 +              '& .MuiAccordionSummary-expandIconWrapper': {
@@ -394,20 +397,36 @@ index cabc140..c03bffc 100644
 +                },
 +              },    
 +
-+              
++              '& .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel':{
++                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
++              },
 +              ['& .MuiSlider-thumb']:{
-+                ['& .MuiSlider-valueLabelOpen'] : {
++                ['& .MuiSlider-valueLabelOpen span'] : {
 +                  transform: 'translateY(40%) scale(1)',
++                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  fontSize:{xs:'14px', md:'16px'},
++                  fontWeight:400,
++                  '& .MuiSlider-valueLabelCircle':{
++                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  }
++
 +                },
-+                ['&:nth-of-type(1) .MuiSlider-valueLabelOpen']: {
++                ['&:nth-of-type(1) .MuiSlider-valueLabelOpen span']: {
 +                  left:"unset",
 +                  right:"10px",
++                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  fontSize:{xs:'14px', md:'16px'},
++                  fontWeight:400,
++                  '& .MuiSlider-valueLabelCircle':{
++                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  }
 +                },
 +              },
 +
 +              '& .PriceSlider-container': {
 +                paddingTop:0,
-+                paddingBottom:'40px',
++                paddingBottom:'30px',
++                //borderBottom:'0 !important'
 +              },
 +
 +              '& .PriceSlider-slider': {
@@ -520,10 +539,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..e5b4910 100644
+index 80912c1..09d578f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,47 +10,97 @@ import {
+@@ -10,48 +10,118 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -536,6 +555,8 @@ index 80912c1..e5b4910 100644
  import { useProductFiltersPro } from './ProductFiltersPro'
 +import { useProductFiltersProClearAllAction } from '@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction'
 +import { StaticImport } from '@graphcommerce/image'
++import { iconCloseAccordion, iconOpenAccordion } from '../../../../../plugins/icons'
++import { useState } from 'react'
 +
  
  export type ProductFiltersProCategoryAccordionProps = {
@@ -543,22 +564,32 @@ index 80912c1..e5b4910 100644
    sx?: SxProps<Theme>
    categoryTree: CategoryTreeItem[]
 +  filterIcons?: string | StaticImport
-+  menus?:any
++  categoryTitle?:string
++  handleChange?:()=>void
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
++  defaultExpandeds?:boolean
++  expanded?:boolean
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange, defaultExpanded, filterIcons,menus } = props
++  const { hideTitle, sx, categoryTree, onChange,handleChange , defaultExpanded, filterIcons,categoryTitle, expanded,defaultExpandeds=false } = props
    const { form } = useProductFiltersPro()
  
-+  // console.log(menus,"this is the menusssssssssssssssssssss")
-+  // console.log(categoryTree,"this isht  category tree")
++
++  // console.log(defaultExpanded,'defaul;t expanded')
++
++  const [expandeds, setExpandeds] = useState(defaultExpandeds)
++  //console.log(expandeds,"hhdshfjsghfhgdfhgdshfg")
++ 
 +
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
 -
 +  const clearAll = useProductFiltersProClearAllAction()
++   const handleAccordionToggle = () => {
++    setExpandeds((prev) => !prev)
++  }
    return (
 -    <ActionCardAccordion
 +<>
@@ -567,7 +598,7 @@ index 80912c1..e5b4910 100644
        sx={[
          hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
 +        {
-+
++         // borderBottom:(theme:any)=>`${theme.palette.custom.borderSecondary} !important`,
 +          '& .MuiAccordionSummary-expandIconWrapper': {
 +            display: 'none',
 +          },
@@ -585,23 +616,9 @@ index 80912c1..e5b4910 100644
          sx,
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-       defaultExpanded={defaultExpanded}
+-      defaultExpanded={defaultExpanded}
 -      summary={<Trans id='Categories' />}
-+      summary={<Box sx={{
-+        fontFamily: "'Bricolage Grotesque', sans-serif",
-+        fontSize: { xs: '14px', sm: '16px', md: '20px' },
-+        fontWeight: 500,
-+        lineHeight: '120%',
-+        color: '#000',
-+        display: 'flex',
-+        alignItems: 'center',
-+        gap: '8px',
-+        paddingTop:'15px'
-+      }}>
-+        {/*filterIcons && (
-+          <IconSvg src={filterIcons} size='medium' sx={{ width: '20px' }} />
-+        )*/} Cakes</Box>}
-       right={
+-      right={
 -        currentFilter && currentFilter.length > 0 ? (
 -          <Button
 -            color='primary'
@@ -613,31 +630,57 @@ index 80912c1..e5b4910 100644
 -            <Trans id='Clear' />
 -          </Button>
 -        ) : undefined
+-      }
++    defaultExpanded={expandeds}
++    // expanded={expanded}
++   // onChange={handleAccordionToggle}
++      summary={<Box sx={{
++        fontFamily: "'Bricolage Grotesque', sans-serif",
++        fontSize: { xs: '14px', sm: '16px', md: '20px' },
++        fontWeight: 400,
++        lineHeight: '120%',
++        color: (theme:any)=> theme.palette.custom.dark,
++        display: 'flex',
++        alignItems: 'center',
++        gap: '8px',
++        paddingTop:'15px'
++      }}>
++        {categoryTitle}</Box>}
++     right={
 +
-+        <Button
-+          sx={{
-+            color: '#969696',
-+            fontSize: { sm: '12px', md: '14px' },
-+            fontWeight: 400,
-+            cursor:'pointer',
-+            textDecoration: 'underline',
-+            '&:hover': {
-+              backgroundColor: 'transparent'
-+            }
-+          }}
-+          onClick={(e) => {
-+            e.stopPropagation()
-+            // form.setValue(name, null)
-+            return clearAll()
-+          }}
-+        >
-+          <Trans id='Clear' />
-+        </Button>
++       // <Button
++       //   sx={{
++       //    color: (theme:any)=> theme.palette.custom.tertiary,
++       //     fontSize: { sm: '12px', md: '14px' },
++       //     fontWeight: 400,
++       //     cursor:'pointer',
++       //     textDecoration: 'underline',
++       //     '&:hover': {
++       //       backgroundColor: 'transparent'
++       //     }
++       //   }}
++       //   onClick={(e) => {
++       //     e.stopPropagation()
++       //     // form.setValue(name, null)
++       //     return clearAll()
++       //   }}
++       // >
++       //   <Trans id='Clear' />
++       // </Button>
++       <IconSvg
++             src={expandeds ? iconCloseAccordion : iconOpenAccordion}
++             size='medium'
++             sx={{
++               width: '18px',
++               height: '18px',
++             }}
++           />
 +
-       }
++    }
        details={
          <ActionCardList
-@@ -68,6 +118,7 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+           size='responsive'
+@@ -68,11 +138,12 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
              const indentVal = isBack ? 0 : indent + 1
              return (
                <ActionCard
@@ -645,7 +688,13 @@ index 80912c1..e5b4910 100644
                  key={item.value}
                  {...item}
                  size='responsive'
-@@ -103,6 +154,9 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
+                 title={
+-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
++                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme:any)=> theme.palette.custom.dark, }}>
+                     <Box sx={{ marginRight: 1 }}>
+                       {isBack ? (
+                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+@@ -103,6 +174,9 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
          </ActionCardList>
        }
      />
@@ -656,10 +705,10 @@ index 80912c1..e5b4910 100644
  }
  
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-index e238d8c..ccefb29 100644
+index e238d8c..ec7a3bd 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-@@ -7,10 +7,11 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
+@@ -7,15 +7,16 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
  
  type AllFiltersSidebar = ProductFiltersProAggregationsProps & {
    sx?: SxProps<Theme>
@@ -672,9 +721,18 @@ index e238d8c..ccefb29 100644
  
    const clearAll = useProductFiltersProClearAllAction()
    const hasFilters = useProductFilterProHasFiltersApplied()
-@@ -27,10 +28,11 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+ 
+-  if (!hasFilters) return null
++  // if (!hasFilters) return null
+ 
+   return (
+     <Button
+@@ -26,11 +27,14 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+       color='inherit'
        disableElevation
        onClick={(e) => {
++        console.log();
++        
          e.preventDefault()
 +        
          return clearAll()
@@ -835,6 +893,28 @@ index b64ae6d..47f8d46 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
+index 195b807..d823600 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
+@@ -11,6 +11,8 @@ export function useProductFiltersProClearAllAction() {
+     const cleanedFilters: ProductFilterParams['filters'] = Object.fromEntries(
+       Object.keys(currentValues.filters).map((key) => [key, null]),
+     )
++    console.log(getValues('filters.category_uid'),cleanedFilters,"===>currentValues");
++    
+ 
+     reset(
+       {
+@@ -21,7 +23,7 @@ export function useProductFiltersProClearAllAction() {
+         sort: null,
+         filters: {
+           ...cleanedFilters,
+-          category_uid: getValues('filters.category_uid'),
++          // category_uid: getValues('filters.category_uid'),
+         },
+       },
+       { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 index 68f7cab..ab58133 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx

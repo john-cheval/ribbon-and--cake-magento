@@ -74,7 +74,7 @@ index 0a86e18..b986925 100644
            <Trans id='Apply' />
          </Button>
 diff --git a/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx b/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
-index cefe300..1fa81af 100644
+index cefe300..ec9c8af 100644
 --- a/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
 @@ -7,7 +7,7 @@ import {
@@ -93,7 +93,7 @@ index cefe300..1fa81af 100644
 -    <Accordion
 +
 +    <>
-+    <Box sx={{marginTop:{xs:'15px', sm:"20px", md:'35px', xl:'40px'},  paddingLeft: { xs: '10px', md: '15px' },}}>
++    <Box sx={{marginTop:{xs:'15px', sm:"20px", md:'35px', xl:'40px'},  }}>
 +      <ApplyCouponForm 
 +      
 +      sx={[

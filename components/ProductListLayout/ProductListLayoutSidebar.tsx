@@ -457,6 +457,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 },
               }}
               title='Clear'
+              menuList={menuList}
             />
           </Box>
 

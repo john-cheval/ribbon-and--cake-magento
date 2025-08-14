@@ -539,10 +539,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..09d578f 100644
+index 80912c1..c787474 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,48 +10,118 @@ import {
+@@ -10,99 +10,177 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -564,16 +564,16 @@ index 80912c1..09d578f 100644
    sx?: SxProps<Theme>
    categoryTree: CategoryTreeItem[]
 +  filterIcons?: string | StaticImport
-+  categoryTitle?:string
-+  handleChange?:()=>void
++  categoryTitle?: string
++  handleChange?: () => void
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
-+  defaultExpandeds?:boolean
-+  expanded?:boolean
++  defaultExpandeds?: boolean
++  expanded?: boolean
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange,handleChange , defaultExpanded, filterIcons,categoryTitle, expanded,defaultExpandeds=false } = props
++  const { hideTitle, sx, categoryTree, onChange, handleChange, defaultExpanded, filterIcons, categoryTitle, expanded, defaultExpandeds = false } = props
    const { form } = useProductFiltersPro()
  
 +
@@ -581,41 +581,22 @@ index 80912c1..09d578f 100644
 +
 +  const [expandeds, setExpandeds] = useState(defaultExpandeds)
 +  //console.log(expandeds,"hhdshfjsghfhgdfhgdshfg")
-+ 
++
 +
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
 -
 +  const clearAll = useProductFiltersProClearAllAction()
-+   const handleAccordionToggle = () => {
-+    setExpandeds((prev) => !prev)
++  const handleAccordionToggle = () => {
++    setExpandeds(!expandeds)
 +  }
    return (
 -    <ActionCardAccordion
-+<>
-+   
-+  {   <ActionCardAccordion
-       sx={[
-         hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
-+        {
-+         // borderBottom:(theme:any)=>`${theme.palette.custom.borderSecondary} !important`,
-+          '& .MuiAccordionSummary-expandIconWrapper': {
-+            display: 'none',
-+          },
-+          '& .MuiAccordionSummary-root': {
-+            cursor: 'default',
-+            //pointerEvents: 'none',
-+            minHeight: 'auto !important',
-+
-+            '&:hover, &.Mui-focusVisible': {
-+              backgroundColor: 'transparent',
-+            },
-+          },
-+
-+        },
-         sx,
-         ...(Array.isArray(sx) ? sx : [sx]),
-       ]}
+-      sx={[
+-        hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
+-        sx,
+-        ...(Array.isArray(sx) ? sx : [sx]),
+-      ]}
 -      defaultExpanded={defaultExpanded}
 -      summary={<Trans id='Categories' />}
 -      right={
@@ -625,101 +606,207 @@ index 80912c1..09d578f 100644
 -            onClick={(e) => {
 -              e.stopPropagation()
 -              form.setValue(name, null)
--            }}
--          >
++    <>
++
++      {<ActionCardAccordion
++        sx={[
++          hideTitle ? { '& .MuiAccordionSummary-root': { display: 'none' } } : {},
++          {
++            // borderBottom:(theme:any)=>`${theme.palette.custom.borderSecondary} !important`,
++            '& .MuiAccordionSummary-expandIconWrapper': {
++              display: 'none',
++            },
++            '& .MuiAccordionSummary-root': {
++              cursor: 'default',
++              //pointerEvents: 'none',
++              minHeight: 'auto !important',
++
++              '&:hover, &.Mui-focusVisible': {
++                backgroundColor: 'transparent',
++              },
++            },
++
++          },
++          sx,
++          ...(Array.isArray(sx) ? sx : [sx]),
++        ]}
++        defaultExpanded={expandeds}
++        // expanded={expanded}
++        // onChange={handleAccordionToggle}
++        summary={<Box sx={{
++          fontFamily: "'Bricolage Grotesque', sans-serif",
++          fontSize: { xs: '14px', sm: '16px', md: '20px' },
++          fontWeight: 400,
++          lineHeight: '120%',
++          color: (theme: any) => theme.palette.custom.dark,
++          display: 'flex',
++          alignItems: 'center',
++          gap: '8px',
++          paddingTop: '15px'
++        }}>
++          {categoryTitle}</Box>}
++        right={
++
++          // <Button
++          //   sx={{
++          //    color: (theme:any)=> theme.palette.custom.tertiary,
++          //     fontSize: { sm: '12px', md: '14px' },
++          //     fontWeight: 400,
++          //     cursor:'pointer',
++          //     textDecoration: 'underline',
++          //     '&:hover': {
++          //       backgroundColor: 'transparent'
++          //     }
++          //   }}
++          //   onClick={(e) => {
++          //     e.stopPropagation()
++          //     // form.setValue(name, null)
++          //     return clearAll()
++          //   }}
++          // >
++          //   <Trans id='Clear' />
++          // </Button>
++          <Box onClick={handleAccordionToggle}>
++            <IconSvg
++              src={expandeds ? iconOpenAccordion : iconCloseAccordion}
++              size='medium'
++              sx={{
++                width: '18px',
++                height: '18px',
++              }}
++            />
++          </Box>
++
++        }
++        details={
++          <ActionCardList
++            size='responsive'
++            variant='default'
++            sx={{ mb: 2 }}
++            value={form.getValues('url')}
++            onChange={async (e, value) => {
++              const item = categoryTree.find((i) => i.value === value)
++              if (!item) return
++              await onChange(item)
+             }}
+           >
 -            <Trans id='Clear' />
 -          </Button>
 -        ) : undefined
 -      }
-+    defaultExpanded={expandeds}
-+    // expanded={expanded}
-+   // onChange={handleAccordionToggle}
-+      summary={<Box sx={{
-+        fontFamily: "'Bricolage Grotesque', sans-serif",
-+        fontSize: { xs: '14px', sm: '16px', md: '20px' },
-+        fontWeight: 400,
-+        lineHeight: '120%',
-+        color: (theme:any)=> theme.palette.custom.dark,
-+        display: 'flex',
-+        alignItems: 'center',
-+        gap: '8px',
-+        paddingTop:'15px'
-+      }}>
-+        {categoryTitle}</Box>}
-+     right={
-+
-+       // <Button
-+       //   sx={{
-+       //    color: (theme:any)=> theme.palette.custom.tertiary,
-+       //     fontSize: { sm: '12px', md: '14px' },
-+       //     fontWeight: 400,
-+       //     cursor:'pointer',
-+       //     textDecoration: 'underline',
-+       //     '&:hover': {
-+       //       backgroundColor: 'transparent'
-+       //     }
-+       //   }}
-+       //   onClick={(e) => {
-+       //     e.stopPropagation()
-+       //     // form.setValue(name, null)
-+       //     return clearAll()
-+       //   }}
-+       // >
-+       //   <Trans id='Clear' />
-+       // </Button>
-+       <IconSvg
-+             src={expandeds ? iconCloseAccordion : iconOpenAccordion}
-+             size='medium'
-+             sx={{
-+               width: '18px',
-+               height: '18px',
-+             }}
-+           />
-+
-+    }
-       details={
-         <ActionCardList
-           size='responsive'
-@@ -68,11 +138,12 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
-             const indentVal = isBack ? 0 : indent + 1
-             return (
-               <ActionCard
-+                isFilter={true}
-                 key={item.value}
-                 {...item}
-                 size='responsive'
-                 title={
+-      details={
+-        <ActionCardList
+-          size='responsive'
+-          variant='default'
+-          sx={{ mb: 2 }}
+-          value={form.getValues('url')}
+-          onChange={async (e, value) => {
+-            const item = categoryTree.find((i) => i.value === value)
+-            if (!item) return
+-            await onChange(item)
+-          }}
+-        >
+-          {categoryTree.map(({ isBack, indent, ...item }) => {
+-            const indentVal = isBack ? 0 : indent + 1
+-            return (
+-              <ActionCard
+-                key={item.value}
+-                {...item}
+-                size='responsive'
+-                title={
 -                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme:any)=> theme.palette.custom.dark, }}>
-                     <Box sx={{ marginRight: 1 }}>
-                       {isBack ? (
-                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-@@ -103,6 +174,9 @@ export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCateg
-         </ActionCardList>
+-                    <Box sx={{ marginRight: 1 }}>
+-                      {isBack ? (
+-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+-                          <IconSvg src={iconChevronLeft} size='medium' />
+-                          {item.title}
++            {categoryTree.map(({ isBack, indent, ...item }) => {
++              const indentVal = isBack ? 0 : indent + 1
++              return (
++                <ActionCard
++                  isFilter={true}
++                  key={item.value}
++                  {...item}
++                  size='responsive'
++                  title={
++                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme: any) => theme.palette.custom.dark, }}>
++                      <Box sx={{ marginRight: 1 }}>
++                        {isBack ? (
++                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
++                            <IconSvg src={iconChevronLeft} size='medium' />
++                            {item.title}
++                          </Box>
++                        ) : (
++                          item.title
++                        )}
++                      </Box>
++                      {item.count !== null && (
++                        <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
++                          ({item.count})
+                         </Box>
+-                      ) : (
+-                        item.title
+                       )}
+                     </Box>
+-                    {item.count !== null && (
+-                      <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
+-                        ({item.count})
+-                      </Box>
+-                    )}
+-                  </Box>
+-                }
+-                sx={{
+-                  '&.sizeSmall': { pl: responsiveVal(8 * indentVal, 12 * indentVal) },
+-                  '&.sizeMedium': { pl: responsiveVal(10 * indentVal, 14 * indentVal) },
+-                  '&.sizeLarge': { pl: responsiveVal(12 * indentVal, 16 * indentVal) },
+-                  '&.sizeResponsive': { pl: responsiveVal(8 * indentVal, 16 * indentVal) },
+-                  '& .ActionCard-title.selected': { fontWeight: 'bold' },
+-                }}
+-              />
+-            )
+-          })}
+-        </ActionCardList>
++                  }
++                  sx={{
++                    '&.sizeSmall': { pl: responsiveVal(8 * indentVal, 12 * indentVal) },
++                    '&.sizeMedium': { pl: responsiveVal(10 * indentVal, 14 * indentVal) },
++                    '&.sizeLarge': { pl: responsiveVal(12 * indentVal, 16 * indentVal) },
++                    '&.sizeResponsive': { pl: responsiveVal(8 * indentVal, 16 * indentVal) },
++                    '& .ActionCard-title.selected': { fontWeight: 'bold' },
++                  }}
++                />
++              )
++            })}
++          </ActionCardList>
++        }
++      // openAccordionIcon={iconOpenAccordion}
++      // closeAccordionIcon={iconCloseAccordion}
++      />
        }
-     />
-+    }
+-    />
 +
 +    </>
    )
  }
  
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-index e238d8c..ec7a3bd 100644
+index e238d8c..d5c83c5 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-@@ -7,15 +7,16 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
+@@ -7,15 +7,17 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
  
  type AllFiltersSidebar = ProductFiltersProAggregationsProps & {
    sx?: SxProps<Theme>
 +  title?:string
++  menuList?:any
  }
  
  export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
 -  const { sx = [] } = props
-+  const { sx = [] , title='Clear all filters'} = props
++  const { sx = [] , title='Clear all filters',menuList={}} = props
  
-   const clearAll = useProductFiltersProClearAllAction()
+-  const clearAll = useProductFiltersProClearAllAction()
++  const clearAll = useProductFiltersProClearAllAction({menuList})
    const hasFilters = useProductFilterProHasFiltersApplied()
  
 -  if (!hasFilters) return null
@@ -727,7 +814,7 @@ index e238d8c..ec7a3bd 100644
  
    return (
      <Button
-@@ -26,11 +27,14 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+@@ -26,11 +28,14 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
        color='inherit'
        disableElevation
        onClick={(e) => {
@@ -817,10 +904,10 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..47f8d46 100644
+index b64ae6d..4504056 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,13 +5,17 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,15 +5,19 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
@@ -837,7 +924,10 @@ index b64ae6d..47f8d46 100644
 -  const { sx } = props
 +  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
-   const { options, showReset, selected } = useProductFiltersProSort(props)
+-  const { options, showReset, selected } = useProductFiltersProSort(props)
++  const { options, showReset, selected, selectedLabel } = useProductFiltersProSort(props)
+ 
+   if ((options.length ?? 0) <= 1) return null
  
 @@ -21,7 +25,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
      <ActionCardAccordion
@@ -846,7 +936,7 @@ index b64ae6d..47f8d46 100644
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-+      summary={<Trans id='Sort by:' />}
++      summary={<Trans id='Sort by: {selectedLabel}' values={{ selectedLabel }} />}
        details={
          <ActionCardListForm
            control={form.control}
@@ -894,19 +984,50 @@ index b64ae6d..47f8d46 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
-index 195b807..d823600 100644
+index 195b807..87807ce 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
-@@ -11,6 +11,8 @@ export function useProductFiltersProClearAllAction() {
-     const cleanedFilters: ProductFilterParams['filters'] = Object.fromEntries(
+@@ -2,7 +2,7 @@ import { useCallback } from 'react'
+ import type { ProductFilterParams } from '../ProductListItems/filterTypes'
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ 
+-export function useProductFiltersProClearAllAction() {
++export function useProductFiltersProClearAllAction({menuList=[]}={}) {
+   const { form, submit } = useProductFiltersPro()
+   const { reset, getValues } = form
+ 
+@@ -12,16 +12,38 @@ export function useProductFiltersProClearAllAction() {
        Object.keys(currentValues.filters).map((key) => [key, null]),
      )
-+    console.log(getValues('filters.category_uid'),cleanedFilters,"===>currentValues");
-+    
- 
+     
++    let category_uid = getValues('filters.category_uid');
++    let url = getValues('url');
++
++    if(menuList?.length){
++      function findParentUidByChildUrlPath(categories, childUrlPath) {
++        for (const category of categories) {
++          if (category.children.some(child => child.url_path === childUrlPath)) {
++            return category;
++          }
++        }
++        return null;
++      }
++
++      const parentCategory = findParentUidByChildUrlPath(menuList, url);
++
++      if(parentCategory?.uid&&parentCategory?.url_path){
++        form.setValue("filters.category_uid.in",parentCategory?.uid);
++        form.setValue("url",parentCategory?.url_path);
++      }
++    }
++
      reset(
        {
-@@ -21,7 +23,7 @@ export function useProductFiltersProClearAllAction() {
+         ...currentValues,
++        url:getValues('url'),
+         pageSize: null,
+         currentPage: 1,
+         dir: null,
          sort: null,
          filters: {
            ...cleanedFilters,

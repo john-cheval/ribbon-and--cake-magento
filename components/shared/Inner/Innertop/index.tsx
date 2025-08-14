@@ -8,7 +8,12 @@ import { Box, SelectChangeEvent, SxProps, Theme, Typography } from '@mui/materia
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { iconCloseAccordion, iconOpenAccordion } from '../../../../plugins/icons'
+import {
+  iconArrowDropDown,
+  iconArrowDropDownUp,
+  iconCloseAccordion,
+  iconOpenAccordion,
+} from '../../../../plugins/icons'
 import { ProductListLayoutProps } from '../../../ProductListLayout'
 import rightArrow from './arrow_right.svg'
 
@@ -207,8 +212,8 @@ export function InnerTop(props: InnerTopProps) {
                     sort_fields={props.products?.sort_fields}
                     total_count={props.products?.total_count}
                     category={props.category}
-                    openAccordionIcon={iconOpenAccordion}
-                    closeAccordionIcon={iconCloseAccordion}
+                    openAccordionIcon={iconArrowDropDown}
+                    closeAccordionIcon={iconArrowDropDownUp}
                     sx={{
                       borderBottom: 'none !important',
                       '& .MuiAccordionSummary-content .MuiTypography-body1': {
@@ -220,9 +225,17 @@ export function InnerTop(props: InnerTopProps) {
                       },
                       '& .MuiAccordionDetails-root > div': {
                         position: 'absolute',
-                        backgroundColor: (theme) => theme.palette.custom.border,
+                        backgroundColor: '#fff',
                         width: '100%',
                         borderRadius: '4px',
+                        zIndex: 1000,
+                        '& .ActionCardLayout-root ': {
+                          border: (theme) => theme.palette.custom.border,
+                          borderRadius: '4px',
+                        },
+                        '& .ActionCard-root.selected': {
+                          backgroundColor: (theme) => theme.palette.custom.border,
+                        },
                       },
                       '& .ActionCardLayout-root .MuiButtonBase-root': {
                         paddingBlock: '12px',
@@ -233,6 +246,10 @@ export function InnerTop(props: InnerTopProps) {
                           fontWeight: 500,
                           lineHeight: '158%',
                         },
+                      },
+                      '& .MuiAccordionSummary-expandIconWrapper': {
+                        position: 'relative',
+                        top: '8px',
                       },
                     }}
                     // isDropdown={true}

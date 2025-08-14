@@ -32,7 +32,6 @@ import {
 } from '@graphcommerce/magento-search'
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
 import { useApolloClient } from '@apollo/client'
-import { Trans } from '@lingui/macro'
 import {
   Box,
   Button,
@@ -44,16 +43,12 @@ import {
 } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { iconCloseAccordion, iconFilterProduct, iconOpenAccordion } from '../../plugins/icons'
-import filterSvg from '../Assets/filter.svg'
 import mix from '../Assets/mix.svg'
 import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
 import Loading from '../shared/Loading'
 import type { ProductListLayoutProps } from './types'
 import { useLayoutConfiguration } from './types'
-
-const INITIAL_LOAD_SIZE = 12
-const LAZY_LOAD_INCREMENT = 6
 
 export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
   const {
@@ -102,8 +97,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const fetchProducts = async (pageNumber) => {
     setIsLoading(true)
 
-    console.log('fetchProducts called', pageNumber, 'currentPage', currentPage)
-
     const pageProducts = await client.query({
       query: ProductListDocument,
       variables: await productListApplyCategoryDefaults(
@@ -112,8 +105,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
         category,
       ),
     })
-
-    console.log('fetch succesfully')
 
     setAllPageItems([...allPageItems, ...(pageProducts.data.products?.items ?? [])])
     setIsLoading(false)
@@ -128,11 +119,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }, [products?.items])
 
   useEffect(() => {
-    // console.log('useEffect called', 'observing')
     const observer = new IntersectionObserver(async ([entry]) => {
-      console.log(entry?.isIntersecting, 'isIntersecting')
       if (entry.isIntersecting && currentPage < totalPage) {
-        // console.log('IntersectionObserver triggered')
         setCurrentPage((prev) => prev + 1)
         await fetchProducts(currentPage + 1)
       }
@@ -143,6 +131,14 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       if (loaderRef.current) observer.unobserve(loaderRef.current)
     }
   }, [loaderRef.current, currentPage, totalPage, isLoading])
+
+  const curentPath = params?.url?.split('/').filter(Boolean)
+
+  const [expanded, setExpanded] = useState<string | false>(curentPath[0] || false)
+  const handleAccordionChange = (categoryName: string) => {
+    setExpanded(expanded === categoryName ? false : categoryName)
+  }
+
   return (
     <ProductFiltersPro
       params={params}
@@ -183,17 +179,45 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 lg: 'repeat(3, 1fr)',
                 xl: 'repeat(4,1fr)',
               },
+              '& .ProductListItem-topLeft': {
+                gridArea: 'unset',
+              },
 
               '& .ProductListItem-titleContainer .MuiButtonBase-root': {
                 width: '40px',
                 height: '40px',
               },
             },
-            '& .ProductListItem-imageContainer .ProductListItem-topRight button': {
-              padding: { xs: '8px', xl: '10px' },
+            '& .ProductListItem-imageContainer .ProductListItem-topRight .MuiButtonBase-root': {
+              padding: { xs: '8px', xl: '9px' },
+              transition: 'all 0.4s ease-in-out',
+              '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                fontSize: '18px',
+              },
+              '&:hover ': {
+                '& svg': {
+                  fill: (theme) => theme.palette.custom.wishlistColor,
+                },
+              },
             },
-            '& .ProductListItem-imageContainer .ProductListItem-topRight svg': {
-              fontSize: { xs: '20px', xl: '22px' },
+            '& .ProductListItem-titleContainer': {
+              rowGap: { xs: '2px', md: '0' },
+              '& .ProductListItem-title': {
+                color: (theme) => theme.palette.custom.dark,
+                //  minHeight: '50px',
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                lineHeight: '158%',
+              },
+              '& .MuiButtonBase-root': {
+                width: '45px',
+                height: '45px',
+
+                '& svg': {
+                  fontSize: '28px',
+                  left: '7px',
+                  top: '4px',
+                },
+              },
             },
           }}
         >
@@ -392,8 +416,15 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             mt: { xs: '30px' },
           })}
         >
-          <ProductFiltersProClearAll sx={{ alignSelf: 'center' }} />
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+              paddingBottom: '20px',
+            }}
+          >
             <Box
               sx={{
                 fontSize: { xs: '14px', sm: '16px', md: '20px' },
@@ -403,7 +434,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                paddingTop: '15px',
               }}
             >
               <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: 'auto' }} /> Filter
@@ -416,42 +446,60 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 padding: 0,
                 borderRadius: '0 !important',
                 color: (theme: any) => theme.palette.custom.tertiary,
+                width: 'fit-content',
+                textDecoration: 'underline',
+                minWidth: 'unset',
                 fontSize: { sm: '12px', md: '14px' },
                 '&:hover:not(.Mui-disabled)': {
                   backgroundColor: 'transparent',
                 },
               }}
-              title='clear'
+              title='Clear'
             />
           </Box>
 
           <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
-          <>
+          {/*   <>
             {category ? (
               <ProductFiltersProCategorySection
                 filterIcons={iconFilterProduct}
                 category={category}
                 params={params}
                 hideBreadcrumbs
-                menus={menuList}
               />
             ) : (
               <ProductFiltersProCategorySectionSearch menu={menu} defaultExpanded />
             )}
-          </>
-
-          {/* Product filters */}
-          {/*  <ProductFiltersProSortSection
-            sort_fields={sort_fields}
-            total_count={total_count}
-            category={category}
-            openAccordionIcon={iconOpenAccordion}
-            closeAccordionIcon={iconCloseAccordion}
+          </>*/}
+          <Typography
             sx={{
-              paddingTop: (theme) => theme.spacings.xs,
+              fontSize: { xs: '14px', sm: '16px', md: '20px' },
+              fontWeight: 500,
+              lineHeight: '120%',
+              color: (theme: any) => theme.palette.custom.dark,
+              paddingTop: '35px',
+              paddingBottom: '15px',
+              borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
             }}
-          />
-          <ProductFiltersProLimitSection />*/}
+          >
+            Categories
+          </Typography>
+          {menuList?.map(
+            (menu, index) =>
+              menu?.children?.length > 0 && (
+                <Box key={index}>
+                  <ProductFiltersProCategorySection
+                    filterIcons={iconFilterProduct}
+                    category={menu}
+                    params={params}
+                    hideBreadcrumbs
+                    categoryTitle={menu?.name}
+                    expanded={expanded === menu?.name}
+                    handleChange={() => handleAccordionChange(menu?.name)}
+                  />
+                </Box>
+              ),
+          )}
         </MediaQuery>
       </Container>
     </ProductFiltersPro>

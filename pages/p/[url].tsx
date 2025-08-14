@@ -441,7 +441,7 @@ function ProductPage(props: Props) {
       </AddProductsToCartForm>
 
       {/* Relative Products */}
-      {product?.related_products && product?.related_products?.length > 0 && (
+      {/*product?.related_products && product?.related_products?.length > 0 && (
         <Box
           sx={{
             paddingInline: { xs: '18px', md: '25px', lg: '55px' },
@@ -484,7 +484,7 @@ function ProductPage(props: Props) {
             />
           </Box>
         </Box>
-      )}
+      )*/}
     </PrivateQueryMaskProvider>
   )
 }

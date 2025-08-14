@@ -46,7 +46,8 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
         backgroundPosition: '100% auto',
 
         '& .LayoutHeaderContent-right button': {
-          color: '#441E14',
+          color: (theme) => theme.palette.custom.main,
+          cursor: 'pointer',
         },
       },
     },

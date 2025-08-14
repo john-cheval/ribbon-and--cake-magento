@@ -313,6 +313,126 @@ index 400ed2c..ec8e544 100644
          <AddressCity {...props} />
        </FormRow>
        {!countryFirst && <AddressCountryRegion {...props} />}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
+index de1222a..af40a9f 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
+@@ -35,10 +35,44 @@ export function ChangePasswordForm() {
+ 
+   const submitHandler = handleSubmit(() => {})
+ 
+-  const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
++  // const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
+ 
++  const showSuccess = true
+   return (
+-    <Form onSubmit={submitHandler} noValidate>
++    <Form onSubmit={submitHandler} noValidate  sx={{
++            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: (theme:any)=>theme.palette.custom.main, 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color:(theme:any)=>theme.palette.custom.main,
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: (theme:any)=>theme.palette.custom.main,
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
++  },
++}}>
+       <FormRow>
+         <PasswordElement
+           control={control}
+@@ -77,24 +111,62 @@ export function ChangePasswordForm() {
+         />
+       </FormRow>
+ 
+-      <FormDivider />
++      <FormDivider sx={{
++        background:(theme:any)=>theme.palette.custom.borderSecondary
++      }} />
+ 
+-      <FormActions>
++      <FormActions sx={{
++        padding:0,
++        marginTop:'10px'
++      }}>
+         <Button
+           type='submit'
+           loading={formState.isSubmitting}
+-          color='primary'
+-          variant='pill'
++         // color='primary'
++          //variant='pill'
+           size='large'
++           sx={{
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
++            // paddingBlock:'18px',
++            borderRadius:'4px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          // width:'200px',
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++           textTransform:'capitalize',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++            }
++          }}
+         >
+-          <Trans id='Save new password' />
++          <Trans id='Save new Password' />
+         </Button>
+       </FormActions>
+ 
+       <ApolloErrorSnackbar error={remainingError} />
+ 
+       {showSuccess && (
+-        <MessageSnackbar open={showSuccess} sticky variant='pill' severity='success'>
++        <MessageSnackbar sx={{
++          '& .MuiSnackbarContent-message':{
++            '& svg':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize:{xs:'18px', lg:'25px'},
++            },
++            '& .MuiBox-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              textAlign:'center'
++            },
++            '& .MuiButtonBase-root':{
++              width:{xs:'35px', xl:'40px'},
++              height:{xs:'35px', xl:'40px'},
++              
++            }
++          }
++        }} open={showSuccess} sticky variant='pill' severity='success'>
+           <Trans id='Successfully changed password' />
+         </MessageSnackbar>
+       )}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx b/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
 index 68bd1d0..eb342cf 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx

@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
-index 495d466..25b0691 100644
+index 495d466..0240815 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 @@ -80,7 +80,7 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
@@ -27,12 +27,12 @@ index 495d466..25b0691 100644
 +               '& .ActionCard-root':{
 +                color:(theme:any)=> theme.palette.custom.main,
 +                fontSize:'16px',
-+                border:'1px solid #D5B1B8',
++                border:(theme:any)=>`1px solid ${theme.palette.custom.borderInput}`,
 +                borderRadius:'4px'
 +              },
 +              '& .ActionCard-root.selected':{
 +                backgroundColor:(theme:any)=> theme.palette.custom.heading,
-+                border:'1px solid #441E14',
++                border:(theme:any)=>`1px solid ${theme.palette.custom.main}`,
 +                boxShadow:'none !important'
 +              },
 +              '& .ActionCard-title.selected':{
@@ -49,13 +49,13 @@ index 495d466..25b0691 100644
 +                sx={{
 +  '& .MuiOutlinedInput-root': {
 +    '& .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&:hover .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +      borderWidth: '1px',
 +    },
 +    '& .MuiOutlinedInput-input': {
@@ -64,19 +64,19 @@ index 495d466..25b0691 100644
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
-+      color: '#441E14', 
++      color: (theme:any)=>theme.palette.custom.main, 
 +      // padding:'17px',// input text color
 +    },
 +    '& .MuiOutlinedInput-input::placeholder': {
-+      color: '#441E14',
++      color:(theme:any)=>theme.palette.custom.main,
 +      opacity: 1,
 +    },
 +  },
 +  '& .MuiInputLabel-root': {
-+    color: '#441E14',
++    color: (theme:any)=>theme.palette.custom.main,
 +  },
 +  '& .MuiInputLabel-root.Mui-focused': {
-+    color: '#441E14', // label when focused
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
 +  },
 +}}
 +
@@ -91,13 +91,13 @@ index 495d466..25b0691 100644
 +          <SignInForm sx={{
 +  '& .MuiOutlinedInput-root': {
 +    '& .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&:hover .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +      borderWidth: '1px',
 +    },
 +    '& .MuiOutlinedInput-input': {
@@ -106,18 +106,18 @@ index 495d466..25b0691 100644
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
-+      color: '#441E14', // input text color
++      color: (theme:any)=>theme.palette.custom.main, // input text color
 +    },
 +    '& .MuiOutlinedInput-input::placeholder': {
-+      color: '#441E14',
++      color: (theme:any)=>theme.palette.custom.main,
 +      opacity: 1,
 +    },
 +  },
 +  '& .MuiInputLabel-root': {
-+    color: '#441E14',
++    color: (theme:any)=>theme.palette.custom.main,
 +  },
 +  '& .MuiInputLabel-root.Mui-focused': {
-+    color: '#441E14', // label when focused
++    color: (theme:any)=>theme.palette.custom.main, // label when focused
 +  },
 +}}
 + email={emailValue} setError={setError} clearErrors={clearErrors} />
@@ -130,13 +130,13 @@ index 495d466..25b0691 100644
 +          <SignUpForm sx={{
 +  '& .MuiOutlinedInput-root': {
 +    '& .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&:hover .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +    },
 +    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-+      borderColor: '#D5B1B8',
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
 +      borderWidth: '1px',
 +    },
 +    '& .MuiOutlinedInput-input': {
@@ -145,18 +145,18 @@ index 495d466..25b0691 100644
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
-+      color: '#441E14', // input text color
++      color: (theme:any)=>theme.palette.custom.main, // input text color
 +    },
 +    '& .MuiOutlinedInput-input::placeholder': {
-+      color: '#441E14',
++      color: (theme:any)=>theme.palette.custom.main,
 +      opacity: 1,
 +    },
 +  },
 +  '& .MuiInputLabel-root': {
-+    color: '#441E14',
++    color: (theme:any)=>theme.palette.custom.main,
 +  },
 +  '& .MuiInputLabel-root.Mui-focused': {
-+    color: '#441E14', // label when focused
++    color: (theme:any)=>theme.palette.custom.main, // label when focused
 +  },
 +}}
 + email={emailValue} setError={setError} clearErrors={clearErrors} />
@@ -339,6 +339,95 @@ index 68bd1d0..eb342cf 100644
        </DesktopHeaderBadge>
      </Fab>
    )
+diff --git a/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
+index c50a52a..4a13ca4 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
+@@ -30,6 +30,8 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
+         sx={(theme) => ({
+           marginTop: theme.spacings.md,
+           marginBottom: theme.spacings.sm,
++          color:(theme:any)=>theme.palette.custom.main,
++          textAlign:'center',
+         })}
+       >
+         <Trans id='We’ve send a password reset link to your email address!' />
+@@ -51,6 +53,40 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
+           rules={{
+             pattern: { value: emailPattern, message: i18n._(/* i18n */ 'Invalid email address') },
+           }}
++           sx={{
++            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: (theme:any)=>theme.palette.custom.main, 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color:(theme:any)=>theme.palette.custom.main,
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: (theme:any)=>theme.palette.custom.main,
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
++  },
++}}
+           helperText={formState.errors.email?.message}
+           disabled={formState.isSubmitting}
+           showValid
+@@ -59,16 +95,31 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
+ 
+       <ApolloCustomerErrorAlert error={error} />
+ 
+-      <FormActions>
++      <FormActions sx={{padding:'10px'}}>
+         <Button
+           type='submit'
+           loading={formState.isSubmitting}
+           color='primary'
+-          variant='pill'
++          // variant='pill'
+           size='large'
++           sx={{
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
++            paddingBlock:'18px',
++            borderRadius:'4px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++           width:'200px',
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++            }
++          }}
+           {...buttonProps}
+         >
+-          <Trans id='Send password reset email' />
++          <Trans id='Submit' />
+         </Button>
+       </FormActions>
+     </Form>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql b/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql
 index 3cba4b8..9daef9f 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/GuestOrderOverview/GuestOrder.graphql
@@ -354,7 +443,7 @@ index 3cba4b8..9daef9f 100644
 + 
 \ No newline at end of file
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
-index 9a27189..5edf9bb 100644
+index 9a27189..8b9a1e0 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 @@ -8,6 +8,7 @@ import type { SxProps, Theme } from '@mui/material'
@@ -390,6 +479,15 @@ index 9a27189..5edf9bb 100644
            variant='outlined'
            error={!!formState.errors.password || !!authError}
            control={control}
+@@ -58,7 +61,7 @@ export function SignInForm(props: SignInFormProps) {
+           helperText={!!formState.errors.password || authError?.message}
+           InputProps={{
+             endAdornment: (
+-              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap' }}>
++              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap', color:(theme:any)=>theme.palette.custom.main }}>
+                 <Trans id='Forgot password?' />
+               </Link>
+             ),
 @@ -74,8 +77,23 @@ export function SignInForm(props: SignInFormProps) {
              type='submit'
              loading={formState.isSubmitting}
@@ -398,18 +496,18 @@ index 9a27189..5edf9bb 100644
 +            // variant='pill'
              size='large'
 +            sx={{
-+            backgroundColor:'#441E14',
-+            color:'#F6DBE0',
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
 +            paddingBlock:'18px',
 +            borderRadius:'4px',
 +            width:'100%',
 +            minWidth:'400px',
-+            border:'1px solid #441E14',
++            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            transition:'all 0.4s ease-in-out',
 +            '&:hover':{
 +              backgroundColor:'transparent',
-+              color:'#441E14',
-+            border:'1px solid #441E14',
++              color:(theme:any)=>theme.palette.custom.main,
++            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            }
 +          }}
            >
@@ -429,7 +527,7 @@ index 62c2fbb..9eadfab 100644
    $middlename: String
    $lastname: String!
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
-index c68c353..23bd8ad 100644
+index c68c353..3a5caab 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 @@ -7,23 +7,27 @@ import type { UseFormClearErrors, UseFormSetError } from '@graphcommerce/react-h
@@ -501,7 +599,7 @@ index c68c353..23bd8ad 100644
          />
          <PasswordRepeatElement
            control={control}
-@@ -102,30 +112,44 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -102,30 +112,45 @@ export function SignUpForm(props: SignUpFormProps) {
          />
        </FormRow>
  
@@ -528,18 +626,19 @@ index c68c353..23bd8ad 100644
            size='large'
            loading={formState.isSubmitting}
 +          sx={{
-+            backgroundColor:'#441E14',
-+            color:'#F6DBE0',
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
 +            paddingBlock:'18px',
 +            borderRadius:'4px',
 +            width:'100%',
 +            minWidth:'400px',
-+            border:'1px solid #441E14',
++            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            transition:'all 0.4s ease-in-out',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
 +            '&:hover':{
 +              backgroundColor:'transparent',
-+              color:'#441E14',
-+            border:'1px solid #441E14',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            }
 +          }}
          >

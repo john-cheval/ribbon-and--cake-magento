@@ -41,6 +41,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material'
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { iconCloseAccordion, iconFilterProduct, iconOpenAccordion } from '../../plugins/icons'
 import mix from '../Assets/mix.svg'
@@ -62,6 +63,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     menu,
     menuList,
     conf,
+    isSearch = false,
   } = props
 
   if (!params || !products?.items || !filterTypes) return null
@@ -138,6 +140,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleAccordionChange = (categoryName: string) => {
     setExpanded(expanded === categoryName ? false : categoryName)
   }
+
+  console.log(menuList, 'thi is the menuList')
 
   return (
     <ProductFiltersPro
@@ -418,78 +422,70 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             mt: { xs: '30px' },
           })}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
-              paddingBottom: '20px',
-            }}
-          >
+          {!isSearch && (
             <Box
               sx={{
-                fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                fontWeight: 500,
-                lineHeight: '120%',
-                color: (theme: any) => theme.palette.custom.dark,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                justifyContent: 'space-between',
+                borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                paddingBottom: '20px',
               }}
             >
-              <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: 'auto' }} /> Filter
-            </Box>
+              <Box
+                sx={{
+                  fontSize: { xs: '14px', sm: '16px', md: '20px' },
+                  fontWeight: 500,
+                  lineHeight: '120%',
+                  color: (theme: any) => theme.palette.custom.dark,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: 'auto' }} /> Filter
+              </Box>
 
-            <ProductFiltersProClearAll
-              sx={{
-                alignSelf: 'center',
-                background: 'transparent',
-                padding: 0,
-                borderRadius: '0 !important',
-                color: (theme: any) => theme.palette.custom.tertiary,
-                width: 'fit-content',
-                textDecoration: 'underline',
-                minWidth: 'unset',
-                fontSize: { sm: '12px', md: '14px' },
-                '&:hover:not(.Mui-disabled)': {
-                  backgroundColor: 'transparent',
-                },
-              }}
-              title='Clear'
-              menuList={menuList}
-            />
-          </Box>
+              <ProductFiltersProClearAll
+                sx={{
+                  alignSelf: 'center',
+                  background: 'transparent',
+                  padding: 0,
+                  borderRadius: '0 !important',
+                  color: (theme: any) => theme.palette.custom.tertiary,
+                  width: 'fit-content',
+                  textDecoration: 'underline',
+                  minWidth: 'unset',
+                  fontSize: { sm: '12px', md: '14px' },
+                  '&:hover:not(.Mui-disabled)': {
+                    backgroundColor: 'transparent',
+                  },
+                }}
+                title='Clear'
+                menuList={menuList}
+              />
+            </Box>
+          )}
 
           <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
-          {/*   <>
-            {category ? (
-              <ProductFiltersProCategorySection
-                filterIcons={iconFilterProduct}
-                category={category}
-                params={params}
-                hideBreadcrumbs
-              />
-            ) : (
-              <ProductFiltersProCategorySectionSearch menu={menu} defaultExpanded />
-            )}
-          </>*/}
+
           <Typography
             sx={{
               fontSize: { xs: '14px', sm: '16px', md: '20px' },
               fontWeight: 500,
               lineHeight: '120%',
               color: (theme: any) => theme.palette.custom.dark,
-              paddingTop: '35px',
+              paddingTop: isSearch ? '0px' : '35px',
               paddingBottom: '15px',
               borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
             }}
           >
             Categories
           </Typography>
-          {menuList?.map(
-            (menu, index) =>
-              menu?.children?.length > 0 && (
+          {menuList
+            ?.filter((menu) => menu?.uid !== 'MTM=')
+            .map((menu, index) =>
+              menu?.children?.length > 0 ? (
                 <Box key={index}>
                   <ProductFiltersProCategorySection
                     filterIcons={iconFilterProduct}
@@ -501,8 +497,28 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     handleChange={() => handleAccordionChange(menu?.name)}
                   />
                 </Box>
+              ) : (
+                <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: '14px', sm: '16px', md: '18px' },
+                      fontWeight: 400,
+                      lineHeight: '120%',
+                      color: (theme: any) => theme.palette.custom.dark,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      paddingBlock: '15px',
+                      cursor: 'pointer',
+                      borderBottom: (theme: any) =>
+                        `1px solid ${theme.palette.custom.borderSecondary}`,
+                    }}
+                  >
+                    {menu?.name}
+                  </Typography>
+                </Link>
               ),
-          )}
+            )}
         </MediaQuery>
       </Container>
     </ProductFiltersPro>

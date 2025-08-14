@@ -39,7 +39,9 @@ import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphql
 type SearchResultProps = MenuQueryFragment &
   ProductListQuery &
   ProductFiltersQuery &
-  CategorySearchQuery & { filterTypes: FilterTypes; params: ProductListParams }
+  CategorySearchQuery & { filterTypes: FilterTypes; params: ProductListParams } & {
+    apolloState?: any
+  }
 type RouteProps = { url: string[] }
 export type GetPageStaticProps = GetStaticProps<
   LayoutNavigationProps,
@@ -48,9 +50,13 @@ export type GetPageStaticProps = GetStaticProps<
 >
 
 function SearchResultPage(props: SearchResultProps) {
+  const { apolloState, menu: menuList } = props
   const productList = useProductList(props)
-  const { params, menu } = productList
+  const { params, menu, products } = productList
   const search = params.url.split('/')[1]
+  console.log(menuList, 'this is them menu list')
+
+  if (!menuList?.items || menuList.items.length === 0) return
 
   return (
     <>
@@ -70,15 +76,21 @@ function SearchResultPage(props: SearchResultProps) {
       <PrivateQueryMaskProvider mask={productList.mask}>
         {import.meta.graphCommerce.productFiltersPro &&
           import.meta.graphCommerce.productFiltersLayout === 'SIDEBAR' && (
-            <ProductListLayoutSidebar {...productList} menu={menu} />
+            <ProductListLayoutSidebar
+              {...productList}
+              // menu={menu}
+              menuList={menuList?.items[0]?.children}
+              conf={apolloState}
+              isSearch={true}
+            />
           )}
-        {import.meta.graphCommerce.productFiltersPro &&
+        {/*import.meta.graphCommerce.productFiltersPro &&
           import.meta.graphCommerce.productFiltersLayout !== 'SIDEBAR' && (
             <ProductListLayoutDefault {...productList} menu={menu} />
           )}
         {!import.meta.graphCommerce.productFiltersPro && (
           <ProductListLayoutClassic {...productList} menu={menu} />
-        )}
+        )*/}
       </PrivateQueryMaskProvider>
     </>
   )

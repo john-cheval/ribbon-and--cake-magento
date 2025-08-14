@@ -93,7 +93,7 @@ index f94c113..3dddebd 100644
                <Box
                  className={classes.title}
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-index 323c7e3..b51afee 100644
+index 323c7e3..53cb722 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 @@ -1,20 +1,25 @@
@@ -125,7 +125,17 @@ index 323c7e3..b51afee 100644
    const [expanded, setExpanded] = useState(defaultExpanded)
    const handleChange = () => setExpanded(!expanded)
  
-@@ -39,20 +44,35 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
+@@ -31,28 +36,43 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
+           '&.Mui-expanded': { my: 0 },
+           '::before': { display: 'none' },
+           border: 'none',
+-          borderBottom: `1px solid ${theme.palette.divider}`,
+-          '&:not(.Mui-expanded)': { borderBottom: `1px solid ${theme.palette.divider}` },
++          borderBottom:(theme:any)=> `1px solid ${theme.palette.custom.borderSecondary}`,
++          '&:not(.Mui-expanded)': { borderBottom:(theme:any)=> `1px solid ${theme.palette.custom.borderSecondary}` },
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
      >
        <AccordionSummary
          onClick={(e) => e.preventDefault()}

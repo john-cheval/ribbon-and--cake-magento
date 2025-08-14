@@ -25,8 +25,25 @@ type GetPageStaticProps = GetStaticProps<LayoutOverlayProps>
 function AccountAuthenticationPage() {
   return (
     <>
-      <LayoutOverlayHeader>
-        <LayoutTitle size='small' component='span' icon={iconLock} variant='h2'>
+      <LayoutOverlayHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
+        <LayoutTitle size='small' component='span' icon={iconLock}>
           <Trans id='Authentication' />
         </LayoutTitle>
       </LayoutOverlayHeader>
@@ -43,7 +60,7 @@ function AccountAuthenticationPage() {
             gap: { xs: '10px', md: '15px' },
             '& svg': {
               fontSize: { xs: '25px', md: '35px' },
-              stroke: (theme) => theme.palette.custom.main,
+              stroke: (theme) => theme.palette.custom.wishlistColor,
               position: 'relative',
               top: '-5px',
             },

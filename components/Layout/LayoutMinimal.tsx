@@ -18,7 +18,11 @@ export function LayoutMinimal(props: LayoutMinimalProps) {
       {...uiProps}
       header={<Logo />}
       footer={<Footer footerContent={decodedFooterData} />}
-      sx={{ background: (theme) => theme.palette.background.paper }}
+      sx={{
+        '& .LayoutDefault-header .GcLogo-parent': {
+          justifyContent: 'center',
+        },
+      }}
     >
       {children}
     </LayoutDefault>

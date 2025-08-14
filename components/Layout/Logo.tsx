@@ -1,5 +1,5 @@
 import { Logo as LogoBase } from '@graphcommerce/next-ui'
-import footerLogo from './footer_logo.svg'
+// import footerLogo from './footer_logo.svg'
 import svgLogo from './Logo.svg'
 
 interface LogoProps {
@@ -21,7 +21,7 @@ export function Logo({ isHome }: LogoProps) {
       }}
       image={{
         alt: 'Ribbin and Ballons Logo',
-        src: isHome ? svgLogo : footerLogo,
+        src: isHome ? svgLogo : svgLogo,
         unoptimized: true,
       }}
     />

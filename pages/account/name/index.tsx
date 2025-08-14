@@ -2,18 +2,19 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import {
   ChangeNameForm,
   CustomerDocument,
-  WaitForCustomer,
   getCustomerAccountIsDisabled,
   useCustomerQuery,
+  WaitForCustomer,
 } from '@graphcommerce/magento-customer'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import { LayoutOverlayHeader, LayoutTitle, SectionContainer, iconId } from '@graphcommerce/next-ui'
+import { iconId, LayoutOverlayHeader, LayoutTitle, SectionContainer } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
 import { Container } from '@mui/material'
 import type { LayoutOverlayProps } from '../../../components'
 import { LayoutOverlay } from '../../../components'
+import bgImage from '../../../constants/images/account/Frame.png'
 import { graphqlSharedClient } from '../../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutOverlayProps>
@@ -26,21 +27,60 @@ function AccountNamePage() {
 
   return (
     <>
-      <LayoutOverlayHeader>
-        <LayoutTitle size='small' component='span' icon={iconId}>
+      <LayoutOverlayHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
+        <LayoutTitle size='small' component='span' icon={iconId} variant='h2'>
           <Trans id='Name' />
         </LayoutTitle>
       </LayoutOverlayHeader>
 
-      <Container maxWidth='md'>
+      <Container
+        maxWidth='md'
+        sx={{
+          '& .LayoutTitle-root ': {
+            marginBottom: 0,
+            gap: { xs: '10px', md: '15px' },
+            '& svg': {
+              fontSize: { xs: '25px', md: '35px' },
+              stroke: (theme) => theme.palette.custom.wishlistColor,
+            },
+          },
+        }}
+      >
         <WaitForCustomer waitFor={dashboard}>
           <PageMeta title={i18n._(/* i18n */ 'Name')} metaRobots={['noindex']} />
 
-          <LayoutTitle icon={iconId}>
+          <LayoutTitle icon={iconId} variant='h2'>
             <Trans id='Name' />
           </LayoutTitle>
 
-          <SectionContainer labelLeft={<Trans id='Name' />}>
+          <SectionContainer
+            sx={{
+              '& .SectionHeader-root': {
+                borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+              },
+              '& .SectionHeader-left': {
+                color: (theme) => theme.palette.custom.main,
+              },
+            }}
+            labelLeft={<Trans id='Name' />}
+          >
             {customer && (
               <ChangeNameForm
                 prefix={customer.prefix ?? ''}
@@ -58,6 +98,22 @@ function AccountNamePage() {
 const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account',
   Layout: LayoutOverlay,
+  layoutProps: {
+    sx: {
+      '& .LayoutOverlayBase-background': {
+        backgroundImage: `url(${bgImage.src})`,
+        borderRadius: '30px 30px 0 0',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: { xs: 'unset', md: '100% auto' },
+        backgroundPosition: '100% auto',
+
+        '& .LayoutHeaderContent-right button': {
+          color: (theme) => theme.palette.custom.main,
+          cursor: 'pointer',
+        },
+      },
+    },
+  },
 }
 AccountNamePage.pageOptions = pageOptions
 

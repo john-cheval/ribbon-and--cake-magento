@@ -2,8 +2,8 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { AccountDeleteForm, getCustomerAccountIsDisabled } from '@graphcommerce/magento-customer'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import { LayoutOverlayHeader, LayoutTitle, iconBin } from '@graphcommerce/next-ui'
-import { Trans, t } from '@lingui/macro'
+import { iconBin, LayoutOverlayHeader, LayoutTitle } from '@graphcommerce/next-ui'
+import { t, Trans } from '@lingui/macro'
 import { Container } from '@mui/material'
 import type { LayoutOverlayProps } from '../../../components'
 import { LayoutOverlay } from '../../../components'
@@ -16,14 +16,31 @@ function AccountDeletePage() {
     <>
       <PageMeta title={t`Delete account`} metaRobots={['noindex']} />
 
-      <LayoutOverlayHeader>
+      <LayoutOverlayHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
         <LayoutTitle size='small' component='span' icon={iconBin}>
           <Trans>Delete account</Trans>
         </LayoutTitle>
       </LayoutOverlayHeader>
 
       <Container maxWidth='md'>
-        <LayoutTitle icon={iconBin}>
+        <LayoutTitle variant='h2' icon={iconBin}>
           <Trans>Delete account</Trans>
         </LayoutTitle>
         <AccountDeleteForm />

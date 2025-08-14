@@ -1,3 +1,157 @@
+diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
+index 039c584..78cdd84 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
+@@ -48,6 +48,20 @@ export function AccountAddresses(props: AccountAddressesProps) {
+             display: 'block',
+             maxWidth: 'max-content',
+             margin: `${theme.spacings.md} auto`,
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
++            // paddingBlock:'18px',
++            borderRadius:'4px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          // width:'200px',
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++           textTransform:'capitalize',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent !important',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++            }
+           })}
+         >
+           <Trans id='Add new address' />
+@@ -63,7 +77,23 @@ export function AccountAddresses(props: AccountAddressesProps) {
+           title={<Trans id='You have no addresses saved yet' />}
+           icon={<IconSvg src={iconHome} size='xxl' />}
+           button={
+-            <Button href='/account/addresses/add' size='large' variant='pill' color='primary'>
++            <Button   sx={{
++            backgroundColor:(theme:any)=>theme.palette.custom.main,
++            color:(theme:any)=>theme.palette.custom.border,
++            // paddingBlock:'18px',
++            borderRadius:'4px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          // width:'200px',
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++           textTransform:'capitalize',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent !important',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++            }
++          }}
++            href='/account/addresses/add' size='large' variant='pill' color='primary'>
+               <Trans id='Add new address' />
+             </Button>
+           }
+diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
+index 1f2027c..81c5cbd 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
+@@ -38,11 +38,48 @@ export function AccountDeleteForm() {
+     <>
+       {!called || error || loading ? (
+         <WaitForCustomer waitFor={dashboard}>
+-          <Box component='form' onSubmit={submitHandler} noValidate>
+-            <Typography variant='h6' textAlign='center'>
++          <Box component='form' onSubmit={submitHandler} noValidate sx={{
++            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++  '& .MuiOutlinedInput-root': {
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: (theme:any)=>theme.palette.custom.main, 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color:(theme:any)=>theme.palette.custom.main,
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: (theme:any)=>theme.palette.custom.main,
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
++  },
++}}>
++            <Typography variant='h6' textAlign='center' sx={{
++              color:(theme:any)=>theme.palette.custom?.main
++            }}>
+               <Trans>Are you sure you want to delete your account?</Trans>
+             </Typography>
+-            <Typography variant='body1' textAlign='center'>
++            <Typography variant='body1' textAlign='center' sx={{
++              color:(theme:any)=>theme.palette.custom?.main
++            }}>
+               <Trans>
+                 Doing so will remove all your data including order history and saved shipping /
+                 billing addresses.
+@@ -64,14 +101,33 @@ export function AccountDeleteForm() {
+                 </Trans>
+               }
+             />
+-            <FormActions>
++            <FormActions sx={{
++        padding:0,
++        marginTop:'10px'
++      }}>
+               <Button
+                 type='submit'
+                 loading={loading}
+                 color='error'
+-                variant='pill'
++              //  variant='pill'
+                 size='large'
+-                sx={{ color: 'white', bgcolor: 'error.main' }}
++                 sx={{
++            backgroundColor:'red',
++            color:'#fff',
++            // paddingBlock:'18px',
++            borderRadius:'4px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          // width:'200px',
++           border: (theme:any) => `1px solid red`,
++           textTransform:'capitalize',
++            transition:'all 0.4s ease-in-out',
++            '&:hover':{
++              backgroundColor:'transparent',
++              color:(theme:any)=>theme.palette.custom.main,
++           border: (theme:any) => `1px solid red`
++            }
++          }}
++               
+               >
+                 <Trans>Delete account</Trans>
+               </Button>
+@@ -80,7 +136,9 @@ export function AccountDeleteForm() {
+         </WaitForCustomer>
+       ) : (
+         <>
+-          <Typography variant='h6' textAlign='center'>
++          <Typography variant='h6' textAlign='center' sx={{
++              color:(theme:any)=>theme.palette.custom?.main
++            }}>
+             <Trans>Account deletion successful</Trans>
+           </Typography>
+           <FormActions>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 index 495d466..0240815 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
@@ -313,8 +467,134 @@ index 400ed2c..ec8e544 100644
          <AddressCity {...props} />
        </FormRow>
        {!countryFirst && <AddressCountryRegion {...props} />}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx b/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx
+index fe2fe28..906ac8d 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx
+@@ -26,7 +26,7 @@ export function ApolloCustomerErrorFullPage(props: ApolloCustomerErrorFullPagePr
+       error={newError}
+       button={
+         unauthorized ? (
+-          <Button href='/account/signin' variant='pill' color='primary' size='large'>
++          <Button sx={{borderRadius:'8px'}} href='/account/signin' variant='pill' color='primary' size='large'>
+             {canSignUp ? <Trans id='Sign in or create an account!' /> : <Trans id='Sign in' />}
+           </Button>
+         ) : (
+diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
+index 0be3575..e59cb69 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
+@@ -30,25 +30,102 @@ export function ChangeNameForm(props: ChangeNameFormProps) {
+ 
+   return (
+     <>
+-      <Form onSubmit={submit} noValidate>
++      <Form onSubmit={submit} noValidate
++      sx={{
++            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++  '& .MuiOutlinedInput-root': {
++    '& svg.MuiSelect-icon':{
++      fill:(theme:any)=>theme.palette.custom.wishlistColor,
++      color:(theme:any)=>theme.palette.custom.wishlistColor
++    },
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: (theme:any)=>theme.palette.custom.main, 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color:(theme:any)=>theme.palette.custom.main,
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: (theme:any)=>theme.palette.custom.main,
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
++  },
++}}>
+         <NameFields form={form} prefix />
+-        <FormDivider />
+-        <FormActions>
++        <FormDivider sx={{
++        background:(theme:any)=>theme.palette.custom.borderSecondary
++      }}/>
++        <FormActions sx={{
++                padding:0,
++                marginTop:'10px'
++              }}>
+           <Button
+             type='submit'
+             color='primary'
+-            variant='pill'
++            // variant='pill'
++            fullWidth
+             size='large'
+             loading={formState.isSubmitting}
++             sx={{
++                        backgroundColor:(theme:any)=>theme.palette.custom.main,
++                        color:(theme:any)=>theme.palette.custom.border,
++                        // paddingBlock:'18px',
++                        borderRadius:'4px',
++                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                      // width:'200px',
++                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++                       textTransform:'capitalize',
++                        transition:'all 0.4s ease-in-out',
++                        '&:hover':{
++                          backgroundColor:'transparent',
++                          color:(theme:any)=>theme.palette.custom.main,
++                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++                        }
++                      }}
+           >
+             <Trans id='Save changes' />
+           </Button>
+         </FormActions>
+         <ApolloCustomerErrorAlert error={error} />
+       </Form>
+-      <MessageSnackbar
++      <MessageSnackbar sx={{
++          '& .MuiSnackbarContent-message':{
++            '& svg':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize:{xs:'18px', lg:'25px'},
++            },
++            '& .MuiBox-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              textAlign:'center'
++            },
++            '& .MuiButtonBase-root':{
++              width:{xs:'35px', xl:'40px'},
++              height:{xs:'35px', xl:'40px'},
++              
++            }
++          }
++        }} 
+         open={formState.isSubmitSuccessful && !error}
+-        variant='pill'
++      
+         severity='success'
+       >
+         <Trans id='Successfully saved changes' />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-index de1222a..af40a9f 100644
+index de1222a..5066959 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 @@ -35,10 +35,44 @@ export function ChangePasswordForm() {
@@ -322,9 +602,9 @@ index de1222a..af40a9f 100644
    const submitHandler = handleSubmit(() => {})
  
 -  const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
-+  // const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
++ const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
++
  
-+  const showSuccess = true
    return (
 -    <Form onSubmit={submitHandler} noValidate>
 +    <Form onSubmit={submitHandler} noValidate  sx={{
@@ -433,6 +713,115 @@ index de1222a..af40a9f 100644
            <Trans id='Successfully changed password' />
          </MessageSnackbar>
        )}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
+index 65401af..5747ac0 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
+@@ -60,7 +60,44 @@ export function CreateCustomerAddressForm() {
+ 
+   return (
+     <>
+-      <Form onSubmit={submitHandler} noValidate>
++      <Form onSubmit={submitHandler} noValidate sx={{
++            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++  '& .MuiOutlinedInput-root': {
++    '& svg.MuiSelect-icon':{
++      fill:(theme:any)=>theme.palette.custom.wishlistColor,
++      color:(theme:any)=>theme.palette.custom.wishlistColor
++    },
++    '& .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&:hover .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++    },
++    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++      borderColor: (theme:any)=>theme.palette.custom.borderInput,
++      borderWidth: '1px',
++    },
++    '& .MuiOutlinedInput-input': {
++      fontFamily: '"Bricolage Grotesque"',
++      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontStyle: 'normal',
++      fontWeight: 400,
++      lineHeight: '158%',
++      color: (theme:any)=>theme.palette.custom.main, 
++      // padding:'17px',// input text color
++    },
++    '& .MuiOutlinedInput-input::placeholder': {
++      color:(theme:any)=>theme.palette.custom.main,
++      opacity: 1,
++    },
++  },
++  '& .MuiInputLabel-root': {
++    color: (theme:any)=>theme.palette.custom.main,
++  },
++  '& .MuiInputLabel-root.Mui-focused': {
++    color:(theme:any)=>theme.palette.custom.main, // label when focused
++  },
++}}>
+         <CompanyFields form={form} />
+         <NameFields form={form} prefix />
+         <AddressFields form={form} name={{ regionId: 'region.region_id' }} />
+@@ -76,19 +113,54 @@ export function CreateCustomerAddressForm() {
+           />
+         </FormRow>
+ 
+-        <FormActions>
++        <FormActions sx={{
++                padding:0,
++                marginTop:'10px'
++              }}>
+           <Button
+             type='submit'
+-            variant='pill'
++           
+             color='primary'
+-            size='large'
+             loading={formState.isSubmitting}
++            sx={{
++                        backgroundColor:(theme:any)=>theme.palette.custom.main,
++                        color:(theme:any)=>theme.palette.custom.border,
++                         paddingBlock:'18px',
++                        borderRadius:'4px',
++                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                      // width:'200px',
++                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++                       textTransform:'capitalize',
++                        transition:'all 0.4s ease-in-out',
++                        '&:hover':{
++                          backgroundColor:'transparent',
++                          color:(theme:any)=>theme.palette.custom.main,
++                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++                        }
++                      }}
+           >
+             <Trans id='Save changes' />
+           </Button>
+         </FormActions>
+       </Form>
+-      <MessageSnackbar open={Boolean(data) && !error} variant='pill' severity='success'>
++      <MessageSnackbar sx={{
++          '& .MuiSnackbarContent-message':{
++            '& svg':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize:{xs:'18px', lg:'25px'},
++            },
++            '& .MuiBox-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              textAlign:'center'
++            },
++            '& .MuiButtonBase-root':{
++              width:{xs:'35px', xl:'40px'},
++              height:{xs:'35px', xl:'40px'},
++              
++            }
++          }
++        }}   open={Boolean(data) && !error}  severity='success'>
+         <Trans id='Your address has been added' components={{ 0: <strong /> }} />
+       </MessageSnackbar>
+ 
 diff --git a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx b/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
 index 68bd1d0..eb342cf 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/CustomerFab/CustomerFab.tsx
@@ -770,6 +1159,155 @@ index c68c353..3a5caab 100644
 +    </Box>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx b/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
+index 2c28caa..b88c101 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
+@@ -52,7 +52,44 @@ export function UpdateCustomerEmailForm(props: UpdateCustomerEmailFormProps) {
+   const watchNewEmail = watch('email')
+ 
+   return (
+-    <Form onSubmit={submit} noValidate>
++    <Form onSubmit={submit} noValidate sx={{
++                minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++      '& .MuiOutlinedInput-root': {
++        '& svg.MuiSelect-icon':{
++          fill:(theme:any)=>theme.palette.custom.wishlistColor,
++          color:(theme:any)=>theme.palette.custom.wishlistColor
++        },
++        '& .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++        },
++        '&:hover .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++        },
++        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++          borderWidth: '1px',
++        },
++        '& .MuiOutlinedInput-input': {
++          fontFamily: '"Bricolage Grotesque"',
++          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          fontStyle: 'normal',
++          fontWeight: 400,
++          lineHeight: '158%',
++          color: (theme:any)=>theme.palette.custom.main, 
++          // padding:'17px',// input text color
++        },
++        '& .MuiOutlinedInput-input::placeholder': {
++          color:(theme:any)=>theme.palette.custom.main,
++          opacity: 1,
++        },
++      },
++      '& .MuiInputLabel-root': {
++        color: (theme:any)=>theme.palette.custom.main,
++      },
++      '& .MuiInputLabel-root.Mui-focused': {
++        color:(theme:any)=>theme.palette.custom.main, // label when focused
++      },
++    }}>
+       <FormRow>
+         <TextFieldElement
+           variant='outlined'
+@@ -118,20 +155,59 @@ export function UpdateCustomerEmailForm(props: UpdateCustomerEmailFormProps) {
+ 
+       <ApolloCustomerErrorSnackbar error={remainingError} />
+ 
+-      <FormDivider />
+-      <FormActions>
++      <FormDivider sx={{
++        background:(theme:any)=>theme.palette.custom.borderSecondary
++      }} />
++      <FormActions sx={{
++                padding:0,
++                marginTop:'10px'
++              }}>
+         <Button
+           type='submit'
+           color='primary'
+-          variant='pill'
++        //  variant='pill'
+           size='large'
+           loading={formState.isSubmitting}
++           sx={{
++                                  backgroundColor:(theme:any)=>theme.palette.custom.main,
++                                  color:(theme:any)=>theme.palette.custom.border,
++                                  // paddingBlock:'18px',
++                                  borderRadius:'4px',
++                                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                                // width:'200px',
++                                 border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++                                 textTransform:'capitalize',
++                                  transition:'all 0.4s ease-in-out',
++                                  '&:hover':{
++                                    backgroundColor:'transparent',
++                                    color:(theme:any)=>theme.palette.custom.main,
++                                 border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++                                  }
++                                }}
+         >
+           <Trans id='Save changes' />
+         </Button>
+       </FormActions>
+ 
+       <MessageSnackbar
++      sx={{
++          '& .MuiSnackbarContent-message':{
++            '& svg':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize:{xs:'18px', lg:'25px'},
++            },
++            '& .MuiBox-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              textAlign:'center'
++            },
++            '& .MuiButtonBase-root':{
++              width:{xs:'35px', xl:'40px'},
++              height:{xs:'35px', xl:'40px'},
++              
++            }
++          }
++        }} 
+         variant='pill'
+         severity='success'
+         sticky
+diff --git a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
+index 505bd21..882da33 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
+@@ -49,7 +49,7 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
+   const error = mergeErrors(
+     queries.map((query) => (typeof query === 'boolean' ? null : query.error)).filter(nonNullable),
+   )
+-
++// console.log(session,"this is the session")
+   return (
+     <WaitForQueries
+       waitFor={!session.loggedIn ? session.query : queries}
+@@ -71,7 +71,21 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
+             icon={<IconSvg src={iconPerson} size='xxl' />}
+             title={<Trans id='You must sign in to continue' />}
+             button={
+-              <Button href='/account/signin' variant='pill' color='secondary' size='large'>
++              <Button  sx={{
++                          backgroundColor:(theme:any)=>theme.palette.custom.main,
++                          color:(theme:any)=>theme.palette.custom.border,
++                         // paddingBlock:'18px',
++                          borderRadius:'4px',
++                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                        width:'200px',
++                         border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++                          transition:'all 0.4s ease-in-out',
++                          '&:hover':{
++                            backgroundColor:'transparent',
++                            color:(theme:any)=>theme.palette.custom.main,
++                         border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++                          }
++                        }} href='/account/signin'  color='secondary' size='large'>
+                 {!session.valid ? (
+                   <Trans id='Sign in' />
+                 ) : (
 diff --git a/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts b/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts
 new file mode 100644
 index 0000000..466fdc6

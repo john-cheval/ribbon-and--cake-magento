@@ -47,7 +47,9 @@ import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsr
 export type CategoryProps = CategoryPageQuery &
   layoutProps &
   ProductListQuery &
-  ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams } & { apolloState?: any }
+  ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams } & {
+    apolloState?: any
+  }
 export type CategoryRoute = { url: string[] }
 export type layoutProps = { layoutData?: any; menu?: any }
 
@@ -67,35 +69,12 @@ function CategoryPage(props: CategoryProps) {
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
 
+  // console.log(category, 'this is the category')
+  // console.log(menu?.items[0]?.children, 'this is the children of the menu')
+
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
-      {/* <LayoutHeader floatingMd hideMd={import.meta.graphCommerce.breadcrumbs}>
-        <LayoutTitle size='small' component='span'>
-          {category?.name}
-        </LayoutTitle>
-      </LayoutHeader> */}
-      {/* isCategory && isLanding && (
-        <>
-          {import.meta.graphCommerce.breadcrumbs && (
-            <Container maxWidth={false}>
-              <CategoryBreadcrumbs
-                category={category}
-                sx={(theme) => ({
-                  height: 0,
-                  [theme.breakpoints.down('md')]: {
-                    '& .MuiBreadcrumbs-ol': { justifyContent: 'center' },
-                  },
-                })}
-              />
-            </Container>
-          )}
-          <CategoryHeroNav
-            {...category}
-            title={<CategoryHeroNavTitle>{category?.name}</CategoryHeroNavTitle>}
-          />
-        </>
-      ) */}
 
       {isCategory && !isLanding && (
         <InnerTop
@@ -103,6 +82,8 @@ function CategoryPage(props: CategoryProps) {
           count={products?.total_count}
           title={category.name ?? ''}
           isFilter={true}
+          id={category.uid}
+          category={category}
         />
       )}
       {isCategory && !isLanding && (

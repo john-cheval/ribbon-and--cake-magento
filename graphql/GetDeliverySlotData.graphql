@@ -1,0 +1,20 @@
+query GetTimeSlotsByZipcode($zipcode: Int!) {
+  getTimeSlots(zipcode: $zipcode) {
+    todayDate
+    isEnabled
+    start_date
+    slotData {
+      message
+      pinCode
+      maxdays
+      start_date
+      slots {
+        date
+        slot
+        is_available
+        slot_id
+        slot_group
+      }
+    }
+  }
+}

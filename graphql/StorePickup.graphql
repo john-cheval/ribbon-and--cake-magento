@@ -1,0 +1,22 @@
+query GetStorePickup {
+  pickupLocations(filters: {}, pageSize: 20, currentPage: 1) {
+    items {
+      city
+      contact_name
+      country_id
+      description
+      email
+      fax
+      latitude
+      longitude
+      name
+      phone
+      pickup_location_code
+      postcode
+      region
+      region_id
+      street
+    }
+    total_count
+  }
+}

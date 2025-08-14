@@ -1,15 +1,9 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Typography } from '@mui/material'
-import {
-  courseInnerDataList,
-  coursesInnerPara,
-} from '../../../../constants/courses/inner/coursesInnerData'
 import { saxoGrammaticus } from '../../../../lib/fonts'
-// import banner from './banner.jpg'
 import ImageGallery from './ImageGallery'
 
 function InnerLeft({ coursesData }) {
-  console.log(coursesData[0]?.image, 'this is courses data')
   return (
     <Box>
       <Typography
@@ -19,13 +13,13 @@ function InnerLeft({ coursesData }) {
           color: (theme: any) => theme.palette.custom.heading,
         }}
       >
-        {coursesData[0]?.name}
+        {coursesData?.name}
       </Typography>
 
       <Box sx={{ marginBlock: { xs: '14px 10px', md: '15px 15px' }, position: 'relative' }}>
         <Image
-          src={coursesData[0]?.image}
-          alt={coursesData[0]?.name}
+          src={coursesData?.image}
+          alt={coursesData?.name}
           width={775}
           height={400}
           sx={{
@@ -35,98 +29,43 @@ function InnerLeft({ coursesData }) {
             borderRadius: '8px',
           }}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            columnGap: { xs: '5px', md: '12px' },
-            position: 'absolute',
-            top: { xs: '15px', md: '30px' },
-            left: { xs: '15px', md: '30px' },
-          }}
-        >
+
+        {coursesData?.tags?.items?.length > 0 && (
           <Box
             sx={{
-              padding: '6px 20px',
-              background: (theme: any) => theme.palette.custom.border,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: (theme: any) => theme.palette.custom.smallHeading,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              display: 'flex',
+              columnGap: { xs: '5px', md: '12px' },
+              position: 'absolute',
+              top: { xs: '15px', md: '30px' },
+              left: { xs: '15px', md: '30px' },
             }}
           >
-            Course 1
+            {coursesData?.tags?.items?.map((tag, index) => (
+              <Box
+                key={tag?.name || index}
+                sx={{
+                  padding: '6px 20px',
+                  background: (theme: any) => theme.palette.custom.border,
+                  borderRadius: '999px',
+                  border: '1px solid #F6DBE0',
+                  backdropFilter: 'blur(4.699999809265137px)',
+                  color: (theme: any) => theme.palette.custom.smallHeading,
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                }}
+              >
+                {tag?.name || 'tag'}
+              </Box>
+            ))}
           </Box>
-          <Box
-            sx={{
-              padding: '6px 20px',
-              background: (theme: any) => theme.palette.custom.border,
-              borderRadius: '999px',
-              border: '1px solid #F6DBE0',
-              backdropFilter: 'blur(4.699999809265137px)',
-              color: (theme: any) => theme.palette.custom.smallHeading,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-            }}
-          >
-            2 Days
-          </Box>
-        </Box>
+        )}
       </Box>
 
       <div
         className='coursesInner'
-        dangerouslySetInnerHTML={{ __html: coursesData[0]?.post_content }}
+        dangerouslySetInnerHTML={{ __html: coursesData?.post_content }}
       />
 
-      {/*courseInnerDataList?.map((list, index) => (
-        <Box key={index} sx={{ display: 'flex', alignItems: 'center', columnGap: '3px' }}>
-          <Box
-            component='span'
-            sx={{
-              display: 'inline-block',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              color: '#6F6F6F',
-            }}
-          >
-            {index + 1}.
-          </Box>
-          <Typography
-            variant='p'
-            component='p'
-            sx={{
-              color: '#6F6F6F',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              lineHeight: ' 174%',
-            }}
-          >
-            {list}
-          </Typography>
-        </Box>
-      ))*/}
-      {/*  <Box
-        sx={{
-          marginBlock: { xs: '15px 20px', md: '25px 35px' },
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: { xs: '15px', md: '20px' },
-        }}
-      >
-        {coursesInnerPara?.map((para, index) => (
-          <Typography
-            component='p'
-            key={index}
-            sx={{
-              color: (theme: any) => theme.palette.custom.secondary,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              lineHeight: ' 174%',
-            }}
-          >
-            {para}
-          </Typography>
-        ))}
-      </Box> */}
-
-      <ImageGallery />
+      <ImageGallery courseInnerImages={coursesData?.gallery_images} />
     </Box>
   )
 }

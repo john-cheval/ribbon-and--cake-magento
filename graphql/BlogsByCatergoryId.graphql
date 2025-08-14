@@ -1,4 +1,4 @@
-query MpBlogPosts($action: String, $categoryId: Int!, $pageSize: Int, $currentPage: Int) {
+query MpBlogPosts($action: String!, $categoryId: Int!, $pageSize: Int, $currentPage: Int) {
   mpBlogPosts(
     action: $action
     categoryId: $categoryId
@@ -13,6 +13,21 @@ query MpBlogPosts($action: String, $categoryId: Int!, $pageSize: Int, $currentPa
       created_at
       image
       post_content
+      gallery_images
+      categories {
+        items {
+          url_key
+          name
+          category_id
+        }
+      }
+      tags {
+        items {
+          name
+          url_key
+          tag_id
+        }
+      }
     }
   }
 }

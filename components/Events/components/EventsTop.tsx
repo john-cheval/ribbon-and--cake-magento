@@ -11,7 +11,7 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
     <Box
       component='section'
       sx={{
-        paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+        paddingInline: { xs: '18px', md: '25px', lg: '55px' },
       }}
     >
       <Box

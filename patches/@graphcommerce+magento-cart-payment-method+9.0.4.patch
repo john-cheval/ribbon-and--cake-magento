@@ -1,0 +1,32 @@
+diff --git a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
+index 3cf189f..3bbf8d7 100644
+--- a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
++++ b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
+@@ -6,7 +6,7 @@ import type { UseFormComposeOptions } from '@graphcommerce/react-hook-form'
+ import { FormPersist, useForm, useFormCompose } from '@graphcommerce/react-hook-form'
+ import { i18n } from '@lingui/core'
+ import { Trans } from '@lingui/react'
+-import type { SxProps, Theme } from '@mui/material'
++import { Radio, type SxProps, type Theme } from '@mui/material'
+ import { useEffect } from 'react'
+ import type { PaymentOptionsProps } from '../Api/PaymentMethod'
+ import { useCartLock } from '../hooks'
+@@ -28,6 +28,7 @@ function PaymentMethodActionCard(
+   const Card = modules[code]?.PaymentActionCard ?? ActionCard
+ 
+   return (
++    <>
+     <Card
+       code={code}
+       child={child}
+@@ -54,8 +55,10 @@ function PaymentMethodActionCard(
+           <selectedModule.PaymentOptions {...selectedMethod} step={step} Container={Container} />
+         )
+       }
++      isRadioBtn={true}
+       {...rest}
+     />
++    </>
+   )
+ }
+ 

@@ -5,6 +5,8 @@ import { extractUrlQuery } from '@graphcommerce/magento-product'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { GetStaticPaths } from 'next'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
 import CourseInner from '../../components/courses/Innner'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
@@ -17,6 +19,15 @@ type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
 export type CmsBlocksProps = { coursesData?: GetPostByNameQuery }
 function CoursesInnerPage(props) {
   const { coursesData } = props
+  const router = useRouter()
+  const url = router?.query?.url
+  const slug = Array.isArray(url) ? url[1] : null
+  const courseDetails = useMemo(() => {
+    if (!slug || !Array.isArray(coursesData)) return null
+
+    return coursesData.find((course) => course?.url_key?.toLowerCase() === slug.toLowerCase())
+  }, [slug, coursesData])
+
   return (
     <>
       <PageMeta
@@ -27,7 +38,7 @@ function CoursesInnerPage(props) {
       />
 
       <InnerTop title={''} isFilter={false} />
-      <CourseInner course={coursesData} />
+      <CourseInner course={courseDetails} />
     </>
   )
 }

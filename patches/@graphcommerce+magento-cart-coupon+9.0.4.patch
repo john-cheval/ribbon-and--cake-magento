@@ -74,7 +74,7 @@ index 0a86e18..b986925 100644
            <Trans id='Apply' />
          </Button>
 diff --git a/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx b/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
-index cefe300..d59b072 100644
+index cefe300..1fa81af 100644
 --- a/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-coupon/CouponAccordion/CouponAccordion.tsx
 @@ -7,7 +7,7 @@ import {
@@ -86,34 +86,40 @@ index cefe300..d59b072 100644
  import { useState } from 'react'
  import { ApplyCouponForm } from '../ApplyCouponForm/ApplyCouponForm'
  import { RemoveCouponForm } from '../RemoveCouponForm/RemoveCouponForm'
-@@ -36,7 +36,25 @@ export function CouponAccordion(props: CouponAccordionProps) {
+@@ -36,7 +36,31 @@ export function CouponAccordion(props: CouponAccordionProps) {
    const handleChange = () => setOpen(!coupon && !open)
  
    return (
 -    <Accordion
 +
 +    <>
-+    <Box sx={{marginTop:{xs:'15px', sm:"20px", nd:'35px', lg:'40px'}}}>
-+      <ApplyCouponForm  sx={{
-+        '& .MuiInputBase-input':{
-+          color:'#441E14',
-+          padding:'20px 24px',
-+          fontSize:{xs:'12px', sm:'14px',md:'16px'},
-+          fontWeight:500,
-+          lineHeight:'158%',
-+          borderRadius:'4px',
-+          '&::placeholder': {
-+        color: '#441E14', 
-+        opacity: 1, 
-+      },
-+        }
-+      }} />
++    <Box sx={{marginTop:{xs:'15px', sm:"20px", md:'35px', xl:'40px'},  paddingLeft: { xs: '10px', md: '15px' },}}>
++      <ApplyCouponForm 
++      
++      sx={[
++        (theme) => ({
++          '& .MuiInputBase-input': {
++            color: (theme)=>theme.palette.custom.main,
++            padding: '20px 24px',
++            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontWeight: 500,
++            lineHeight: '158%',
++            borderRadius: '4px',
++            '&::placeholder': {
++              color: (theme)=>theme.palette.custom.main,
++              opacity: 1,
++            },
++          },
++        }),
++        ...(Array.isArray(sx) ? sx : [sx]),
++      ]}
++       />
 +    </Box>
 +    {/*  <Accordion
        className={classes.accordion}
        onChange={handleChange}
        expanded={!coupon && open}
-@@ -79,6 +97,9 @@ export function CouponAccordion(props: CouponAccordionProps) {
+@@ -79,6 +103,9 @@ export function CouponAccordion(props: CouponAccordionProps) {
        <AccordionDetails sx={(theme) => ({ px: theme.spacings.xs })}>
          <ApplyCouponForm />
        </AccordionDetails>

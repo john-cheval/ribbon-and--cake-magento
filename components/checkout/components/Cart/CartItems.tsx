@@ -39,6 +39,8 @@ function CartItems({ items, size = 'responsive', length, index }: CartItemsProps
             objectFit: 'cover',
             marginRight: '10px',
             minWidth: '100px',
+            maxHeight: '100px',
+            maxWidth: '120px',
           }}
           sizes={actionCardImageSizes[size]}
         />

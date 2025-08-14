@@ -1,0 +1,27 @@
+query GetProductsByCategory($category_id: String!, $pageSize: Int = 5, $currentPage: Int = 1) {
+  products(
+    filter: { category_id: { eq: $category_id } }
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      id
+      sku
+      name
+      url_key
+      price {
+        regularPrice {
+          amount {
+            value
+            currency
+          }
+        }
+      }
+      image {
+        url
+        label
+      }
+    }
+    total_count
+  }
+}

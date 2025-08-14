@@ -68,29 +68,15 @@ export function DesktopNavItem(
       sx={[
         {
           whiteSpace: 'nowrap',
-          padding: activeValue ? '7px 16px' : { lg: '5px 8px', xl: '8px 16px' },
+          padding: activeValue ? '7px 16px' : { lg: '9px 12px', xl: '9px 20px' },
           background: activeValue && '#F6DBE0',
           borderRadius: activeValue && '999px',
+          fontSize: { xs: '14px', lg: '15px', xl: '16px' },
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>{children}</Box>
-      {/* <Box
-        component='span'
-        className={classes.line}
-        sx={{
-          maxWidth: 40,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          height: 2,
-          background: 'red',
-          margin: '0 auto',
-          marginTop: '6px',
-          opacity: activeValue ? 1 : 0,
-        }}
-      /> */}
     </Link>
   )
 }

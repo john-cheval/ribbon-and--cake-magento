@@ -1,5 +1,7 @@
 import { PluginConfig } from '@graphcommerce/next-config'
 import ThemeiconShoppingBag from './Svgs/addToCart.svg'
+import ThemeArrowDropdown from './Svgs/arrowDropDown.svg'
+import ThemeiconArrowDropDownUp from './Svgs/arrowDropDownUp.svg'
 import ThemeiconDelete from './Svgs/customDelete.svg'
 // import ThemeiconHeart from './Svgs/customHeart.svg'
 import ThemeiconPerson from './Svgs/customPerson.svg'
@@ -21,3 +23,5 @@ export const iconCloseAccordion = ThemeiconcloseAccordion
 export const iconDelete = ThemeiconDelete
 // export const iconHeart = ThemeiconHeart
 export const iconPerson = ThemeiconPerson
+export const iconArrowDropDown = ThemeArrowDropdown
+export const iconArrowDropDownUp = ThemeiconArrowDropDownUp

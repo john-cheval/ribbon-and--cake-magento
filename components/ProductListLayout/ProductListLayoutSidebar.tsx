@@ -31,6 +31,7 @@ import {
   ProductFiltersProSearchTerm,
 } from '@graphcommerce/magento-search'
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
+import { useApolloClient } from '@apollo/client'
 import { Trans } from '@lingui/macro'
 import {
   Box,
@@ -55,14 +56,18 @@ const INITIAL_LOAD_SIZE = 12
 const LAZY_LOAD_INCREMENT = 6
 
 export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps) => {
-  const { filters, filterTypes, params, products, handleSubmit, category, title, menu, menuList, conf } = props
-
-  const [loadedProducts, setLoadedProducts] = useState(products?.items || [])
-  // const [currentPage, setCurrentPage] = useState(products?.page_info?.current_page || 1)
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
-
-  // const loaderRef = useRef<HTMLDivElement>(null) // Reference to the loader element
+  const {
+    filters,
+    filterTypes,
+    params,
+    products,
+    handleSubmit,
+    category,
+    title,
+    menu,
+    menuList,
+    conf,
+  } = props
 
   if (!params || !products?.items || !filterTypes) return null
   const { total_count, sort_fields, page_info } = products
@@ -73,6 +78,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortValue(event.target.value as string)
   }
+
   const [scroll, setScroll] = useState<boolean>(false)
   useEffect(() => {
     const handleScroll = () => {
@@ -83,10 +89,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
     // return window.removeEventListener('scroll', handleScroll)
   }, [])
-  // const { form } = useProductFiltersPro()
-  //const clearAll = useProductFiltersProClearAllAction()
 
-  // scroll pagination
+  // Scroll Pagination
   const [allPageItems, setAllPageItems] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPage, setTotalPage] = useState<number>(1)
@@ -94,10 +98,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   const loaderRef = useRef<HTMLDivElement | null>(null)
 
-  const client = useApolloClient();
-
+  const client = useApolloClient()
   const fetchProducts = async (pageNumber) => {
     setIsLoading(true)
+
+    console.log('fetchProducts called', pageNumber, 'currentPage', currentPage)
 
     const pageProducts = await client.query({
       query: ProductListDocument,
@@ -105,12 +110,21 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
         { ...params, currentPage: pageNumber },
         conf,
         category,
-      )
+      ),
     })
+
+    console.log('fetch succesfully')
 
     setAllPageItems([...allPageItems, ...(pageProducts.data.products?.items ?? [])])
     setIsLoading(false)
   }
+
+  // console.log(isLoading, 'isloading')
+  // console.log(allPageItems, 'allpageItems')
+  // console.log(currentPage, 'products items')
+  // console.log(totalPage, 'totalPage')
+  // console.log(currentPage, 'currentPage')
+  // console.log(menuList, 'thisish')
 
   useEffect(() => {
     if (products?.items) {
@@ -121,14 +135,13 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }, [products?.items])
 
   useEffect(() => {
+    // console.log('useEffect called', 'observing')
     const observer = new IntersectionObserver(async ([entry]) => {
-      if (
-        entry.isIntersecting &&
-        currentPage < totalPage && !isLoading
-      ) {
+      console.log(entry?.isIntersecting, 'isIntersecting')
+      if (entry.isIntersecting && currentPage < totalPage) {
+        // console.log('IntersectionObserver triggered')
         setCurrentPage((prev) => prev + 1)
-
-        await fetchProducts(currentPage + 1);
+        await fetchProducts(currentPage + 1)
       }
     })
 
@@ -137,7 +150,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       if (loaderRef.current) observer.unobserve(loaderRef.current)
     }
   }, [loaderRef.current, currentPage, totalPage, isLoading])
-
   return (
     <ProductFiltersPro
       params={params}
@@ -163,7 +175,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             /${configuration.sidebarWidth}   auto
             `,
           },
-          paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+          paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
         <Box
@@ -204,6 +216,13 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
               sx={{}}
             />
           )}
+          <Box
+            ref={loaderRef}
+            sx={{ height: 80, width: '100%', background: 'red' }}
+            component='div'
+          >
+            {isLoading ? 'loading' : 'Call the Api'}
+          </Box>
         </Box>
 
         <div ref={loaderRef} style={{ height: 80 }} />

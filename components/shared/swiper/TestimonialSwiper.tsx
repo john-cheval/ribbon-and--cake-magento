@@ -9,7 +9,6 @@ import { IoArrowBackOutline, IoArrowForward } from 'react-icons/io5'
 import type SwiperCore from 'swiper'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import quote from '../../Assets/about/quote.svg'
 
 export type BlogPostItem = {
   post_id: string
@@ -48,7 +47,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
 
   if (!data) return
   return (
-    <Box component='div' sx={{ position: 'relative' }}>
+    <Box component='div' sx={{ position: 'relative' }} className='swiper_testi'>
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper
@@ -113,6 +112,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
                   fontSize: { xs: '14px !important', md: '16px !important', lg: '20px !important' },
                   fontWeight: 700,
                   textAlign: 'center',
+                  marginBlock: { xs: '10px', md: '0' },
                 }}
               >
                 {item?.name}
@@ -131,24 +131,6 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
                 {item?.short_description}
               </Typography>
             </Box>
-            {activeSlide === index && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: { xs: '-60px', xl: '-80px' },
-                  left: '50px',
-                  zIndex: 1999999,
-                }}
-              >
-                <Image
-                  src={quote}
-                  alt='quote'
-                  width={200}
-                  height={200}
-                  sx={{ width: '100%', height: { xs: '100px', xl: '150px' } }}
-                />
-              </Box>
-            )}
           </SwiperSlide>
         ))}
 
@@ -163,13 +145,14 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
           <Button
             sx={{
               border: '1px solid #DEDEDE',
-              padding: '20px 15px',
+              padding: '13px 15px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              minWidth: 'fit-content',
               '& svg': {
-                fontSize: '20px',
+                fontSize: { sx: '12px', md: '20px' },
               },
             }}
             disableRipple
@@ -180,13 +163,14 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
           <Button
             sx={{
               border: '1px solid #DEDEDE',
-              padding: '20px 15px',
+              padding: '13px 15px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              minWidth: 'fit-content',
               '& svg': {
-                fontSize: '20px',
+                fontSize: { sx: '12px', md: '20px' },
               },
             }}
             disableRipple

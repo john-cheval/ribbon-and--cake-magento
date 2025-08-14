@@ -1,44 +1,21 @@
-// import { Image } from '@graphcommerce/image'
-import { CartFab /* , useCartEnabled */ } from '@graphcommerce/magento-cart'
-import { magentoMenuToNavigation } from '@graphcommerce/magento-category'
-import { CustomerFab, CustomerMenuFabItem } from '@graphcommerce/magento-customer'
-import { SearchFab, SearchField } from '@graphcommerce/magento-search'
-import { WishlistFab, WishlistMenuFabItem } from '@graphcommerce/magento-wishlist'
+import { CartFab } from '@graphcommerce/magento-cart'
+import { CustomerFab } from '@graphcommerce/magento-customer'
+import { SearchField } from '@graphcommerce/magento-search'
+import { WishlistFab } from '@graphcommerce/magento-wishlist'
 import type { LayoutDefaultProps } from '@graphcommerce/next-ui'
 import {
-  DarkLightModeMenuSecondaryItem,
   DesktopNavActions,
   DesktopNavBar,
   DesktopNavItem,
-  // iconChevronDown,
-  iconCustomerService,
   iconHeart,
   IconSvg,
   LayoutDefault,
-  MenuFabSecondaryItem,
-  MobileTopRight,
-  // NavigationFab,
-  NavigationOverlay,
-  NavigationProvider,
-  // PlaceholderFab,
-  useMemoDeep,
-  useNavigationSelection,
 } from '@graphcommerce/next-ui'
-// import { i18n } from '@lingui/core'
-import { Trans } from '@lingui/react'
-import { Box, Divider, Fab, Typography } from '@mui/material'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-//import { FaWhatsapp } from 'react-icons/fa6'
-//import { GoHome } from 'react-icons/go'
-//import { IoMenuSharp } from 'react-icons/io5'
-//import { MdOutlineInterests } from 'react-icons/md'
-//import { AiOutlineShopping } from 'react-icons/ai'
-import personicon from '../../assets/personicon.svg'
+import { decodeHtmlEntities } from '../../utils/htmlUtils'
 import { productListRenderer } from '../ProductListItems/productListRenderer'
 import { Footer } from './Footer'
-// import { Footer } from './Footer'
 import type { LayoutQuery } from './Layout.gql'
 import { Logo } from './Logo'
 import MobileMenu from './MobileMenu/MobileMenu'
@@ -49,12 +26,10 @@ export type LayoutNavigationProps = LayoutQuery &
 export function LayoutNavigation(props: LayoutNavigationProps) {
   const { menu, children, ...uiProps } = props
 
+  const footerCmsData = props?.footer?.items?.[0]
+  const menuItemsCmsData = props?.menu?.items?.[0]?.children
+  const decodedFooterData = decodeHtmlEntities(footerCmsData?.content)
   const [scroll, setScroll] = useState<boolean>(false)
-
-  const selection = useNavigationSelection()
-  const router = useRouter()
-
-  // const cartEnabled = useCartEnabled()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,82 +43,20 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
   return (
     <>
-      {/*   <NavigationProvider
-        selection={selection}
-        items={useMemoDeep(
-          () => [
-            { id: 'home', name: <Trans id='Home' />, href: '/' },
-            {
-              id: 'manual-item-one',
-              href: `/${menu?.items?.[0]?.children?.[0]?.url_path}`,
-              name: menu?.items?.[0]?.children?.[0]?.name ?? '',
-            },
-            {
-              id: 'manual-item-two',
-              href: `/${menu?.items?.[0]?.children?.[1]?.url_path}`,
-              name: menu?.items?.[0]?.children?.[1]?.name ?? '',
-            },
-            ...magentoMenuToNavigation(menu, true),
-            { id: 'blog', name: 'Blog', href: '/blog' },
-            <Divider sx={(theme) => ({ my: theme.spacings.xs })} />,
-            <CustomerMenuFabItem
-              onClick={() => selection.set(false)}
-              key='account'
-              guestHref='/account/signin'
-              authHref='/account'
-            >
-              <Trans id='Account' />
-            </CustomerMenuFabItem>,
-            <MenuFabSecondaryItem
-              key='service'
-              icon={<IconSvg src={iconCustomerService} size='medium' />}
-              href='/service'
-            >
-              <Trans id='Customer Service' />
-            </MenuFabSecondaryItem>,
-            <WishlistMenuFabItem
-              onClick={() => selection.set(false)}
-              key='wishlist'
-              icon={<IconSvg src={iconHeart} size='medium' />}
-            >
-              <Trans id='Wishlist' />
-            </WishlistMenuFabItem>,
-            <DarkLightModeMenuSecondaryItem key='darkmode' />,
-          ],
-          [menu, selection],
-        )}
-      >
-        <NavigationOverlay
-          stretchColumns={false}
-          variantSm='left'
-          sizeSm='full'
-          justifySm='start'
-          itemWidthSm='70vw'
-          variantMd='left'
-          sizeMd='full'
-          justifyMd='start'
-          itemWidthMd='230px'
-          mouseEvent='hover'
-          itemPadding='md'
-        />
-      </NavigationProvider> */}
-
       <LayoutDefault
         sx={{
           position: 'sticky',
           top: '0',
           left: '0',
           width: '100%',
-          // paddingLeft:''
           ['& .LayoutDefault-header']: {
-            height: { xs: '65px', md: '80px' },
-            paddingInline: { xs: '18px', md: '25px', xl: '55px' },
+            height: { xs: '65px', md: '80px', lg: '90px' },
+            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
 
-            ...(scroll ? { boxShadow: '0px -9px 24px #000000' } : {}),
+            ...(scroll ? { boxShadow: '0px -9px 24px #00000026' } : {}),
           },
         }}
         {...uiProps}
-        // noSticky={router.asPath.split('?')[0] === '/'}
         header={
           <>
             <Logo isHome />
@@ -155,10 +68,11 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   <DesktopNavItem
                     sx={{
                       transition: 'all 0.4s ease',
-                      // padding: { lg: '5px 8px', xl: '8px 16px' },
                       borderRadius: '999px',
                       fontSize: '16px',
                       border: '1px solid transparent',
+                      fontWeight: 300,
+                      lineHeight: 'normal !important',
                       '&:hover': {
                         border: '1px solid #F6DBE0',
                       },
@@ -169,31 +83,122 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     {menus?.name}
                   </DesktopNavItem>
                 ))}
+              <DesktopNavItem
+                sx={{
+                  transition: 'all 0.4s ease',
+                  borderRadius: '999px',
+                  fontSize: '16px',
+                  border: '1px solid transparent',
+                  fontWeight: 300,
+                  lineHeight: 'normal !important',
+                  '&:hover': {
+                    border: '1px solid #F6DBE0',
+                  },
+                }}
+                href={`/events`}
+              >
+                Celebrate
+              </DesktopNavItem>
+              <DesktopNavItem
+                sx={{
+                  transition: 'all 0.4s ease',
+                  borderRadius: '999px',
+                  fontSize: '16px',
+                  border: '1px solid transparent',
+                  fontWeight: 300,
+                  lineHeight: 'normal !important',
+                  '&:hover': {
+                    border: '1px solid #F6DBE0',
+                  },
+                }}
+                href={`/courses`}
+              >
+                Baking Classes
+              </DesktopNavItem>
             </DesktopNavBar>
 
-            <DesktopNavActions>
+            <DesktopNavActions
+              sx={{
+                '& .MuiformControl': {
+                  border: 'none',
+                },
+              }}
+            >
               <SearchField
-                formControl={{ sx: { width: '400px' } }}
+                formControl={{
+                  sx: {
+                    width: { xs: 'fit-content', sm: '300px', lg: '250px', xl: '350px' },
+                    color: (theme: any) => theme.palette.custom.main,
+                    '& .MuiOutlinedInput-root': {
+                      color: (theme) => theme.palette.custom.main,
+                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      borderRadius: '4px',
+                      '& input': {
+                        padding: {
+                          xs: '8px 12px',
+                          sm: '10px 12px',
+                          lg: '12px 14px',
+                          xl: '15px 14px',
+                        },
+                      },
+                      '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontStyle: 'normal',
+                        fontWeight: 400,
+                        lineHeight: '158%',
+                        color: (theme: any) => theme.palette.custom.main,
+                        opacity: 1,
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                      },
+
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: (theme: any) => theme.palette.custom.borderInput,
+                        borderWidth: '1px !important',
+                      },
+                      '& .MuiButtonBase-root': {
+                        '&:hover': {
+                          // backgroundColor: (theme) => theme.palette.custom.wishlistColor,
+                        },
+                        '& svg': {
+                          color: (theme) => theme.palette.custom.main,
+                          fontSize: '22px',
+                        },
+                      },
+                    },
+                  },
+                }}
                 searchField={{ productListRenderer }}
                 fab={{
                   sx: {
-                    backgroundColor: '#F6DBE0',
+                    backgroundColor: (theme) => theme.palette.custom.border,
                     borderRadius: '50%',
-                    width: { xs: '35px', md: '35px', xl: '40px' },
-                    height: { xs: '30px', md: '35px', xl: '40px' },
+                    width: { xs: '35px', md: '36px' },
+                    height: { xs: '30px', md: '35px' },
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#441E14',
-                    '&:hover, &:focus': {
-                      backgroundColor: '#F6DBE0',
+                    color: (theme) => theme.palette.custom.main,
+                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                    transition: 'all 0.4s ease-in-out',
+                    //  '& .'
+                    '&:focus': {
+                      backgroundColor: (theme) => theme.palette.custom.border,
                     },
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                    },
+
                     ['& .MuiBadge-root']: {
-                      left: '5px',
+                      left: '4px',
                       top: '5px',
                     },
                     '&  svg': {
-                      fontSize: { lg: '25px', xl: '28px' },
+                      fontSize: { lg: '24px' },
                       stroke: 'unset !important',
                     },
                   },
@@ -202,49 +207,56 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
 
               <WishlistFab
                 sx={{
-                  width: { xs: '35px', xl: '40px' },
-                  height: { xs: '30px', md: '35px', xl: '40px' },
+                  width: { xs: '36px' },
+                  height: { xs: '30px', md: '36px' },
                   borderRadius: '50%',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#441E14',
-                  backgroundColor: '#f6dbe0',
+                  color: (theme) => theme.palette.custom.main,
+                  backgroundColor: (theme) => theme.palette.custom.border,
+                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   '&  svg': {
-                    fontSize: { xs: '20px', xl: '24px' },
+                    fontSize: { xs: '19px' },
                     strokeWidth: '1.5',
                   },
-                  '&:hover, &:focus ': {
-                    backgroundColor: '#f6dbe0',
+                  ' &:focus ': {
+                    backgroundColor: (theme) => theme.palette.custom.border,
                   },
-
-                  // ['& .MuiBadge-root']: {
-                  //   left: '5px',
-                  //   top: '5px',
-                  // },
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                  },
                 }}
-                // icon={
-                //   <Image src={iconHeart} alt='iconHeart' layout='fill' width={24} height={24} />
-                // }
-                icon={<IconSvg src={iconHeart} size='medium' sx={{ stroke: '#441E14' }} />}
+                icon={
+                  <IconSvg
+                    src={iconHeart}
+                    size='medium'
+                    sx={{ stroke: (theme) => theme.palette.custom.main }}
+                  />
+                }
               />
               <CustomerFab
                 sx={{
-                  width: { md: '35px', xl: '40px' },
-                  height: { md: '35px', xl: '40px' },
+                  width: { md: '36px' },
+                  height: { md: '35px' },
                   borderRadius: '50%',
-                  color: '#441E14',
+                  color: (theme) => theme.palette.custom.main,
                   display: { xs: 'none', lg: 'inline-flex' },
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: '#f6dbe0',
+                  backgroundColor: (theme) => theme.palette.custom.border,
+                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+
                   '&  svg': {
                     // width: '1em',
-                    fontSize: { md: '20px', lg: '25px', xl: '28px' },
+                    fontSize: { md: '22px' },
                     stroke: 'unset !important',
                   },
-                  '&:hover, &:focus': {
-                    backgroundColor: '#f6dbe0',
+                  '&:focus': {
+                    backgroundColor: (theme) => theme.palette.custom.border,
+                  },
+                  '&:hover': {
+                    backgroundColor: 'transparent',
                   },
                   ['& .MuiBadge-root']: {
                     left: '5px',
@@ -263,35 +275,50 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                   display: { xs: 'none', lg: 'inline-flex' },
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#441E14',
-                  width: { md: '35px', xl: '40px' },
-                  height: { md: '35px', xl: '40px' },
+                  color: (theme) => theme.palette.custom.main,
+                  width: { md: '38px' },
+                  height: { md: '37px' },
                   borderRadius: '50%',
-                  backgroundColor: '#f6dbe0',
-                  '&:hover, &:focus': {
-                    backgroundColor: '#f6dbe0',
+                  backgroundColor: (theme) => theme.palette.custom.border,
+                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                  transition: 'all 0.4s ease-in-out',
+                  '&:focus': {
+                    backgroundColor: (theme) => theme.palette.custom.border,
+                  },
+                  '&:hover': {
+                    backgroundColor: 'transparent',
                   },
                   ['& .MuiBadge-root']: {
-                    left: '8px',
-                    top: '3px',
+                    left: '6px',
+                    top: '2px',
+
+                    '& .MuiBadge-badge': {
+                      top: '3px',
+                      right: '11px',
+                    },
                   },
                   '& svg': {
-                    fontSize: { md: '27px', xl: '30px' },
+                    fontSize: { md: '25px' },
                     stroke: 'unset !important',
+                  },
+                  '& .MuiButtonBase-root': {
+                    height: 'unset !important',
+                    width: 'unset !important',
+                    boxShadow: 'none',
+                    backgroundColor: 'transparent !important',
+                  },
+                  '& .mui-style-1jnnhmg-MuiButtonBase-root-MuiFab-root': {
+                    minHeight: 'unset',
+                    boxShadow: 'none',
+                    backgroundcolor: 'transparent',
+                    transition: 'unset',
                   },
                 }}
               />
-              {/* The placeholder exists because the CartFab is sticky but we want to reserve the space for the <CartFab />   {cartEnabled && <PlaceholderFab />}*/}
             </DesktopNavActions>
-
-            {/*<MobileTopRight>
-              <SearchFab size='responsiveMedium' />
-            </MobileTopRight>*/}
           </>
         }
-        footer={<Footer />}
-        // cartFab={<CartFab BadgeProps={{ color: 'secondary' }} />}
-        // menuFab={<NavigationFab onClick={() => selection.set([])} />}
+        footer={<Footer footerContent={decodedFooterData} />}
       >
         {children}
       </LayoutDefault>
@@ -314,7 +341,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           width: '100%',
         }}
       >
-        <MobileMenu />
+        <MobileMenu ShopCategories={menuItemsCmsData} />
       </Box>
     </>
   )

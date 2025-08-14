@@ -539,7 +539,7 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..1cf151b 100644
+index 80912c1..09d578f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,48 +10,118 @@ import {
@@ -633,7 +633,7 @@ index 80912c1..1cf151b 100644
 -      }
 +    defaultExpanded={expandeds}
 +    // expanded={expanded}
-+    onChange={handleAccordionToggle}
++   // onChange={handleAccordionToggle}
 +      summary={<Box sx={{
 +        fontFamily: "'Bricolage Grotesque', sans-serif",
 +        fontSize: { xs: '14px', sm: '16px', md: '20px' },
@@ -646,7 +646,7 @@ index 80912c1..1cf151b 100644
 +        paddingTop:'15px'
 +      }}>
 +        {categoryTitle}</Box>}
-+     // right={
++     right={
 +
 +       // <Button
 +       //   sx={{
@@ -667,16 +667,16 @@ index 80912c1..1cf151b 100644
 +       // >
 +       //   <Trans id='Clear' />
 +       // </Button>
-+       // <IconSvg
-+       //       src={expandeds ? iconCloseAccordion : iconOpenAccordion}
-+       //       size='medium'
-+       //       sx={{
-+       //         width: '18px',
-+       //         height: '18px',
-+       //       }}
-+       //     />
++       <IconSvg
++             src={expandeds ? iconCloseAccordion : iconOpenAccordion}
++             size='medium'
++             sx={{
++               width: '18px',
++               height: '18px',
++             }}
++           />
 +
-+     // }
++    }
        details={
          <ActionCardList
            size='responsive'
@@ -705,7 +705,7 @@ index 80912c1..1cf151b 100644
  }
  
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-index e238d8c..ff4417e 100644
+index e238d8c..ec7a3bd 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 @@ -7,15 +7,16 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
@@ -727,9 +727,12 @@ index e238d8c..ff4417e 100644
  
    return (
      <Button
-@@ -27,10 +28,11 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+@@ -26,11 +27,14 @@ export function ProductFiltersProClearAll(props: AllFiltersSidebar) {
+       color='inherit'
        disableElevation
        onClick={(e) => {
++        console.log();
++        
          e.preventDefault()
 +        
          return clearAll()
@@ -890,6 +893,28 @@ index b64ae6d..47f8d46 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
+index 195b807..d823600 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
+@@ -11,6 +11,8 @@ export function useProductFiltersProClearAllAction() {
+     const cleanedFilters: ProductFilterParams['filters'] = Object.fromEntries(
+       Object.keys(currentValues.filters).map((key) => [key, null]),
+     )
++    console.log(getValues('filters.category_uid'),cleanedFilters,"===>currentValues");
++    
+ 
+     reset(
+       {
+@@ -21,7 +23,7 @@ export function useProductFiltersProClearAllAction() {
+         sort: null,
+         filters: {
+           ...cleanedFilters,
+-          category_uid: getValues('filters.category_uid'),
++          // category_uid: getValues('filters.category_uid'),
+         },
+       },
+       { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 index 68f7cab..ab58133 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
@@ -1138,10 +1163,10 @@ index 1d42a06..c70ff79 100644
          <Money {...final_price} />
        </PrivateQueryMask>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-index e920423..fdfe672 100644
+index e920423..607946f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-@@ -1,19 +1,21 @@
+@@ -1,19 +1,22 @@
  import type { SidebarGalleryProps, TypeRenderer } from '@graphcommerce/next-ui'
  import { SidebarGallery, nonNullable } from '@graphcommerce/next-ui'
  import type { ProductPageGalleryFragment } from './ProductPageGallery.gql'
@@ -1155,24 +1180,48 @@ index e920423..fdfe672 100644
 -  product: ProductPageGalleryFragment
 +  product: ProductListItemFragment & ProductPageGalleryFragment
    children?: React.ReactNode
++  wishlistButton?: React.ReactNode
  }
  
  export function ProductPageGallery(props: ProductPageGalleryProps) {
 -  const { product, children, aspectRatio: [width, height] = [1532, 1678], ...sidebarProps } = props
--  const { media_gallery } = product
-+  const { product, children,aspectRatio: [width, height] = [682, 682], ...sidebarProps } = props
-+  const {media_gallery} = product
++  const { product, children, aspectRatio: [width, height] = [682, 682], wishlistButton, ...sidebarProps } = props
+   const { media_gallery } = product
 +  console.log(product, 'this is product data ProductPageGallery')
  
    const images =
      media_gallery
-@@ -40,6 +42,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+@@ -23,15 +26,15 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+       .map((item) =>
+         item.__typename === 'ProductImage'
+           ? {
+-              src: item.url ?? '',
+-              alt: item.label || undefined,
+-              width,
+-              height,
+-            }
++            src: item.url ?? '',
++            alt: item.label || undefined,
++            width,
++            height,
++          }
+           : {
+-              src: '',
+-              alt: `{${item.__typename} not yet supported}`,
+-            },
++            src: '',
++            alt: `{${item.__typename} not yet supported}`,
++          },
+       ) ?? []
+ 
+   return (
+@@ -40,6 +43,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
        sidebar={children}
        aspectRatio={[width, height]}
        images={images}
 +      disableZoom={true}
 +      product={product}
-+     
++      wishlistButton={wishlistButton}
      />
    )
  }

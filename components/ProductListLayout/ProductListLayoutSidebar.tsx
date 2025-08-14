@@ -156,20 +156,22 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           rowGap: { xs: 0, md: theme.spacings.md },
           columnGap: { xs: '30px', md: '50px', lg: '60px', xl: '70px' },
           mb: theme.spacings.xl,
-          gridTemplate: {
-            xs: '"title" "horizontalFilters"  "items" ',
-            md: `
-            "sidebar count"      auto
-            "sidebar items"      auto
-            /${configuration.sidebarWidth}   auto
-            `,
-          },
+          // gridTemplate: {
+          //   xs: '"title" "horizontalFilters"  "items" ',
+          //   md: `
+          //   "sidebar count"      auto
+          //   "sidebar items"      auto
+          //   /${configuration.sidebarWidth}   auto
+          //   `,
+          // },
+          gridTemplateAreas: { xs: "'sidebar' 'horizontalFilters' 'items'", md: "'sidebar items'" },
           paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
         <Box
           sx={{
             gridArea: 'items',
+            marginTop: '30px',
             '& .ProductListItemsBase-root': {
               gap: { xs: '15px', md: '20px' },
               gridTemplateColumns: {

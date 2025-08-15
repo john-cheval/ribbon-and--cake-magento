@@ -141,8 +141,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     setExpanded(expanded === categoryName ? false : categoryName)
   }
 
-  console.log(menuList, 'thi is the menuList')
-
   return (
     <ProductFiltersPro
       params={params}

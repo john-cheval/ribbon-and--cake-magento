@@ -712,6 +712,41 @@ ol {
 .coursesInner p {
   margin-block: 15px 20px;
 }
+.sms-page-contets {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  row-gap: 10px;
+  padding-bottom: 25px;
+}
+.sms-page-contets p,
+.sms-page-contets ul {
+  color: #6f6f6f;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 170%; /* 27.2px */
+  margin: 0;
+}
+.sms-page-contets ul {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+.sms-page-contets ul li {
+  position: relative;
+  padding-left: 15px;
+}
+.sms-page-contets ul li::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: -0px;
+  height: 5px;
+  width: 5px;
+  background-color: #f1a8b6;
+  border-radius: 50%;
+  display: inline-block;
+}
 
 /* sm breakpoint */
 
@@ -747,6 +782,14 @@ ol {
 @media (min-width: 769px) {
   .justin {
     margin-bottom: 17px;
+  }
+  .sms-page-contets {
+    margin-top: 15px;
+    row-gap: 15px;
+    padding-bottom: 35px;
+  }
+  .sms-page-contets ul li::before {
+    top: 13px;
   }
   .clients img {
     max-width: 80px;
@@ -914,6 +957,11 @@ ol {
 @media (min-width: 1025px) {
   .banner-overlay-gradient {
     top: 79px;
+  }
+  .sms-page-contets {
+    margin-top: 20px;
+    row-gap: 20px;
+    padding-bottom: 50px;
   }
   .clients img {
     max-width: 100px;
@@ -1603,4 +1651,13 @@ ol {
 .MuiSlider-valueLabelLabel,
 .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel {
   color: black !important;
+}
+.google-desk {
+  width: 25px !important;
+}
+
+input:-webkit-autofill {
+  background-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #441e14 !important;
 }

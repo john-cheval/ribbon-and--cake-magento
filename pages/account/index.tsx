@@ -5,19 +5,16 @@ import {
   AccountMenu,
   AccountMenuItem,
   AddressSingleLine,
+  getCustomerAccountIsDisabled,
   OrderStateLabelInline,
   SignOutForm,
-  WaitForCustomer,
-  getCustomerAccountIsDisabled,
   useCustomerQuery,
+  WaitForCustomer,
 } from '@graphcommerce/magento-customer'
 import { CustomerNewsletterToggle } from '@graphcommerce/magento-newsletter'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
-  LayoutHeader,
-  LayoutTitle,
-  RelativeToTimeFormat,
   iconBin,
   iconBox,
   iconEmailOutline,
@@ -28,10 +25,13 @@ import {
   iconPerson,
   iconShutdown,
   iconStar,
+  LayoutHeader,
+  LayoutTitle,
+  RelativeToTimeFormat,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { Container } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import type { LayoutMinimalProps } from '../../components'
 import { LayoutDocument, LayoutMinimal } from '../../components'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
@@ -56,19 +56,77 @@ function AccountIndexPage() {
     <>
       <PageMeta title={i18n._(/* i18n */ 'Account')} metaRobots={['noindex']} />
 
-      <LayoutHeader>
-        <LayoutTitle component='span' size='small' icon={iconPerson}>
+      <LayoutHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
+        <LayoutTitle component='span' size='small' variant='h2' icon={iconPerson}>
           <Trans id='Account' />
         </LayoutTitle>
       </LayoutHeader>
 
       <WaitForCustomer waitFor={dashboard}>
-        <Container maxWidth='md'>
-          <LayoutTitle icon={iconPerson}>
+        <Container
+          maxWidth='md'
+          sx={{
+            '& .LayoutTitle-root ': {
+              marginBlock: 0,
+              textAlign: 'center',
+              gap: { xs: '10px', md: '15px' },
+              '& svg': {
+                display: 'none',
+              },
+            },
+          }}
+        >
+          <LayoutTitle variant='h2' icon={iconPerson}>
             <Trans id='Account' />
           </LayoutTitle>
 
-          <AccountMenu>
+          <AccountMenu
+            sx={{
+              '& .MuiButtonBase-root': {
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                },
+                borderBottom: (theme) => `1px solid ${theme.palette.custom.border} !important`,
+                '& .MuiListItem-root': {
+                  '& .MuiListItemIcon-root svg': {
+                    stroke: (theme) => theme.palette.custom.main,
+                  },
+                  '& .MuiListItemText-root': {
+                    '& .MuiTypography-body1': {
+                      color: (theme) => theme.palette.custom.main,
+                    },
+                    '& .MuiTypography-body2': {
+                      color: (theme) => theme.palette.custom.tertiary,
+                    },
+                  },
+                  '& .IconSvg-root': {
+                    stroke: (theme) => theme.palette.custom.wishlistColor,
+                    transition: 'all 0.4s ease-in-out',
+                  },
+                },
+                '&:hover .MuiListItem-root > .IconSvg-root.mui-style-1re38i9-IconSvg-root  ': {
+                  transform: 'translateX(5px)',
+                },
+              },
+            }}
+          >
             <AccountMenuItem
               href='/account/name'
               iconSrc={iconId}
@@ -127,6 +185,15 @@ function AccountIndexPage() {
               endIcon={<CustomerNewsletterToggle color='primary' />}
               sx={(theme) => ({
                 cursor: 'default',
+                '& .MuiSwitch-thumb': {
+                  backgroundColor: (theme: any) => theme.palette.custom.wishlistColor,
+                },
+                '& .MuiSwitch-switchBase': {
+                  backgroundColor: (theme: any) => theme.palette.custom.borderInput,
+                },
+                '& .MuiSwitch-track ': {
+                  backgroundColor: (theme: any) => theme.palette.custom.border,
+                },
                 '&:hover': { background: theme.palette.background.paper },
               })}
             />

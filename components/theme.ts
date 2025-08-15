@@ -92,12 +92,12 @@ const darkPalette: ThemePaletteOptions = {
     borderSecondary: '#d4d4d4',
   },
   primary: {
-    main: '#006bff',
+    main: '#441E14',
     contrastText: '#ffffff',
-    dark: '#0056d2',
+    dark: '#441E14',
   },
   secondary: {
-    main: '#78909c',
+    main: '#441E14',
     light: '#b0bec5',
     contrastText: '#000000',
   },

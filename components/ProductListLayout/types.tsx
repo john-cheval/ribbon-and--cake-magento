@@ -41,7 +41,7 @@ type ProductListProps = ReturnType<typeof useProductList<BaseProps>>
 
 export type ProductListLayoutProps = ProductListProps &
   MenuPropsTypes &
-  (SearchLayoutProps | CategoryLayoutProps) & { conf?: any }
+  (SearchLayoutProps | CategoryLayoutProps) & { conf?: any; isSearch?: boolean }
 
 type Configuration = {
   columnGap: { xs: string; xl: string }

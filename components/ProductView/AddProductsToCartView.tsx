@@ -53,7 +53,11 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                   {...product.price_range.minimum_price}
                   sx={{
                     '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
-                      marginRight: '2px',
+                      // marginRight: '2px',
+                      '& .mui-style-7b7t20': {
+                        backgroundSize: '22px auto',
+                        marginTop: '8px',
+                      },
                     },
                     '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
                       ...fontSize(25, 40),
@@ -103,6 +107,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
           </ProductPageAddToCartQuantityRow>
           <Box
             sx={{
+              marginTop: { xs: '10px', md: '25px' },
               display: 'flex',
               flexDirection: 'column',
               rowGap: {

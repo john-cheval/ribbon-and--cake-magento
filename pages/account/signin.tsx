@@ -32,6 +32,7 @@ function AccountSignInPage() {
   )
 }
 
+//   .MuiTypography-h6 a
 const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account-public',
   sharedKey: () => 'account-public',
@@ -42,11 +43,42 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
         backgroundImage: `url(${bgImage.src})`,
         borderRadius: '30px 30px 0 0',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% auto',
+        backgroundSize: { xs: 'unset', md: '100% auto' },
         backgroundPosition: '100% auto',
 
         '& .LayoutHeaderContent-right button': {
-          color: '#441E14',
+          color: (theme) => theme.palette.custom.main,
+          cursor: 'pointer',
+        },
+        '& .MuiContainer-root.mui-style-1sy3hvo-MuiContainer-root ': {
+          // display: 'flex',
+          // alignItems: 'center',
+          // justifyContent: 'center',
+          // height: '100vh',
+          '& .AccountSignInUpForm-titleContainer ': {
+            '& .MuiTypography-h6': {
+              '& a': {
+                color: (theme) => theme.palette.custom.main,
+                textDecoration: 'underline',
+                '&:hover': {
+                  textDecoration: 'none',
+                },
+              },
+            },
+            '& .MuiButtonBase-root ': {
+              backgroundColor: (theme) => theme.palette.custom.main,
+              color: (theme: any) => theme.palette.custom.border,
+              borderRadius: '4px',
+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
+              transition: 'all 0.4s ease-in-out',
+              '&:hover': {
+                backgroundColor: 'transparent',
+                color: (theme: any) => theme.palette.custom.main,
+                border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
+              },
+            },
+          },
         },
       },
     },

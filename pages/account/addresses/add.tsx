@@ -3,17 +3,17 @@ import type { AccountDashboardAddressesQuery } from '@graphcommerce/magento-cust
 import {
   CreateCustomerAddressForm,
   CustomerDocument,
-  WaitForCustomer,
   getCustomerAccountIsDisabled,
   useCustomerQuery,
+  WaitForCustomer,
 } from '@graphcommerce/magento-customer'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
+  iconAddresses,
   LayoutOverlayHeader,
   LayoutTitle,
   SectionContainer,
-  iconAddresses,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
@@ -32,18 +32,57 @@ function AddNewAddressPage() {
 
   return (
     <>
-      <LayoutOverlayHeader>
+      <LayoutOverlayHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
         <LayoutTitle size='small' component='span' icon={iconAddresses}>
           <Trans id='Addresses' />
         </LayoutTitle>
       </LayoutOverlayHeader>
-      <Container maxWidth='md'>
+      <Container
+        maxWidth='md'
+        sx={{
+          '& .LayoutTitle-root ': {
+            marginBottom: 0,
+            gap: { xs: '10px', md: '15px' },
+            '& svg': {
+              fontSize: { xs: '25px', md: '35px' },
+              stroke: (theme) => theme.palette.custom.wishlistColor,
+            },
+          },
+        }}
+      >
         <PageMeta title={i18n._(/* i18n */ 'Add address')} metaRobots={['noindex']} />
         <WaitForCustomer waitFor={addresses}>
           <LayoutTitle icon={iconAddresses}>
             <Trans id='Addresses' />
           </LayoutTitle>
-          <SectionContainer labelLeft={<Trans id='Add new address' />}>
+          <SectionContainer
+            sx={{
+              '& .SectionHeader-root': {
+                borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+              },
+              '& .SectionHeader-left': {
+                color: (theme) => theme.palette.custom.main,
+              },
+            }}
+            labelLeft={<Trans id='Add new address' />}
+          >
             <CreateCustomerAddressForm />
           </SectionContainer>
         </WaitForCustomer>

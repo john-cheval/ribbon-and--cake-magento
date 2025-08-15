@@ -37,10 +37,11 @@ import type { GetStaticPaths } from 'next'
 import Link from 'next/link'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation } from '../../components'
-import HomeProductListMobile from '../../components/Home/components/HomeProductListMobile'
 import { AddProductsToCartView } from '../../components/ProductView/AddProductsToCartView'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
-import { linkStyle, ProductSwiper } from '../../components/shared/swiper/ProductSwiper'
+import { linkStyle } from '../../components/shared/swiper/ProductSwiper'
+import RelativeProductListMobile from '../../components/shared/swiper/RelatedProdcutSwiperMobile'
+import { RelativeProductSwiper } from '../../components/shared/swiper/RelativeproductSwiper'
 import { fontSize } from '../../components/theme'
 import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
@@ -158,8 +159,9 @@ function ProductPage(props: Props) {
             padding: 0,
             '& .ActionCardLayout-root': {
               display: 'flex',
+              flexWrap: 'wrap',
               '& .ActionCard-root': {
-                padding: '6px 20px ',
+                padding: '15px 20px ',
 
                 '& .ActionCard-rootInner': {
                   '& .ActionCard-image ': {
@@ -174,6 +176,7 @@ function ProductPage(props: Props) {
                   '& .ActionCard-title': {
                     color: (theme) => theme.palette.custom.smallHeading,
                     fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontWeight: 600,
                   },
                 },
               },
@@ -236,34 +239,52 @@ function ProductPage(props: Props) {
           })}
           disableSticky
           wishlistButton={
-            <Box sx={{ position: 'absolute', right: '0px', top: '0px', zIndex: 1000, alignItems: "center", justifyContent: "flex-end", display: { xs: 'flex', lg: 'none' } }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                right: { xs: '20px', sm: '15px' },
+                top: { xs: '20px', sm: '15px' },
+                zIndex: 1000,
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                display: { xs: 'flex', lg: 'none' },
+              }}
+            >
               <ProductWishlistIconButton
                 {...product}
                 sx={{
-                  backgroundColor: (theme: any) => theme.palette.custom.border,
+                  backgroundColor: (theme) => theme.palette.primary.contrastText,
                   padding: 0,
                   height: '40px',
                   width: '40px',
-                  border: '1px solid #F6DBE0',
                   transition: 'all 0.4s ease-in-out',
                   '&:hover': {
                     backgroundColor: 'transparent',
                   },
                   '&:focus': {
-                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                    backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                   },
                   '&:active': {
-                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                    backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                   },
                   '&.Mui-focusVisible': {
-                    backgroundColor: (theme: any) => theme.palette.custom.border,
+                    backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                   },
                   '& .MuiTouchRipple-root': {
-                    color: (theme: any) => theme.palette.custom.border,
+                    color: (theme: any) => theme.palette.primary.contrastText,
                   },
                   '& svg': {
+                    fontSize: '18px',
                     stroke: (theme: any) => theme.palette.custom.main,
                   },
+                  '& .ProductWishlistChipBase-wishlistButton': {
+                    '&hover': {
+                      '& svg': {
+                        fill: (theme: any) => theme.palette.custom.wishlistColor,
+                      },
+                    },
+                  },
+
                   '& svg.ProductWishlistChipBase-wishlistIconActive': {
                     stroke: (theme: any) => theme.palette.custom.border,
                   },
@@ -279,7 +300,7 @@ function ProductPage(props: Props) {
               overflowY: 'scroll',
               overflowX: 'hidden',
               // pr: { xs: '5px', md: '20px' },
-              paddingBottom: { xs: '15px', md: '30px', lg: '40px', xl: '50px' },
+              paddingBottom: { xs: '15px', md: '30px', lg: '40px' },
               // pl: { xs: '5px', md: '20px', lg: '30px', xl: 0 },
 
               '&::-webkit-scrollbar': {
@@ -336,7 +357,11 @@ function ProductPage(props: Props) {
                     {...product.price_range.minimum_price}
                     sx={{
                       '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
-                        marginRight: '2px',
+                        // marginRight: '2px',
+                        '& .mui-style-7b7t20': {
+                          backgroundSize: '22px auto',
+                          marginTop: '8px',
+                        },
                       },
                       '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
                         ...fontSize(25, 40),
@@ -401,7 +426,7 @@ function ProductPage(props: Props) {
                 borderRadius: 0,
               },
               flexShrink: 0,
-              mt: 'auto',
+              // mt: 'auto',
             }}
           >
             <ProductPageAddToCartActionsRow
@@ -477,7 +502,7 @@ function ProductPage(props: Props) {
       </AddProductsToCartForm>
 
       {/* Relative Products */}
-      {/*product?.related_products && product?.related_products?.length > 0 && (
+      {product?.related_products && product?.related_products?.length > 0 && (
         <Box
           sx={{
             paddingInline: { xs: '18px', md: '25px', lg: '55px' },
@@ -507,20 +532,14 @@ function ProductPage(props: Props) {
           </Box>
 
           <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
-            <ProductSwiper link='/cakes' productList={product?.related_products ?? []} />
+            <RelativeProductSwiper productList={product?.related_products} />
           </Box>
 
           <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
-            <HomeProductListMobile
-              link='/cakes'
-              count={4}
-              productList={product?.related_products ?? []}
-              isCategory={false}
-              isRelated={true}
-            />
+            <RelativeProductListMobile count={4} productList={product?.related_products ?? []} />
           </Box>
         </Box>
-      )*/}
+      )}
     </PrivateQueryMaskProvider>
   )
 }

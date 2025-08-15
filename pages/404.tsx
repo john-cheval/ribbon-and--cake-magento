@@ -4,7 +4,7 @@ import { useCustomerAccountCanSignIn } from '@graphcommerce/magento-customer'
 import { SearchLink } from '@graphcommerce/magento-search'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import { IconSvg, Separator, icon404 } from '@graphcommerce/next-ui'
+import { icon404, IconSvg, Separator } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
 import { Box, Container, Link, Typography } from '@mui/material'
@@ -37,15 +37,44 @@ function RouteNotFoundPage() {
     <>
       <PageMeta title='Page not found' metaRobots={['noindex']} />
       <Container maxWidth='sm'>
-        <Box textAlign='center' mt={16} mb={16}>
+        <Box
+          textAlign='center'
+          mt={16}
+          mb={16}
+          sx={{
+            '& svg': {
+              stroke: (theme) => theme.palette.custom.main,
+              fontSize: { xs: '24px', md: '35px' },
+            },
+          }}
+        >
           <IconSvg src={icon404} size='xxl' />
-          <Typography variant='h3' component='h1' gutterBottom>
+          <Typography variant='h2' component='h1' gutterBottom>
             <Trans id='Whoops our bad...' />
           </Typography>
-          <Typography variant='body1'>
+          <Typography
+            variant='body1'
+            sx={{
+              color: (theme) => theme.palette.custom.main,
+            }}
+          >
             <Trans id="We couldn't find the page you were looking for" />
           </Typography>
-          <Box mt={4} mb={2}>
+          <Box
+            mt={4}
+            mb={2}
+            sx={{
+              '& .MuiTypography-root': {
+                borderColor: (theme) => theme.palette.custom.main,
+                borderRadius: '4px',
+                color: (theme) => theme.palette.custom.main,
+                '& .IconSvg-root': {
+                  fontSize: '23px',
+                  stroke: (theme) => theme.palette.custom.main,
+                },
+              },
+            }}
+          >
             <SearchLink href='/search' sx={{ width: '100%', py: 2, typography: 'body1' }}>
               <Trans id='Search...' />
             </SearchLink>

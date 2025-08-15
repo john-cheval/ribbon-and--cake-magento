@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react'
 import { Container, Typography } from '@mui/material'
 import type { LayoutOverlayProps } from '../../components'
 import { LayoutOverlay } from '../../components'
+import bgImage from '../../constants/images/account/Frame.png'
 import { graphqlSharedClient } from '../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutOverlayProps>
@@ -16,19 +17,42 @@ function AccountForgotPasswordPage() {
   return (
     <>
       <LayoutOverlayHeader>
-        <LayoutTitle size='small' component='span'>
-          <Trans id='Forgot your password?' />
+        <LayoutTitle variant='h2' size='small' component='span'>
+          <Trans id='Forgot your passwordsss?' />
         </LayoutTitle>
       </LayoutOverlayHeader>
-      <Container maxWidth='sm'>
+      <Container
+        maxWidth='sm'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+        }}
+      >
         <PageMeta title={i18n._(/* i18n */ 'Forgot Password')} metaRobots={['noindex']} />
-        <LayoutTitle size='medium'>
+        <LayoutTitle
+          sx={{
+            marginBottom: '0px !important',
+          }}
+          variant='h2'
+          size='medium'
+        >
           <Trans id='Forgot your password?' />
         </LayoutTitle>
-        <Typography variant='subtitle1'>
+        <Typography
+          variant='h6'
+          align='center'
+          sx={{ color: (theme: any) => theme.palette.custom.secondary }}
+        >
           <Trans id='No worries! Enter your email address and we will send an email with instructions to reset your password.' />
         </Typography>
-        <ForgotPasswordForm />
+        <ForgotPasswordForm
+          sx={{
+            paddingTop: '0 !important',
+          }}
+        />
       </Container>
     </>
   )
@@ -38,6 +62,22 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account-public',
   sharedKey: () => 'account-public',
   Layout: LayoutOverlay,
+  layoutProps: {
+    sx: {
+      '& .LayoutOverlayBase-background': {
+        backgroundImage: `url(${bgImage.src})`,
+        borderRadius: '30px 30px 0 0',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: { xs: 'unset', md: '100% auto' },
+        backgroundPosition: '100% auto',
+
+        '& .LayoutHeaderContent-right button': {
+          color: (theme) => theme.palette.custom.main,
+          cursor: 'pointer',
+        },
+      },
+    },
+  },
 }
 AccountForgotPasswordPage.pageOptions = pageOptions
 

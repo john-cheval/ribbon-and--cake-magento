@@ -539,10 +539,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..c787474 100644
+index 80912c1..843ce53 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,99 +10,177 @@ import {
+@@ -10,99 +10,164 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -635,7 +635,7 @@ index 80912c1..c787474 100644
 +        // onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
-+          fontSize: { xs: '14px', sm: '16px', md: '20px' },
++          fontSize: { xs: '14px', sm: '16px', md: '18px' },
 +          fontWeight: 400,
 +          lineHeight: '120%',
 +          color: (theme: any) => theme.palette.custom.dark,
@@ -646,33 +646,20 @@ index 80912c1..c787474 100644
 +        }}>
 +          {categoryTitle}</Box>}
 +        right={
-+
-+          // <Button
-+          //   sx={{
-+          //    color: (theme:any)=> theme.palette.custom.tertiary,
-+          //     fontSize: { sm: '12px', md: '14px' },
-+          //     fontWeight: 400,
-+          //     cursor:'pointer',
-+          //     textDecoration: 'underline',
-+          //     '&:hover': {
-+          //       backgroundColor: 'transparent'
-+          //     }
-+          //   }}
-+          //   onClick={(e) => {
-+          //     e.stopPropagation()
-+          //     // form.setValue(name, null)
-+          //     return clearAll()
-+          //   }}
-+          // >
-+          //   <Trans id='Clear' />
-+          // </Button>
-+          <Box onClick={handleAccordionToggle}>
++          <Box onClick={handleAccordionToggle} sx={{
++            position:'relative',
++            top:'10px',
++            '& svg':{
++                  stroke:(theme:any)=>theme.palette.custom.wishlistColor
++                }
++          }}>
 +            <IconSvg
-+              src={expandeds ? iconOpenAccordion : iconCloseAccordion}
++              src={expandeds ? iconCloseAccordion : iconOpenAccordion}
 +              size='medium'
 +              sx={{
-+                width: '18px',
-+                height: '18px',
++                width: '20px',
++                height: '20px',
++                
 +              }}
 +            />
 +          </Box>
@@ -984,7 +971,7 @@ index b64ae6d..4504056 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
-index 195b807..87807ce 100644
+index 195b807..c3a3f86 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
 @@ -2,7 +2,7 @@ import { useCallback } from 'react'
@@ -999,7 +986,7 @@ index 195b807..87807ce 100644
 @@ -12,16 +12,38 @@ export function useProductFiltersProClearAllAction() {
        Object.keys(currentValues.filters).map((key) => [key, null]),
      )
-     
+ 
 +    let category_uid = getValues('filters.category_uid');
 +    let url = getValues('url');
 +

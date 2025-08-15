@@ -100,25 +100,6 @@ function CategoryPage(props: CategoryProps) {
                 conf={apolloState}
               />
             )}
-          {/*import.meta.graphCommerce.productFiltersPro &&
-            import.meta.graphCommerce.productFiltersLayout !== 'SIDEBAR' && (
-              <ProductListLayoutDefault
-                {...productList}
-                key={category.uid}
-                title={category.name ?? ''}
-                id={category.uid}
-                category={category}
-              />
-            )*/}
-          {/*!import.meta.graphCommerce.productFiltersPro && (
-            <ProductListLayoutClassic
-              {...productList}
-              key={category.uid}
-              title={category.name ?? ''}
-              id={category.uid}
-              category={category}
-            />
-          )*/}
         </>
       )}
     </PrivateQueryMaskProvider>
@@ -176,22 +157,22 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-      query: ProductFiltersDocument,
-      variables: categoryDefaultsToProductListFilters(
-        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-      ),
-    })
+        query: ProductFiltersDocument,
+        variables: categoryDefaultsToProductListFilters(
+          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+        ),
+      })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-      query: ProductListDocument,
-      variables: await productListApplyCategoryDefaults(
-        productListParams,
-        (await conf).data,
-        category,
-      ),
-    })
+        query: ProductListDocument,
+        variables: await productListApplyCategoryDefaults(
+          productListParams,
+          (await conf).data,
+          category,
+        ),
+      })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

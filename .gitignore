@@ -1,5 +1,6 @@
 # dependencies
 node_modules
+dummy.html
 
 # next.js
 .next/

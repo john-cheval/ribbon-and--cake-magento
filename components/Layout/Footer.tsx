@@ -1,39 +1,17 @@
-import { Image } from '@graphcommerce/image'
-import {
-  Box,
-  Divider,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
+import { Box } from '@mui/material'
 import Link from 'next/link'
-import { useState } from 'react'
 import { FaWhatsapp } from 'react-icons/fa'
-import { FaLocationDot } from 'react-icons/fa6'
-import { cardData, footerData, locationData } from '../../constants/Home'
-import footerLogo from '../Assets/footer_logo.svg'
-import send from '../Assets/send.svg'
-import FooterAccordion from './MobileFooter/FooterAccordion'
-import FooterSocial from './MobileFooter/FooterSocial'
 
 export function Footer({ footerContent }) {
-  const [email, setEmail] = useState('')
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
-  const [expandedPanel, setExpandedPanel] = useState<number | null>(null)
-
-  const handleChange =
-    (panelIndex: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpandedPanel(isExpanded ? panelIndex : null)
-    }
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: footerContent }} />
 
-      <Link href={'/'}>
+      <Link
+        href={
+          'https://api.whatsapp.com/send/?phone=971528899029&text&type=phone_number&app_absent=0'
+        }
+      >
         <Box
           sx={{
             width: '100%',

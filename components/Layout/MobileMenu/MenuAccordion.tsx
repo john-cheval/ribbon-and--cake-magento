@@ -15,6 +15,10 @@ export default function MenuAccordion({
   selectedCategory,
   onSelect,
 }) {
+  const handleClick = (data) => {
+    if (data?.children?.length > 0) return
+    onSelect(data?.url_path)
+  }
   return (
     <div>
       <Accordion
@@ -30,6 +34,7 @@ export default function MenuAccordion({
           expandIcon={
             expanded ? <LuMinus size={20} color='#F1A8B6' /> : <GoPlus size={20} color='#F1A8B6' />
           }
+          onClick={() => handleClick(linksData)}
           aria-controls='panel1-content'
           id='panel1-header'
           sx={{
@@ -53,7 +58,7 @@ export default function MenuAccordion({
               lineHeight: '120%',
             }}
           >
-            {linksData?.name ? linksData?.name : 'hello'}
+            {linksData?.name ? linksData?.name : 'category'}
           </Typography>
         </AccordionSummary>
 
@@ -75,6 +80,9 @@ export default function MenuAccordion({
                     sx={{
                       '&.Mui-checked': {
                         color: '#F1A8B6',
+                      },
+                      '& .MuiSvgIcon-root': {
+                        fill: '#F1A8B6',
                       },
                     }}
                   />

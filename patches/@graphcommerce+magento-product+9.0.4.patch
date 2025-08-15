@@ -215,7 +215,7 @@ index a1ec789..b365a43 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..735f787 100644
+index fb82adb..d9647d3 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -223,7 +223,7 @@ index fb82adb..735f787 100644
  
  export type PriceSliderProps = {
 -  value: FilterRangeTypeInput | null | undefined
-+  value?: FilterRangeTypeInput | null | undefined  |string | number 
++  value?: FilterRangeTypeInput | null | undefined | string | number
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
    onChange: (...event: any[]) => void
    sx?: SxProps<Theme>
@@ -237,17 +237,17 @@ index fb82adb..735f787 100644
 +    value !== null && typeof value === 'object' && 'from' in value && 'to' in value
  
 -  const renderMoney = useCallback((v: number) => <Money round value={v} />, [])
-+  const from =  isFilterRange &&value?.from ? Number(value?.from) : min
-+  const to =  isFilterRange && value?.to ? Number(value?.to) : max
++  const from = isFilterRange && value?.from ? Number(value?.from) : min
++  const to = isFilterRange && value?.to ? Number(value?.to) : max
 +
-+  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight:400,fontSize: { xs: '12px', sm: '14px', md: '16px' }}} round value={v} />, [])
++  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight: 400, fontSize: { xs: '12px', sm: '14px', md: '16px' } }} round value={v} />, [])
  
    return (
      <Box
        sx={[
          (theme) => ({
 -          pt: theme.spacings.md,
-+         pt: theme.spacings.sm,
++          pt: theme.spacings.sm,
            pb: theme.spacings.xs,
 -          px: theme.spacings.xxs,
 +          // px: theme.spacings.xxs,
@@ -270,30 +270,30 @@ index fb82adb..735f787 100644
          valueLabelFormat={renderMoney}
          className={classes.slider}
          step={1}
-+        sx={(theme)=>({
++        sx={(theme) => ({
 +          '& .MuiSlider-track': {
-+            backgroundColor: (theme:any)=>theme.palette.custom.heading,
-+            transition: 'background-color 0.3s ease-in-out', 
-+            height:'3px',
-+            color:(theme:any)=>theme.palette.custom.heading,
-+            
-+          },
-+           '& .MuiSlider-rail': {
-+             height:'1px',
-+            backgroundColor: (theme:any)=>theme.palette.custom.borderSecondary,
++            backgroundColor: (theme: any) => theme.palette.custom.heading,
++            transition: 'background-color 0.3s ease-in-out',
++            height: '3px',
++            color: (theme: any) => theme.palette.custom.heading,
 +
-+            },
-+            '& .MuiSlider-thumb': {
-+            backgroundColor: (theme:any)=>theme.palette.custom.heading, 
-+            width: '10px',
-+            height: '10px', 
-+            borderRadius: '50%', 
-+            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out', 
 +          },
-+          '&  .MuiSlider-thumb[data-index="0"] .MuiSlider-valueLabelOpen':{
++          '& .MuiSlider-rail': {
++            height: '1px',
++            backgroundColor: (theme: any) => theme.palette.custom.borderSecondary,
++
++          },
++          '& .MuiSlider-thumb': {
++            backgroundColor: (theme: any) => theme.palette.custom.heading,
++            width: '10px',
++            height: '10px',
++            borderRadius: '50%',
++            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out',
++          },
++          '&  .MuiSlider-thumb[data-index="0"] .MuiSlider-valueLabelOpen': {
 +            transform: 'translate(25px, 40%) scale(1)'
 +          },
-+          '&  .MuiSlider-thumb[data-index="1"] .MuiSlider-valueLabelOpen':{
++          '&  .MuiSlider-thumb[data-index="1"] .MuiSlider-valueLabelOpen': {
 +            transform: 'translate(-20px, 40%) scale(1)'
 +          }
 +        })}
@@ -338,23 +338,34 @@ index 421d5d4..2e70533 100644
        }
        right={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
-index 021469e..8344178 100644
+index 021469e..757b7ae 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
-@@ -37,6 +37,8 @@ export function ProductFilterRangeChip(props: FilterProps) {
+@@ -37,14 +37,16 @@ export function ProductFilterRangeChip(props: FilterProps) {
          return (
            <ChipOverlayOrPopper
              label={label}
-+      
++
 +
              chipProps={{ variant: 'outlined', className: classes.root }}
              overlayProps={{ sizeSm: 'minimal', sizeMd: 'minimal' }}
              onReset={
+               from !== min || to !== max
+                 ? () => {
+-                    form.setValue(name, null)
+-                    return submit()
+-                  }
++                  form.setValue(name, null)
++                  return submit()
++                }
+                 : undefined
+             }
+             onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..cfa5bf7 100644
+index cabc140..6215b32 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-@@ -1,11 +1,12 @@
+@@ -1,17 +1,18 @@
  import { Controller } from '@graphcommerce/ecommerce-ui'
 -import type { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
 -import { ActionCardAccordion, Button } from '@graphcommerce/next-ui'
@@ -369,76 +380,29 @@ index cabc140..cfa5bf7 100644
  
  export function ProductFilterRangeSection(props: FilterProps) {
    const { aggregation } = props
-@@ -35,21 +36,75 @@ export function ProductFilterRangeSection(props: FilterProps) {
+   const { attribute_code, label, options } = aggregation
  
+-  const { form, params } = useProductFiltersPro()
++  const { form, submit, params } = useProductFiltersPro()
+   const { control } = form
+   const attrCode = attribute_code as keyof ProductAttributeFilterInput
+   const name = `filters.${attrCode}` as const
+@@ -33,23 +34,83 @@ export function ProductFilterRangeSection(props: FilterProps) {
+         const from = value?.from ? Number(value?.from) : min
+         const to = value?.to ? Number(value?.to) : max
+ 
++        const handleChange = (price) => {
++          onChange(price)
++          form.setValue(name, price)
++          submit()
++        }
++
          return (
            <ActionCardAccordion
 +            right={<></>}
 +            defaultExpanded={true}
              summary={label}
-+            sx={{
-+              
-+             // '& .MuiAccordionDetails-root.mui-style-bp98xx-MuiPaper-root-MuiAccordion-root':{
-+                borderBottom:'0 !important',
-+              //},
-+              paddingTop:theme => theme.spacings.xs,
-+
-+              '& .MuiAccordionSummary-expandIconWrapper': {
-+                display: 'none',
-+              },
-+
-+              '& .MuiAccordionSummary-root': {
-+                cursor: 'default', 
-+                pointerEvents: 'none', 
-+                minHeight: 'auto !important', 
-+           
-+                '&:hover, &.Mui-focusVisible': {
-+                  backgroundColor: 'transparent',
-+                },
-+              },    
-+
-+              '& .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel':{
-+                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+              },
-+              ['& .MuiSlider-thumb']:{
-+                ['& .MuiSlider-valueLabelOpen span'] : {
-+                  transform: 'translateY(40%) scale(1)',
-+                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  fontSize:{xs:'14px', md:'16px'},
-+                  fontWeight:400,
-+                  '& .MuiSlider-valueLabelCircle':{
-+                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  }
-+
-+                },
-+                ['&:nth-of-type(1) .MuiSlider-valueLabelOpen span']: {
-+                  left:"unset",
-+                  right:"10px",
-+                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  fontSize:{xs:'14px', md:'16px'},
-+                  fontWeight:400,
-+                  '& .MuiSlider-valueLabelCircle':{
-+                 color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  }
-+                },
-+              },
-+
-+              '& .PriceSlider-container': {
-+                paddingTop:0,
-+                paddingBottom:'30px',
-+                //borderBottom:'0 !important'
-+              },
-+
-+              '& .PriceSlider-slider': {
-+                maxWidth: 'calc(100% - 4px)',
-+              },
-+
-+              '& .MuiTypography-body1': {
-+                marginBottom: '0px',
-+              }
-+
-+            }}
-             details={<PriceSlider options={options} value={value} onChange={onChange} />}
+-            details={<PriceSlider options={options} value={value} onChange={onChange} />}
 -            right={
 -              from !== min || to !== max ? (
 -                <Button
@@ -452,9 +416,72 @@ index cabc140..cfa5bf7 100644
 -                </Button>
 -              ) : undefined
 -            }
-+            //  right={
-+            //   <IconSvg />
-+            // }
++            sx={{
++
++              // '& .MuiAccordionDetails-root.mui-style-bp98xx-MuiPaper-root-MuiAccordion-root':{
++              borderBottom: '0 !important',
++              //},
++              paddingTop: theme => theme.spacings.xs,
++
++              '& .MuiAccordionSummary-expandIconWrapper': {
++                display: 'none',
++              },
++
++              '& .MuiAccordionSummary-root': {
++                cursor: 'default',
++                pointerEvents: 'none',
++                minHeight: 'auto !important',
++
++                '&:hover, &.Mui-focusVisible': {
++                  backgroundColor: 'transparent',
++                },
++              },
++
++              '& .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel': {
++                color: (theme: any) => `${theme.palette.custom.dark} !important`,
++              },
++              ['& .MuiSlider-thumb']: {
++                ['& .MuiSlider-valueLabelOpen span']: {
++                  transform: 'translateY(40%) scale(1)',
++                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  fontSize: { xs: '14px', md: '16px' },
++                  fontWeight: 400,
++                  '& .MuiSlider-valueLabelCircle': {
++                    color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  }
++
++                },
++                ['&:nth-of-type(1) .MuiSlider-valueLabelOpen span']: {
++                  left: "unset",
++                  right: "10px",
++                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  fontSize: { xs: '14px', md: '16px' },
++                  fontWeight: 400,
++                  '& .MuiSlider-valueLabelCircle': {
++                    color: (theme: any) => `${theme.palette.custom.dark} !important`,
++                  }
++                },
++              },
++
++              '& .PriceSlider-container': {
++                paddingTop: 0,
++                paddingBottom: '30px',
++                //borderBottom:'0 !important'
++              },
++
++              '& .PriceSlider-slider': {
++                maxWidth: 'calc(100% - 4px)',
++              },
++
++              '& .MuiTypography-body1': {
++                marginBottom: '0px',
++              }
++
++            }}
++            details={<PriceSlider options={options} value={value} onChange={handleChange} />}
++          //  right={
++          //   <IconSvg />
++          // }
            />
          )
        }}
@@ -891,7 +918,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..4504056 100644
+index b64ae6d..3e451f2 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,15 +5,19 @@ import type { SxProps, Theme } from '@mui/material'
@@ -923,7 +950,7 @@ index b64ae6d..4504056 100644
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-+      summary={<Trans id='Sort by: {selectedLabel}' values={{ selectedLabel }} />}
++      summary={<Trans id={`Sort by: ${selectedLabel}`} values={{ selectedLabel }} />}
        details={
          <ActionCardListForm
            control={form.control}
@@ -1023,6 +1050,41 @@ index 195b807..c3a3f86 100644
          },
        },
        { keepSubmitCount: true, keepIsValid: true },
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
+index d3b392c..0f00454 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
+@@ -20,7 +20,7 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+   const { sort_fields, category } = props
+ 
+-  const { params, form } = useProductFiltersPro()
++  const { params, submit, form } = useProductFiltersPro()
+   const { control, setValue } = form
+ 
+   const sortFields = useMemo(
+@@ -53,15 +53,19 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+       sortFields
+         .filter((o) => availableSortBy.includes(o.value))
+         .map((option) => {
+-          const value = option.value === defaultSortBy ? null : option.value
++          const value = option.value === defaultSortBy ? option.value : option.value
+           const showSort = formSort === value && !exclude.includes(option.value)
+ 
+           return {
+             ...option,
+             value,
+             title: option.label,
++            onClick: (e, va) => {
++              setValue('sort', va)
++              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
++              submit()
++            },
+             ...(showSort && {
+-              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
+               price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
+             }),
+           }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 index 68f7cab..ab58133 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx

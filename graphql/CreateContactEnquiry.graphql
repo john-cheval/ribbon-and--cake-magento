@@ -1,0 +1,15 @@
+mutation CreateContactEnquiry($name: String!, $email: String!, $message: String!) {
+  updateAlekseonForm(
+    input: {
+      identifier: "contact_us"
+      fields: [
+        { fieldIdentifier: "name", value: $name }
+        { fieldIdentifier: "email", value: $email }
+        { fieldIdentifier: "message", value: $message }
+      ]
+    }
+  ) {
+    success
+    message
+  }
+}

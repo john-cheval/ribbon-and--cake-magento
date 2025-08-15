@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..90c9795 100644
+index de7b68f..693f6f8 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -230,7 +230,7 @@ index de7b68f..90c9795 100644
 +                <RemoveItemFromCart 
 +                removeIcon={deleteIcon}
 +                sx={{
-+                  marginLeft:0
++                  marginLeft:0,  color:'#9D9D9D !important', stroke:'#9D9D9D !important'
 +                }}
 +                  {...cartItem}
 +                  buttonProps={{ size: size === 'responsive' ? 'large' : size }}
@@ -293,7 +293,7 @@ index 13d03bb..86bb97d 100644
              cartItem={item}
              layout={layout}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/RemoveItemFromCart/RemoveItemFromCart.tsx b/node_modules/@graphcommerce/magento-cart-items/components/RemoveItemFromCart/RemoveItemFromCart.tsx
-index 8647de3..7afbc3e 100644
+index 8647de3..78bed19 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/RemoveItemFromCart/RemoveItemFromCart.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/RemoveItemFromCart/RemoveItemFromCart.tsx
 @@ -1,21 +1,23 @@
@@ -322,7 +322,7 @@ index 8647de3..7afbc3e 100644
  
    const { submit, formState, error } = useRemoveItemFromCart(props)
    return (
-@@ -23,12 +25,27 @@ export function RemoveItemFromCart(props: RemoveItemFromCartProps) {
+@@ -23,12 +25,28 @@ export function RemoveItemFromCart(props: RemoveItemFromCartProps) {
        <Button
          variant='inline'
          color='secondary'
@@ -346,6 +346,7 @@ index 8647de3..7afbc3e 100644
 +        {removeIcon && (
 +<IconSvg src={removeIcon} sx={(theme) => ({
 +              color:'#9D9D9D',
++              stroke:'#9d9d9d'
 +            })} size='large' />
 +        )}
 +

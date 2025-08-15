@@ -412,7 +412,7 @@ function ShippingPage(props: ShippingPageProps) {
               </Box>
             </Box>
 
-            {/* Shipping Method */}
+            {/* Shipping Method 
             <Box>
               <Typography
                 sx={{
@@ -441,7 +441,7 @@ function ShippingPage(props: ShippingPageProps) {
                   </PaymentMethodContextProvider>
                 </ComposedForm>
               </Box>
-            </Box>
+            </Box>*/}
           </Box>
 
           <Box

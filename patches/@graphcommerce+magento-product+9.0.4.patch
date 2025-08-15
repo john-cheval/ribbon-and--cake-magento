@@ -173,7 +173,7 @@ index c61ffc0..ce11bee 100644
          InputProps={{
            endAdornment:
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
-index a1ec789..b365a43 100644
+index a1ec789..b384c62 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 @@ -10,6 +10,8 @@ import { CustomizableFieldOption } from './CustomizableFieldOption'
@@ -210,7 +210,7 @@ index a1ec789..b365a43 100644
            index={index}
            currency={product.price_range.minimum_price.final_price.currency}
            productPrice={product.price_range.minimum_price.final_price.value}
-+          sx={{color:'red'}}
++          // sx={{color:'red'}}
          />
        ))}
      </>

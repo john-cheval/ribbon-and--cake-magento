@@ -79,10 +79,19 @@ index 0482241..eb7b81e 100644
      </Box>
    )
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
-index d17ad07..29231ee 100644
+index d17ad07..05bd97c 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
 +++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
-@@ -62,7 +62,6 @@ export function ConfigurableProductOptions(props: ConfigurableProductOptionsProp
+@@ -54,6 +54,8 @@ export function ConfigurableProductOptions(props: ConfigurableProductOptionsProp
+     return formatter.format(options.map((o) => o.label))
+   }, [locale, options])
+ 
++
++
+   useEffect(() => {
+     if (unavailable) {
+       setError(`cartItems.${index}.sku`, {
+@@ -62,7 +64,6 @@ export function ConfigurableProductOptions(props: ConfigurableProductOptionsProp
      }
      if (!unavailable) clearErrors(`cartItems.${index}.sku`)
    }, [allLabels, clearErrors, index, setError, unavailable])

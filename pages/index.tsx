@@ -45,7 +45,6 @@ function CmsPage(props: CmsPageRouteProps) {
   const decodedHomeCeleberations = decodeHtmlEntities(homeCeleberationsData?.content)
   const decodedHomeImagination = decodeHtmlEntities(homeImaginationData?.content)
 
-  // console.log(menu?.items[0], 'this is the darta')
   return (
     <>
       <PageMeta

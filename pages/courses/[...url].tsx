@@ -1,7 +1,6 @@
 import { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst } from '@graphcommerce/graphql'
 import { getCategoryStaticPaths } from '@graphcommerce/magento-category'
-import { extractUrlQuery } from '@graphcommerce/magento-product'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { GetStaticPaths } from 'next'

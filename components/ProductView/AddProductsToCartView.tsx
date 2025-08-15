@@ -3,6 +3,7 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
 import {
   AddProductsToCartError,
   AddProductsToCartQuantity,
+  AddToCartItemSelector,
   ProductCustomizable,
   ProductListPrice,
   ProductPageAddToCartQuantityRow,
@@ -11,7 +12,10 @@ import {
   ProductSidebarDelivery,
 } from '@graphcommerce/magento-product'
 import { BundleProductOptions } from '@graphcommerce/magento-product-bundle'
-import { ConfigurableProductOptions } from '@graphcommerce/magento-product-configurable'
+import {
+  ConfigurableProductOptions,
+  useConfigurableOptionsSelection,
+} from '@graphcommerce/magento-product-configurable'
 import { DownloadableProductOptions } from '@graphcommerce/magento-product-downloadable'
 import { GroupedProducts } from '@graphcommerce/magento-product-grouped'
 import { isTypename } from '@graphcommerce/next-ui'
@@ -19,14 +23,22 @@ import { Box, Divider, Typography } from '@mui/material'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
 import { fontSize } from '../theme'
 
-export type AddProductsToCartViewProps = {
+export type AddProductsToCartViewProps = AddToCartItemSelector & {
   product: NonNullable<NonNullable<NonNullable<ProductPage2Query['products']>['items']>[number]>
 }
 
 export function AddProductsToCartView(props: AddProductsToCartViewProps) {
-  const { product } = props
+  const { product, index = 0 } = props
   const cartEnabled = useCartEnabled()
+  const { configured } = useConfigurableOptionsSelection({ url_key: product?.url_key, index })
 
+  const productConfiguredPrice =
+    configured && 'configurable_product_options_selection' in configured
+      ? (configured as { configurable_product_options_selection?: { variant?: any } })
+          .configurable_product_options_selection?.variant
+      : undefined
+
+  const prodocutPrice = productConfiguredPrice ? productConfiguredPrice : product
   return (
     <>
       {isTypename(product, ['ConfigurableProduct']) && (
@@ -50,7 +62,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
             <AddProductsToCartError>
               <Typography component='div' variant='h3' lineHeight='1'>
                 <ProductListPrice
-                  {...product.price_range.minimum_price}
+                  {...prodocutPrice.price_range.minimum_price}
                   sx={{
                     '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
                       // marginRight: '2px',

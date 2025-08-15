@@ -1,0 +1,6 @@
+mutation UpdateAlekseonForm($input: UpdateAlekseonFormInput!) {
+  updateAlekseonForm(input: $input) {
+    success
+    message
+  }
+}

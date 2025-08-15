@@ -64,6 +64,7 @@ function AccountIndexPage() {
               '& svg': {
                 fontSize: { xs: '23px' },
                 stroke: (theme) => theme.palette.custom.wishlistColor,
+                display: 'none',
               },
               '& .MuiTypography-h6': {
                 color: (theme) => theme.palette.custom.heading,
@@ -156,7 +157,16 @@ function AccountIndexPage() {
                       {latestOrder?.order_date}
                     </RelativeToTimeFormat>
                     {', '}
-                    {latestOrder?.items && <OrderStateLabelInline {...latestOrder} />}
+                    {latestOrder?.items && (
+                      <OrderStateLabelInline
+                        sx={{
+                          background: (theme) =>
+                            `${theme.palette.custom?.wishlistColor} !important`,
+                          color: (theme) => `${theme.palette.custom.smallHeading} !important`,
+                        }}
+                        {...latestOrder}
+                      />
+                    )}
                   </>
                 ) : undefined
               }

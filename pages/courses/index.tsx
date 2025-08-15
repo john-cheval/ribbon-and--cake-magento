@@ -7,7 +7,6 @@ import Courses from '../../components/courses'
 import { InnerTop } from '../../components/shared/Inner/Innertop'
 import { MpBlogPostsDocument, MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
 import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
-import { cmsPageDocument } from '../../graphql/CmsPage.gql'
 import {
   GetSubCategoriesDocument,
   GetSubCategoriesQuery,

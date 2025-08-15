@@ -3,19 +3,19 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import {
   CartItemSummary,
   CartSummary,
-  InlineAccount,
   getCheckoutIsDisabled,
+  InlineAccount,
 } from '@graphcommerce/magento-cart'
 import { SignupNewsletter } from '@graphcommerce/magento-newsletter'
 import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   FullPageMessage,
+  iconParty,
+  iconSadFace,
   IconSvg,
   LayoutHeader,
   LayoutTitle,
-  iconParty,
-  iconSadFace,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
@@ -36,14 +36,84 @@ function OrderSuccessPage() {
   return (
     <>
       <PageMeta title={i18n._(/* i18n */ 'Checkout summary')} metaRobots={['noindex']} />
-      <LayoutHeader floatingMd disableBackNavigation>
+      <LayoutHeader
+        floatingMd
+        disableBackNavigation
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
         {hasCartId && (
-          <LayoutTitle size='small' icon={iconParty}>
+          <LayoutTitle
+            size='small'
+            icon={iconParty}
+            sx={{
+              '& .LayoutHeaderContent-content': {
+                '& .LayoutTitle-root': {
+                  gap: { xs: '10px' },
+                  '& svg': {
+                    fontSize: { xs: '23px' },
+                    stroke: (theme) => theme.palette.custom.wishlistColor,
+                  },
+                  '& .MuiTypography-h6': {
+                    color: (theme) => theme.palette.custom.heading,
+                    fontFamily: 'Saxo Grammaticus',
+                    fontWeight: 300,
+                  },
+                },
+              },
+            }}
+          >
             <Trans id='Thank you for your order!' />
           </LayoutTitle>
         )}
       </LayoutHeader>
-      <Container maxWidth='md'>
+      <Container
+        maxWidth='md'
+        sx={{
+          '& .FullPageMessage-root .MuiContainer-root ': {
+            '& .FullPageMessage-iconWrapper svg': {
+              stroke: (theme) => theme.palette.custom.main,
+              fontSize: { xs: '30px', md: '35px' },
+            },
+            '& .FullPageMessage-subject': {
+              marginTop: 0,
+              '& h3': {
+                color: (theme) => theme.palette.custom.main,
+              },
+              '& .mui-style-1xcaoyx': {
+                color: (theme) => theme.palette.custom.main,
+              },
+            },
+            '& .FullPageMessage-button a': {
+              background: (theme) => theme.palette.custom.main,
+              color: (theme) => theme.palette.custom.border,
+              borderRadius: '4px',
+              fontSize: { xs: '12px', md: '14px', lg: '16px' },
+              border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
+              textTransform: 'capitalize',
+              transition: 'all 0.4s ease-in-out',
+              '&:hover': {
+                backgroundColor: 'transparent',
+                color: (theme: any) => theme.palette.custom.main,
+              },
+            },
+          },
+        }}
+      >
         {!hasCartId && (
           <FullPageMessage
             title={<Trans id='You have not placed an order' />}
@@ -60,9 +130,25 @@ function OrderSuccessPage() {
         {hasCartId && (
           <>
             <LayoutTitle icon={iconParty} sx={{ flexDirection: { md: 'column' } }}>
-              <Box sx={{ display: 'grid', columns: 1, justifyItems: 'center' }}>
+              <Box
+                sx={{
+                  display: 'grid',
+                  columns: 1,
+                  justifyItems: 'center',
+                  color: (theme) => theme.palette.custom.main,
+                }}
+              >
                 <Trans id='Thank you for your order!' />
-                {orderNumber && <Typography variant='subtitle1'>#{orderNumber}</Typography>}
+                {orderNumber && (
+                  <Typography
+                    sx={{
+                      color: (theme) => theme.palette.custom.main,
+                    }}
+                    variant='subtitle1'
+                  >
+                    #{orderNumber}
+                  </Typography>
+                )}
               </Box>
             </LayoutTitle>
             <CartSummary />

@@ -34,7 +34,7 @@ function CourseInner({ course }) {
           alignSelf: { xs: 'unset', lg: 'start' },
         }}
       >
-        <CourseEnquiryForm />
+        <CourseEnquiryForm defaultTitle={course?.name} />
       </Box>
     </Box>
   )

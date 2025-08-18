@@ -32,7 +32,6 @@ const useFormGqlMutationStorePickup = (document, options, operationOptions, stor
           // Add any other fields you need to send to the backend
         }
         // const vars = { ...variables }
-        console.log(vars, options, '==>variables')
 
         return options.onBeforeSubmit ? options.onBeforeSubmit(vars) : vars
       },
@@ -44,8 +43,6 @@ const useFormGqlMutationStorePickup = (document, options, operationOptions, stor
 }
 
 function PickupStoreForm({ storeData }) {
-  console.log(storeData, '==>prickupstoreData')
-
   const form = useFormGqlMutationStorePickup(
     CreateStorePickupDocument,
     {

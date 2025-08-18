@@ -173,7 +173,7 @@ index c61ffc0..ce11bee 100644
          InputProps={{
            endAdornment:
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
-index a1ec789..b365a43 100644
+index a1ec789..b384c62 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 @@ -10,6 +10,8 @@ import { CustomizableFieldOption } from './CustomizableFieldOption'
@@ -210,7 +210,7 @@ index a1ec789..b365a43 100644
            index={index}
            currency={product.price_range.minimum_price.final_price.currency}
            productPrice={product.price_range.minimum_price.final_price.value}
-+          sx={{color:'red'}}
++          // sx={{color:'red'}}
          />
        ))}
      </>
@@ -1333,10 +1333,10 @@ index 1d42a06..c70ff79 100644
          <Money {...final_price} />
        </PrivateQueryMask>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-index e920423..607946f 100644
+index e920423..eaac83f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-@@ -1,19 +1,22 @@
+@@ -1,18 +1,20 @@
  import type { SidebarGalleryProps, TypeRenderer } from '@graphcommerce/next-ui'
  import { SidebarGallery, nonNullable } from '@graphcommerce/next-ui'
  import type { ProductPageGalleryFragment } from './ProductPageGallery.gql'
@@ -1357,11 +1357,9 @@ index e920423..607946f 100644
 -  const { product, children, aspectRatio: [width, height] = [1532, 1678], ...sidebarProps } = props
 +  const { product, children, aspectRatio: [width, height] = [682, 682], wishlistButton, ...sidebarProps } = props
    const { media_gallery } = product
-+  console.log(product, 'this is product data ProductPageGallery')
  
    const images =
-     media_gallery
-@@ -23,15 +26,15 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+@@ -23,15 +25,15 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
        .map((item) =>
          item.__typename === 'ProductImage'
            ? {
@@ -1385,7 +1383,7 @@ index e920423..607946f 100644
        ) ?? []
  
    return (
-@@ -40,6 +43,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
+@@ -40,6 +42,9 @@ export function ProductPageGallery(props: ProductPageGalleryProps) {
        sidebar={children}
        aspectRatio={[width, height]}
        images={images}

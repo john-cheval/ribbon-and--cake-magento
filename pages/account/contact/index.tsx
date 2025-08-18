@@ -93,7 +93,6 @@ function AccountContactPage() {
   )
 }
 
-// .FullPageMessage-root .MuiContainer-root .FullPageMessage-iconWrapper svg
 const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account',
   Layout: LayoutOverlay,

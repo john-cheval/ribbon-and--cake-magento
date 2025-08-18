@@ -1,5 +1,11 @@
-import { Box, Button, OutlinedInput, TextField, Typography } from '@mui/material'
+import { MessageSnackbar } from '@graphcommerce/next-ui'
+import { useMutation, useQuery } from '@apollo/client'
+import { Trans } from '@lingui/react'
+import { Box, Button, CircularProgress, OutlinedInput, TextField, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
+import { AlekseonFormDocument } from '../../../graphql/aleskonForm.gql'
+import { UpdateAlekseonFormDocument } from '../../../graphql/UpdateAleskonForm.gql'
 
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
@@ -38,8 +44,64 @@ const inputFieldSx: SxProps<Theme> = {
   },
 }
 function EnquiryForm() {
+  const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
+    UpdateAlekseonFormDocument,
+  )
+
+  const {
+    data: formData,
+    loading: formLoading,
+    error: formError,
+  } = useQuery(AlekseonFormDocument, {
+    variables: {
+      identifier: 'events-forms',
+    },
+  })
+
+  const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: formFields.reduce(
+      (acc, field) => {
+        if (field?.attribute_code) {
+          acc[field.attribute_code] = ''
+        }
+        return acc
+      },
+      {} as Record<string, string>,
+    ),
+  })
+
+  const isSuccess = data?.updateAlekseonForm?.success
+
+  const onSubmit = async (values: Record<string, string>) => {
+    try {
+      const fields = formFields
+        ?.filter((field) => typeof field?.attribute_code === 'string')
+        .map((field) => ({
+          fieldIdentifier: field!.attribute_code as string,
+          value: values[field!.attribute_code as string] || '',
+        }))
+
+      await updateAlekseonForm({
+        variables: {
+          input: {
+            identifier: 'events-forms',
+            fields,
+          },
+        },
+      })
+      reset()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
-    <Box sx={{ marginTop: { xs: '20px', md: '30px', xl: '40px' } }}>
+    <Box
+      component='form'
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{ marginTop: { xs: '20px', md: '30px', xl: '40px' } }}
+    >
       <Typography variant='h2' component='h3' sx={{ textTransform: 'uppercase' }}>
         Enquire Now
       </Typography>
@@ -53,8 +115,38 @@ function EnquiryForm() {
             flexDirection: { xs: 'column', sm: 'row' },
           }}
         >
-          <OutlinedInput fullWidth placeholder='First Name' sx={inputFieldSx} />
-          <OutlinedInput fullWidth placeholder='Email' sx={inputFieldSx} />
+          <Controller
+            name={formFields.find((f) => f?.frontend_label === 'Full Name')?.attribute_code || ''}
+            control={control}
+            rules={{ required: 'Name is Required' }}
+            render={({ field }) => (
+              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+            )}
+          />
+
+          <Controller
+            name={
+              formFields.find((f) => f?.frontend_label === 'Email Address')?.attribute_code || ''
+            }
+            control={control}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // basic email regex
+                message: 'Enter a valid email address',
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <>
+                <OutlinedInput {...field} fullWidth placeholder='Your Email' sx={inputFieldSx} />
+                {fieldState.error && (
+                  <Typography variant='caption' color='error'>
+                    {fieldState.error.message}
+                  </Typography>
+                )}
+              </>
+            )}
+          />
         </Box>
 
         <Box
@@ -66,55 +158,121 @@ function EnquiryForm() {
             flexDirection: { xs: 'column', sm: 'row' },
           }}
         >
-          <OutlinedInput fullWidth placeholder='Phone Number' sx={inputFieldSx} />
-          <OutlinedInput
-            fullWidth
-            placeholder='Personalised Gifts'
-            sx={{
-              ...inputFieldSx,
-              '& .MuiOutlinedInput-input::placeholder': {
-                color: '#D1D1D1',
+          <Controller
+            name={formFields.find((f) => f?.frontend_label === 'Your Phone')?.attribute_code || ''}
+            control={control}
+            rules={{
+              required: 'Phone Number is Required',
+              pattern: {
+                value: /^[0-9]*$/, // only digits
+                message: 'Only numbers are allowed',
+              },
+              minLength: {
+                value: 7, // optional: min length
+                message: 'Phone number is too short',
+              },
+              maxLength: {
+                value: 15, // optional: max length
+                message: 'Phone number is too long',
               },
             }}
+            render={({ field, fieldState }) => (
+              <>
+                <OutlinedInput
+                  {...field}
+                  fullWidth
+                  placeholder='Your Phone'
+                  sx={inputFieldSx}
+                  onChange={(e) => {
+                    // allow only digits in input
+                    field.onChange(e.target.value.replace(/\D/g, ''))
+                  }}
+                />
+                {fieldState.error && (
+                  <Typography variant='caption' color='error'>
+                    {fieldState.error.message}
+                  </Typography>
+                )}
+              </>
+            )}
+          />
+
+          <Controller
+            name={formFields.find((f) => f?.frontend_label === 'Event Name')?.attribute_code || ''}
+            control={control}
+            //rules={{ required: true }}
+            render={({ field }) => (
+              <OutlinedInput
+                {...field}
+                fullWidth
+                placeholder='Personalised Gifts'
+                sx={{
+                  ...inputFieldSx,
+                  '& .MuiOutlinedInput-input::placeholder': {
+                    //   color: '#D1D1D1',
+                  },
+                }}
+              />
+            )}
           />
         </Box>
 
         <Box>
-          <TextField
-            id='custom-textarea'
-            label='Message'
-            multiline
-            rows={3}
-            fullWidth
-            variant='outlined'
-            sx={{
-              mt: 2,
-              backgroundColor: (theme: any) => theme.palette.primary.contrastText,
-              color: (theme: any) => theme.palette.custom.main,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              borderRadius: '4px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: (theme: any) => theme.palette.custom.borderInput,
-                },
-                '&:hover fieldset': {
-                  borderColor: (theme: any) => theme.palette.custom.borderInput, // Hover border color
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: (theme: any) => theme.palette.custom.borderInput, // Focus border color
-                  borderWidth: '1px !important',
-                },
-                '& textarea': {
-                  padding: '10px',
-                  fontFamily: '"Bricolage Grotesque"',
-                },
-              },
-            }}
+          <Controller
+            name={formFields.find((f) => f?.frontend_label === 'Message')?.attribute_code || ''}
+            control={control}
+            // rules={{ required: 'Message is  Required' }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                id='custom-textarea'
+                label='Message'
+                multiline
+                rows={3}
+                fullWidth
+                variant='outlined'
+                sx={{
+                  // mt: 2,
+                  backgroundColor: (theme: any) => theme.palette.primary.contrastText,
+                  color: (theme: any) => theme.palette.custom.main,
+                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  borderRadius: '4px',
+                  '& .MuiOutlinedInput-root': {
+                    color: (theme: any) => theme.palette.custom.main,
+                    '& fieldset': {
+                      borderColor: (theme: any) => theme.palette.custom.borderInput,
+                      '& legend': {
+                        color: (theme: any) => theme.palette.custom.main,
+                      },
+                    },
+                    '&:hover fieldset': {
+                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Hover border color
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Focus border color
+                      borderWidth: '1px !important',
+                    },
+                    '& textarea': {
+                      padding: '10px',
+                      fontFamily: '"Bricolage Grotesque"',
+                    },
+                  },
+                  '& .mui-style-17dy96o-MuiFormLabel-root-MuiInputLabel-root ': {
+                    color: (theme: any) => theme.palette.custom.main,
+                  },
+                  '& .MuiFormLabel-root': {
+                    color: (theme: any) => theme.palette.custom.main,
+                  },
+                }}
+              />
+            )}
           />
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '18px' }}>
           <Button
+            type='submit'
+            disabled={isSubmitting}
             sx={{
               // marginTop: '18px',
               backgroundColor: (theme: any) => theme.palette.custom.main,
@@ -133,13 +291,56 @@ function EnquiryForm() {
               '&:hover': {
                 backgroundColor: (theme: any) => theme.palette.custom.border,
                 color: (theme: any) => theme.palette.custom.main,
+                border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                '& svg': {
+                  color: (theme: any) => theme.palette.custom.main,
+                },
               },
             }}
           >
-            Submit
+            {isSubmitting ? (
+              <CircularProgress
+                size='20px'
+                sx={{
+                  '& svg': {
+                    color: (theme: any) => theme.palette.custom.border,
+                  },
+                }}
+              />
+            ) : (
+              'Submit'
+            )}
           </Button>
         </Box>
       </Box>
+
+      {isSuccess && (
+        <MessageSnackbar
+          sx={{
+            '& .MuiSnackbarContent-message': {
+              '& svg': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '18px', lg: '25px' },
+              },
+              '& .MuiBox-root': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                textAlign: 'center',
+              },
+              '& .MuiButtonBase-root': {
+                width: { xs: '35px', xl: '40px' },
+                height: { xs: '35px', xl: '40px' },
+              },
+            },
+          }}
+          open={isSuccess}
+          sticky
+          variant='pill'
+          severity='success'
+        >
+          <Trans id='Form Submitted Successfully ' />
+        </MessageSnackbar>
+      )}
     </Box>
   )
 }

@@ -62,15 +62,11 @@ function CategoryPage(props: CategoryProps) {
     ...rest,
     category: categories?.items?.[0],
   })
-  // console.log(menu?.items[0]?.children, 'this is menu data')
 
   const { products, params, category } = productList
 
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
-
-  // console.log(category, 'this is the category')
-  // console.log(menu?.items[0]?.children, 'this is the children of the menu')
 
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>

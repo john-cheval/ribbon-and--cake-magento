@@ -54,7 +54,6 @@ function SearchResultPage(props: SearchResultProps) {
   const productList = useProductList(props)
   const { params, menu, products } = productList
   const search = params.url.split('/')[1]
-  console.log(menuList, 'this is them menu list')
 
   if (!menuList?.items || menuList.items.length === 0) return
 

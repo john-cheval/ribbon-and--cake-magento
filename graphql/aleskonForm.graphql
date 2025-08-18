@@ -1,0 +1,21 @@
+query AlekseonForm($identifier: String!) {
+  AlekseonForm(identifier: $identifier) {
+    Forms {
+      title
+      identifier
+      formfield {
+        frontend_label
+        frontend_input
+        is_required
+        attribute_code
+        options {
+          option_id
+          label
+        }
+      }
+      widget_setting {
+        submit_button_label
+      }
+    }
+  }
+}

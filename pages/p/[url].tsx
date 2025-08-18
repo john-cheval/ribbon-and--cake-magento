@@ -133,7 +133,10 @@ function ProductPage(props: Props) {
         defaultValues={defaultValues}
         sx={{
           '& .SidebarGallery-row': {
-            marginBottom: { xs: 0 },
+            marginBottom: {
+              xs: product?.related_products?.length === 0 ? '30px' : 0,
+              md: product?.related_products?.length === 0 ? '50px' : 0,
+            },
           },
           '& .SidebarGallery-scrollerContainer': {
             overflow: 'hidden',

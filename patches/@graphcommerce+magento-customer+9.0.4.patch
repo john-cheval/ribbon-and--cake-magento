@@ -1155,7 +1155,7 @@ index 62c2fbb..9eadfab 100644
    $middlename: String
    $lastname: String!
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
-index c68c353..3a5caab 100644
+index c68c353..770ba45 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 @@ -7,23 +7,27 @@ import type { UseFormClearErrors, UseFormSetError } from '@graphcommerce/react-h
@@ -1189,16 +1189,15 @@ index c68c353..3a5caab 100644
    const storeConfig = useQuery(StoreConfigDocument)
    const signIn = useSignInForm({ email })
    const form = useFormGqlMutation<
-@@ -34,6 +38,8 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -34,6 +38,7 @@ export function SignUpForm(props: SignUpFormProps) {
      {
        defaultValues: { email },
        onBeforeSubmit: (values) => {
 +
-+        console.log('Submitted values:', values) // not retur n the password
          if (!email) {
            // eslint-disable-next-line @typescript-eslint/no-use-before-define
            setError('email', { message: t`Please enter a valid email address` })
-@@ -41,7 +47,7 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -41,7 +46,7 @@ export function SignUpForm(props: SignUpFormProps) {
          }
          // eslint-disable-next-line @typescript-eslint/no-use-before-define
          clearErrors()
@@ -1207,7 +1206,7 @@ index c68c353..3a5caab 100644
        },
        onComplete: async (result, variables) => {
          if (!result.errors && !storeConfig.data?.storeConfig?.create_account_confirmation) {
-@@ -75,7 +81,10 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -75,7 +80,10 @@ export function SignUpForm(props: SignUpFormProps) {
    }
  
    return (
@@ -1219,7 +1218,7 @@ index c68c353..3a5caab 100644
        <FormRow>
          <ValidatedPasswordElement
            control={control}
-@@ -88,6 +97,7 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -88,6 +96,7 @@ export function SignUpForm(props: SignUpFormProps) {
            required={required.password}
            disabled={formState.isSubmitting}
            helperText={inputError?.message}
@@ -1227,7 +1226,7 @@ index c68c353..3a5caab 100644
          />
          <PasswordRepeatElement
            control={control}
-@@ -102,30 +112,45 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -102,30 +111,45 @@ export function SignUpForm(props: SignUpFormProps) {
          />
        </FormRow>
  

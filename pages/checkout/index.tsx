@@ -590,8 +590,6 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
-  // console.log('GetDeliverySlotData', (await GetDeliverySlotData).data.getTimeSlots?.slotData)
-
   return {
     props: {
       ...(await layout).data,

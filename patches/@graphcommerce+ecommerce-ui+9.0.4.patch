@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
-index 1834408..c4f193b 100644
+index 1834408..bdf9866 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 @@ -1,12 +1,18 @@
@@ -58,17 +58,16 @@ index 1834408..c4f193b 100644
      formState,
    } = useController({
      ...props,
-@@ -75,6 +86,9 @@ export function ActionCardListForm<
+@@ -75,6 +86,8 @@ export function ActionCardListForm<
      [onChange, requireOptionSelection],
    )
  
-+  // console.log('ActionCardListForm', items)
 +
 +
    return (
      <ActionCardList
        {...other}
-@@ -86,6 +100,30 @@ export function ActionCardListForm<
+@@ -86,6 +99,30 @@ export function ActionCardListForm<
        error={formState.isSubmitted && !!fieldState.error}
        errorMessage={fieldState.error?.message}
      >
@@ -99,7 +98,7 @@ index 1834408..c4f193b 100644
        {items.map((item) => (
          <RenderItem
            {...item}
-@@ -93,8 +131,9 @@ export function ActionCardListForm<
+@@ -93,8 +130,9 @@ export function ActionCardListForm<
            value={item.value}
            selected={onSelect(item.value, value)}
            onReset={handleReset}

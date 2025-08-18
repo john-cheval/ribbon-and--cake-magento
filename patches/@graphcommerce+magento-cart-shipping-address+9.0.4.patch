@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..b6ddc0e 100644
+index a128fe9..38bf2ce 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -39,81 +39,153 @@ index a128fe9..b6ddc0e 100644
  
  export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
    /**
-@@ -138,10 +140,49 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -86,24 +88,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+     defaultValues: isCartAddressACustomerAddress(customerQuery?.customer?.addresses, currentAddress)
+       ? { saveInAddressBook: true, isCompany: false }
+       : {
+-          // todo(paales): change to something more sustainable
+-          firstname: currentAddress?.firstname ?? customerQuery?.customer?.firstname ?? '',
+-          lastname: currentAddress?.lastname ?? customerQuery?.customer?.lastname ?? '',
+-          telephone:
+-            currentAddress?.telephone !== '000 - 000 0000' ? currentAddress?.telephone : '',
+-          city: currentAddress?.city ?? '',
+-          company: currentAddress?.company ?? '',
+-          vatId: currentAddress?.vat_id ?? '',
+-          postcode: currentAddress?.postcode ?? '',
+-          street: currentAddress?.street?.[0] ?? '',
+-          houseNumber: currentAddress?.street?.[1] ?? '',
+-          addition: currentAddress?.street?.[2] ?? '',
+-          regionId: currentAddress?.region?.region_id ?? null,
+-          countryCode: currentAddress?.country.code ?? shopCountry, // todo: replace by the default shipping country of the store + geoip,
+-          saveInAddressBook: true,
+-          isCompany: Boolean(currentAddress?.company || currentAddress?.vat_id),
+-          customerNote: '',
+-        },
++        // todo(paales): change to something more sustainable
++        firstname: currentAddress?.firstname ?? customerQuery?.customer?.firstname ?? '',
++        lastname: currentAddress?.lastname ?? customerQuery?.customer?.lastname ?? '',
++        telephone:
++          currentAddress?.telephone !== '000 - 000 0000' ? currentAddress?.telephone : '',
++        city: currentAddress?.city ?? '',
++        company: currentAddress?.company ?? '',
++        vatId: currentAddress?.vat_id ?? '',
++        postcode: currentAddress?.postcode ?? '',
++        street: currentAddress?.street?.[0] ?? '',
++        houseNumber: currentAddress?.street?.[1] ?? '',
++        addition: currentAddress?.street?.[2] ?? '',
++        regionId: currentAddress?.region?.region_id ?? null,
++        countryCode: currentAddress?.country.code ?? shopCountry, // todo: replace by the default shipping country of the store + geoip,
++        saveInAddressBook: true,
++        isCompany: Boolean(currentAddress?.company || currentAddress?.vat_id),
++        customerNote: '',
++      },
+     skipUnchanged: true,
+     onBeforeSubmit: (variables) => {
+       const regionId = countries
+@@ -114,7 +116,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+         variables.company = ''
+         variables.vatId = ''
+       }
+-
++      console.log(regionId, "==>regionId")
+       return {
+         ...variables,
+         telephone: variables.telephone || '000 - 000 0000',
+@@ -125,7 +127,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+     },
+   })
+   const { handleSubmit, required, error } = form
+-  const submit = handleSubmit(() => {})
++  const submit = handleSubmit(() => { })
+ 
+   useFormCompose({ form, step, submit, key: 'ShippingAddressForm' })
+ 
+@@ -134,22 +136,79 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+       <FormAutoSubmit
+         submit={submit}
+         control={form.control}
+-        name={['postcode', 'countryCode', 'regionId']}
++        name={['postcode', 'countryCode', 'regionId', 'city']}
        />
  
        <CompanyFields form={form} />
--      <NameFields form={form} />
+       <NameFields form={form} />
 -      <AddressFields form={form} />
 -
-+     <NameFields form={form} />
        <FormRow>
-+      
+-        <TelephoneElement
+-          control={form.control}
+-          name='telephone'
+-          variant='outlined'
+-          required={required.telephone}
+-          showValid
++
 +        <EmailForm
 +          step={1}
-+             sx={{
-+                '& .MuiInputLabel-formControl': {
-+                          color: (theme) => theme.palette.custom. main,
-+                      //    marginBottom:'clamp(10px, (9.14px + 0.27vw), 16px)',
-+                           fontSize: { xs: '14px', md: '16px' },
-+                           lineHeight: '158%',
-+                           fontWeight: 400,
++          sx={{
++            '& .MuiInputLabel-formControl': {
++              color: (theme) => theme.palette.custom.main,
++              //    marginBottom:'clamp(10px, (9.14px + 0.27vw), 16px)',
++              fontSize: { xs: '14px', md: '16px' },
++              lineHeight: '158%',
++              fontWeight: 400,
 +
-+                                '&.Mui-focused': {
-+                                  color: (theme) => theme.palette.custom.main,
-+                                },
-+                                '& .MuiFormLabel-asterisk': {
-+                                  display: 'none',
-+                                },
-+                              },
++              '&.Mui-focused': {
++                color: (theme) => theme.palette.custom.main,
++              },
++              '& .MuiFormLabel-asterisk': {
++                display: 'none',
++              },
++            },
 +
-+                              '& .MuiOutlinedInput-root': {
-+                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
-+                                borderRadius: '4px',
++            '& .MuiOutlinedInput-root': {
++              border: (theme) => `1px solid ${theme.palette.custom.border}`,
++              borderRadius: '4px',
 +
-+                                '&:hover': {
-+                                  border: (theme) => `1px solid ${theme.palette.custom.main}`,
-+                                },
-+                                '&.Mui-focused': {
-+                                  border: (theme) => `1px solid ${theme.palette.custom.main}`,
-+                                },
++              '&:hover': {
++                border: (theme) => `1px solid ${theme.palette.custom.main}`,
++              },
++              '&.Mui-focused': {
++                border: (theme) => `1px solid ${theme.palette.custom.main}`,
++              },
 +
-+                                '& .MuiOutlinedInput-notchedOutline': {
-+                                  border: 'none',
-+                                },
-+                              },
-+            }}
-+           />
-+   
-+        <FormRow sx={{
-+          paddingTop:0,
-+          paddingBottom:0,
-+        }}>
-         <TelephoneElement
-           control={form.control}
-           name='telephone'
-@@ -150,6 +191,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
-           showValid
++              '& .MuiOutlinedInput-notchedOutline': {
++                border: 'none',
++              },
++            },
++          }}
          />
++
++        <FormRow sx={{
++          paddingTop: 0,
++          paddingBottom: 0,
++        }}>
++          <TelephoneElement
++            control={form.control}
++            name='telephone'
++            variant='outlined'
++            required={required.telephone}
++            showValid
++          />
++        </FormRow>
        </FormRow>
-+      </FormRow>
 +
 +      <Box>
 +        <Typography sx={{
 +          color: (theme) => theme.palette.custom.dark,
 +          fontSize: { xs: '16px', md: '20px' },
-+          marginTop:'15px',
-+        //  marginBottom: { xs: '10px', md: '15px' },
++          marginTop: '15px',
++          //  marginBottom: { xs: '10px', md: '15px' },
 +          textTransform: 'capitalize',
 +          fontWeight: 400,
 +          fontVariationSettings: '"wght" 400',
 +        }}>Your Address</Typography>
 +
-+      <AddressFields form={form} />
++        <AddressFields form={form} />
 +      </Box>
-+      
 +
-+    
++
++
        {customerQuery?.customer && (
          <CheckboxElement
            control={form.control}

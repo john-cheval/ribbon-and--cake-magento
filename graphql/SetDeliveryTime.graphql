@@ -1,0 +1,13 @@
+mutation setDeliveryTimeDate($cartId: String!, $time: String!, $date: String!) {
+  setDeliveryTimeDate(
+    cart_id: $cartId,
+    time: $time,
+    date: $date
+  ) {
+    cart {
+      id
+      order_delivery_time
+      order_delivery_date
+    }
+  }
+}

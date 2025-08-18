@@ -66,7 +66,7 @@ export function ProductSwiper({ data = [], link = '/', initial = '', productList
     if (itemToRender.length > 0) {
       setAllPageItems(itemToRender)
     } else {
-      fetchProducts(String(data[0]?.id))
+      fetchProducts(String(data?.[0]?.id))
     }
   }, [])
 

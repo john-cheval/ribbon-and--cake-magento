@@ -41,7 +41,7 @@ function OrderDetailPage() {
 
   return (
     <WaitForCustomer waitFor={orders}>
-      <LayoutOverlayHeader primary={order && <ReorderItems order={order} />}>
+      <LayoutOverlayHeader>
         <LayoutTitle size='small' component='span' icon={iconBox}>
           <Trans>Order #{orderNumber}</Trans>
         </LayoutTitle>
@@ -91,6 +91,11 @@ function OrderDetailPage() {
             <CancelOrderForm order={order} />
           </>
         )}
+        {order && (
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+            <ReorderItems order={order} />
+          </Box>
+        )}
       </Container>
     </WaitForCustomer>
   )
@@ -106,7 +111,7 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
         backgroundImage: `url(${bgImage.src})`,
         borderRadius: '30px 30px 0 0',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: { xs: 'unset', md: '100% auto' },
+        backgroundSize: { xs: 'unset', md: 'cover' },
         backgroundPosition: '100% auto',
 
         '& .LayoutHeaderContent-right button': {

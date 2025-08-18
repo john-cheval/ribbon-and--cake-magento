@@ -35,6 +35,7 @@ type CategoryLayoutProps = {
 
 export type MenuPropsTypes = {
   menuList?: any
+  isShopPage?: boolean
 }
 
 type ProductListProps = ReturnType<typeof useProductList<BaseProps>>

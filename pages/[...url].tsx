@@ -57,6 +57,7 @@ type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
+  console.log(props?.params?.url, 'this is the props')
   const { categories, menu, apolloState, ...rest } = props
   const productList = useProductList({
     ...rest,
@@ -67,6 +68,8 @@ function CategoryPage(props: CategoryProps) {
 
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
+
+  const isShop = props?.params?.url === 'shop'
 
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
@@ -80,6 +83,7 @@ function CategoryPage(props: CategoryProps) {
           isFilter={true}
           id={category.uid}
           category={category}
+          isShopPage={isShop}
         />
       )}
       {isCategory && !isLanding && (
@@ -94,6 +98,7 @@ function CategoryPage(props: CategoryProps) {
                 category={category}
                 menuList={menu?.items[0]?.children}
                 conf={apolloState}
+                isShopPage={isShop}
               />
             )}
         </>

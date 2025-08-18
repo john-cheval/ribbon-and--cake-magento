@@ -1,6 +1,6 @@
 import 'swiper/css'
 import { Image } from '@graphcommerce/image'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRef } from 'react'
 import type SwiperCore from 'swiper'
@@ -13,6 +13,7 @@ import {
   AddProductsToCartForm,
   ProductListPrice,
 } from '@graphcommerce/magento-product'
+import { IoArrowForwardSharp } from 'react-icons/io5'
 
 export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
@@ -156,8 +157,56 @@ export function HeroSwiper({ products }) {
                         }}
                         {...item?.price_range?.minimum_price}
                       />
-
-                      <AddProductsToCartFab sku={item?.sku} isButton={true} />
+                      {item?.__typename === 'SimpleProduct' ? (
+                        <AddProductsToCartFab sku={item?.sku} isButton={true} />
+                      ) : (
+                        <Link href={`/p/${item?.url_key}`} passHref legacyBehavior>
+                          <Button
+                            type='submit'
+                            sx={{
+                              fontWeight: 400,
+                              lineHeight: '170%',
+                              fontSize: { xs: '12px !important', md: '14px !important' },
+                              color: '#302100',
+                              textDecoration: 'underline',
+                              display: 'flex',
+                              alignItems: 'center',
+                              columnGap: '4px',
+                              justifyContent: 'flex-end',
+                              marginLeft: 'auto',
+                              cursor: 'pointer',
+                              pointerEvents: 'auto',
+                              '& .arrow-icon': {
+                                transition: 'transform 0.3s ease-in-out',
+                              },
+                              '&:hover .arrow-icon': {
+                                transform: 'translateX(5px)',
+                              },
+                              background: 'none',
+                              border: 'none',
+                              padding: 0,
+                              fontFamily: 'inherit',
+                              textAlign: 'inherit',
+                              width: 'fit-content',
+                              '&:hover': {
+                                background: 'transparent',
+                              },
+                            }}
+                          >
+                            Cart
+                            <Box
+                              component='span'
+                              className='arrow-icon'
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <IoArrowForwardSharp />
+                            </Box>
+                          </Button>
+                        </Link>
+                      )}
                     </Box>
                   </Box>
                 </Box>

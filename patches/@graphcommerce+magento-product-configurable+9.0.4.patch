@@ -1,3 +1,15 @@
+diff --git a/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx b/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx
+index 3032ee5..6fbdca8 100644
+--- a/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx
++++ b/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx
+@@ -24,6 +24,7 @@ export function SwatchList(props: SwatchListProps) {
+     configurable_options?.filter((option) => attributes.includes(option?.attribute_code ?? '')) ??
+     []
+ 
++  
+   return (
+     <>
+       {options.map((option) => (
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 index 0482241..eb7b81e 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx

@@ -60,10 +60,10 @@ index 6ae6263..e990a46 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..f1885e3 100644
+index 2050980..6f235b9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-@@ -2,18 +2,20 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
+@@ -2,18 +2,23 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
  import type { FabProps } from '@graphcommerce/next-ui'
  import { Fab, iconCheckmark, iconShoppingBag } from '@graphcommerce/next-ui'
  import { t } from '@lingui/macro'
@@ -72,21 +72,24 @@ index 2050980..f1885e3 100644
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
 +import { IoArrowForwardSharp } from 'react-icons/io5'
++import Link from 'next/link'
  
  export type AddProductsToCartFabProps = {
    sx?: SxProps<Theme>
    icon?: FabProps['icon']
 +  isButton?:boolean
++  isLink?:boolean
++  url?:string | undefined
  } & Pick<FabProps, 'color' | 'size'> &
    UseAddProductsToCartActionProps
  
  export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
 -  const { icon = iconShoppingBag, product, sku, ...rest } = props
-+  const { icon = iconShoppingBag, product,isButton=false, sku, ...rest } = props
++  const { icon = iconShoppingBag, product,isButton=false, sku,isLink,url, ...rest } = props
    const { showSuccess, ...action } = useAddProductsToCartAction(props)
  
    const cartEnabled = useCartEnabled()
-@@ -21,12 +23,64 @@ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
+@@ -21,12 +26,75 @@ export function AddProductsToCartFab(props: AddProductsToCartFabProps) {
    if (!cartEnabled) return null
  
    return (
@@ -139,7 +142,17 @@ index 2050980..f1885e3 100644
 +      <IoArrowForwardSharp />
 +    )}
 +      </Box></Button>
-+    ):(
++    ):url ? <Link href={`/p/${url}`}>
++      <Fab
++      type='submit'
++      {...rest}
++      // {...action}
++      icon={icon}
++      aria-label={t`Add to Cart`}
++      
++    />
++    </Link>:(
++      (
 +<Fab
        type='submit'
        {...rest}
@@ -148,6 +161,7 @@ index 2050980..f1885e3 100644
        aria-label={t`Add to Cart`}
 +      
      />
++    )
 +    )}
 +    </>
    )
@@ -1137,21 +1151,24 @@ index 68f7cab..ab58133 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
-index 0b9f236..bab2f6d 100644
+index 0b9f236..7593709 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
-@@ -87,8 +87,10 @@ export function ProductListItemReal(props: ProductProps) {
+@@ -87,6 +87,7 @@ export function ProductListItemReal(props: ProductProps) {
      sx = [],
      onClick,
      slotProps = {},
 +    sku
    } = props
  
-+
    return (
-     <ProductListItemLinkOrDiv
-       href={productLink(props)}
-@@ -137,6 +139,7 @@ export function ProductListItemReal(props: ProductProps) {
+@@ -133,10 +134,13 @@ export function ProductListItemReal(props: ProductProps) {
+       {!imageOnly && (
+         <>
+           <ProductListItemTitleAndPrice
++          isConfigured = {props?.__typename === 'ConfigurableProduct'}
++          urlKey={props?.url_key ?? ''}
+             classes={classes}
              titleComponent={titleComponent}
              title={name}
              subTitle={subTitle}
@@ -1173,10 +1190,10 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..6533582 100644
+index 9dc2505..b181bbf 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-@@ -1,6 +1,7 @@
+@@ -1,34 +1,56 @@
  import type { SxProps, Theme } from '@mui/material'
  import { Box, Typography } from '@mui/material'
  import { productListPrice } from '../ProductListPrice'
@@ -1184,7 +1201,10 @@ index 9dc2505..6533582 100644
  
  export type ProductListItemTitleAndPriceProps = {
    titleComponent?: React.ElementType
-@@ -9,10 +10,11 @@ export type ProductListItemTitleAndPriceProps = {
+   title: React.ReactNode
+   subTitle?: React.ReactNode
++  isConfigured?:boolean | undefined
++  urlKey?:string| undefined
    children: React.ReactNode
    classes: { titleContainer: string; title: string; subtitle: string }
    sx?: SxProps<Theme>
@@ -1193,11 +1213,11 @@ index 9dc2505..6533582 100644
  
  export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPriceProps) {
 -  const { titleComponent = 'h2', classes, children, subTitle, title, sx } = props
-+  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku } = props
- 
+-
++  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku,isConfigured,urlKey } = props
    return (
      <Box
-@@ -20,15 +22,34 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+       className={classes.titleContainer}
        sx={[
          (theme) => ({
            display: 'grid',
@@ -1223,21 +1243,21 @@ index 9dc2505..6533582 100644
 +              "subtitle priceButton"
 +              "price priceButton"
 +            `,
-           },
--          gridTemplateColumns: { xs: 'unset', md: 'auto auto 1fr' },
--          justifyContent: 'space-between',
++          },
 +          
 +          gridTemplateColumns: {
 +            xs: '1fr auto', 
 +            md: '1fr auto', 
-+          },
+           },
+-          gridTemplateColumns: { xs: 'unset', md: 'auto auto 1fr' },
+-          justifyContent: 'space-between',
 +           alignItems: 'center', 
 +
 +          // justifyContent: 'space-between',
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -40,8 +61,11 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -40,8 +62,11 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
            display: 'inline',
            color: 'text.primary',
            overflowWrap: 'break-word',
@@ -1250,7 +1270,7 @@ index 9dc2505..6533582 100644
          }}
          className={classes.title}
        >
-@@ -49,7 +73,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -49,7 +74,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
        </Typography>
  
        {subTitle && (
@@ -1261,7 +1281,7 @@ index 9dc2505..6533582 100644
            {subTitle}
          </Box>
        )}
-@@ -58,10 +84,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -58,10 +85,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
          component='div'
          variant='body1'
          className={productListPrice.classes.root}
@@ -1273,7 +1293,7 @@ index 9dc2505..6533582 100644
 +
 +
 + <Box sx={{ gridArea: 'priceButton' }}>
-+   <AddProductsToCartFab sku={sku} sx={{
++   <AddProductsToCartFab sku={sku} isLink={isConfigured} url={urlKey} sx={{
 +    height:'50px',
 +    width:'50px',
 +     '& svg': {

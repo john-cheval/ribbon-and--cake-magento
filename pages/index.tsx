@@ -120,7 +120,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       pageSize: 10,
       currentPage: 1,
       filters: {
-        category_id: { eq: '34' },
+        category_id: { eq: '3' },
       },
     },
   })
@@ -131,7 +131,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       pageSize: 10,
       currentPage: 1,
       filters: {
-        category_id: { eq: '35' },
+        category_id: { eq: '22' },
       },
     },
   })
@@ -142,6 +142,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const justInProducts = (await JustInQuery).data?.products?.items
   const statementCakesProducts = (await statementCakesQuery).data.products?.items
   const layoutData = (await layout)?.data
+
   return {
     props: {
       // cmsPage: cmsPage,

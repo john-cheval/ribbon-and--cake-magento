@@ -153,18 +153,10 @@ index 1f2027c..81c5cbd 100644
            </Typography>
            <FormActions>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
-index eb0007f..13aac51 100644
+index eb0007f..5721a88 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
-@@ -32,6 +32,7 @@ export function AccountOrders(props: AccountOrdersProps) {
-     ? orders?.items.slice(0, Math.max((orders?.items?.length ?? 0) - 2, 0)).reverse()
-     : orders?.items
- 
-+    console.log(latestOrders,"latestOrders")
-   return (
-     <Box
-       className={classes.root}
-@@ -39,15 +40,29 @@ export function AccountOrders(props: AccountOrdersProps) {
+@@ -39,15 +39,29 @@ export function AccountOrders(props: AccountOrdersProps) {
          (theme) => ({
            typography: 'body2',
            marginBottom: theme.spacings.md,
@@ -176,10 +168,10 @@ index eb0007f..13aac51 100644
        {isFirstPage && (
          <SectionContainer labelLeft={<Trans id='Latest orders' />}>
 +          <Box  sx={{
-+                      border: '1px solid #D5B1B8',
++                      border: '1px solid #ECECEC',
 +                      borderRadius: '4px',
 +                      backgroundColor: '#fff',
-+                      padding: '55px',
++                      padding: {xs:'20px', md:'35px', lg:'55px'},
 +                    }}>
 +
 +      
@@ -195,7 +187,7 @@ index eb0007f..13aac51 100644
            {orders?.items && !orders?.items?.length && <NoOrdersFound />}
          </SectionContainer>
        )}
-@@ -66,9 +81,17 @@ export function AccountOrders(props: AccountOrdersProps) {
+@@ -66,9 +80,17 @@ export function AccountOrders(props: AccountOrdersProps) {
                marginBottom: theme.spacings.md,
              })}
            >
@@ -1156,7 +1148,7 @@ index b6b5b05..e64be17 100644
 +  
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
-index 426b71c..26573a3 100644
+index 426b71c..ac47125 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
 @@ -1,7 +1,7 @@
@@ -1251,7 +1243,7 @@ index 426b71c..26573a3 100644
              )}
            </Box>
 +      </Box> 
-         </Box> 
+         </Box>
 -        <Box className={`${classes.orderRow} ${classes.tracking}`} sx={{ textAlign: 'center' }}>
 -          {shipments?.[0]?.tracking?.[0] && <TrackingLink {...shipments?.[0].tracking?.[0]} />}
 +        <Box>
@@ -1269,7 +1261,7 @@ index 426b71c..26573a3 100644
 +            <Money {...total?.grand_total} />
 +          </Box>
 +          </OrderRow>
-         </Box>       
+         </Box>
 +     
        </OrderContainer>
      </ListItemButton>
@@ -1298,7 +1290,7 @@ index c4ad49e..bd30ca6 100644
            className={classes.image}
            sx={sxx}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
-index a89744e..79871bf 100644
+index a89744e..e815d50 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
 @@ -47,20 +47,36 @@ export function OrderDetails(props: OrderDetailsProps) {
@@ -1317,7 +1309,7 @@ index a89744e..79871bf 100644
 -          ),
 +          background:"#fff",
 +          borderRadius:'4px',
-+          border:'1px solid #D5B1B8',
++          border:'1px solid #ECECEC',
            '& .SectionHeader-root': {
              mt: 0,
 -            mb: theme.spacings.xs,
@@ -1349,8 +1341,175 @@ index a89744e..79871bf 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
+index 14b7419..36ae4b9 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
+@@ -21,15 +21,17 @@ export function OrderTotals(props: OrderTotalsProps) {
+       className={classes.totalsContainer}
+       sx={[
+         (theme) => ({
+-          border: `1px solid ${theme.palette.divider}`,
++          border: `1px solid #ECECEC`,
++          borderRadius: '4px',
++          backgroundColor: '#fff',
++          
+           marginBottom: theme.spacings.md,
+           p: theme.spacings.sm,
+-          ...breakpointVal(
+-            'borderRadius',
+-            theme.shape.borderRadius * 2,
+-            theme.shape.borderRadius * 3,
+-            theme.breakpoints.values,
+-          ),
++          '& .OrderTotals-totalsRow p':{
++           color:(theme:any)=>theme.palette.custom.main,
++           fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          }
++          
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+@@ -71,7 +73,10 @@ export function OrderTotals(props: OrderTotalsProps) {
+           color: theme.palette.primary.main,
+         })}
+       >
+-        <Typography>
++        <Typography sx={{
++          fontWeight:700,
++          textTransform:'capitalize'
++        }}>
+           <Trans id='Grand total' />
+         </Typography>
+         <Money {...total?.grand_total} />
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
+index 3be6e6b..7c9c857 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
+@@ -55,43 +55,43 @@ export function OrderItem(props: OrderItemProps) {
+     <Box
+       className={classes.root}
+       sx={(theme) => ({
+-        borderBottom: `1px solid ${theme.palette.divider}`,
++        // borderBottom: `1px solid ${theme.palette.divider}`,
+         display: 'grid',
+         gridTemplate: `
+-          "picture itemName itemName itemName"
+-          "picture itemOptions itemOptions itemOptions"
+-          "picture itemPrice quantity rowPrice"
++          " itemName itemName itemName"
++          " itemOptions itemOptions itemOptions"
++          " itemPrice quantity rowPrice"
+         `,
+-        gridTemplateColumns: `${rowImageSize} repeat(3, 1fr)`,
++       // gridTemplateColumns: `${rowImageSize} repeat(3, 1fr)`,
+         columnGap: theme.spacings.sm,
+         alignItems: 'baseline',
+         typography: 'body1',
+         py: theme.spacings.xxs,
+         [theme.breakpoints.up('sm')]: {
+           gridTemplate: `
+-            "picture itemName itemName itemName itemName"
+-            "picture itemOptions itemPrice quantity rowPrice"
++            " itemName itemName itemName itemName"
++            " itemOptions itemPrice quantity rowPrice"
+           `,
+-          gridTemplateColumns: `${rowImageSize} 4fr 1fr 1fr minmax(75px, 1fr)`,
++       //   gridTemplateColumns: `${rowImageSize} 4fr 1fr 1fr minmax(75px, 1fr)`,
+         },
+ 
+         '&:not(.hasOptions)': {
+           display: 'grid',
+           gridTemplate: `
+-            "picture itemName itemName itemName"
+-            "picture itemPrice quantity rowPrice"`,
++            " itemName itemName itemName"
++            " itemPrice quantity rowPrice"`,
+           alignItems: 'center',
+           gridTemplateColumns: `${rowImageSize} repeat(3, 1fr)`,
+           [theme.breakpoints.up('sm')]: {
+             gridTemplate: `
+-              "picture itemName itemPrice quantity rowPrice"
++              " itemName itemPrice quantity rowPrice"
+             `,
+-            gridTemplateColumns: `${rowImageSize} 4fr 1fr minmax(120px, 1fr) minmax(75px, 1fr)`,
++           // gridTemplateColumns: `${rowImageSize} 4fr 1fr minmax(120px, 1fr) minmax(75px, 1fr)`,
+           },
+         },
+       })}
+     >
+-      <Box className={classes.picture} sx={{ gridArea: 'picture' }}>
++   {/*   <Box className={classes.picture} sx={{ gridArea: 'picture' }}>
+         <Box href={productLink} component={NextLink} className={classes.productLink}>
+           <Box className={classes.pictureSpacing}>
+             {thumbnail?.url && thumbnail?.label && (
+@@ -108,17 +108,18 @@ export function OrderItem(props: OrderItemProps) {
+             )}
+           </Box>
+         </Box>
+-      </Box>
++      </Box> */} 
+ 
+       <Box
+         href={productLink}
+         component={NextLink}
+         className={classes.itemName}
+-        sx={(theme) => ({
+-          typography: 'h5',
+-          fontWeight: 500,
++        sx={(theme:any) => ({
++          // typography: 'h5',
++          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          fontWeight: 600,
+           gridArea: 'itemName',
+-          color: theme.palette.text.primary,
++          color: theme.palette.custom.main,
+           textDecoration: 'none',
+           flexWrap: 'nowrap',
+           maxWidth: 'max-content',
+@@ -159,9 +160,9 @@ export function OrderItem(props: OrderItemProps) {
+             <Box
+               key={option?.label}
+               className={classes.option}
+-              sx={(theme) => ({
+-                color: theme.palette.grey['500'],
+-                marginRight: theme.spacings.xs,
++              sx={(theme:any) => ({
++                color: theme.palette.custom.main,
++                marginRight: '5px',
+                 paddingBottom: '1px',
+                 display: 'inline',
+               })}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
+index 0e7f493..a71e3bd 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
+@@ -30,6 +30,23 @@ export function OrderItems(props: OrderItemsProps) {
+         (theme) => ({
+           marginTop: theme.spacings.md,
+           marginBottom: theme.spacings.sm,
++           background:"#fff",
++            borderRadius:'4px',
++          border:'1px solid #ECECEC',
++          padding: theme.spacings.sm,
++          '& .SectionHeader-root': {
++            mt: 0,
++            mb: 0,
++            paddingBottom: theme.spacings.xs,
++            borderBottom:'1px solid #e6e6e6',
++            '& .MuiTypography-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontWeight:600,
++              lineHeight:'158%',
++              textTransform:'capitalize'
++            }
++          },
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
-index 622f5d5..02062b0 100644
+index 622f5d5..9949942 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
 @@ -10,6 +10,7 @@ type OrderStateLabelPropsBase = OrderStateProps
@@ -1370,6 +1529,15 @@ index 622f5d5..02062b0 100644
    const orderState = getOrderState(props)
  
    const classes = withState({ orderState })
+@@ -34,7 +35,7 @@ export function OrderStateLabel(props: OrderStateLabelProps) {
+       className={classes.root}
+       sx={[
+         (theme) => ({
+-          fontStyle: 'italic',
++          // fontStyle: 'italic',
+           fontWeight: 'normal',
+           '&.orderStatePending': {
+             color: theme.palette.text.disabled,
 @@ -52,7 +53,7 @@ export function OrderStateLabel(props: OrderStateLabelProps) {
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
@@ -1379,6 +1547,19 @@ index 622f5d5..02062b0 100644
      </Box>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-customer/components/ReorderItems/ReorderItems.tsx b/node_modules/@graphcommerce/magento-customer/components/ReorderItems/ReorderItems.tsx
+index 2079ebf..13bb1e3 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/ReorderItems/ReorderItems.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/ReorderItems/ReorderItems.tsx
+@@ -31,7 +31,7 @@ export function ReorderItems(props: ReorderItemsProps) {
+         link={{ whiteSpace: 'nowrap' }}
+         type='submit'
+         loading={formState.isSubmitting}
+-        endIcon={<IconSvg src={iconChevronRight} />}
++        // endIcon={<IconSvg src={iconChevronRight} />}
+       >
+         <Trans>Reorder</Trans>
+       </LinkOrButton>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 index 9a27189..8b9a1e0 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
@@ -1700,7 +1881,7 @@ index 2c28caa..b88c101 100644
          severity='success'
          sticky
 diff --git a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
-index 505bd21..3336979 100644
+index 505bd21..4a223e5 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
 @@ -49,7 +49,7 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
@@ -1712,8 +1893,12 @@ index 505bd21..3336979 100644
    return (
      <WaitForQueries
        waitFor={!session.loggedIn ? session.query : queries}
-@@ -71,7 +71,21 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
-             icon={<IconSvg src={iconPerson} size='xxl' />}
+@@ -68,10 +68,24 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
+       {!session.loggedIn &&
+         (unauthenticated ?? (
+           <FullPageMessage
+-            icon={<IconSvg src={iconPerson} size='xxl' />}
++            icon={<IconSvg src={''} size='xxl' />}
              title={<Trans id='You must sign in to continue' />}
              button={
 -              <Button href='/account/signin' variant='pill' color='secondary' size='large'>

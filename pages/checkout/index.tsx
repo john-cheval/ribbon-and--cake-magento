@@ -545,7 +545,7 @@ function ShippingPage(props: ShippingPageProps) {
                 },
               }}
               cart={cartData?.cart}
-              // disabled={hasError}
+            // disabled={hasError}
             />
           </OverlayStickyBottom>
         </Box>

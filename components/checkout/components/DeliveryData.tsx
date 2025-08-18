@@ -1,18 +1,45 @@
-import { FormAutoSubmit, SelectElement } from '@graphcommerce/ecommerce-ui'
+import { FormAutoSubmit, SelectElement, useFormCompose } from '@graphcommerce/ecommerce-ui'
 import { useFormGqlMutationCart } from '@graphcommerce/magento-cart'
 import { SetBillingAddressDocument } from '@graphcommerce/magento-cart-shipping-address'
-import { FormRow } from '@graphcommerce/next-ui'
+import { Form, FormRow } from '@graphcommerce/next-ui'
 import { Trans } from '@lingui/react'
 import { Box } from '@mui/material'
+import { useState } from 'react'
+import { setDeliveryTimeDateDocument } from '../../../graphql/SetDeliveryTime.gql'
+
+type SlotItem = {
+  date: string;
+  slot: string;
+  is_available: boolean;
+  slot_id: string;
+  slot_group: string;
+  __typename: string;
+};
 
 export default function DeliveryDate({ slotList }) {
-  const form = useFormGqlMutationCart(SetBillingAddressDocument, {
+  const [date, setDate] = useState<string>("")
+  const [time, setTime] = useState<string>("")
+  const [slotTime, setSlotTime] = useState<SlotItem[]>([])
+
+  const form = useFormGqlMutationCart(setDeliveryTimeDateDocument, {
+    defaultValues: {
+      date: "",
+      time: ""
+    },
     skipUnchanged: true,
-    defaultValues: {},
+    onBeforeSubmit: (variables) => {
+      console.log(variables, "==>variables")
+
+      return {
+        ...variables,
+        date: variables?.date,
+        time: variables?.time,
+      }
+    }
   })
-  const selectedDate = form.watch('region')
+
   const { required, error, handleSubmit } = form
-  const submit = handleSubmit(() => {})
+  const submit = handleSubmit(() => { })
 
   const uniqueDates = [...new Set(slotList?.slots?.map((slot) => slot.date))] as string[]
   const sortDates = uniqueDates?.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
@@ -24,7 +51,8 @@ export default function DeliveryDate({ slotList }) {
   }))
 
   return (
-    <Box
+    <Form
+      noValidate
       sx={{
         width: '100%',
         '& .mui-style-15vp5v0-FormRow-root': {
@@ -54,15 +82,13 @@ export default function DeliveryDate({ slotList }) {
           },
         },
       }}
-      component='form'
-      noValidate
       onSubmit={submit}
     >
-      <FormAutoSubmit control={form.control} submit={submit} />
+      <FormAutoSubmit control={form.control} submit={submit} name={['date', 'time']} />
       <FormRow>
         <SelectElement
           control={form.control}
-          name='region'
+          name={'date' as any}
           SelectProps={{
             MenuProps: {
               PaperProps: {
@@ -99,16 +125,21 @@ export default function DeliveryDate({ slotList }) {
           // autoWidth
           variant='outlined'
           label={<Trans id='Delivery Date' />}
-          required={required.region}
-          showValid
           options={deliveryDateOptions?.map((slot) => ({
             id: slot?.id,
             label: slot?.label,
           }))}
+          onChange={(value) => {
+            setDate(value as any)
+            const filteredSlots = slotList?.slots?.filter(s => s.date === value)
+            setSlotTime(filteredSlots)
+            form.setValue("date", value as any, { shouldDirty: true })
+          }}
+          value={date}
         />
         <SelectElement
           control={form.control}
-          name='regionId'
+          name={'time' as any}
           SelectProps={{
             MenuProps: {
               PaperProps: {
@@ -145,14 +176,18 @@ export default function DeliveryDate({ slotList }) {
           // autoWidth
           variant='outlined'
           label={<Trans id='Delivery Time' />}
-          required={required.regionId}
-          showValid
-          options={slotList?.slots?.map((slot) => ({
-            id: slot.slot_id,
+          options={slotTime?.map((slot) => ({
+            id: slot?.slot,
             label: slot.slot,
           }))}
+          onChange={(value) => {
+            console.log(value, slotTime, "=>value")
+            setTime(value as any)
+            form.setValue("time", value as any, { shouldDirty: true })
+          }}
+          value={time}
         />
       </FormRow>
-    </Box>
+    </Form>
   )
 }

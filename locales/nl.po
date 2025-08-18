@@ -195,6 +195,9 @@ msgstr "Kies uw bank en plaats uw bestelling."
 msgid "City"
 msgstr "Plaats"
 
+msgid "Area"
+msgstr "Plaats"
+
 msgid "Clear"
 msgstr "Wissen"
 

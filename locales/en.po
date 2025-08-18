@@ -195,6 +195,9 @@ msgstr "Choose your bank, and place your order."
 msgid "City"
 msgstr "City"
 
+msgid "Area"
+msgstr "Area"
+
 msgid "Clear"
 msgstr "Clear"
 

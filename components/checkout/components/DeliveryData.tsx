@@ -6,6 +6,11 @@ import { Trans } from '@lingui/react'
 import { Box } from '@mui/material'
 import { useState } from 'react'
 import { setDeliveryTimeDateDocument } from '../../../graphql/SetDeliveryTime.gql'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs'
 
 type SlotItem = {
   date: string;
@@ -49,7 +54,7 @@ export default function DeliveryDate({ slotList }) {
     label: dateString,
     value: dateString,
   }))
-
+  console.log("slotList::", slotList)
   return (
     <Form
       noValidate
@@ -80,13 +85,94 @@ export default function DeliveryDate({ slotList }) {
           '& .MuiSelect-select': {
             color: (theme) => theme.palette.custom.main,
           },
+          "& .MuiStack-root": {
+            padding: 0,
+            overflow: 'unset'
+          },
+          "& .MuiPickersInputBase-root": {
+            // padding: 0
+            border: "1px solid #F6DBE0"
+          }
         },
       }}
       onSubmit={submit}
     >
+
       <FormAutoSubmit control={form.control} submit={submit} name={['date', 'time']} />
       <FormRow>
-        <SelectElement
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DatePicker']}>
+            <DatePicker
+              label={<Trans id='Delivery Date' />}
+              //  control={form.control}
+              name={'date' as any}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  variant: 'outlined',
+                  sx: {
+                    '& .MuiInputLabel-root': {
+                      color: (theme) => theme.palette.custom.main,
+                      fontSize: { xs: '14px', md: '16px' },
+                      fontWeight: 400,
+                    },
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      '& fieldset': {
+                        borderColor: (theme) => theme.palette.custom.border,
+                      },
+                      '&:hover fieldset': {
+                        borderColor: (theme) => theme.palette.custom.wishlistColor,
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: (theme) => theme.palette.custom.wishlistColor,
+                      },
+                    },
+                    '& input': {
+                      color: (theme) => theme.palette.custom.main,
+                    }
+                  },
+                },
+                popper: {
+                  sx: {
+                    '& .MuiPaper-root': {
+                      borderRadius: '12px',
+                      boxShadow: 4,
+                      border: (theme) => `1px solid #F6DBE0`,
+                    },
+                    '& .MuiPickersDay-root': {
+                      color: (theme) => theme.palette.custom.main,
+                      '&.Mui-selected': {
+                        backgroundColor: (theme) => theme.palette.custom.wishlistColor,
+                        color: '#fff',
+                        '&:hover': {
+                          backgroundColor: (theme) => theme.palette.custom.wishlistColor,
+                        },
+                      },
+                    },
+                    '& .Mui-selected': {
+                      backgroundColor: '#F1A8B6 !impotant'
+                    }
+                  },
+                },
+              }}
+              onChange={(value) => {
+                setDate(value as any);
+
+                const filteredSlots = slotList?.slots?.filter((s) =>
+                  dayjs(s.date).isSame(value, 'day')
+                );
+
+                setSlotTime(filteredSlots);
+                form.setValue("date", value as any, { shouldDirty: true });
+              }}
+              // defaultValue={dayjs(slotList?.start_date)}
+              minDate={dayjs(slotList?.start_date)}
+              maxDate={dayjs(slotList?.start_date).add(slotList?.maxdays, 'day')}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+        {/* <SelectElement
           control={form.control}
           name={'date' as any}
           SelectProps={{
@@ -136,7 +222,7 @@ export default function DeliveryDate({ slotList }) {
             form.setValue("date", value as any, { shouldDirty: true })
           }}
           value={date}
-        />
+        /> */}
         <SelectElement
           control={form.control}
           name={'time' as any}

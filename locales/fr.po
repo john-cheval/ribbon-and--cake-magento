@@ -195,6 +195,9 @@ msgstr "Choisissez votre banque et placez votre commande."
 msgid "City"
 msgstr "Ville"
 
+msgid "Area"
+msgstr "Ville"
+
 msgid "Clear"
 msgstr "Effacer le filtre"
 

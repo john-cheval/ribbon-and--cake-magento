@@ -372,10 +372,10 @@ index 495d466..0240815 100644
        )}
        {mode === 'signup' && !canSignUp && (
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
-index 93fd266..bbe3eee 100644
+index 93fd266..6012393 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
-@@ -1,26 +1,107 @@
+@@ -1,26 +1,105 @@
  import type { FieldPath, FieldValues } from '@graphcommerce/ecommerce-ui'
 -import { TextFieldElement } from '@graphcommerce/ecommerce-ui'
 +import { SelectElement, TextFieldElement, useWatch } from '@graphcommerce/ecommerce-ui'
@@ -419,8 +419,6 @@ index 93fd266..bbe3eee 100644
 +    },
 +    skip: !countryCode || !regionName, // only run when both are available
 +  })
-+
-+  console.log(address, countryCode, regionName, regionId, data?.getCitise, regionIdw)
  
    return (
 -    <TextFieldElement
@@ -439,11 +437,11 @@ index 93fd266..bbe3eee 100644
 +          control={control}
 +          name={name.city}
 +          variant='outlined'
-+          label={<Trans id='City' />}
++          label={<Trans id='Area' />}
 +          required={required[name.city]}
 +          showValid
 +          InputProps={{ readOnly }}
-+          options={data?.getCities?.map((city) => ({ ...city, label: city.city }))}
++          options={data?.getCities?.map((city) => ({ ...city, id: city.city, label: city.city }))}
 +          SelectProps={{
 +            MenuProps: {
 +              PaperProps: {
@@ -488,7 +486,7 @@ index 93fd266..bbe3eee 100644
 +          variant='outlined'
 +          type='text'
 +          required={required[name.city]}
-+          label={<Trans id='City' />}
++          label={<Trans id='Area' />}
 +          showValid
 +          InputProps={{ readOnly }}
 +        />}
@@ -496,80 +494,96 @@ index 93fd266..bbe3eee 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..2cd88ed 100644
+index 7bebe6d..98d8256 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-@@ -64,11 +64,56 @@ export function AddressCountryRegion<
-   }
+@@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
+ import { CountryRegionsDocument } from '@graphcommerce/magento-store'
+ import { filterNonNullableKeys, FormRow } from '@graphcommerce/next-ui'
+ import { Trans } from '@lingui/react'
+-import { useMemo } from 'react'
++import { useEffect, useMemo } from 'react'
+ import type { AddressFieldsOptions } from './useAddressFieldsForm'
+ import { useAddressFieldsForm } from './useAddressFieldsForm'
++import { AddressPostcode } from '@graphcommerce/magento-customer/components/AddressFields/AddressPostcode'
++import { AddressCity } from '@graphcommerce/magento-customer/components/AddressFields/AddressCity'
++import { ids } from 'webpack'
  
-   return (
--    <FormRow>
-+    <FormRow sx={{
-+      '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+        backgroundColor: 'white',
-+        padding: '0 6px',
-+      },
-+      '& .MuiOutlinedInput-root .MuiSelect-icon': {
-+        color: (theme: any) => theme.palette.custom.wishlistColor,
-+      },
-+      '& .MuiOutlinedInput-root .InputCheckmark': {
-+        display: 'none'
-+      }
-+    }}>
-       <SelectElement
-         control={control}
-         name={name.countryCode}
--        SelectProps={{ autoWidth: true }}
-+        SelectProps={{
-+          MenuProps: {
-+            PaperProps: {
-+              sx: {
-+                backgroundColor: (theme: any) => theme.palette.custom.border,
-+                color: (theme: any) => theme.palette.custom.main,
-+                "&::-webkit-scrollbar": {
-+                  width: '6px',
-+                  borderRadius: 0,
-+                  backgroundColor: '#ebebeb',
-+                },
-+                '&::-webkit-scrollbar-track': {
-+                  baxkgroundColor: '#ebebeb',
-+                  borderRadius: '0px'
-+                },
-+                "&::-webkit-scrollbar-thumb": {
-+                  backgroundColor: (theme: any) => theme.palette.custom.main,
-+                  borderRadius: '0px'
-+                },
-+                // scrollbarWidth:'none',
-+                // msOverflowStyle:'none',
-+                '& .MuiMenuItem-root': {
-+                  color: (theme: any) => theme.palette.custom.main,
-+                  transition: 'background-color 0.3s ease',
-+                  '&:hover': {
-+                    backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
-+                  },
-+                  '&.Mui-selected': {
-+                    backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
-+                  },
-+                }
-+              }
-+            }
-+          }, autoWidth: true
-+        }}
-         variant='outlined'
-         label={<Trans id='Country' />}
-         required={required[name.countryCode]}
-@@ -78,6 +123,7 @@ export function AddressCountryRegion<
-           id: country.two_letter_abbreviation,
-           label: country.full_name_locale,
-         }))}
-+
-       />
- 
-       {regionList.length > 0 && (
-@@ -90,6 +136,44 @@ export function AddressCountryRegion<
+ /** @public */
+ export function useAddressCountryRegion<
+@@ -46,8 +49,13 @@ export function AddressCountryRegion<
+   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+ >(props: AddressFieldsOptions<TFieldValues, TName>) {
+   const form = useAddressCountryRegion<TFieldValues, TName>(props)
+-  const { control, name, readOnly, required, countryList, regionList, loading } = form
+-
++  const { control, name, readOnly, required, countryList, regionList, loading, defaultVariables } = form
++  console.log("defaultVariables::", defaultVariables)
++  console.log("name::", name)
++  console.log("control::", control)
++  console.log("v::", regionList)
++  console.log("countryList::", countryList)
++  console.log("control::", control.getFieldState(name.countryCode))
+   if (loading) {
+     return (
+       <FormRow>
+@@ -58,40 +66,156 @@ export function AddressCountryRegion<
+           name={name.countryCode}
            showValid
            InputProps={{ readOnly }}
-           options={regionList.map((region) => ({ ...region, label: region.name }))}
++          defaultChecked
+         />
+       </FormRow>
+     )
+   }
+ 
++  // if (countryList) {
++  //   form.setValue(name.countryCode as any, countryList[0]?.two_letter_abbreviation as any)
++  // }
++  // useEffect(() => {
++  //   // countryList.map((country) => ({
++  //   //   id: country.two_letter_abbreviation,
++  //   //   label: country.full_name_locale,
++  //   // }
++
++  // }, [countryList])
++
+   return (
+-    <FormRow>
+-      <SelectElement
+-        control={control}
+-        name={name.countryCode}
+-        SelectProps={{ autoWidth: true }}
+-        variant='outlined'
+-        label={<Trans id='Country' />}
+-        required={required[name.countryCode]}
+-        showValid
+-        InputProps={{ readOnly }}
+-        options={countryList.map((country) => ({
+-          id: country.two_letter_abbreviation,
+-          label: country.full_name_locale,
+-        }))}
+-      />
++    <>
++      <FormRow sx={{
++        '& .MuiInputLabel-root.MuiInputLabel-animated': {
++          backgroundColor: 'white',
++          padding: '0 6px',
++        },
++        '& .MuiOutlinedInput-root .MuiSelect-icon': {
++          color: (theme: any) => theme.palette.custom.wishlistColor,
++        },
++        '& .MuiOutlinedInput-root .InputCheckmark': {
++          display: 'none'
++        }
++      }}>
++        <AddressPostcode {...props} />
+ 
+-      {regionList.length > 0 && (
+         <SelectElement
+           control={control}
+-          name={name.regionId}
++          name={name.countryCode}
 +          SelectProps={{
 +            MenuProps: {
 +              PaperProps: {
@@ -603,19 +617,100 @@ index 7bebe6d..2cd88ed 100644
 +                  }
 +                }
 +              }
-+            }
++            }, autoWidth: true
 +          }}
-+          onChange={(value) => {
-+            form.setValue("regionId" as any, value as any)
-+          }}
+           variant='outlined'
+-          label={<Trans id='Region' />}
+-          required
++          label={<Trans id='Country' />}
++          required={required[name.countryCode]}
+           showValid
+           InputProps={{ readOnly }}
+-          options={regionList.map((region) => ({ ...region, label: region.name }))}
++          options={countryList.map((country) => ({
++            id: country.two_letter_abbreviation,
++            label: country.full_name_locale,
++          }))}
++          defaultChecked={true}
          />
-       )}
-     </FormRow>
+-      )}
+-    </FormRow>
++      </FormRow>
++
++      <FormRow sx={{
++        '& .MuiInputLabel-root.MuiInputLabel-animated': {
++          backgroundColor: 'white',
++          padding: '0 6px',
++        },
++        '& .MuiOutlinedInput-root .MuiSelect-icon': {
++          color: (theme: any) => theme.palette.custom.wishlistColor,
++        },
++        '& .MuiOutlinedInput-root .InputCheckmark': {
++          display: 'none'
++        }
++      }}>
++        {regionList.length > 0 && (
++          <SelectElement
++            control={control}
++            name={name.regionId}
++            variant='outlined'
++            label={<Trans id='Region' />}
++            required
++            showValid
++            InputProps={{ readOnly }}
++            options={regionList.map((region) => ({ ...region, label: region.name }))}
++            SelectProps={{
++              MenuProps: {
++                PaperProps: {
++                  sx: {
++                    backgroundColor: (theme: any) => theme.palette.custom.border,
++                    color: (theme: any) => theme.palette.custom.main,
++                    "&::-webkit-scrollbar": {
++                      width: '6px',
++                      borderRadius: 0,
++                      backgroundColor: '#ebebeb',
++                    },
++                    '&::-webkit-scrollbar-track': {
++                      baxkgroundColor: '#ebebeb',
++                      borderRadius: '0px'
++                    },
++                    "&::-webkit-scrollbar-thumb": {
++                      backgroundColor: (theme: any) => theme.palette.custom.main,
++                      borderRadius: '0px'
++                    },
++                    // scrollbarWidth:'none',
++                    // msOverflowStyle:'none',
++                    '& .MuiMenuItem-root': {
++                      color: (theme: any) => theme.palette.custom.main,
++                      transition: 'background-color 0.3s ease',
++                      '&:hover': {
++                        backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                      },
++                      '&.Mui-selected': {
++                        backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                      },
++                    }
++                  }
++                }
++              }
++            }}
++            onChange={(value) => {
++              form.setValue("regionId" as any, value as any)
++            }}
++          />
++        )}
++        <AddressCity {...props} />
++
++
++      </FormRow>
++    </>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-index 400ed2c..d71aeed 100644
+index 400ed2c..7635188 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-@@ -25,10 +25,22 @@ export function AddressFields<
+@@ -25,12 +25,24 @@ export function AddressFields<
        <FormRow>
          <AddressStreet {...props} />
          <AddressHousenumber {...props} />
@@ -623,7 +718,7 @@ index 400ed2c..d71aeed 100644
 +        {/*  <AddressAddition {...props} /> */}
        </FormRow>
 -      <FormRow>
-+      <FormRow sx={{
++      {/* <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
 +          backgroundColor: 'white',
 +          padding: '0 6px',
@@ -638,8 +733,11 @@ index 400ed2c..d71aeed 100644
          <AddressPostcode {...props} />
 +
          <AddressCity {...props} />
-       </FormRow>
+-      </FormRow>
++      </FormRow> */}
        {!countryFirst && <AddressCountryRegion {...props} />}
+     </>
+   )
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx b/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx
 index fe2fe28..906ac8d 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx

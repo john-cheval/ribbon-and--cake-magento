@@ -152,6 +152,68 @@ index 1f2027c..81c5cbd 100644
              <Trans>Account deletion successful</Trans>
            </Typography>
            <FormActions>
+diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
+index eb0007f..13aac51 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/AccountOrders/AccountOrders.tsx
+@@ -32,6 +32,7 @@ export function AccountOrders(props: AccountOrdersProps) {
+     ? orders?.items.slice(0, Math.max((orders?.items?.length ?? 0) - 2, 0)).reverse()
+     : orders?.items
+ 
++    console.log(latestOrders,"latestOrders")
+   return (
+     <Box
+       className={classes.root}
+@@ -39,15 +40,29 @@ export function AccountOrders(props: AccountOrdersProps) {
+         (theme) => ({
+           typography: 'body2',
+           marginBottom: theme.spacings.md,
++          
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+     >
+       {isFirstPage && (
+         <SectionContainer labelLeft={<Trans id='Latest orders' />}>
++          <Box  sx={{
++                      border: '1px solid #D5B1B8',
++                      borderRadius: '4px',
++                      backgroundColor: '#fff',
++                      padding: '55px',
++                    }}>
++
++      
+           {latestOrders?.map(
+-            (order) => order && <OrderCard key={order.number} {...order} images={images} />,
++            (order) => order && (
++              <Box>
++                <OrderCard key={order.number} {...order} images={images} />
++              </Box>
++            ),
+           )}
++              </Box>
+           {orders?.items && !orders?.items?.length && <NoOrdersFound />}
+         </SectionContainer>
+       )}
+@@ -66,9 +81,17 @@ export function AccountOrders(props: AccountOrdersProps) {
+               marginBottom: theme.spacings.md,
+             })}
+           >
+-            {olderOrders?.map(
++            <Box sx={{
++                      border: '1px solid #D5B1B8',
++                      borderRadius: '4px',
++                      backgroundColor: '#fff',
++                      padding: '55px',
++                    }}>
++              {olderOrders?.map(
+               (order) => order && <OrderCard key={order.number} {...order} images={images} />,
+             )}
++            </Box>
++            
+           </SectionContainer>
+         )}
+ 
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 index 495d466..0240815 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
@@ -951,6 +1013,253 @@ index 3cba4b8..9daef9f 100644
  }
 + 
 \ No newline at end of file
+diff --git a/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx b/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx
+index 85cfe9f..356d87f 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx
+@@ -13,7 +13,7 @@ export function NoOrdersFound(props: NoOrdersFoundProps) {
+   return (
+     <Box
+       className={classes.root}
+-      sx={[(theme) => ({ marginTop: theme.spacings.sm }), ...(Array.isArray(sx) ? sx : [sx])]}
++      sx={[(theme) => ({ marginTop: theme.spacings.sm , color:(theme:any)=>theme.palette.custom.main}), ...(Array.isArray(sx) ? sx : [sx])]}
+     >
+       <IconHeader src={iconBox} size='small'>
+         <Trans id='No orders found' />
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.graphql b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.graphql
+index b6b5b05..e64be17 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.graphql
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.graphql
+@@ -26,4 +26,5 @@ fragment OrderCard on CustomerOrder {
+     country_code
+     region_id
+   }
++  
+ }
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
+index 426b71c..26573a3 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderCard/OrderCard.tsx
+@@ -1,7 +1,7 @@
+ import { Money } from '@graphcommerce/magento-store'
+ import { DateTimeFormat, NextLink, extendableComponent } from '@graphcommerce/next-ui'
+ import type { SxProps, Theme } from '@mui/material'
+-import { Box, ListItemButton, Skeleton, styled } from '@mui/material'
++import { Box, ListItemButton, Skeleton, styled, Typography } from '@mui/material'
+ import type { UseOrderCardItemImages } from '../../hooks/useOrderCardItemImages'
+ import { OrderCardItemImage } from '../OrderCardItemImage/OrderCardItemImage'
+ import { OrderStateLabel } from '../OrderStateLabel/OrderStateLabel'
+@@ -92,34 +92,43 @@ export function OrderCard(props: OrderCardProps) {
+           width: '100%',
+           boxShadow: 'none',
+           marginTop: theme.spacings.xxs,
+-          borderBottom: `1px solid ${theme.palette.divider}`,
++          borderBottom: `1px solid #E6E6E6`,
+           '&:hover': { background: 'none' },
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+     >
+-      <OrderContainer className={classes.orderContainer}>
+-        <OrderRow>
+-          <Box component='span' className={classes.orderMoney} sx={{ fontWeight: 'bold' }}>
+-            <Money {...total?.grand_total} />
+-          </Box>
+-          <DateTimeFormat date={order_date} />
+-          <span>#{number}</span>
+-        </OrderRow>
+-        <OrderRow>
+-          <OrderStateLabel {...props} status={status} />
+-        </OrderRow>
+-        <Box className={classes.orderProducts}>
++      <OrderContainer sx={{
++        padding:0,
++        display:'flex',
++        justifyContent:'space-between'
++      }} className={classes.orderContainer}>
++        <Box sx={{
++          color:(theme:any)=>theme.palette.custom.smallHeading,
++          lineHeight:'156%'
++        }}>
++          
++          <DateTimeFormat  date={order_date} />
++          <Box component='span' sx={{
++            fontWeight:700,
++            fontSize:{xs:'16px', md:'16px'},
++          lineHeight:'156%',
++            display:'block'
++          }}>#{number}</Box>
++
++   <Box className={classes.orderProducts}>
+           <Box
+             className={classes.images}
+             sx={(theme) => ({
+               display: 'grid',
+               gridAutoFlow: 'column',
+-              gap: theme.spacings.xxs,
+-              gridTemplateColumns: 'repeat(auto-fit, 88px)',
++            //  gap: theme.spacings.xxs,
++              gridTemplateColumns: 'repeat(auto-fit, 60px)',
+               placeContent: 'center',
+               placeItems: 'center',
+-              padding: theme.spacings.xxs,
++              // padding: theme.spacings.xxs,
++              paddingTop:'15px',
++              gap:'10px'
+             })}
+           >
+             {items
+@@ -129,6 +138,9 @@ export function OrderCard(props: OrderCardProps) {
+                   item?.product_url_key &&
+                   images?.[item.product_url_key] && (
+                     <OrderCardItemImage
++                    sx={{
++                      borderRadius:'8px'
++                    }}
+                       key={item.product_url_key}
+                       {...images[item.product_url_key]}
+                     />
+@@ -141,16 +153,31 @@ export function OrderCard(props: OrderCardProps) {
+                   display: 'flex',
+                   justifyContent: 'center',
+                   alignItems: 'center',
+-                  width: 88,
+-                  height: 88,
++                  width: 40,
++                  height: 32,
+                 }}
+               >{`+${totalItems - maxItemsInRow}`}</Box>
+             )}
+           </Box>
++      </Box> 
+         </Box> 
+-        <Box className={`${classes.orderRow} ${classes.tracking}`} sx={{ textAlign: 'center' }}>
+-          {shipments?.[0]?.tracking?.[0] && <TrackingLink {...shipments?.[0].tracking?.[0]} />}
++        <Box>
++          <OrderRow>
++          <OrderStateLabel {...props} status={status} />
++          </OrderRow>
++          <OrderRow sx={{
++            width:'fit-content',
++            marginRight:0,
++            '& .OrderCard-orderMoney .mui-style-7b7t20':{
++
++            }
++          }}>
++            <Box component='span' className={classes.orderMoney} sx={{ fontWeight: 'bold' , width:'fit-content'}}>
++            <Money {...total?.grand_total} />
++          </Box>
++          </OrderRow>
+         </Box>       
++     
+       </OrderContainer>
+     </ListItemButton>
+   )
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderCardItemImage/OrderCardItemImage.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderCardItemImage/OrderCardItemImage.tsx
+index c4ad49e..bd30ca6 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderCardItemImage/OrderCardItemImage.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderCardItemImage/OrderCardItemImage.tsx
+@@ -15,15 +15,15 @@ const { classes } = extendableComponent(componentName, parts)
+ export function OrderCardItemImage(props: OrderCardItemImageProps) {
+   const { thumbnail, sx = [] } = props
+ 
+-  const sxx: SxProps<Theme> = [{ width: 88, height: 88 }, ...(Array.isArray(sx) ? sx : [sx])]
++  const sxx: SxProps<Theme> = [{ width: 60, height: 60 }, ...(Array.isArray(sx) ? sx : [sx])]
+ 
+   return (
+     <>
+       {thumbnail ? (
+         <Image
+           alt={thumbnail?.label ?? ''}
+-          width={88}
+-          height={88}
++          width={40}
++          height={40}
+           src={thumbnail?.url ?? ''}
+           className={classes.image}
+           sx={sxx}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
+index a89744e..79871bf 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
+@@ -47,20 +47,36 @@ export function OrderDetails(props: OrderDetailsProps) {
+         (theme) => ({
+           padding: theme.spacings.sm,
+           marginBottom: theme.spacings.md,
+-          background:
+-            theme.palette.mode === 'light'
+-              ? theme.palette.background.default
+-              : lighten(theme.palette.background.default, 0.15),
+-          ...breakpointVal(
+-            'borderRadius',
+-            theme.shape.borderRadius * 2,
+-            theme.shape.borderRadius * 3,
+-            theme.breakpoints.values,
+-          ),
++          background:"#fff",
++          borderRadius:'4px',
++          border:'1px solid #D5B1B8',
+           '& .SectionHeader-root': {
+             mt: 0,
+-            mb: theme.spacings.xs,
++            mb: theme.spacings.sm,
++             paddingBottom: theme.spacings.xs,
++            borderBottom:'1px solid #e6e6e6',
++            '& .MuiTypography-root':{
++              color:(theme:any)=>theme.palette.custom.main,
++              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontWeight:600,
++              lineHeight:'158%',
++              textTransform:'capitalize'
++            }
+           },
++          '& .OrderDetails-orderDetailContainer':{
++            '& .OrderDetails-orderDetailRow .SectionContainer-root':{
++              '& p, span, .OrderDetails-invoice, .AddressMultiLine-root':{
++                color:(theme:any)=>theme.palette.custom.main,
++                fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                },
++              '& .SectionHeader-root':{
++                mb:theme.spacings.xxs,
++              },
++              '& svg':{
++                display:'none'
++              }
++            }
++          }
+         }),
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
+index 622f5d5..02062b0 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/OrderStateLabel/OrderStateLabel.tsx
+@@ -10,6 +10,7 @@ type OrderStateLabelPropsBase = OrderStateProps
+ export type OrderStateLabelProps = {
+   sx?: SxProps<Theme>
+   short?: boolean
++  detail?:boolean
+ } & OrderStateLabelPropsBase
+ 
+ type OwnerState = {
+@@ -23,7 +24,7 @@ const { withState } = extendableComponent<OwnerState, typeof componentName, type
+ )
+ 
+ export function OrderStateLabel(props: OrderStateLabelProps) {
+-  const { sx = [], status, short = false } = props
++  const { sx = [], status, short = false, detail=false } = props
+   const orderState = getOrderState(props)
+ 
+   const classes = withState({ orderState })
+@@ -52,7 +53,7 @@ export function OrderStateLabel(props: OrderStateLabelProps) {
+         ...(Array.isArray(sx) ? sx : [sx]),
+       ]}
+     >
+-      {short ? status : <Trans>Order status: {status}</Trans>}
++      {short ? status : <Trans>Order {detail?'Status':""}: {status}</Trans>}
+     </Box>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 index 9a27189..8b9a1e0 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx

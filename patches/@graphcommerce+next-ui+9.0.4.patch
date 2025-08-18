@@ -659,7 +659,7 @@ index af23c02..7bc22ab 100644
 +});
 \ No newline at end of file
 diff --git a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
-index 66a1d96..001ed23 100644
+index 66a1d96..13adc5e 100644
 --- a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeader.tsx
 @@ -10,7 +10,7 @@ import { LayoutHeaderContent } from './LayoutHeaderContent'
@@ -671,8 +671,93 @@ index 66a1d96..001ed23 100644
    Pick<BackProps, 'disableBackNavigation'> & {
      /**
       * Button to display on the left side of the title
+@@ -68,8 +68,11 @@ export const LayoutHeader = React.memo<LayoutHeaderProps>((props) => {
+     hideMd = false,
+     disableBackNavigation,
+   } = props
+-  const showBack = useShowBack() && !hideBackButton
++
++ const showBack = useShowBack() && !hideBackButton
+   const showClose = useShowClose()
++ // const showBack = true
++
+ 
+   const floatFallback = !children
+   let { floatingSm = false, floatingMd = floatFallback } = props
+@@ -133,9 +136,9 @@ export const LayoutHeader = React.memo<LayoutHeaderProps>((props) => {
+             '&.divider': {
+               marginBottom: 0,
+             },
+-            '&.hideSm .LayoutHeaderContent-left': {
+-              display: 'none',
+-            },
++           // '&.hideSm .LayoutHeaderContent-left': {
++           //   display: 'none',
++           // },
+           },
+ 
+           [theme.breakpoints.up('md')]: {
+diff --git a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderBack.tsx b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderBack.tsx
+index d40b712..716a6b6 100644
+--- a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderBack.tsx
++++ b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderBack.tsx
+@@ -32,7 +32,13 @@ export function useShowBack() {
+ }
+ 
+ const buttonSx: SxProps<Theme> = (theme) => ({
+-  '&:not(.Mui-disabled)': { boxShadow: 6 },
++  background:'none',
++  boxShadow:'none',
++  borderRadius:'4px',
++  '&:hover':{
++    background:'none'
++  },
++  '&:not(.Mui-disabled)': { boxShadow: 0 },
+   [theme.breakpoints.down('md')]: {
+     minWidth: 'auto',
+     paddingLeft: responsiveVal(8, 11),
+@@ -65,16 +71,17 @@ export function LayoutHeaderBack(props: BackProps) {
+   if (canClickBack) {
+     return (
+       <LinkOrButton
++      
+         onClick={() => router.back()}
+-        button={{ variant: 'pill', sx: buttonSx }}
++        button={{ sx: buttonSx }}
+         color='inherit'
+         startIcon={backIcon}
+         aria-label={label}
+         {...rest}
+       >
+-        <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
++       {/*  <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
+           {label}
+-        </Box>
++        </Box>*/}
+       </LinkOrButton>
+     )
+   }
+@@ -83,15 +90,15 @@ export function LayoutHeaderBack(props: BackProps) {
+     return (
+       <LinkOrButton
+         href={up.href}
+-        button={{ variant: 'pill', sx: buttonSx }}
++        button={{ sx: buttonSx }}
+         startIcon={backIcon}
+         aria-label={up.title}
+         color='inherit'
+         {...rest}
+       >
+-        <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
++     {/*   <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
+           {up.title}
+-        </Box>
++        </Box>*/} 
+       </LinkOrButton>
+     )
+ 
 diff --git a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
-index 41c917c..545f0dc 100644
+index 41c917c..f58a516 100644
 --- a/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Layout/components/LayoutHeaderContent.tsx
 @@ -148,7 +148,7 @@ export function LayoutHeaderContent(props: LayoutHeaderContentProps) {
@@ -680,19 +765,10 @@ index 41c917c..545f0dc 100644
          ]}
        >
 -        {left && (
-+        {/* {left && (
++       {left && (
            <Box
              className={classes.left}
              sx={(theme) => ({
-@@ -164,7 +164,7 @@ export function LayoutHeaderContent(props: LayoutHeaderContentProps) {
-               {left}
-             </MotionDiv>
-           </Box>
--        )}
-+        )} */}
-         <Box
-           className={classes.center}
-           sx={(theme) => ({
 diff --git a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx b/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
 index 30fc40b..68e06ae 100644
 --- a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx

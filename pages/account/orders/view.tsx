@@ -1,26 +1,27 @@
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import {
   CancelOrderForm,
+  getCustomerAccountIsDisabled,
   OrderDetailPageDocument,
   OrderDetails,
   OrderItems,
   OrderStateLabel,
   OrderTotals,
   ReorderItems,
-  WaitForCustomer,
-  getCustomerAccountIsDisabled,
   useCustomerQuery,
   useOrderCardItemImages,
+  WaitForCustomer,
 } from '@graphcommerce/magento-customer'
 import { CountryRegionsDocument, PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-import { IconHeader, LayoutOverlayHeader, LayoutTitle, iconBox } from '@graphcommerce/next-ui'
+import { iconBox, IconHeader, LayoutOverlayHeader, LayoutTitle } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/macro'
-import { Container, Typography } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import type { LayoutOverlayProps } from '../../../components'
 import { LayoutOverlay } from '../../../components'
+import bgImage from '../../../constants/images/account/Frame.png'
 import { graphqlSharedClient, graphqlSsrClient } from '../../../lib/graphql/graphqlSsrClient'
 
 type GetPageStaticProps = GetStaticProps<LayoutOverlayProps>
@@ -53,11 +54,24 @@ function OrderDetailPage() {
         )}
 
         <LayoutTitle
+          sx={{
+            '& svg': {
+              display: 'none',
+            },
+            '&  .MuiTypography-h3': {
+              color: (theme) => theme.palette.custom.heading,
+              fontWeight: 300,
+              fontSize: { xs: '20px', sm: '25px', md: '30px', lg: '40px' },
+              lineHeight: 'normal',
+              textTransform: 'uppercase',
+              fontFamily: 'Saxo Grammaticus',
+            },
+          }}
           icon={iconBox}
           gutterBottom={false}
-          sx={(theme) => ({ mb: theme.spacings.xxs })}
+          // sx={(theme) => ({ mb: theme.spacings.xxs })}
         >
-          <Trans>Order #{orderNumber}</Trans>
+          <Trans>Ordersss #{orderNumber}</Trans>
         </LayoutTitle>
 
         {orderNumber && order && (
@@ -66,9 +80,10 @@ function OrderDetailPage() {
               title={i18n._(/* i18n */ 'Order #{orderNumber}', { orderNumber })}
               metaRobots={['noindex']}
             />
-            <Typography sx={(theme) => ({ textAlign: 'center', mb: theme.spacings.lg })}>
-              <OrderStateLabel {...order} />
+            <Typography sx={(theme) => ({ textAlign: 'center', mb: theme.spacings.sm })}>
+              <OrderStateLabel detail={true} {...order} />
             </Typography>
+
             <OrderDetails {...order} />
             <OrderItems {...order} images={images} />
             <OrderTotals {...order} />
@@ -85,6 +100,22 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   overlayGroup: 'account',
   sharedKey: () => 'account/orders',
   Layout: LayoutOverlay,
+  layoutProps: {
+    sx: {
+      '& .LayoutOverlayBase-background': {
+        backgroundImage: `url(${bgImage.src})`,
+        borderRadius: '30px 30px 0 0',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: { xs: 'unset', md: '100% auto' },
+        backgroundPosition: '100% auto',
+
+        '& .LayoutHeaderContent-right button': {
+          color: (theme) => theme.palette.custom.main,
+          cursor: 'pointer',
+        },
+      },
+    },
+  },
 }
 OrderDetailPage.pageOptions = pageOptions
 

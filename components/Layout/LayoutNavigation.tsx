@@ -97,7 +97,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                 }}
                 href={`/events`}
               >
-                Celebrate
+                Corporate & Events
               </DesktopNavItem>
               <DesktopNavItem
                 sx={{

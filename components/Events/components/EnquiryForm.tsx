@@ -119,8 +119,15 @@ function EnquiryForm() {
             name={formFields.find((f) => f?.frontend_label === 'Full Name')?.attribute_code || ''}
             control={control}
             rules={{ required: 'Name is Required' }}
-            render={({ field }) => (
-              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+            render={({ field, fieldState }) => (
+              <>
+                <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+                {fieldState.error && (
+                  <Typography variant='caption' color='error'>
+                    {fieldState.error.message}
+                  </Typography>
+                )}
+              </>
             )}
           />
 
@@ -200,19 +207,26 @@ function EnquiryForm() {
           <Controller
             name={formFields.find((f) => f?.frontend_label === 'Event Name')?.attribute_code || ''}
             control={control}
-            //rules={{ required: true }}
-            render={({ field }) => (
-              <OutlinedInput
-                {...field}
-                fullWidth
-                placeholder='Personalised Gifts'
-                sx={{
-                  ...inputFieldSx,
-                  '& .MuiOutlinedInput-input::placeholder': {
-                    //   color: '#D1D1D1',
-                  },
-                }}
-              />
+            // rules={{ required: 'Name is Required' }}
+            render={({ field, fieldState }) => (
+              <>
+                <OutlinedInput
+                  {...field}
+                  fullWidth
+                  placeholder='Personalised Gifts'
+                  sx={{
+                    ...inputFieldSx,
+                    '& .MuiOutlinedInput-input::placeholder': {
+                      //   color: '#D1D1D1',
+                    },
+                  }}
+                />
+                {fieldState.error && (
+                  <Typography variant='caption' color='error'>
+                    {fieldState.error.message}
+                  </Typography>
+                )}
+              </>
             )}
           />
         </Box>

@@ -119,9 +119,16 @@ function ContactEnquiryForm() {
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Your Name')?.attribute_code || ''}
           control={control}
-          //  rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+          rules={{ required: 'Name is Required' }}
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+              {fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )}
+            </>
           )}
         />
         <Controller
@@ -149,7 +156,7 @@ function ContactEnquiryForm() {
           name={formFields.find((f) => f?.frontend_label === 'Your Phone')?.attribute_code || ''}
           control={control}
           rules={{
-            // required: 'Phone Number is Required',
+            required: 'Phone Number is Required',
             pattern: {
               value: /^[0-9]*$/, // only digits
               message: 'Only numbers are allowed',
@@ -187,9 +194,16 @@ function ContactEnquiryForm() {
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Subject')?.attribute_code || ''}
           control={control}
-          //  rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput {...field} fullWidth placeholder='Subject' sx={inputFieldSx} />
+          rules={{ required: 'Subject is Required' }}
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput {...field} fullWidth placeholder='Subject' sx={inputFieldSx} />
+              {fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )}
+            </>
           )}
         />
 
@@ -203,6 +217,7 @@ function ContactEnquiryForm() {
                 label='Message'
                 multiline
                 rows={5}
+                {...field}
                 fullWidth
                 variant='outlined'
                 sx={{

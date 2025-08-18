@@ -396,6 +396,8 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
     styleOverrides: {
       root: {
         '& .MuiOutlinedInput-root': {
+          borderRadius: '4px',
+          borderColor: (theme: any) => theme.palette.custom.border,
           ...breakpointVal(
             'borderRadius',
             theme.shape.borderRadius * 1.5,

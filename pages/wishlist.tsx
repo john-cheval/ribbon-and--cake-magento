@@ -94,9 +94,9 @@ function WishlistPage() {
                 borderRadius: '8px',
                 marginRight: '10px',
                 objectFit: 'cover',
-                width: '100%',
-                height: '100%',
-                minWidth: '100px',
+                //width: '100%',
+                height: '100px',
+                width: '130px',
               },
               '& .ActionCard-secondaryAction': {
                 '& .MuiBox-root': {

@@ -1493,6 +1493,16 @@ ol {
   /* height: 16px; */
   /* vertical-align: top; */
 }
+.OrderCard-orderMoney span span:first-child {
+  background: url(../components/Assets/aed.svg) 17px center no-repeat;
+  background-size: 18px auto;
+  color: transparent;
+  /* font-size: 10px; */
+  width: 20px;
+  /* display: inline-block; */
+  /* height: 16px; */
+  /* vertical-align: top; */
+}
 /* sm breakpoint */
 
 @media (min-width: 641px) {

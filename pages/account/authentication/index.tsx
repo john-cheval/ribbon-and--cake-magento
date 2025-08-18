@@ -62,7 +62,7 @@ function AccountAuthenticationPage() {
               fontSize: { xs: '25px', md: '35px' },
               stroke: (theme) => theme.palette.custom.wishlistColor,
               position: 'relative',
-              top: '-5px',
+              // top: '-5px',
             },
           },
         }}

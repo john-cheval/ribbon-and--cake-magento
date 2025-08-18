@@ -18,7 +18,7 @@ function AccountForgotPasswordPage() {
     <>
       <LayoutOverlayHeader>
         <LayoutTitle variant='h2' size='small' component='span'>
-          <Trans id='Forgot your passwordsss?' />
+          <Trans id='Forgot your password?' />
         </LayoutTitle>
       </LayoutOverlayHeader>
       <Container
@@ -74,6 +74,12 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
         '& .LayoutHeaderContent-right button': {
           color: (theme) => theme.palette.custom.main,
           cursor: 'pointer',
+        },
+        '& .LayoutHeaderContent-left a': {
+          color: (theme) => theme.palette.custom.main,
+          '& svg': {
+            fontSize: '24px',
+          },
         },
       },
     },

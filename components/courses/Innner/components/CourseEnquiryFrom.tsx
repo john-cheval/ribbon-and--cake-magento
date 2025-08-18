@@ -125,25 +125,39 @@ function CourseEnquiryForm({ defaultTitle }) {
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Class Type')?.attribute_code || ''}
           control={control}
-          // rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput
-              {...field}
-              fullWidth
-              value={defaultTitle}
-              placeholder={defaultTitle}
-              sx={inputFieldSx}
-              disabled
-              defaultValue={defaultTitle}
-            />
+          //  rules={{ required: 'Name is Required' }}
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput
+                {...field}
+                fullWidth
+                value={defaultTitle}
+                placeholder={defaultTitle}
+                sx={inputFieldSx}
+                disabled
+                defaultValue={defaultTitle}
+              />
+              {/*fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )*/}
+            </>
           )}
         />
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Your Name')?.attribute_code || ''}
           control={control}
           rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+              {fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )}
+            </>
           )}
         />
 
@@ -214,14 +228,21 @@ function CourseEnquiryForm({ defaultTitle }) {
               ?.attribute_code || ''
           }
           control={control}
-          // rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput
-              {...field}
-              fullWidth
-              placeholder='Preferred Month and Week'
-              sx={inputFieldSx}
-            />
+          rules={{ required: 'This field is Madatory' }}
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput
+                {...field}
+                fullWidth
+                placeholder='Preferred Month and Week'
+                sx={inputFieldSx}
+              />
+              {fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )}
+            </>
           )}
         />
 
@@ -231,15 +252,22 @@ function CourseEnquiryForm({ defaultTitle }) {
             ''
           }
           control={control}
-          // rules={{ required: 'Name is Required' }}
-          render={({ field }) => (
-            <OutlinedInput
-              {...field}
-              type='number'
-              fullWidth
-              placeholder='Number of attendees'
-              sx={inputFieldSx}
-            />
+          rules={{ required: 'Field is Required' }}
+          render={({ field, fieldState }) => (
+            <>
+              <OutlinedInput
+                {...field}
+                type='number'
+                fullWidth
+                placeholder='Number of attendees'
+                sx={inputFieldSx}
+              />
+              {fieldState.error && (
+                <Typography variant='caption' color='error'>
+                  {fieldState.error.message}
+                </Typography>
+              )}
+            </>
           )}
         />
 

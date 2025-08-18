@@ -1,8 +1,39 @@
+import { useMutation, useQuery } from '@apollo/client'
 import { Box } from '@mui/material'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
 import { FaWhatsapp } from 'react-icons/fa'
+import { AlekseonFormDocument } from '../../graphql/aleskonForm.gql'
+import { UpdateAlekseonFormDocument } from '../../graphql/UpdateAleskonForm.gql'
 
 export function Footer({ footerContent }) {
+  const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
+    UpdateAlekseonFormDocument,
+  )
+
+  const {
+    data: formData,
+    loading: formLoading,
+    error: formError,
+  } = useQuery(AlekseonFormDocument, {
+    variables: {
+      identifier: 'newsletter',
+    },
+  })
+  const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: formFields.reduce(
+      (acc, field) => {
+        if (field?.attribute_code) {
+          acc[field.attribute_code] = ''
+        }
+        return acc
+      },
+      {} as Record<string, string>,
+    ),
+  })
+  const isSuccess = data?.updateAlekseonForm?.success
+
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: footerContent }} />
@@ -40,7 +71,6 @@ export function Footer({ footerContent }) {
           </Box>
         </Box>
       </Link>
-      {/*  </Box>*/}
     </>
   )
 }

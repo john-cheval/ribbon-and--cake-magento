@@ -1497,11 +1497,18 @@ ol {
   background: url(../components/Assets/aed.svg) 17px center no-repeat;
   background-size: 18px auto;
   color: transparent;
-  /* font-size: 10px; */
   width: 20px;
-  /* display: inline-block; */
-  /* height: 16px; */
-  /* vertical-align: top; */
+}
+.OrderItem-itemPrice span span:first-child,
+.OrderItem-rowPrice span span:first-child,
+.OrderTotals-totalsRow span span:first-child {
+  background: url(../components/Assets/aed.svg) 17px center no-repeat;
+  background-size: 18px auto;
+  color: transparent;
+  width: 20px;
+}
+.MuiLoadingButton-loadingIndicatorCenter {
+  color: '#D5B1B8 !important';
 }
 /* sm breakpoint */
 

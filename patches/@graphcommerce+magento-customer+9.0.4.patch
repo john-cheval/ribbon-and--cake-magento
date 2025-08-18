@@ -318,45 +318,148 @@ index 495d466..0240815 100644
        )}
        {mode === 'signup' && !canSignUp && (
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
-index 93fd266..dd3a572 100644
+index 93fd266..bbe3eee 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCity.tsx
-@@ -3,6 +3,7 @@ import { TextFieldElement } from '@graphcommerce/ecommerce-ui'
+@@ -1,26 +1,107 @@
+ import type { FieldPath, FieldValues } from '@graphcommerce/ecommerce-ui'
+-import { TextFieldElement } from '@graphcommerce/ecommerce-ui'
++import { SelectElement, TextFieldElement, useWatch } from '@graphcommerce/ecommerce-ui'
  import { Trans } from '@lingui/react'
  import type { AddressFieldsOptions } from './useAddressFieldsForm'
  import { useAddressFieldsForm } from './useAddressFieldsForm'
 +import { useAddressCountryRegion } from '@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion'
++import { gql, useQuery } from '@apollo/client'
++import { useEffect } from 'react'
++
++const GET_CITIES = gql`
++  query GetCities($country_code: String!, $state_name: String!) {
++    getCities(country_code: $country_code, state_name: $state_name) {
++      city
++    }
++  }
++`
  
  export function AddressCity<
    TFieldValues extends FieldValues = FieldValues,
-@@ -10,6 +11,8 @@ export function AddressCity<
+   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
  >(props: AddressFieldsOptions<TFieldValues, TName>) {
    const form = useAddressFieldsForm<TFieldValues, TName>(props)
-   const { control, name, readOnly, required } = form
-+  // const {country,countryList} = useAddressCountryRegion(props)
+-  const { control, name, readOnly, required } = form
++  const { control, name, readOnly, required, getValues } = form
++  const address = useAddressCountryRegion(props)
++  const { regionList } = address
 +  // console.log(country,countryList,'this is the country')
++
++  const regionIdw = useWatch({ name: 'regionId' as any, control: address?.control })
++
++  const countryCode = form.getValues("countryCode" as any)
++  const regionId = form.getValues("regionId" as any)
++
++  const regionName = regionList.find(r => r.id === regionId)?.name;
++
++  const { data, loading, error } = useQuery(GET_CITIES, {
++    variables: {
++      country_code: countryCode ?? '',
++      state_name: regionName ?? '',
++    },
++    skip: !countryCode || !regionName, // only run when both are available
++  })
++
++  console.log(address, countryCode, regionName, regionId, data?.getCitise, regionIdw)
  
    return (
-     <TextFieldElement
+-    <TextFieldElement
+-      control={control}
+-      name={name.city}
+-      variant='outlined'
+-      type='text'
+-      required={required[name.city]}
+-      label={<Trans id='City' />}
+-      showValid
+-      InputProps={{ readOnly }}
+-    />
++    <>
++      {data?.getCities?.length > 0 ?
++        <SelectElement
++          control={control}
++          name={name.city}
++          variant='outlined'
++          label={<Trans id='City' />}
++          required={required[name.city]}
++          showValid
++          InputProps={{ readOnly }}
++          options={data?.getCities?.map((city) => ({ ...city, label: city.city }))}
++          SelectProps={{
++            MenuProps: {
++              PaperProps: {
++                sx: {
++                  backgroundColor: (theme: any) => theme.palette.custom.border,
++                  color: (theme: any) => theme.palette.custom.main,
++                  "&::-webkit-scrollbar": {
++                    width: '6px',
++                    borderRadius: 0,
++                    backgroundColor: '#ebebeb',
++                  },
++                  '&::-webkit-scrollbar-track': {
++                    baxkgroundColor: '#ebebeb',
++                    borderRadius: '0px'
++                  },
++                  "&::-webkit-scrollbar-thumb": {
++                    backgroundColor: (theme: any) => theme.palette.custom.main,
++                    borderRadius: '0px'
++                  },
++                  // scrollbarWidth:'none',
++                  // msOverflowStyle:'none',
++                  '& .MuiMenuItem-root': {
++                    color: (theme: any) => theme.palette.custom.main,
++                    transition: 'background-color 0.3s ease',
++                    '&:hover': {
++                      backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                    },
++                    '&.Mui-selected': {
++                      backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                    },
++                  }
++                }
++              }
++            }
++          }}
++          onChange={(value) => {
++            form.setValue("city" as any, value as any)
++          }}
++        /> : <TextFieldElement
++          control={control}
++          name={name.city}
++          variant='outlined'
++          type='text'
++          required={required[name.city]}
++          label={<Trans id='City' />}
++          showValid
++          InputProps={{ readOnly }}
++        />}
++    </>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..49ac414 100644
+index 7bebe6d..2cd88ed 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-@@ -64,11 +64,55 @@ export function AddressCountryRegion<
+@@ -64,11 +64,56 @@ export function AddressCountryRegion<
    }
  
    return (
 -    <FormRow>
 +    <FormRow sx={{
-+      '& .MuiInputLabel-root.MuiInputLabel-animated':{
-+        backgroundColor:'white',
++      '& .MuiInputLabel-root.MuiInputLabel-animated': {
++        backgroundColor: 'white',
 +        padding: '0 6px',
 +      },
-+      '& .MuiOutlinedInput-root .MuiSelect-icon':{
-+        color: (theme:any) => theme.palette.custom.wishlistColor,
++      '& .MuiOutlinedInput-root .MuiSelect-icon': {
++        color: (theme: any) => theme.palette.custom.wishlistColor,
 +      },
-+      '& .MuiOutlinedInput-root .InputCheckmark':{
-+        display:'none'
++      '& .MuiOutlinedInput-root .InputCheckmark': {
++        display: 'none'
 +      }
 +    }}>
        <SelectElement
@@ -364,106 +467,122 @@ index 7bebe6d..49ac414 100644
          name={name.countryCode}
 -        SelectProps={{ autoWidth: true }}
 +        SelectProps={{
-+          MenuProps:{
-+          PaperProps:{
-+            sx:{
-+             backgroundColor: (theme:any) => theme.palette.custom.border,
-+             color: (theme:any) => theme.palette.custom.main,
-+             "&::-webkit-scrollbar":{
-+              width:'6px',
-+              borderRadius:0,
-+              backgroundColor:'#ebebeb',
-+            },
-+            '&::-webkit-scrollbar-track':{
-+              baxkgroundColor:'#ebebeb',
-+              borderRadius:'0px'
-+            },
-+            "&::-webkit-scrollbar-thumb":{
-+              backgroundColor:(theme:any)=>theme.palette.custom.main,
-+              borderRadius:'0px'
-+            },
-+            // scrollbarWidth:'none',
-+            // msOverflowStyle:'none',
-+             '& .MuiMenuItem-root': {
-+                color: (theme:any) => theme.palette.custom.main,
-+                transition: 'background-color 0.3s ease',
-+                '&:hover': {
-+                  backgroundColor: (theme:any) => theme.palette.custom.wishlistColor
++          MenuProps: {
++            PaperProps: {
++              sx: {
++                backgroundColor: (theme: any) => theme.palette.custom.border,
++                color: (theme: any) => theme.palette.custom.main,
++                "&::-webkit-scrollbar": {
++                  width: '6px',
++                  borderRadius: 0,
++                  backgroundColor: '#ebebeb',
 +                },
-+                '&.Mui-selected':{
-+                  backgroundColor: (theme:any) => theme.palette.custom.wishlistColor
++                '&::-webkit-scrollbar-track': {
++                  baxkgroundColor: '#ebebeb',
++                  borderRadius: '0px'
 +                },
-+             }
++                "&::-webkit-scrollbar-thumb": {
++                  backgroundColor: (theme: any) => theme.palette.custom.main,
++                  borderRadius: '0px'
++                },
++                // scrollbarWidth:'none',
++                // msOverflowStyle:'none',
++                '& .MuiMenuItem-root': {
++                  color: (theme: any) => theme.palette.custom.main,
++                  transition: 'background-color 0.3s ease',
++                  '&:hover': {
++                    backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                  },
++                  '&.Mui-selected': {
++                    backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                  },
++                }
++              }
 +            }
-+          }
-+        }, autoWidth: true }}
++          }, autoWidth: true
++        }}
          variant='outlined'
          label={<Trans id='Country' />}
          required={required[name.countryCode]}
-@@ -78,6 +122,7 @@ export function AddressCountryRegion<
+@@ -78,6 +123,7 @@ export function AddressCountryRegion<
            id: country.two_letter_abbreviation,
            label: country.full_name_locale,
          }))}
-+        
++
        />
  
        {regionList.length > 0 && (
-@@ -90,6 +135,41 @@ export function AddressCountryRegion<
+@@ -90,6 +136,44 @@ export function AddressCountryRegion<
            showValid
            InputProps={{ readOnly }}
            options={regionList.map((region) => ({ ...region, label: region.name }))}
 +          SelectProps={{
-+              MenuProps:{
-+          PaperProps:{
-+            sx:{
-+             backgroundColor: (theme:any) => theme.palette.custom.border,
-+             color: (theme:any) => theme.palette.custom.main,
-+             "&::-webkit-scrollbar":{
-+              width:'6px',
-+              borderRadius:0,
-+              backgroundColor:'#ebebeb',
-+            },
-+            '&::-webkit-scrollbar-track':{
-+              baxkgroundColor:'#ebebeb',
-+              borderRadius:'0px'
-+            },
-+            "&::-webkit-scrollbar-thumb":{
-+              backgroundColor:(theme:any)=>theme.palette.custom.main,
-+              borderRadius:'0px'
-+            },
-+            // scrollbarWidth:'none',
-+            // msOverflowStyle:'none',
-+             '& .MuiMenuItem-root': {
-+                color: (theme:any) => theme.palette.custom.main,
-+                transition: 'background-color 0.3s ease',
-+                '&:hover': {
-+                  backgroundColor: (theme:any) => theme.palette.custom.wishlistColor
-+                },
-+                '&.Mui-selected':{
-+                  backgroundColor: (theme:any) => theme.palette.custom.wishlistColor
-+                },
-+             }
++            MenuProps: {
++              PaperProps: {
++                sx: {
++                  backgroundColor: (theme: any) => theme.palette.custom.border,
++                  color: (theme: any) => theme.palette.custom.main,
++                  "&::-webkit-scrollbar": {
++                    width: '6px',
++                    borderRadius: 0,
++                    backgroundColor: '#ebebeb',
++                  },
++                  '&::-webkit-scrollbar-track': {
++                    baxkgroundColor: '#ebebeb',
++                    borderRadius: '0px'
++                  },
++                  "&::-webkit-scrollbar-thumb": {
++                    backgroundColor: (theme: any) => theme.palette.custom.main,
++                    borderRadius: '0px'
++                  },
++                  // scrollbarWidth:'none',
++                  // msOverflowStyle:'none',
++                  '& .MuiMenuItem-root': {
++                    color: (theme: any) => theme.palette.custom.main,
++                    transition: 'background-color 0.3s ease',
++                    '&:hover': {
++                      backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                    },
++                    '&.Mui-selected': {
++                      backgroundColor: (theme: any) => theme.palette.custom.wishlistColor
++                    },
++                  }
++                }
++              }
 +            }
-+          }
-+        }
++          }}
++          onChange={(value) => {
++            form.setValue("regionId" as any, value as any)
 +          }}
          />
        )}
      </FormRow>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-index 400ed2c..ec8e544 100644
+index 400ed2c..d71aeed 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-@@ -25,10 +25,11 @@ export function AddressFields<
+@@ -25,10 +25,22 @@ export function AddressFields<
        <FormRow>
          <AddressStreet {...props} />
          <AddressHousenumber {...props} />
 -        <AddressAddition {...props} />
-+       {/*  <AddressAddition {...props} /> */}
++        {/*  <AddressAddition {...props} /> */}
        </FormRow>
-       <FormRow>
+-      <FormRow>
++      <FormRow sx={{
++        '& .MuiInputLabel-root.MuiInputLabel-animated': {
++          backgroundColor: 'white',
++          padding: '0 6px',
++        },
++        '& .MuiOutlinedInput-root .MuiSelect-icon': {
++          color: (theme: any) => theme.palette.custom.wishlistColor,
++        },
++        '& .MuiOutlinedInput-root .InputCheckmark': {
++          display: 'none'
++        }
++      }}>
          <AddressPostcode {...props} />
-+        
++
          <AddressCity {...props} />
        </FormRow>
        {!countryFirst && <AddressCountryRegion {...props} />}

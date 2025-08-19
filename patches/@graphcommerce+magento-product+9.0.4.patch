@@ -1,8 +1,8 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..e990a46 100644
+index 6ae6263..55c401b 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-@@ -4,8 +4,13 @@ import { Button } from '@graphcommerce/next-ui'
+@@ -4,8 +4,15 @@ import { Button } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
@@ -12,17 +12,19 @@ index 6ae6263..e990a46 100644
 +
 +export type customAddToCrtProps = {
 +  isIcon?:boolean
++  icConfigured?:boolean
++  urlKey?:string
 +}
 +export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,14 +26,30 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,14 +28,30 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
 -  const { children, product, disabled, ...rest } = props
-+  const { children, product, disabled,isIcon, ...rest } = props
++  const { children, product, disabled,isIcon,icConfigured,urlKey, ...rest } = props
    const { showSuccess, ...action } = useAddProductsToCartAction(props)
    const cartEnabled = useCartEnabled()
  
@@ -33,7 +35,7 @@ index 6ae6263..e990a46 100644
 -    <Button
 +<>
 +    {isIcon ? (
-+<AddProductsToCartFab sku={product?.sku} sx={{
++<AddProductsToCartFab sku={product?.sku} isLink={icConfigured} url={urlKey} sx={{
 +       height:'50px',
 +       width:'50px',
 +        '& svg': {
@@ -50,7 +52,7 @@ index 6ae6263..e990a46 100644
        type='submit'
        color='primary'
        variant='pill'
-@@ -39,5 +60,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+@@ -39,5 +62,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
      >
        {children || <Trans>Add to Cart</Trans>}
      </Button>
@@ -1228,7 +1230,7 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..5d72333 100644
+index 9dc2505..ce5fcc1 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,34 +1,65 @@
@@ -1258,7 +1260,7 @@ index 9dc2505..5d72333 100644
 +  
 +
 +const characterLimit =isMobile ? 15 :30; 
-   
+ 
 +  const displayTitle = typeof title === 'string' && title.length > characterLimit
 +    ? `${title.slice(0, characterLimit)}...`
 +    : title;

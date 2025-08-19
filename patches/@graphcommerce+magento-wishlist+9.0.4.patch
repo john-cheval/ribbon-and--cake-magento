@@ -161,16 +161,17 @@ index 4c94637..3741f15 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
-index a533979..d2ba55a 100644
+index a533979..d493c5e 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItem/AddWishlistItemToCart.tsx
-@@ -10,11 +10,15 @@ import {
+@@ -10,13 +10,19 @@ import {
  import type { InputMaybe } from '@graphcommerce/next-config'
  import { Box } from '@mui/material'
  
 -export type AddWishlistItemToCartProps = UseAddProductsToCartActionProps &
 +export type customwislistButtonProps ={
 +  showIcon?:boolean
++  isConfigurable?:boolean
 +}
 +
 +export type AddWishlistItemToCartProps = UseAddProductsToCartActionProps & customwislistButtonProps &
@@ -178,22 +179,27 @@ index a533979..d2ba55a 100644
  
  export function AddWishlistItemToCart(props: AddWishlistItemToCartProps) {
 -  const { product, selectedOptions, index = 0, sku } = props
-+  const { product, selectedOptions, index = 0, sku, showIcon } = props
++  const { product, selectedOptions, index = 0, sku, showIcon,isConfigurable } = props
    const { setValue } = useFormAddProductsToCart()
  
++  
    return (
-@@ -27,7 +31,9 @@ export function AddWishlistItemToCart(props: AddWishlistItemToCartProps) {
+     <Box sx={{ display: 'flex' }}>
+       <AddProductsToCartQuantity variant='standard' InputProps={{ disableUnderline: true }} />
+@@ -27,7 +33,11 @@ export function AddWishlistItemToCart(props: AddWishlistItemToCartProps) {
          color='primary'
          variant='text'
          size='medium'
 +        isIcon={showIcon}
++        icConfigured={isConfigurable}
++        urlKey={(product as any)?.url_key}
        />
 +      
      </Box>
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
-index 81c7382..1a89951 100644
+index 81c7382..5300973 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
 @@ -6,11 +6,12 @@ import type { ActionCardProps } from '@graphcommerce/next-ui'
@@ -239,13 +245,18 @@ index 81c7382..1a89951 100644
                }}
                sizes={actionCardImageSizes[size]}
              />
-@@ -160,20 +162,47 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
-           secondaryAction ||
+@@ -157,23 +159,50 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
+           )
+         }
+         secondaryAction={
+-          secondaryAction ||
++          
            ((product?.__typename === 'SimpleProduct' ||
-             product?.__typename === 'VirtualProduct') && (
+-            product?.__typename === 'VirtualProduct') && (
 -            <AddWishlistItemToCart product={product} selectedOptions={[]} />
++            product?.__typename === 'ConfigurableProduct') && (
 +              <Box>
-+            <AddWishlistItemToCart product={product} selectedOptions={[]} showIcon={isIcon}/>
++            <AddWishlistItemToCart product={product} selectedOptions={[]} showIcon={isIcon} isConfigurable={product?.__typename === 'ConfigurableProduct'}/>
 +            <Box sx={{
 +            ['& span']:{
 +              fontSize:{xs:'16px', lg:'20px'},

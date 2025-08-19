@@ -199,7 +199,7 @@ index a533979..d493c5e 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
-index 81c7382..5300973 100644
+index 81c7382..74fd973 100644
 --- a/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-wishlist/components/WishlistItemActionCard/WishlistItemActionCard.tsx
 @@ -6,11 +6,12 @@ import type { ActionCardProps } from '@graphcommerce/next-ui'
@@ -245,7 +245,7 @@ index 81c7382..5300973 100644
                }}
                sizes={actionCardImageSizes[size]}
              />
-@@ -157,23 +159,50 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
+@@ -157,23 +159,59 @@ export function WishlistItemActionCard(props: WishlistItemActionCardProps) {
            )
          }
          secondaryAction={
@@ -255,7 +255,16 @@ index 81c7382..5300973 100644
 -            product?.__typename === 'VirtualProduct') && (
 -            <AddWishlistItemToCart product={product} selectedOptions={[]} />
 +            product?.__typename === 'ConfigurableProduct') && (
-+              <Box>
++              <Box sx={{
++                '& .MuiButtonBase-root':{
++                  width:'40px',
++                  height:'40px',
++                  '& svg':{
++                    fontSize:'26px !important',
++                    left:'7px'
++                  }
++                }
++              }}>
 +            <AddWishlistItemToCart product={product} selectedOptions={[]} showIcon={isIcon} isConfigurable={product?.__typename === 'ConfigurableProduct'}/>
 +            <Box sx={{
 +            ['& span']:{

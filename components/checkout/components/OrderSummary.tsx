@@ -24,12 +24,12 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
       <Typography
         sx={{
           color: (theme: any) => theme.palette.custom.dark,
-          fontsize: { xs: '16px', md: '20px' },
+          fontSize: { xs: '16px', md: '18px', lg: '20px' },
           lineHeight: '120%',
           marginBottom: { xs: '10px', md: '14px' },
         }}
       >
-        Your Oder
+        Your Order
       </Typography>
 
       <Box
@@ -80,15 +80,18 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 ))}
               </Box>
 
-              <CouponAccordion
+              <Box
                 sx={{
                   '& .ApplyCouponForm-couponForm': {
-                    paddingInline: { xs: '10px', md: '10px 15px' },
+                    paddingInline: { xs: '10px', md: '15px' },
                   },
                 }}
-                key='couponform'
-                // sx={(theme) => ({ mt: theme.spacings.md })}
-              />
+              >
+                <CouponAccordion
+                  key='couponform'
+                  // sx={(theme) => ({ mt: theme.spacings.md })}
+                />
+              </Box>
             </Box>
 
             <OverlayStickyBottom
@@ -101,7 +104,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 zIndex: 9999,
                 // width: '100%',
-                // bottom: 'unset !important',
+                bottom: 'unset !important',
                 // px: '55px',
                 '& .CartTotals-root ': {
                   backgroundColor: 'transparent',
@@ -127,7 +130,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 }}
               />
               <CartStartCheckout
-                title='Confirm Order'
+                title='Proceed to Pay'
                 sx={{
                   '& .MuiButtonBase-root': {
                     width: '100%',

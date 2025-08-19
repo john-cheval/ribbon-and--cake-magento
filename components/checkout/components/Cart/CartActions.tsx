@@ -22,6 +22,8 @@ function CartActions({ product, size = 'responsive' }) {
         variant='inline'
         sx={{
           color: '#9D9D9D',
+          paddingTop: 0,
+          paddingLeft: 0,
           '&:hover': {
             backgroundColor: 'transparent',
           },

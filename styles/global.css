@@ -784,6 +784,9 @@ ol {
   .justin {
     margin-bottom: 17px;
   }
+  .ActionCard-details.mui-style-3k8hts > div {
+    font-size: 14px;
+  }
   .sms-page-contets {
     margin-top: 15px;
     row-gap: 15px;
@@ -1504,6 +1507,12 @@ ol {
   color: transparent;
   width: 20px;
 }
+.orderProduct span span:first-child {
+  background: url(../components/Assets/aed.svg) 27px center no-repeat;
+  background-size: 18px auto;
+  color: transparent;
+  width: 20px;
+}
 .OrderItem-itemPrice span span:first-child,
 .OrderItem-rowPrice span span:first-child,
 .OrderTotals-totalsRow span span:first-child {
@@ -1530,11 +1539,12 @@ ol {
   color: transparent !important;
   width: 20px;
 }
-.CartTotals-root .MuiBox-root.mui-style-gg4vpm .CartTotals-money span span:nth-child(2) {
-  background: url(../components/Assets/aed.svg) 13px no-repeat;
+.CartTotals-root .MuiBox-root .CartTotals-money.discount span span:nth-child(2) {
+  background: url(../components/Assets/aed.svg) 2px no-repeat;
   background-size: 18px auto;
   color: transparent !important;
   width: 20px;
+  display: inline-block;
 }
 .MuiSlider-valueLabelLabel span span:first-child {
   background: url(../components/Assets/aed.svg) 0px no-repeat;
@@ -1557,7 +1567,7 @@ ol {
 .ActionCard-details.mui-style-3k8hts > div {
   display: inline-block;
   vertical-align: top;
-  font-size: 14px;
+  font-size: 12px;
   padding-right: 5px;
   padding-bottom: 2px;
 }

@@ -19,8 +19,10 @@ function CartPriceAndQuantity({ product }) {
     price = product?.prices?.price.value
   }
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '5px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box
+        component='div'
+        className='orderProduct'
         sx={{
           order: { xs: 1, md: 0 },
           textAlign: { xs: 'left', md: 'right' },

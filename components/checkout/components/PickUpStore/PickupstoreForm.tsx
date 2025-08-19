@@ -1,77 +1,38 @@
-import { EmailElement, RadioButtonGroup, TelephoneElement } from '@graphcommerce/ecommerce-ui'
-import { EmailForm } from '@graphcommerce/magento-cart-email'
-import { NameFields } from '@graphcommerce/magento-customer'
-import { Form, FormRow } from '@graphcommerce/next-ui'
-import { FormAutoSubmit, useFormGqlMutation } from '@graphcommerce/react-hook-form'
-import { useApolloClient } from '@apollo/client'
+import { Form } from '@graphcommerce/next-ui'
+import { FormAutoSubmit } from '@graphcommerce/react-hook-form'
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import { Controller, useForm } from 'react-hook-form'
-import { CreateStorePickupDocument } from '../../../../graphql/CreatePickupStore.gql'
-
-const useFormGqlMutationStorePickup = (document, options, operationOptions, storeData) => {
-  const client = useApolloClient()
-  const form = useForm({
-    defaultValues: options.defaultValues || {},
-    mode: options.mode || 'onBlur',
-  })
-
-  const result = useFormGqlMutation(
-    document,
-    {
-      ...options,
-      onBeforeSubmit: async (variables) => {
-        const selectedLocationId = variables.selectedLocation
-        const locationData = storeData.find((loc) => loc.name.toString() === selectedLocationId)
-
-        const vars = {
-          ...variables,
-          address: locationData?.address,
-          city: locationData?.city,
-          storename: locationData?.storename,
-          telephone: locationData?.telephone,
-          // Add any other fields you need to send to the backend
-        }
-        // const vars = { ...variables }
-
-        return options.onBeforeSubmit ? options.onBeforeSubmit(vars) : vars
-      },
-    },
-    { errorPolicy: 'all', ...operationOptions },
-  )
-
-  return { ...result, ...form }
-}
+import { Controller } from 'react-hook-form'
+import { SetPickupLocationOnCartDocument } from '../../../../graphql/CreatePickupStore.gql'
+import { useCartQuery, useFormGqlMutationCart } from '@graphcommerce/magento-cart'
+import { GetShippingMethodsDocument } from '@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.gql'
 
 function PickupStoreForm({ storeData }) {
-  const form = useFormGqlMutationStorePickup(
-    CreateStorePickupDocument,
-    {
-      onBeforeSubmit: (variables) => {
-        // return {
-        //   ...variables,
-        //   address: variables.firstname,
-        //   city: variables.lastname,
-        // }
+  const availableMethods = useCartQuery(GetShippingMethodsDocument, { fetchPolicy: 'cache-only' })
 
-        return variables
-      },
-      defaultValues: {
-        // selectedLocation: storeData?.[0]?.name.toString() || '', // Set a default value
-        selectedLocation: storeData?.[0]?.name.toString() || '', // Set a default value
-      },
+  const shippingAddress = availableMethods.data?.cart?.shipping_addresses?.[0]
+
+  const billingAddress = availableMethods.data?.cart?.billing_address
+
+  const form = useFormGqlMutationCart(SetPickupLocationOnCartDocument, {
+    mode: 'onChange',
+    onBeforeSubmit: (variables: any) => {
+      return {
+        ...variables,
+        pickupLocationAddress: {
+          firstname: shippingAddress?.firstname ?? billingAddress?.firstname ?? '',
+          lastname: shippingAddress?.lastname ?? billingAddress?.lastname ?? '',
+          city: '_',
+          country_code: shippingAddress?.country?.code ?? billingAddress?.country?.code ?? '',
+          street: ['_'],
+          telephone: shippingAddress?.telephone ?? billingAddress?.telephone ?? '_',
+          postcode: '_',
+        }
+      }
     },
-    {},
-    storeData,
-  )
+  })
 
-  const {
-    handleSubmit,
-    error,
-    required,
-    control,
-    formState: { errors },
-  } = form
-  const submit = handleSubmit(() => {})
+  const { control, required, handleSubmit } = form
+  const submit = handleSubmit(() => { })
 
   return (
     <Form
@@ -115,10 +76,11 @@ function PickupStoreForm({ storeData }) {
       <FormAutoSubmit
         submit={submit}
         control={control}
-        name={['firstname', 'lastname', 'telephone']}
+        // name={['pickupLocationAddress.firstname', 'pickupLocationAddress.lastname', 'pickupLocationAddress.telephone', 'pickupLocationCode']}
+        name={['pickupLocationCode']}
       />
 
-      <Box sx={{ marginTop: '15px' }}>
+      {/* <Box sx={{ marginTop: '15px' }}>
         <Typography
           sx={{
             color: (theme) => theme.palette.custom.dark,
@@ -132,7 +94,26 @@ function PickupStoreForm({ storeData }) {
         >
           Your Details
         </Typography>
-        <NameFields form={form} />
+        <FormRow>
+          <TextFieldElement
+            control={control}
+            name='pickupLocationAddress.firstname'
+            required={required.pickupLocationAddress}
+            variant='outlined'
+            type='text'
+            label={<Trans id='First Name' />}
+            showValid
+          />
+          <TextFieldElement
+            control={control}
+            name='pickupLocationAddress.lastname'
+            required={required.pickupLocationAddress}
+            variant='outlined'
+            type='text'
+            label={<Trans id='Last Name' />}
+            showValid
+          />
+        </FormRow>
         <FormRow
           sx={{
             paddingTop: 0,
@@ -141,20 +122,19 @@ function PickupStoreForm({ storeData }) {
         >
           <EmailElement
             control={control}
-            name='email'
+            name=''
             variant='outlined'
-            required={required.email}
             showValid
           />
           <TelephoneElement
             control={control}
-            name='telephone'
+            name='pickupLocationAddress.telephone'
             variant='outlined'
-            required={required.telephone}
             showValid
+            required={required.pickupLocationAddress}
           />
         </FormRow>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{
@@ -175,86 +155,11 @@ function PickupStoreForm({ storeData }) {
           Choose Location
         </Typography>
 
-        {/*storeData?.length > 0 && (
-          <Box sx={{ marginTop: { xs: '10px', md: '15px', lg: '20px' } }}>
-            <RadioGroup
-              aria-labelledby='Locations'
-              name='Location-buttons-group'
-              sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', md: 'row' } }}
-            >
-              {storeData?.map((location, index) => {
-                return (
-                  <FormControlLabel
-                    sx={{
-                      '& .MuiRadio-root': {
-                        visibility: 'hidden',
-                        height: 0,
-                        background: 'transparent',
-                        color: 'transparent',
-                        width: '10px',
-                        padding: 0,
-                      },
-                      '&  .MuiRadio-root.Mui-checked + .MuiFormControlLabel-label': {
-                        backgroundColor: (theme) => theme.palette.custom.border,
-                      },
-                    }}
-                    value='female'
-                    control={<Radio />}
-                    label={
-                      <Box
-                        sx={{
-                          border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
-                          borderRadius: '4px',
-                          padding: '28px  30px',
-                        }}
-                      >
-                        <Typography
-                          component='p'
-                          sx={{
-                            fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                            color: (theme) => theme.palette.custom.main,
-                            fontWeight: 700,
-                            lineHeight: '33px',
-                          }}
-                        >
-                          {location?.storename}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            maxWidth: { xs: '100%', md: '300px' },
-                            color: (theme) => theme.palette.custom.main,
-                            lineHeight: '33px',
-                            fontWeight: 400,
-                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                          }}
-                        >
-                          {location?.address} - {location?.city}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            maxWidth: '250px',
-                            color: (theme) => theme.palette.custom.main,
-                            lineHeight: '33px',
-                            fontWeight: 400,
-                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                          }}
-                        >
-                          {location?.telephone}
-                        </Typography>
-                      </Box>
-                    }
-                  />
-                )
-              })}
-            </RadioGroup>
-          </Box>
-        )*/}
-
         {storeData?.length > 0 && (
           <Box sx={{ marginTop: { xs: '10px', md: '15px', lg: '20px' } }}>
             {/* WRAP RadioGroup in Controller */}
             <Controller
-              name='selectedLocation'
+              name='pickupLocationCode'
               control={control}
               render={({ field }) => (
                 <RadioGroup
@@ -276,13 +181,17 @@ function PickupStoreForm({ storeData }) {
                             padding: 0,
                           },
                           // Reverted to a working selector for the background change
-                          '&  .MuiRadio-root.Mui-checked + .MuiFormControlLabel-label .MuiBox-root':
-                            {
-                              backgroundColor: (theme) => theme.palette.custom.border,
-                            },
+                          '&  .MuiRadio-root.Mui-checked + .MuiStack-root .MuiFormControlLabel-label .MuiBox-root':
+                          {
+                            backgroundColor: (theme) => theme.palette.custom.border,
+                          },
+                          '& .MuiFormControlLabel-asterisk': {
+                            display: "none"
+                          }
                         }}
+                        required={required.pickupLocationCode}
                         // PASS THE UNIQUE ID AS THE VALUE
-                        value={location.name.toString()}
+                        value={location?.pickup_location_code}
                         control={<Radio />}
                         label={
                           <Box

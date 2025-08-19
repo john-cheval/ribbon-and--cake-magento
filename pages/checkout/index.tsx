@@ -381,6 +381,73 @@ function ShippingPage(props: ShippingPageProps) {
                   </TabPanel>
 
                   <TabPanel value={value} index={1}>
+                    <ComposedForm>
+                      {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
+                        <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
+                          <ShippingAddressForm step={3} />
+                        </CustomerAddressForm>
+                      ) : (
+                        <>
+                          <Typography
+                            variant='h4'
+                            sx={{
+                              color: (theme) => theme.palette.custom.dark,
+                              fontSize: { xs: '16px', md: '20px' },
+                              lineHeight: '120%',
+                              // marginBottom: { xs: '10px', md: '15px' },
+                              textTransform: 'capitalize',
+                              fontWeight: 400,
+                              fontVariationSettings: '"wght" 400',
+                            }}
+                          >
+                            <Trans id='Your details' />
+                          </Typography>
+                          <ShippingAddressForm
+                            sx={{
+                              '& .MuiInputLabel-formControl': {
+                                color: (theme) => theme.palette.custom.main,
+                                fontSize: { xs: '14px', md: '16px' },
+                                lineHeight: '158%',
+                                fontWeight: 400,
+
+                                '&.Mui-focused': {
+                                  color: (theme) => theme.palette.custom.main,
+                                },
+                                '& .MuiFormLabel-asterisk': {
+                                  display: 'none',
+                                },
+                                '&.MuiInputLabel-animated': {
+                                  backgroundColor: '#fff',
+                                  padding: '0 6px',
+                                },
+                              },
+
+                              '& .MuiOutlinedInput-root': {
+                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                borderRadius: '4px',
+                                paddingRight: '0',
+
+                                '& .InputCheckmark': {
+                                  display: 'none',
+                                },
+
+                                '&:hover': {
+                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                },
+                                '&.Mui-focused': {
+                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                },
+
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                  border: 'none',
+                                },
+                              },
+                            }}
+                            step={3}
+                          />
+                        </>
+                      )}
+                    </ComposedForm>
                     <PickupStoreForm storeData={prickupstoreData} />
                   </TabPanel>
                 </Box>
@@ -434,7 +501,7 @@ function ShippingPage(props: ShippingPageProps) {
             <Container maxWidth='md'>
               <>
                 {!shippingPage.data?.cart?.is_virtual && (
-                  <ShippingMethodForm step={4} sx={(theme) => ({ mt: theme.spacings.lg })} />
+                  <ShippingMethodForm step={4} sx={(theme) => ({ mt: theme.spacings.lg })} isPickup={value === 1} />
                 )}
 
                 <ComposedSubmit

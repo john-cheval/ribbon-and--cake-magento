@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..693f6f8 100644
+index de7b68f..21d0de9 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -112,7 +112,7 @@ index de7b68f..693f6f8 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -131,32 +162,127 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +162,128 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
@@ -198,9 +198,10 @@ index de7b68f..693f6f8 100644
 +          <Box sx={{
 +            display:"flex",
 +           flexDirection:{xs:'row', md:'column'},
-+            alignItems:"center",
++            alignItems:{xs:'center',md:'flex-end'},
 +            justifyContent:"center",
-+            gap:'5px'
++            gap:'5px',
++            width:{xs:'fit-content', md:'100%'}
 +          }}>
 +            {//hasOptions && !readOnly && (
 +              <Button

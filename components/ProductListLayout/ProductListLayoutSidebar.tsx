@@ -1,49 +1,22 @@
 import { Image } from '@graphcommerce/image'
 import {
-  CategoryBreadcrumbs,
-  CategoryChildren,
-  CategoryDescription,
-} from '@graphcommerce/magento-category'
-import {
   ProductFiltersPro,
   ProductFiltersProAggregations,
   ProductFiltersProAllFiltersChip,
   ProductFiltersProCategorySection,
-  productFiltersProChipRenderer,
   ProductFiltersProClearAll,
-  ProductFiltersProLimitChip,
-  ProductFiltersProLimitSection,
   ProductFiltersProNoResults,
   productFiltersProSectionRenderer,
-  ProductFiltersProSortChip,
-  ProductFiltersProSortSection,
   productListApplyCategoryDefaults,
-  ProductListCount,
   ProductListDocument,
   ProductListFiltersContainer,
-  ProductListPagination,
-  ProductListSuggestions,
-  useProductFiltersPro,
-  useProductFiltersProClearAllAction,
 } from '@graphcommerce/magento-product'
-import {
-  ProductFiltersProCategorySectionSearch,
-  ProductFiltersProSearchTerm,
-} from '@graphcommerce/magento-search'
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
 import { useApolloClient } from '@apollo/client'
-import {
-  Box,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from '@mui/material'
+import { Box, FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import Link from 'next/link'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { iconCloseAccordion, iconFilterProduct, iconOpenAccordion } from '../../plugins/icons'
+import { useEffect, useRef, useState } from 'react'
+import { iconFilterProduct } from '../../plugins/icons'
 import mix from '../Assets/mix.svg'
 import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
@@ -213,7 +186,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
               '& .ProductListItem-title': {
                 color: (theme) => theme.palette.custom.dark,
                 //  minHeight: '50px',
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '14px', md: '16px' },
                 lineHeight: '158%',
               },
               '& .MuiButtonBase-root': {
@@ -324,7 +297,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             marginTop: '3px',
                           },
                           '& .MuiInputBase-root': {
-                            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                            fontSize: { xs: '14px', md: '16px' },
                           },
                         },
                       },
@@ -340,7 +313,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
                         '& span .MuiTypography-root': {
                           color: (theme: any) => theme.palette.custom.main,
-                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                          fontSize: { xs: '14px', md: '16px' },
                           fontWeight: 500,
                           lineHeight: 500,
                         },
@@ -371,7 +344,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                       sx={{
                         color: '#441E14 !important',
                         fontWeight: 500,
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontSize: { xs: '14px', md: '16px' },
                       }}
                     >
                       Sort by :{' '}
@@ -379,7 +352,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
                     <FormControl
                       variant='standard'
-                      sx={{ m: 0, minWidth: 120, fontSize: { xs: '12px', sm: '14px', md: '16px' } }}
+                      sx={{ m: 0, minWidth: 120, fontSize: { xs: '14px', md: '16px' } }}
                     >
                       {' '}
                       <Select
@@ -396,7 +369,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                                 // padding: 2,
                                 color: '#441E14',
 
-                                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                fontSize: { xs: '14px', md: '16px' },
                                 fontWeight: 500,
                                 lineHeight: '158%',
                               },
@@ -424,6 +397,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 position: 'sticky',
                 top: '100px',
                 mt: { xs: '30px' },
+                // overflowY: 'scroll',
               })}
             >
               {!isSearch && (
@@ -438,17 +412,22 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 >
                   <Box
                     sx={{
-                      fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                      fontWeight: 500,
-                      lineHeight: '120%',
-                      color: (theme: any) => theme.palette.custom.dark,
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                     }}
                   >
-                    <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: 'auto' }} />{' '}
-                    Filter
+                    <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: '24px' }} />{' '}
+                    <Typography
+                      sx={{
+                        fontSize: { xs: '14px', sm: '16px', md: '20px' },
+                        fontWeight: 500,
+                        lineHeight: '120%',
+                        color: (theme: any) => theme.palette.custom.dark,
+                      }}
+                    >
+                      Filter
+                    </Typography>
                   </Box>
 
                   <ProductFiltersProClearAll
@@ -461,7 +440,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                       width: 'fit-content',
                       textDecoration: 'underline',
                       minWidth: 'unset',
-                      fontSize: { sm: '12px', md: '14px' },
+                      fontSize: '14px',
                       '&:hover:not(.Mui-disabled)': {
                         backgroundColor: 'transparent',
                       },
@@ -488,7 +467,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 Categories
               </Typography>
               {menuList
-                ?.filter((menu) => menu?.uid !== 'MTM=')
+                ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
                 .map((menu, index) =>
                   menu?.children?.length > 0 ? (
                     <Box key={index}>

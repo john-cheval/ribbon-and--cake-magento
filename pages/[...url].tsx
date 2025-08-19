@@ -2,9 +2,6 @@ import type { PageOptions } from '@graphcommerce/framer-next-pages'
 import { cacheFirst, flushMeasurePerf, PrivateQueryMaskProvider } from '@graphcommerce/graphql'
 import {
   appendSiblingsAsChildren,
-  //CategoryBreadcrumbs,
-  //CategoryHeroNav,
-  //CategoryHeroNavTitle,
   CategoryMeta,
   findParentBreadcrumbItem,
   getCategoryStaticPaths,
@@ -28,17 +25,11 @@ import {
 } from '@graphcommerce/magento-product'
 import { redirectOrNotFound, redirectTo, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
-// import { Container, LayoutHeader, LayoutTitle } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
+import { Box, Typography } from '@mui/material'
 import type { GetStaticPaths } from 'next'
 import type { LayoutNavigationProps } from '../components'
-import {
-  LayoutDocument,
-  LayoutNavigation,
-  ProductListLayoutClassic,
-  ProductListLayoutDefault,
-  ProductListLayoutSidebar,
-} from '../components'
+import { LayoutDocument, LayoutNavigation, ProductListLayoutSidebar } from '../components'
 import { InnerTop } from '../components/shared/Inner/Innertop'
 import type { CategoryPageQuery } from '../graphql/CategoryPage.gql'
 import { CategoryPageDocument } from '../graphql/CategoryPage.gql'
@@ -57,7 +48,6 @@ type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
-  console.log(props?.params?.url, 'this is the props')
   const { categories, menu, apolloState, ...rest } = props
   const productList = useProductList({
     ...rest,
@@ -69,7 +59,31 @@ function CategoryPage(props: CategoryProps) {
   const isLanding = category?.display_mode === 'PAGE'
   const isCategory = params && category && products?.items
 
-  const isShop = props?.params?.url === 'shop'
+  const isShop = false
+
+  const productsLength = products?.total_count ?? 0
+  if (!productsLength) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '50vh',
+        }}
+      >
+        <Typography
+          sx={{
+            textAlign: 'center',
+            fontSize: { xs: '14px', md: '16px', lg: '20px' },
+            color: (theme) => theme.palette.custom.main,
+          }}
+        >
+          No Products Found For this Category
+        </Typography>
+      </Box>
+    )
+  }
 
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>

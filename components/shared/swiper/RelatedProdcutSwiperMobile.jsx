@@ -53,7 +53,7 @@ function RelativeProductListMobile({ count = 4, productList }) {
                     '& .ProductListItem-title': {
                       color: (theme) => theme.palette.custom.dark,
                       // minHeight: { xs: '40px', md: '50px' },
-                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                      fontSize: { xs: '14px', md: '16px' },
                       lineHeight: '158%',
                       minWidth: { xs: '130px' },
                       maxWidth: { xs: '100%' },

@@ -1,6 +1,6 @@
 import 'swiper/css'
 import { Image } from '@graphcommerce/image'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Typography, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
 import { useRef } from 'react'
 import type SwiperCore from 'swiper'
@@ -14,9 +14,11 @@ import {
   ProductListPrice,
 } from '@graphcommerce/magento-product'
 import { IoArrowForwardSharp } from 'react-icons/io5'
+import { truncateByChars, truncateByWords } from '../../../utils/truncate'
 
 export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
+  const isMobile = useMediaQuery('(max-width:769px)')
 
   return (
     <Box
@@ -29,7 +31,7 @@ export function HeroSwiper({ products }) {
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          modules={[Autoplay]}
+          // modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
@@ -94,13 +96,15 @@ export function HeroSwiper({ products }) {
                     // sizes='100vw'
                     layout='fill'
                     sx={{
-                      width: '100%',
+                      // width: '100%',
                       // maxWidth: { xs: '70px', md: '100px' },
                       //maxHeight: { xs: '70px', md: '100px' },
-                      height: '100%',
+                      // height: '100%',
                       // maxHeight: '100px',
                       objectFit: 'cover',
                       borderRadius: '4px',
+                      width: { xs: '70px', md: '105px' },
+                      heihgt: { xs: '65px', md: '98px' },
                     }}
                   />
 
@@ -140,7 +144,7 @@ export function HeroSwiper({ products }) {
                         fontWeight: 300,
                       }}
                     >
-                      {item?.name}
+                      {isMobile ? truncateByChars(item?.name, 10) : truncateByWords(item?.name, 2)}
                     </Typography>
 
                     <Box

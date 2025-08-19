@@ -101,7 +101,7 @@ function MobileMenu({ ShopCategories }) {
         </Box>
       </Link>
 
-      <Link href='/'>
+      <Link href='https://api.whatsapp.com/send/?phone=971528899029&text&type=phone_number&app_absent=0'>
         <Box
           sx={{
             display: 'flex',

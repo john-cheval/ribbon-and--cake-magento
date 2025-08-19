@@ -3,6 +3,7 @@ import {
   cacheFirst,
   mergeDeep,
   PrivateQueryMaskProvider,
+  useApolloClient,
   usePrivateQuery,
 } from '@graphcommerce/graphql'
 import { CartStartCheckout, useCartQuery } from '@graphcommerce/magento-cart'
@@ -14,6 +15,7 @@ import {
   getProductStaticPaths,
   jsonLdProduct,
   jsonLdProductOffer,
+  ProductListDocument,
   ProductListPrice,
   ProductPageAddToCartActionsRow,
   ProductPageBreadcrumbs,
@@ -31,10 +33,12 @@ import { ProductWishlistIconButton } from '@graphcommerce/magento-wishlist'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import { OverlayStickyBottom } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import type { GetStaticPaths } from 'next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation } from '../../components'
 import { AddProductsToCartView } from '../../components/ProductView/AddProductsToCartView'
@@ -71,6 +75,9 @@ function ProductPage(props: Props) {
     props,
   )
   const { products, relatedUpsells } = scopedQuery.data
+  const client = useApolloClient()
+  const [isLoading, setIsLoading] = useState(false)
+  const [relatedProducts, setRelatedProducts] = useState<any>([])
 
   const product = mergeDeep(
     products?.items?.[0],
@@ -82,12 +89,43 @@ function ProductPage(props: Props) {
   })
   const { error, data } = cart
   const hasError = Boolean(error)
+  const cartItems = data?.cart?.items
   const hasItems =
     (data?.cart?.total_quantity ?? 0) > 0 &&
     typeof data?.cart?.prices?.grand_total?.value !== 'undefined'
   const isLargeScreen = useMediaQuery('(max-width:1250px)')
+  const router = useRouter()
 
   if (!product?.sku || !product.url_key) return null
+  const handleBuyNowSuccess = () => {
+    router.push('/checkout')
+  }
+
+  const fetchProducts = async (categoryId) => {
+    setIsLoading(true)
+
+    const pageProducts = await client.query({
+      query: ProductListDocument,
+      variables: {
+        pageSize: 10,
+        currentPage: 1,
+        filters: {
+          category_id: { eq: categoryId },
+        },
+      },
+    })
+    setRelatedProducts([...(pageProducts.data.products?.items ?? [])])
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    if (product?.categories && product.categories.length > 0) {
+      const categoryId = product.categories[0]?.id
+      if (categoryId) {
+        fetchProducts(String(categoryId))
+      }
+    }
+  }, [])
 
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
@@ -178,8 +216,8 @@ function ProductPage(props: Props) {
                   },
                   '& .ActionCard-title': {
                     color: (theme) => theme.palette.custom.smallHeading,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                    fontWeight: 600,
+                    fontSize: { xs: '14px', md: '16px' },
+                    //fontWeight: 600,
                   },
                 },
               },
@@ -363,7 +401,8 @@ function ProductPage(props: Props) {
                         // marginRight: '2px',
                         '& .mui-style-7b7t20': {
                           backgroundSize: '22px auto',
-                          marginTop: '8px',
+                          backgroundPosition: 'center 25px',
+                          // marginTop: '8px',
                         },
                       },
                       '& .ProductListPrice-finalPrice .MuiBox-root:not(:nth-child(1))': {
@@ -409,7 +448,7 @@ function ProductPage(props: Props) {
                 sx={(theme) => ({
                   mb: theme.spacings.xs,
                   color: '#6F6F6F',
-                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  fontSize: { xs: '14px', md: '16px' },
                   lineHeight: '170%',
                   paddingTop: '15px',
                 })}
@@ -423,7 +462,8 @@ function ProductPage(props: Props) {
           <OverlayStickyBottom
             sx={{
               py: 0.1,
-              bottom: 'unset !important',
+              backgroundColor: '#fff',
+              // bottom: 'unset !important',
               '& .CartTotals-root ': {
                 backgroundColor: 'transparent',
                 borderRadius: 0,
@@ -436,8 +476,8 @@ function ProductPage(props: Props) {
               product={product}
               sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                columnGap: { xs: 0, sm: '10px', md: '15px' },
+                flexDirection: { xs: 'row', sm: 'row' },
+                columnGap: { xs: '10px', sm: '10px', md: '15px' },
                 alignItems: { xs: 'center', lg: 'end' },
                 rowGap: { xs: '10px', md: 0 },
                 width: '100%',
@@ -451,6 +491,9 @@ function ProductPage(props: Props) {
                 '& .CartStartCheckout-checkoutButtonContainer': {
                   marginBlock: 0,
                 },
+                '& form': {
+                  width: '100% !important',
+                },
               }}
             >
               <AddProductsToCartButton
@@ -459,15 +502,16 @@ function ProductPage(props: Props) {
                 sx={{
                   backgroundColor: '#FFE09D',
                   color: '#441E14',
-                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  fontSize: { xs: '14px', md: '16px' },
                   fontWeight: 500,
                   lineHeight: '158%',
                   borderRadius: '4px',
                   border: '1px solid #FFE09D ',
                   transition: 'all 0.3s ease',
+                  flexGrow: 1,
                   // paddingBlock: { xs: '15px', md: '18px' },
                   boxShadow: 'none !important',
-                  width: { xs: '100%', sm: '50%' },
+                  width: { xs: '100%' },
                   // paddingRight: 0,
                   '&:hover': {
                     backgroundColor: 'white !important',
@@ -475,7 +519,7 @@ function ProductPage(props: Props) {
                 }}
               />
 
-              <CartStartCheckout
+              {/*  <CartStartCheckout
                 title='Buy Now'
                 sx={{
                   '& .MuiButtonBase-root': {
@@ -484,7 +528,7 @@ function ProductPage(props: Props) {
                     backgroundColor: '#9B7C38',
                     border: '1px solid #9B7C38',
                     color: '#fff',
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '14px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent',
                       color: '#2A110A',
@@ -498,18 +542,74 @@ function ProductPage(props: Props) {
                 }}
                 cart={data?.cart}
                 disabled={hasError}
-              />
+              /> */}
+
+              <Box sx={{ width: '100% !important' }}>
+                {(() => {
+                  const matchedCartItem = cartItems?.find(
+                    (cart) => cart?.product?.sku === product?.sku,
+                  )
+                  return matchedCartItem ? (
+                    <Link href='/checkout'>
+                      <Button
+                        sx={{
+                          backgroundColor: (theme: any) => theme.palette.custom.heading,
+                          color: '#FFFFFF',
+                          fontSize: { xs: '14px', md: '16px' },
+                          borderRadius: '4px',
+                          border: '1px solid #9B7C38 ',
+                          paddingBlock: { xs: '9px', md: '12px' },
+                          boxShadow: 'none !important',
+                          width: '100%',
+                          height: '100%',
+                          flexGrow: 1,
+                          '&:hover': {
+                            backgroundColor: 'white !important',
+                            color: (theme: any) => theme.palette.custom.main,
+                          },
+                        }}
+                      >
+                        Buy Now
+                      </Button>
+                    </Link>
+                  ) : (
+                    <AddProductsToCartForm key={product.uid} onSuccess={handleBuyNowSuccess}>
+                      <AddProductsToCartButton
+                        // fullWidth
+                        sx={{
+                          backgroundColor: (theme: any) => theme.palette.custom.heading,
+                          color: '#FFFFFF',
+                          fontSize: { xs: '14px', md: '16px' },
+                          borderRadius: '4px',
+                          border: '1px solid #9B7C38 ',
+                          // paddingBlock: { xs: '5px' },
+                          boxShadow: 'none !important',
+                          width: '100%',
+                          flexGrow: 1,
+                          '&:hover': {
+                            backgroundColor: 'white !important',
+                            color: (theme: any) => theme.palette.custom.main,
+                          },
+                        }}
+                        product={product}
+                      >
+                        Buy Now
+                      </AddProductsToCartButton>
+                    </AddProductsToCartForm>
+                  )
+                })()}
+              </Box>
             </ProductPageAddToCartActionsRow>
           </OverlayStickyBottom>
         </ProductPageGallery>
       </AddProductsToCartForm>
 
       {/* Relative Products */}
-      {product?.related_products && product?.related_products?.length > 0 && (
+      {relatedProducts && relatedProducts?.length > 0 && (
         <Box
           sx={{
             paddingInline: { xs: '18px', md: '25px', lg: '55px' },
-            paddingTop: { xs: '30px', md: '45px', lg: '60px' },
+            paddingTop: { xs: '30px' },
             paddingBottom: { xs: '30px', md: '45px', lg: '50px' },
           }}
           component='section'
@@ -535,11 +635,11 @@ function ProductPage(props: Props) {
           </Box>
 
           <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
-            <RelativeProductSwiper productList={product?.related_products} />
+            <RelativeProductSwiper productList={relatedProducts} />
           </Box>
 
           <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
-            <RelativeProductListMobile count={4} productList={product?.related_products ?? []} />
+            <RelativeProductListMobile count={4} productList={relatedProducts ?? []} />
           </Box>
         </Box>
       )}

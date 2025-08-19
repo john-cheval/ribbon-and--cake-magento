@@ -392,16 +392,14 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
   },
 
   MuiTextField: {
-    defaultProps: { color: 'secondary' },
+    // defaultProps: { color: 'secondary' },
     styleOverrides: {
       root: {
         '& .MuiOutlinedInput-root': {
-          ...breakpointVal(
-            'borderRadius',
-            theme.shape.borderRadius * 1.5,
-            theme.shape.borderRadius * 2,
-            theme.breakpoints.values,
-          ),
+          borderRadius: '4px',
+        },
+        '& fieldset': {
+          borderColor: (theme: any) => theme.palette.custom.border,
         },
       },
     },

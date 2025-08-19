@@ -89,7 +89,8 @@ function CartPage() {
               // maxWidth='md'
               sx={{
                 flexGrow: 1,
-                minHeight: { xs: '200px', lg: '500px' },
+                // minHeight: { xs: '200px', lg: '500px' },
+                minHeight: 'calc(100vh - 360px)',
 
                 overflowY: 'scroll',
                 // overflowX: 'hidden',
@@ -136,15 +137,20 @@ function CartPage() {
                   },
                   '& .ActionCard-image img': {
                     width: { xs: '110px', sm: '125px' },
-                    height: '100% !important',
+                    height: { xs: '110px', sm: '125px' },
                     // width: '100% !important',
                   },
                   '& .ActionCard-details ': {
-                    display: 'flex',
+                    display: 'grid',
+                    gridTemplateColumns: 'auto auto',
                     color: (theme: any) => theme.palette.custom.smallHeading,
                     fontSize: { xs: '14px', md: '16px' },
                     fontWeight: 'normal',
                     colummGap: '2px',
+                    marginTop: '5px',
+                  },
+                  '& .ActionCard-action': {
+                    marginBottom: 0,
                   },
                   '& .ActionCard-end .ActionCard-action .edit-actions': {
                     display: 'flex',
@@ -156,8 +162,11 @@ function CartPage() {
                   '& .ActionCard-end .ActionCard-action .MuiBox-root:nth-child(2)': {
                     display: { xs: 'none', md: 'inline-flex' },
                   },
-                  '& .ActionCard-secondaryAction .MuiBox-root .MuiBox-root': {
-                    display: { xs: 'inline-flex', md: 'none' },
+                  '& .ActionCard-secondaryAction': {
+                    marginTop: 'auto',
+                    '&  .MuiBox-root .MuiBox-root': {
+                      display: { xs: 'inline-flex', md: 'none' },
+                    },
                   },
 
                   '& .ActionCard-end .ActionCard-price span': (theme) => ({
@@ -182,7 +191,7 @@ function CartPage() {
                 pb: { xs: '10px', md: '20px', lg: '30px' },
                 px: { xs: '15px', sm: '20px', lg: '30px' },
                 //boxShadow: '1px 3px 8px #000',
-                minHeight: 'calc(100vh - 360px)',
+
                 bottom: 0,
                 //position: 'absolute',
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
@@ -204,11 +213,62 @@ function CartPage() {
                   typography: 'body1',
                   '& .CartTotals-costsRow': {
                     color: (theme: any) => theme.palette.custom.smallHeading,
+                    '& .MuiBox-root.mui-style-0': {
+                      color: (theme: any) => theme.palette.custom.smallHeading,
+                      fontSize: { xs: '14px', md: '16px' },
+                      fontWeight: 400,
+                      lineHeight: 'normal',
+                    },
+                    '& .CartTotals-money.MuiBox-root': {
+                      '& span span': {
+                        color: (theme: any) => theme.palette.custom.smallHeading,
+                        fontWeight: 600,
+                        fontSize: { xs: '14px', md: '16px' },
+                        textTransform: 'capitalize',
+                      },
+                    },
                   },
                   '& .CartTotals-costsRow:nth-child(2)': {
                     color: (theme: any) => theme.palette.custom.smallHeading,
                     fontWeight: '600 !important',
                     fontSize: '16px !important',
+                  },
+                  '& .MuiBox-root': {
+                    '& .MuiBox-root.mui-style-0': {
+                      color: (theme: any) => theme.palette.custom.smallHeading,
+                      fontSize: { xs: '14px', md: '16px' },
+                      fontWeight: 400,
+                      lineHeight: 'normal',
+                      textTransform: 'capitalize',
+                    },
+                    '& .CartTotals-money.MuiBox-root': {
+                      '& span span': {
+                        color: (theme: any) => theme.palette.custom.smallHeading,
+                        fontWeight: 600,
+                        fontSize: { xs: '14px', md: '16px' },
+                      },
+                    },
+                  },
+
+                  '& .CartTotals-costsGrandTotal': {
+                    '& .MuiBox-root.mui-style-0': {
+                      color: (theme: any) => theme.palette.custom.smallHeading,
+                      fontSize: { xs: '16px', md: '20px' },
+                      fontWeight: 700,
+                      lineHeight: 'normal',
+                      textTransform: 'capitalize',
+                    },
+                    '& .CartTotals-money.MuiBox-root': {
+                      '& span span:first-child': {
+                        backgroundPosition: '20px center',
+                      },
+                      '& span span': {
+                        color: (theme: any) => theme.palette.custom.smallHeading,
+                        fontWeight: 700,
+                        fontSize: { xs: '16px', md: '20px' },
+                        textTransform: 'capitalize',
+                      },
+                    },
                   },
                 }}
               />
@@ -290,6 +350,9 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
       },
       '& .LayoutOverlayBase-beforeOverlay': {
         backdropFilter: 'blur(10px)',
+      },
+      '& .LayoutHeaderContent-left .MuiButtonBase-root .MuiButton-icon  svg': {
+        display: 'none',
       },
     },
   },

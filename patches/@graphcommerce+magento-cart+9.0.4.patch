@@ -98,7 +98,7 @@ index 0b04f2c..b289d1d 100644
  
        {children}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
-index 11b4847..e95a7b7 100644
+index 11b4847..cd81cb4 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 @@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
@@ -110,7 +110,28 @@ index 11b4847..e95a7b7 100644
  import { useCartQuery, useDisplayInclTax } from '../../hooks'
  import { GetCartTotalsDocument } from './GetCartTotals.gql'
  
-@@ -154,6 +154,8 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -108,9 +108,19 @@ export function CartTotals(props: CartTotalsProps) {
+             sx={{
+               display: 'flex',
+               justifyContent: 'space-between',
++              alignItems:'center'
+             }}
+           >
+-            <Box>{discount?.label}</Box>
++            <Box>
++              <Typography>
++                Discount
++              </Typography>
++              <Typography sx={{
++                fontSize:{xs:'12px', md:'14px'}
++              }}>
++              {discount?.label && `(${discount.label})`}
++              </Typography>
++            </Box>
+             <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
+               {discount?.amount && <Money {...discount.amount} value={value} />}
+             </Box>
+@@ -154,6 +164,8 @@ export function CartTotals(props: CartTotalsProps) {
            </Box>
          ))}
  
@@ -119,7 +140,7 @@ index 11b4847..e95a7b7 100644
        {additionalSubtotals}
  
        <Box key='divider'>
-@@ -201,6 +203,7 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -201,6 +213,7 @@ export function CartTotals(props: CartTotalsProps) {
          ))}
  
        {additionalTotals}

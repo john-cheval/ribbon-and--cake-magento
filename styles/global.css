@@ -1512,8 +1512,26 @@ ol {
   color: transparent;
   width: 20px;
 }
+.ActionCard-action .MuiBox-root span span:first-child {
+  background: url(../components/Assets/aed.svg) 18px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+}
 .ActionCard-price span span:first-child {
   background: url(../components/Assets/aed.svg) 25px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+}
+.CartTotals-costsRow .CartTotals-money span span:first-child {
+  background: url(../components/Assets/aed.svg) 13px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+}
+.CartTotals-root .MuiBox-root.mui-style-gg4vpm .CartTotals-money span span:nth-child(2) {
+  background: url(../components/Assets/aed.svg) 13px no-repeat;
   background-size: 18px auto;
   color: transparent !important;
   width: 20px;
@@ -1530,6 +1548,21 @@ ol {
 }
 .mui-style-151k9o2-MuiSlider-root .MuiSlider-thumb[data-index='0'] .MuiSlider-valueLabelOpen {
   transform: translate(10px, 40%);
+}
+.ActionCard-details.mui-style-3k8hts {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+.ActionCard-details.mui-style-3k8hts > div {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 14px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
+.ActionCard-details.mui-style-3k8hts > div:nth-child(3) {
+  width: 100%;
 }
 /* sm breakpoint */
 

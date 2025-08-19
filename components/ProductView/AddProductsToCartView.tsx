@@ -105,6 +105,10 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                     '& .MuiOutlinedInput-root': {
                       color: '#333',
                       borderRadius: '8px',
+                      padding: '4px',
+                      '& svg': {
+                        fontSize: '19px',
+                      },
                     },
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: '#F6DBE0 ',
@@ -112,6 +116,10 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                     '&:hover .MuiOutlinedInput-notchedOutline': {
                       borderColor: '#F6DBE0 ',
                     },
+                    '& .mui-style-srbfbn-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+                      {
+                        borderColor: '#F6DBE0 ',
+                      },
                   }}
                 />
               </Box>
@@ -131,6 +139,17 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                   fontWeight: 'normal',
                   textTransform: 'capitalize',
                 },
+              },
+              '& .MuiFormControl-root .mui-style-1d3z3hw-MuiOutlinedInput-notchedOutline, .mui-style-9425fu-MuiOutlinedInput-notchedOutline':
+                {
+                  borderColor: (theme: any) => `${theme.palette.custom.border} !important`,
+                },
+              '& .MuiInputBase-root': {
+                color: (theme: any) => theme.palette.custom.main,
+              },
+              '& .MuiFormHelperText-root': {
+                marginLeft: '0',
+                color: (theme: any) => theme.palette.custom.tertiary,
               },
             }}
           >

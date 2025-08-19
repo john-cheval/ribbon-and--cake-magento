@@ -46,7 +46,7 @@ export function Footer({ footerContent }) {
         <Box
           sx={{
             width: '100%',
-            display: { xs: 'flex', lg: 'flex' },
+            display: { xs: 'none', lg: 'flex' },
             justifyContent: 'end',
           }}
         >

@@ -182,7 +182,9 @@ function CartPage() {
                 pb: { xs: '10px', md: '20px', lg: '30px' },
                 px: { xs: '15px', sm: '20px', lg: '30px' },
                 //boxShadow: '1px 3px 8px #000',
-                position: 'absolute',
+                minHeight: 'calc(100vh - 360px)',
+                bottom: 0,
+                //position: 'absolute',
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 width: '100%',
                 // bottom: '0',
@@ -190,6 +192,7 @@ function CartPage() {
                 '& .CartTotals-root ': {
                   backgroundColor: 'transparent',
                   borderRadius: 0,
+                  paddingInline: 0,
                 },
                 flexShrink: 0,
                 mt: 'auto',

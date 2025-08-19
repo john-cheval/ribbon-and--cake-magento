@@ -376,7 +376,7 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..6215b32 100644
+index cabc140..f5215c1 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -455,8 +455,8 @@ index cabc140..6215b32 100644
 +                color: (theme: any) => `${theme.palette.custom.dark} !important`,
 +              },
 +              ['& .MuiSlider-thumb']: {
-+                ['& .MuiSlider-valueLabelOpen span']: {
-+                  transform: 'translateY(40%) scale(1)',
++                ['& .MuiSlider-valueLabelOpen span span:not-(:first-child)']: {
++                  transform: 'translateX(10px) translateY(40%) scale(1)',
 +                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
 +                  fontSize: { xs: '14px', md: '16px' },
 +                  fontWeight: 400,
@@ -500,18 +500,10 @@ index cabc140..6215b32 100644
          )
        }}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
-index 918ce2e..08b8d50 100644
+index 918ce2e..4308043 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
-@@ -7,6 +7,7 @@ import { ProductFilterRangeSection } from './ProductFilterRangeSection'
- import { useProductFiltersPro } from './ProductFiltersPro'
- import { excludeCategory } from './activeAggregations'
- import { applyAggregationCount } from './applyAggregationCount'
-+import { StaticImport } from '@graphcommerce/image'
- 
- export type FilterProps = {
-   aggregation: NonNullable<NonNullable<ProductListFiltersFragment['aggregations']>[number]>
-@@ -16,6 +17,7 @@ export type FilterRenderer = Record<AttributeFrontendInputEnum, React.FC<FilterP
+@@ -16,6 +16,7 @@ export type FilterRenderer = Record<AttributeFrontendInputEnum, React.FC<FilterP
  
  export type ProductFiltersProAggregationsProps = {
    renderer?: Partial<FilterRenderer>
@@ -519,7 +511,7 @@ index 918ce2e..08b8d50 100644
  }
  
  export const productFiltersProSectionRenderer: Partial<FilterRenderer> = {
-@@ -57,7 +59,7 @@ export function ProductFiltersProAggregations(props: ProductFiltersProAggregatio
+@@ -57,7 +58,7 @@ export function ProductFiltersProAggregations(props: ProductFiltersProAggregatio
              return null
            }
  
@@ -580,10 +572,10 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..843ce53 100644
+index 80912c1..e6141cf 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,99 +10,164 @@ import {
+@@ -10,99 +10,162 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -618,10 +610,8 @@ index 80912c1..843ce53 100644
    const { form } = useProductFiltersPro()
  
 +
-+  // console.log(defaultExpanded,'defaul;t expanded')
 +
 +  const [expandeds, setExpandeds] = useState(defaultExpandeds)
-+  //console.log(expandeds,"hhdshfjsghfhgdfhgdshfg")
 +
 +
    const name = 'filters.category_uid.in'
@@ -672,8 +662,8 @@ index 80912c1..843ce53 100644
 +          ...(Array.isArray(sx) ? sx : [sx]),
 +        ]}
 +        defaultExpanded={expandeds}
-+        // expanded={expanded}
-+        // onChange={handleAccordionToggle}
++        expanded={expandeds}
++        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontSize: { xs: '14px', sm: '16px', md: '18px' },

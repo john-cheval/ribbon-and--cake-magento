@@ -92,10 +92,10 @@ index f94c113..7a9996c 100644
                <Box
                  className={classes.title}
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-index 323c7e3..53cb722 100644
+index 323c7e3..b9d6051 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-@@ -1,20 +1,25 @@
+@@ -1,22 +1,36 @@
  import type { SxProps, Theme } from '@mui/material'
 -import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 +import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
@@ -116,15 +116,27 @@ index 323c7e3..53cb722 100644
 +  accordionIcon?: string | StaticImport  
 +  openAccordionIcon?: string | StaticImport 
 +  closeAccordionIcon?: string | StaticImport
++  expanded?: boolean               
++  onChange?: (expanded: boolean) => void 
  }
  
  export function ActionCardAccordion(props: ActionCardAccordionProps) {
 -  const { summary, details, right, defaultExpanded = true, sx } = props
-+  const { summary, details, right, defaultExpanded = true, sx,openAccordionIcon ,closeAccordionIcon} = props
++  const { summary, details, right, defaultExpanded = true, sx,openAccordionIcon ,closeAccordionIcon, expanded: expandedProp,         
++    onChange,} = props
    const [expanded, setExpanded] = useState(defaultExpanded)
-   const handleChange = () => setExpanded(!expanded)
+-  const handleChange = () => setExpanded(!expanded)
++  const handleChange = () => {
++    setExpanded(!expanded)
++    if(onChange){
++      onChange(!expandedProp)
++    }
++  }
++
  
-@@ -31,28 +36,43 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
+   return (
+     <Accordion
+@@ -31,28 +45,43 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
            '&.Mui-expanded': { my: 0 },
            '::before': { display: 'none' },
            border: 'none',

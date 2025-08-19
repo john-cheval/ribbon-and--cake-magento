@@ -13,7 +13,7 @@ import {
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-import { CircularProgress, Container, Divider, Typography } from '@mui/material'
+import { Box, CircularProgress, Container, Divider, Typography } from '@mui/material'
 import type { LayoutOverlayProps } from '../components'
 import { LayoutOverlay } from '../components'
 import { graphqlSharedClient } from '../lib/graphql/graphqlSsrClient'
@@ -230,7 +230,14 @@ function WishlistPage() {
           ) : (
             <>
               {wishlistItems.items.map((item) => (
-                <WishlistItemActionCard key={item.id} item={item} isIcon={true} />
+                <Box
+                  key={item.id}
+                  sx={{
+                    borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                  }}
+                >
+                  <WishlistItemActionCard item={item} isIcon={true} />
+                </Box>
               ))}
             </>
           )}

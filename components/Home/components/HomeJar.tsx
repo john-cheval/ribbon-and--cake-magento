@@ -19,7 +19,7 @@ export function HomeJar(props) {
       <Box component='div' sx={{ display: { xs: 'none', md: 'block' } }}>
         <ProductSwiper
           data={jarsAndMniBytesCategories?.children}
-          link='/cakes'
+          link='/shop'
           initial={jarsAndMniBytesCategories?.children[0]?.name}
         />
       </Box>
@@ -27,7 +27,7 @@ export function HomeJar(props) {
       <Box component='div' sx={{ display: { xs: 'block', md: 'none' } }}>
         <HomeProductListMobile
           data={jarsAndMniBytesCategories?.children}
-          link='/cakes'
+          link='/shop'
           initial={jarsAndMniBytesCategories?.children[0]?.name}
           count={4}
         />

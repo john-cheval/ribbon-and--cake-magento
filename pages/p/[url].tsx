@@ -89,6 +89,7 @@ function ProductPage(props: Props) {
 
   if (!product?.sku || !product.url_key) return null
 
+  // console.log(products?.items[0]?.categories, 'this is the products')
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
       <InnerTop title={product?.name ?? ''} isFilter={false} />
@@ -423,7 +424,8 @@ function ProductPage(props: Props) {
           <OverlayStickyBottom
             sx={{
               py: 0.1,
-              bottom: 'unset !important',
+              backgroundColor: '#fff',
+              // bottom: 'unset !important',
               '& .CartTotals-root ': {
                 backgroundColor: 'transparent',
                 borderRadius: 0,

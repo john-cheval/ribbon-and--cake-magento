@@ -424,6 +424,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 position: 'sticky',
                 top: '100px',
                 mt: { xs: '30px' },
+                // overflowY: 'scroll',
               })}
             >
               {!isSearch && (
@@ -488,7 +489,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 Categories
               </Typography>
               {menuList
-                ?.filter((menu) => menu?.uid !== 'MTM=')
+                ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
                 .map((menu, index) =>
                   menu?.children?.length > 0 ? (
                     <Box key={index}>

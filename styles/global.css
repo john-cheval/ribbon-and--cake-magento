@@ -409,6 +409,7 @@
   border-radius: 8px;
   height: 100%;
   width: 100%;
+  max-height: 400px;
 }
 .overlay-content {
   position: absolute;
@@ -963,6 +964,9 @@ ol {
     row-gap: 20px;
     padding-bottom: 50px;
   }
+  .main-image {
+    max-height: 100%;
+  }
   .clients img {
     max-width: 100px;
   }
@@ -1507,8 +1511,23 @@ ol {
   color: transparent;
   width: 20px;
 }
+.ActionCard-price span span:first-child {
+  background: url(../components/Assets/aed.svg) 25px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+}
+.MuiSlider-valueLabelLabel span span:first-child {
+  background: url(../components/Assets/aed.svg) 10px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+}
 .MuiLoadingButton-loadingIndicatorCenter {
   color: '#D5B1B8 !important';
+}
+.mui-style-151k9o2-MuiSlider-root .MuiSlider-thumb[data-index='0'] .MuiSlider-valueLabelOpen {
+  transform: translate(10px, 40%);
 }
 /* sm breakpoint */
 

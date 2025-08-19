@@ -60,7 +60,7 @@ index 6ae6263..e990a46 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..6f235b9 100644
+index 2050980..9d9d589 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 @@ -2,18 +2,23 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
@@ -103,7 +103,7 @@ index 2050980..6f235b9 100644
 +      sx={{
 +       fontWeight: 400,
 +        lineHeight: '170%',
-+        fontSize: {xs:'12px !important', md:'14px !important'},
++        fontSize: {xs:'14px !important', md:'14px !important'},
 +        color: '#302100',
 +        textDecoration: 'underline',
 +        display: 'flex',
@@ -166,6 +166,36 @@ index 2050980..6f235b9 100644
 +    </>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
+index 1b7a2ac..eb65af9 100644
+--- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
+@@ -35,6 +35,8 @@ export type AddProductsToCartFormProps = {
+    * @deprecated use snackbarProps.disableSuccessSnackbar instead
+    */
+   disableSuccessSnackbar?: boolean
++    onSuccess?: () => void;
++  
+ } & UseFormGraphQlOptions<AddProductsToCartMutation, AddProductsToCartFields>
+ 
+ const name = 'AddProductsToCartForm'
+@@ -60,6 +62,7 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+     errorSnackbar,
+     successSnackbar,
+     snackbarProps,
++    onSuccess,
+     ...formProps
+   } = props
+   const router = useRouter()
+@@ -128,6 +131,8 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+ 
+         if (toUserErrors(result.data).length || result.errors?.length || !redirect) return
+ 
++        onSuccess?.();
++
+         if (redirect === 'added') {
+           await crosssellsQuery.current
+           const method = router.pathname.startsWith('/checkout/added')
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 index c61ffc0..ce11bee 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
@@ -572,7 +602,7 @@ index 5643683..7c28b93 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..e6141cf 100644
+index 80912c1..13b90a2 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,162 @@ import {
@@ -666,7 +696,7 @@ index 80912c1..e6141cf 100644
 +        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
-+          fontSize: { xs: '14px', sm: '16px', md: '18px' },
++          fontSize: { xs: '14px', sm: '16px', md: '20px' },
 +          fontWeight: 400,
 +          lineHeight: '120%',
 +          color: (theme: any) => theme.palette.custom.dark,
@@ -748,7 +778,7 @@ index 80912c1..e6141cf 100644
 +                  size='responsive'
 +                  title={
 +                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme: any) => theme.palette.custom.dark, }}>
-+                      <Box sx={{ marginRight: 1 }}>
++                      <Box sx={{ marginRight: 1, fontSize: { xs: '14px',  md: '16px' }}}>
 +                        {isBack ? (
 +                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
 +                            <IconSvg src={iconChevronLeft} size='medium' />
@@ -1180,12 +1210,13 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..b181bbf 100644
+index 9dc2505..5d72333 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-@@ -1,34 +1,56 @@
+@@ -1,34 +1,65 @@
  import type { SxProps, Theme } from '@mui/material'
- import { Box, Typography } from '@mui/material'
+-import { Box, Typography } from '@mui/material'
++import { Box, Typography, useMediaQuery } from '@mui/material'
  import { productListPrice } from '../ProductListPrice'
 +import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart'
  
@@ -1201,10 +1232,18 @@ index 9dc2505..b181bbf 100644
 +  sku?: string | null | undefined
  }
  
++
  export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPriceProps) {
 -  const { titleComponent = 'h2', classes, children, subTitle, title, sx } = props
--
 +  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku,isConfigured,urlKey } = props
++  const isMobile = useMediaQuery('(max-width:768px)')
++  
++
++const characterLimit =isMobile ? 15 :30; 
+   
++  const displayTitle = typeof title === 'string' && title.length > characterLimit
++    ? `${title.slice(0, characterLimit)}...`
++    : title;
    return (
      <Box
        className={classes.titleContainer}
@@ -1247,31 +1286,32 @@ index 9dc2505..b181bbf 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -40,8 +62,11 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -40,16 +71,21 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
            display: 'inline',
            color: 'text.primary',
            overflowWrap: 'break-word',
 -          maxWidth: '100%',
 +          // maxWidth: '100%',
            gridArea: 'title',
-+          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
++          fontSize:{ xs: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' },
-+          minHeight:'30px'
++         // minHeight:'30px'
          }}
          className={classes.title}
        >
-@@ -49,7 +74,9 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+-        {title}
++        {displayTitle}
        </Typography>
  
        {subTitle && (
 -        <Box sx={{ gridArea: 'subtitle' }} className={classes.subtitle}>
 +        <Box sx={{ gridArea: 'subtitle',
-+          fontSize:{ xs: '12px', sm: '14px',md: '16px' },
++          fontSize:{ xs: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' }, }} className={classes.subtitle}>
            {subTitle}
          </Box>
        )}
-@@ -58,10 +85,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -58,10 +94,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
          component='div'
          variant='body1'
          className={productListPrice.classes.root}
@@ -1342,6 +1382,17 @@ index 1d42a06..c70ff79 100644
        >
          <Money {...final_price} />
        </PrivateQueryMask>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
+index ec78221..6ac84d3 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
++++ b/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
+@@ -1,5 +1,6 @@
+ fragment ProductPageCategory on ProductInterface {
+   categories {
++    id
+     uid
+     name
+     url_path
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 index e920423..eaac83f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx

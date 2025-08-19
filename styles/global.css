@@ -1488,9 +1488,10 @@ ol {
   display: flex;
 }
 .ProductListPrice-finalPrice span span:first-child {
-  background: url(../components/Assets/aed.svg) center no-repeat;
+  background: url(../components/Assets/aed.svg) no-repeat;
   background-size: 18px auto;
   color: transparent;
+  background-position: -2px center;
   /* font-size: 10px; */
   width: 20px;
   /* display: inline-block; */
@@ -1518,10 +1519,11 @@ ol {
   width: 20px;
 }
 .MuiSlider-valueLabelLabel span span:first-child {
-  background: url(../components/Assets/aed.svg) 10px no-repeat;
+  background: url(../components/Assets/aed.svg) 0px no-repeat;
   background-size: 18px auto;
   color: transparent !important;
   width: 20px;
+  display: inline-block;
 }
 .MuiLoadingButton-loadingIndicatorCenter {
   color: '#D5B1B8 !important';

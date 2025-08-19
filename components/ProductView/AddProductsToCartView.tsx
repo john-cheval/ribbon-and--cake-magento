@@ -93,7 +93,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                   component='p'
                   sx={{
                     color: '#2A110A',
-                    fontSize: '16px',
+                    fontSize: { xs: '14px', md: '16px' },
                     fontWeight: 500,
                   }}
                 >
@@ -133,12 +133,12 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
               rowGap: {
                 xs: '8px',
                 md: '12px',
-                '& .MuiBox-root .SectionHeader-left': {
-                  color: '#2A110A ',
-                  fontSize: '16px',
-                  fontWeight: 'normal',
-                  textTransform: 'capitalize',
-                },
+              },
+              '& .SectionHeader-root .SectionHeader-left': {
+                color: '#2A110A ',
+                fontSize: { xs: '14px', md: '16px' },
+                textTransform: 'capitalize',
+                fontWeight: 500,
               },
               '& .MuiFormControl-root .mui-style-1d3z3hw-MuiOutlinedInput-notchedOutline, .mui-style-9425fu-MuiOutlinedInput-notchedOutline':
                 {

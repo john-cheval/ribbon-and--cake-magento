@@ -96,13 +96,15 @@ export function HeroSwiper({ products }) {
                     // sizes='100vw'
                     layout='fill'
                     sx={{
-                      width: '100%',
+                      // width: '100%',
                       // maxWidth: { xs: '70px', md: '100px' },
                       //maxHeight: { xs: '70px', md: '100px' },
-                      height: '100%',
+                      // height: '100%',
                       // maxHeight: '100px',
                       objectFit: 'cover',
                       borderRadius: '4px',
+                      width: { xs: '70px', md: '105px' },
+                      heihgt: { xs: '65px', md: '98px' },
                     }}
                   />
 

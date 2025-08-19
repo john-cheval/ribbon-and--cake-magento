@@ -1085,7 +1085,7 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..0f00454 100644
+index d3b392c..0f920e9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 @@ -20,7 +20,7 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
@@ -1119,6 +1119,24 @@ index d3b392c..0f00454 100644
                price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
              }),
            }
+@@ -69,10 +73,16 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+     [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
+   )
+ 
++  const selectedLabel = useMemo(() => {
++    const selectedOption = options.find((option) => option.value === params.sort)
++    const defaultOption = options.find((option) => option.value === defaultSortBy)
++    return selectedOption ? selectedOption.label : defaultOption?.label
++  }, [options, params.sort, defaultSortBy])
++
+   return {
+     options,
+     selected,
+     showReset,
+-    selectedLabel: options.find((option) => option.value === params.sort)?.label,
++    selectedLabel: selectedLabel,
+   }
+ }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 index 68f7cab..ab58133 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx

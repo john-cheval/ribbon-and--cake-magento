@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..21d0de9 100644
+index de7b68f..481e227 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -52,7 +52,12 @@ index de7b68f..21d0de9 100644
    const { uid, quantity, prices, errors, product } = cartItem
    const { name, thumbnail, url_key } = product
  
-@@ -52,7 +57,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -48,11 +53,12 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+     cartItem.customizable_options.length === 0
+   )
+ 
++
+   return (
      <ActionCard
        value={uid}
        sx={[
@@ -61,7 +66,7 @@ index de7b68f..21d0de9 100644
            '&.ActionCard-root': {
              px: 0,
              py: theme.spacings.xs,
-@@ -72,6 +77,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -72,6 +78,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
            },
            '& .ActionCard-action': {
              pr: readOnly ? 0 : theme.spacings.xs,
@@ -69,7 +74,7 @@ index de7b68f..21d0de9 100644
            },
            '& .ActionCard-image': {
              alignSelf: 'flex-start',
-@@ -85,6 +91,30 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -85,6 +92,26 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
              pr: readOnly ? 0 : theme.spacings.xs,
              mb: { xs: 0.5, sm: 0 },
            },
@@ -81,10 +86,6 @@ index de7b68f..21d0de9 100644
 +              gap:0.5,
 +              ['&::after']:{
 +                content:'","',
-+                display:"contents",
-+              },
-+              ['&::before']:{
-+                content:'"with "',
 +                display:"contents",
 +              },
 +              ['&:last-child']:{
@@ -100,7 +101,7 @@ index de7b68f..21d0de9 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -97,8 +127,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -97,8 +124,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                width: actionCardImageSizes[size],
                height: actionCardImageSizes[size],
                display: 'block',
@@ -112,7 +113,7 @@ index de7b68f..21d0de9 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -131,32 +162,128 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +159,129 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
@@ -126,6 +127,7 @@ index de7b68f..21d0de9 100644
 +                    '& .MuiOutlinedInput-root': {
 +                      color: '#333',
 +                      borderRadius: '8px',
++                      padding:'4px',
 +                    },
 +                    '& .MuiOutlinedInput-notchedOutline': {
 +                      borderColor: '#F6DBE0 ',
@@ -219,7 +221,7 @@ index de7b68f..21d0de9 100644
 +                    marginBlock:{xs:0, md:'15px 10px'},
 +                  }
 +                }}
-+                href={`${productEditLink(product)}?cartItemId=${uid}`}
++                href={`/p/${cartItem?.product?.url_key}`}
 +              >
 +              <CiEdit size={"20px"} />
 +              </Button>

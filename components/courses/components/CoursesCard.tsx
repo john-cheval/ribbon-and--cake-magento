@@ -9,13 +9,15 @@ function CourseCard(props) {
   return (
     <Card sx={{ position: 'relative', border: '1px solid #E6E6E6', borderRadius: '8px' }}>
       <CardMedia sx={{ position: 'relative', padding: '8px 8px 0px' }}>
-        <Image
-          src={courseCardData?.image || 'https://via.placeholder.com/200x190'}
-          alt={courseCardData?.name}
-          width={200}
-          height={190}
-          sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
-        />
+        {courseCardData?.image && (
+          <Image
+            src={courseCardData?.image || 'https://via.placeholder.com/200x190'}
+            alt={courseCardData?.name}
+            width={200}
+            height={190}
+            sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
+          />
+        )}
 
         {courseCardData?.tags?.items.length > 0 && (
           <Box

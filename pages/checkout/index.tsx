@@ -610,6 +610,7 @@ function ShippingPage(props: ShippingPageProps) {
             />
             <CartStartCheckout
               title='Proceed To Pay'
+              isCheckout={true}
               sx={{
                 '& .MuiButtonBase-root': {
                   width: '100%',

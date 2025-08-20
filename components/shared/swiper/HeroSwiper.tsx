@@ -144,7 +144,7 @@ export function HeroSwiper({ products }) {
                         fontWeight: 300,
                       }}
                     >
-                      {isMobile ? truncateByChars(item?.name, 10) : truncateByWords(item?.name, 2)}
+                      {item?.name}
                     </Typography>
 
                     <Box
@@ -157,7 +157,7 @@ export function HeroSwiper({ products }) {
                     >
                       <ProductListPrice
                         sx={{
-                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                          fontSize: { xs: '14px', md: '16px' },
                         }}
                         {...item?.price_range?.minimum_price}
                       />

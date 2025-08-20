@@ -65,33 +65,78 @@ function PaymentPage() {
         {cartExists && !billingPage.error && (
           <>
             <LayoutHeader
-              switchPoint={0}
-              primary={
-                <PaymentMethodButton
-                  type='submit'
-                  color='secondary'
-                  button={{
-                    variant: 'pill',
-                    size: 'medium',
-                    endIcon: <IconSvg src={iconChevronRight} size='small' />,
-                  }}
-                  display='inline'
-                >
-                  <Trans id='Pay' />
-                </PaymentMethodButton>
-              }
-              divider={
-                <Container maxWidth='md'>
-                  <Stepper steps={3} currentStep={3} />
-                </Container>
-              }
+              sx={{
+                '& .LayoutHeaderContent-content': {
+                  '& .LayoutTitle-root': {
+                    gap: { xs: '10px' },
+                    '& svg': {
+                      fontSize: { xs: '23px' },
+                      stroke: (theme) => theme.palette.custom.wishlistColor,
+                    },
+                    '& .MuiTypography-h6': {
+                      color: (theme) => theme.palette.custom.heading,
+                      fontFamily: 'Saxo Grammaticus',
+                      fontWeight: 300,
+                    },
+                  },
+                },
+              }}
+              // switchPoint={0}
+              // primary={
+              //   <PaymentMethodButton
+              //     type='submit'
+              //     color='secondary'
+              //     button={{
+              //       variant: 'pill',
+              //       size: 'medium',
+              //       endIcon: <IconSvg src={iconChevronRight} size='small' />,
+              //     }}
+              //     display='inline'
+              //   >
+              //     <Trans id='Pay' />
+              //   </PaymentMethodButton>
+              // }
+              // divider={
+              //   <Container maxWidth='md'>
+              //     <Stepper steps={3} currentStep={3} />
+              //   </Container>
+              // }
             >
-              <LayoutTitle size='small' icon={iconId}>
+              {/*  <LayoutTitle size='small' icon={iconId}>
                 <Trans id='Payment' />
-              </LayoutTitle>
+              </LayoutTitle>*/}
             </LayoutHeader>
 
-            <Container maxWidth='md'>
+            <Container
+              maxWidth='md'
+              sx={{
+                '& .ActionCardLayout-root': {
+                  '& .mui-style-1brfnwd-MuiButtonBase-root.variantOutlined.layoutList:first-of-type,     .mui-style-1brfnwd-MuiButtonBase-root.variantOutlined.layoutList:last-of-type':
+                    {
+                      borderTopRightRadius: '4px',
+                      borderTopLeftRadius: '4px',
+                      boxShadow: 'none',
+                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                    },
+                  '& .ActionCard-rootInner': {
+                    '& .ActionCard-image': {
+                      display: 'none',
+                    },
+                    '& .ActionCard-title': {
+                      fontSize: { xs: '14px', md: '16px' },
+                      fontWeight: 700,
+                      lineHeight: '158%',
+                      color: (theme) => theme.palette.custom.main,
+                    },
+                    '& .ActionCard-end': {
+                      '& .ActionCard-action button': {
+                        color: (theme) => theme.palette.custom.main,
+                      },
+                    },
+                  },
+                },
+              }}
+            >
               <Dialog open={!!locked} fullWidth>
                 <FullPageMessage
                   disableMargin
@@ -103,8 +148,13 @@ function PaymentPage() {
               </Dialog>
 
               <Typography
-                variant='h4'
-                sx={(theme) => ({ mt: theme.spacings.lg, mb: theme.spacings.sm })}
+                variant='h1'
+                sx={(theme) => ({
+                  mt: theme.spacings.lg,
+                  mb: theme.spacings.sm,
+                  color: (theme) => theme.palette.custom.heading,
+                  textAlign: 'center',
+                })}
               >
                 <Trans id='Payment method' />
               </Typography>
@@ -112,8 +162,39 @@ function PaymentPage() {
               <PaymentMethodContextProvider>
                 <PaymentMethodActionCardListForm step={4} />
 
-                <CartSummary editable>
-                  <CartTotals />
+                <CartSummary
+                  sx={{
+                    '& .CartSummary-detailsContainer': {
+                      background: '#fff',
+                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                      borderRadius: '4px',
+
+                      '& .SectionContainer-root': {
+                        '& .SectionHeader-root': {
+                          borderBottom: '1px solid #e6e6e6',
+                          marginBottom: '10px',
+                          '& .SectionHeader-left': {
+                            fontSize: { xs: '14px', md: '16px' },
+                            fontWeight: 700,
+                            color: (theme) => theme.palette.custom.main,
+                          },
+                          '& .SectionHeader-right a': {
+                            color: (theme) => theme.palette.custom.main,
+                            cursor: 'pointer',
+                            fontSize: { xs: '14px', md: '16px' },
+                          },
+                        },
+                      },
+                      '& .MuiTypography-body1': {
+                        color: (theme) => theme.palette.custom.main,
+                        fontSize: { xs: '14px', md: '16px' },
+                        fontWeight: 400,
+                      },
+                    },
+                  }}
+                  editable
+                >
+                  <CartTotals sx={{ marginTop: '15px' }} />
                 </CartSummary>
 
                 <CouponAccordion />

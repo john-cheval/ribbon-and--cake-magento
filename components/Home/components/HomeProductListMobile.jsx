@@ -98,7 +98,7 @@ function HomeProductListMobile({
                 padding: { xs: '6px 15px', md: '10px 20px' },
                 transition: 'all 0.3s ease',
                 border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '14px', md: '16px' },
                 '&:hover': {
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   borderRadius: '999px',
@@ -106,14 +106,14 @@ function HomeProductListMobile({
                 },
               }}
             >
-              <Link
+              <span
                 style={{
                   textDecoration: 'none',
                 }}
                 href={category?.url_path}
               >
                 {category?.name}
-              </Link>
+              </span>
             </Box>
           ))}
         </Box>

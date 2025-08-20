@@ -50,31 +50,33 @@ index 2cb4e6f..567bda0 100644
            [theme.breakpoints.down('md')]: {
              opacity: '1 !important',
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
-index 0b04f2c..d40008e 100644
+index 0b04f2c..5a63da3 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
-@@ -13,6 +13,7 @@ export type CartStartCheckoutProps = {
+@@ -13,6 +13,8 @@ export type CartStartCheckoutProps = {
    buttonProps?: ButtonProps<'button'>
    disabled?: boolean
    cart?: CartStartCheckoutFragment | null | undefined
 +  title?:string
++  isCheckout?:boolean
    onStart?: (
      e: React.MouseEvent<HTMLButtonElement>,
      cart: CartStartCheckoutFragment | null | undefined,
-@@ -37,6 +38,7 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+@@ -37,6 +39,8 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
      disabled,
      sx = [],
      cart,
-+    title='Proceed to Checkout'
++    title='Proceed to Checkout',
++    isCheckout=false
    } = props
  
    const shouldLoginToContinue = useCheckoutShouldLoginToContinue()
-@@ -63,13 +65,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+@@ -63,13 +67,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
        )}
  
        <Button
 -        href='/checkout'
-+        href='/checkout/payment'
++        href={isCheckout?'/checkout/payment':'/checkout'}
          id='cart-start-checkout'
          variant='pill'
          color='secondary'
@@ -86,7 +88,7 @@ index 0b04f2c..d40008e 100644
          onClick={(e) => {
            onClick?.(e)
            onStart?.(e, cart)
-@@ -86,13 +88,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+@@ -86,13 +90,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
              '& ~ span.MuiButton-endIcon': { marginLeft: '6px' },
            })}
          >

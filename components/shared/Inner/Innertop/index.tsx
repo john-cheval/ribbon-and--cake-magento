@@ -202,62 +202,62 @@ export function InnerTop(props: InnerTopProps) {
             {!isShopPage && (
               <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 {props.params && props.products?.items && props.filterTypes && (
-                  <ProductFiltersPro
-                    params={props.params}
-                    aggregations={props.filters?.aggregations}
-                    appliedAggregations={props.products?.aggregations}
-                    filterTypes={props.filterTypes}
-                    autoSubmitMd
-                    handleSubmit={props.handleSubmit}
-                  >
-                    <ProductFiltersProSortSection
-                      sort_fields={props.products?.sort_fields}
-                      total_count={props.products?.total_count}
-                      category={props.category}
-                      openAccordionIcon={iconArrowDropDown}
-                      closeAccordionIcon={iconArrowDropDownUp}
-                      sx={{
-                        borderBottom: 'none !important',
-                        '& .MuiAccordionSummary-content .MuiTypography-body1': {
-                          color: (theme: any) => theme.palette.custom.main,
-                          fontWeight: 500,
-                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                          marginBottom: '0 !important',
-                          position: 'relative',
-                        },
-                        '& .MuiAccordionDetails-root > div': {
-                          position: 'absolute',
-                          backgroundColor: '#fff',
-                          width: '100%',
+                  // <ProductFiltersPro
+                  //   params={props.params}
+                  //   aggregations={props.filters?.aggregations}
+                  //   appliedAggregations={props.products?.aggregations}
+                  //   filterTypes={props.filterTypes}
+                  //   autoSubmitMd
+                  //   handleSubmit={props.handleSubmit}
+                  // >
+                  <ProductFiltersProSortSection
+                    sort_fields={props.products?.sort_fields}
+                    total_count={props.products?.total_count}
+                    category={props.category}
+                    openAccordionIcon={iconArrowDropDown}
+                    closeAccordionIcon={iconArrowDropDownUp}
+                    sx={{
+                      borderBottom: 'none !important',
+                      '& .MuiAccordionSummary-content .MuiTypography-body1': {
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontWeight: 500,
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        marginBottom: '0 !important',
+                        position: 'relative',
+                      },
+                      '& .MuiAccordionDetails-root > div': {
+                        position: 'absolute',
+                        backgroundColor: '#fff',
+                        width: '100%',
+                        borderRadius: '4px',
+                        zIndex: 1000,
+                        '& .ActionCardLayout-root ': {
+                          border: (theme) => theme.palette.custom.border,
                           borderRadius: '4px',
-                          zIndex: 1000,
-                          '& .ActionCardLayout-root ': {
-                            border: (theme) => theme.palette.custom.border,
-                            borderRadius: '4px',
-                          },
-                          '& .ActionCard-root.selected': {
-                            backgroundColor: (theme) => theme.palette.custom.border,
-                          },
                         },
-                        '& .ActionCardLayout-root .MuiButtonBase-root': {
-                          paddingBlock: '12px',
-                          borderRadius: '2px',
-                          '& .ActionCard-title': {
-                            color: (theme: any) => theme.palette.custom.main,
-                            fontSize: { xs: '14px', md: '16px' },
-                            fontWeight: 500,
-                            lineHeight: '158%',
-                          },
+                        '& .ActionCard-root.selected': {
+                          backgroundColor: (theme) => theme.palette.custom.border,
                         },
-                        '& .MuiAccordionSummary-expandIconWrapper': {
-                          position: 'relative',
-                          top: '8px',
+                      },
+                      '& .ActionCardLayout-root .MuiButtonBase-root': {
+                        paddingBlock: '12px',
+                        borderRadius: '2px',
+                        '& .ActionCard-title': {
+                          color: (theme: any) => theme.palette.custom.main,
+                          fontSize: { xs: '14px', md: '16px' },
+                          fontWeight: 500,
+                          lineHeight: '158%',
                         },
-                      }}
-                      // isDropdown={true}
-                      // isButton={true}
-                    />
-                  </ProductFiltersPro>
+                      },
+                      '& .MuiAccordionSummary-expandIconWrapper': {
+                        position: 'relative',
+                        top: '8px',
+                      },
+                    }}
+                  // isDropdown={true}
+                  // isButton={true}
+                  />
+                  // </ProductFiltersPro>
                 )}
               </Box>
             )}

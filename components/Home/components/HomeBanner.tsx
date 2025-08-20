@@ -26,7 +26,9 @@ export function HomeBanner({ content, productList, title }) {
           }}
         >
           {title && <div dangerouslySetInnerHTML={{ __html: title }} />}
-          <HeroSwiper products={productList} />
+          <Box sx={{ xs: 'none', md: 'block' }}>
+            <HeroSwiper products={productList} />
+          </Box>
         </Box>
       </Box>
       <Box

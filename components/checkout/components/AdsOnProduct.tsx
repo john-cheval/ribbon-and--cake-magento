@@ -7,6 +7,7 @@ import { Money } from '@graphcommerce/magento-store'
 import { Box, Typography, useMediaQuery } from '@mui/material'
 import { useState } from 'react'
 import { AdsOnProductsQuery } from '../../../graphql/AdsOnProduct.gql'
+import { truncateByChars } from '../../../utils/truncate'
 
 export type AdsOnProductType = {
   adsOnData?: AdsOnProductsQuery[] | any[]
@@ -34,8 +35,7 @@ function AdsOnProduct(props: AdsOnProductType) {
 
   const uniqueCategories = Array.from(allCategories)
   const cartItems = data?.cart?.items
-
-  // console.log(adsOnData, 'this is adsOnDta')
+  const categoriesToShow = showAll ? uniqueCategories : uniqueCategories.slice(0, 2)
   return (
     <Box>
       <Typography
@@ -58,13 +58,13 @@ function AdsOnProduct(props: AdsOnProductType) {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-          {uniqueCategories.map((cate, index) => {
+          {categoriesToShow?.map((cate, index) => {
             const filteredItems = adsOnData?.filter((item) =>
               item.categories?.some((cat) => cat.name === cate),
             )
 
-            const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 4)
-            const hasMoreItems = (filteredItems?.length || 0) > 4
+            // const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 4)
+            // const hasMoreItems = (filteredItems?.length || 0) > 4
 
             return (
               <Box key={index + 1}>
@@ -87,8 +87,8 @@ function AdsOnProduct(props: AdsOnProductType) {
                     flexDirection: { xs: 'column', sm: isMobile ? 'column' : 'row' },
                   }}
                 >
-                  {itemsToShow &&
-                    itemsToShow?.map((item, i) => (
+                  {filteredItems &&
+                    filteredItems?.map((item, i) => (
                       <Box
                         key={item?.uid || i}
                         sx={{
@@ -102,6 +102,8 @@ function AdsOnProduct(props: AdsOnProductType) {
                       >
                         <Box
                           sx={{
+                            width: { xs: '62px', sm: '85px' },
+                            height: { xs: '63px', sm: '100px' },
                             '& picture': {
                               display: 'inline-block',
                               width: { xs: '62px', sm: '85px' },
@@ -153,10 +155,12 @@ function AdsOnProduct(props: AdsOnProductType) {
                                 minHeight: { lg: '50px', xl: 0 },
                                 marginBottom: '2px',
                               }}
+                              title={item?.name}
                             >
-                              {item?.name}
+                              {truncateByChars(item?.name, 20)}
                             </Typography>
                             <Box
+                              className='adsOn'
                               sx={{
                                 ['& span']: {
                                   fontSize: { xs: '14px', md: '16px', lg: '20px' },

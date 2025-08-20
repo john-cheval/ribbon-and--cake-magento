@@ -1,10 +1,10 @@
+import { useCartQuery, useFormGqlMutationCart } from '@graphcommerce/magento-cart'
+import { GetShippingMethodsDocument } from '@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.gql'
 import { Form } from '@graphcommerce/next-ui'
 import { FormAutoSubmit } from '@graphcommerce/react-hook-form'
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { SetPickupLocationOnCartDocument } from '../../../../graphql/CreatePickupStore.gql'
-import { useCartQuery, useFormGqlMutationCart } from '@graphcommerce/magento-cart'
-import { GetShippingMethodsDocument } from '@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.gql'
 
 function PickupStoreForm({ storeData }) {
   const availableMethods = useCartQuery(GetShippingMethodsDocument, { fetchPolicy: 'cache-only' })
@@ -26,19 +26,20 @@ function PickupStoreForm({ storeData }) {
           street: ['_'],
           telephone: shippingAddress?.telephone ?? billingAddress?.telephone ?? '_',
           postcode: '_',
-        }
+        },
       }
     },
   })
 
   const { control, required, handleSubmit } = form
-  const submit = handleSubmit(() => { })
+  const submit = handleSubmit(() => {})
 
   return (
     <Form
       onSubmit={submit}
       noValidate
       sx={{
+        paddingTop: 0,
         '& .MuiInputLabel-formControl': {
           color: (theme) => theme.palette.custom.main,
           fontSize: { xs: '14px', md: '16px' },
@@ -80,73 +81,11 @@ function PickupStoreForm({ storeData }) {
         name={['pickupLocationCode']}
       />
 
-      {/* <Box sx={{ marginTop: '15px' }}>
+      <Box>
         <Typography
           sx={{
             color: (theme) => theme.palette.custom.dark,
             fontSize: { xs: '16px', md: '20px' },
-            //marginTop: '15px',
-            //  marginBottom: { xs: '10px', md: '15px' },
-            textTransform: 'capitalize',
-            fontWeight: 400,
-            fontVariationSettings: '"wght" 400',
-          }}
-        >
-          Your Details
-        </Typography>
-        <FormRow>
-          <TextFieldElement
-            control={control}
-            name='pickupLocationAddress.firstname'
-            required={required.pickupLocationAddress}
-            variant='outlined'
-            type='text'
-            label={<Trans id='First Name' />}
-            showValid
-          />
-          <TextFieldElement
-            control={control}
-            name='pickupLocationAddress.lastname'
-            required={required.pickupLocationAddress}
-            variant='outlined'
-            type='text'
-            label={<Trans id='Last Name' />}
-            showValid
-          />
-        </FormRow>
-        <FormRow
-          sx={{
-            paddingTop: 0,
-            paddingBottom: 0,
-          }}
-        >
-          <EmailElement
-            control={control}
-            name=''
-            variant='outlined'
-            showValid
-          />
-          <TelephoneElement
-            control={control}
-            name='pickupLocationAddress.telephone'
-            variant='outlined'
-            showValid
-            required={required.pickupLocationAddress}
-          />
-        </FormRow>
-      </Box> */}
-
-      <Box
-        sx={{
-          marginTop: { Xs: '15px', md: '20px', lg: '30px' },
-        }}
-      >
-        <Typography
-          sx={{
-            color: (theme) => theme.palette.custom.dark,
-            fontSize: { xs: '16px', md: '20px' },
-            //marginTop: '15px',
-            //  marginBottom: { xs: '10px', md: '15px' },
             textTransform: 'capitalize',
             fontWeight: 400,
             fontVariationSettings: '"wght" 400',
@@ -156,7 +95,7 @@ function PickupStoreForm({ storeData }) {
         </Typography>
 
         {storeData?.length > 0 && (
-          <Box sx={{ marginTop: { xs: '10px', md: '15px', lg: '20px' } }}>
+          <Box sx={{ marginTop: { xs: '10px', md: '15px' } }}>
             {/* WRAP RadioGroup in Controller */}
             <Controller
               name='pickupLocationCode'
@@ -165,29 +104,45 @@ function PickupStoreForm({ storeData }) {
                 <RadioGroup
                   {...field}
                   aria-labelledby='Locations'
-                  sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', md: 'row' } }}
+                  sx={{
+                    display: 'flex',
+                    gap: '11px',
+                    flexDirection: 'row',
+                  }}
                 >
                   {storeData?.map((location, index) => {
                     return (
                       <FormControlLabel
                         key={location.name}
                         sx={{
+                          display: 'inline-block',
+                          height: '100%',
+                          // marginRight: '10px',
+                          marginLeft: 0,
+                          marginRight: 0,
+                          verticalAlign: 'top',
+                          width: { xs: '100%', sm: '49%' },
+
+                          // width: 'calc(33.35% - 8px)',
                           '& .MuiRadio-root': {
                             visibility: 'hidden',
                             height: 0,
                             background: 'transparent',
                             color: 'transparent',
-                            width: '10px',
+
                             padding: 0,
+                            width: 0,
+                            opacity: 0,
+                            position: 'absolute',
                           },
                           // Reverted to a working selector for the background change
                           '&  .MuiRadio-root.Mui-checked + .MuiStack-root .MuiFormControlLabel-label .MuiBox-root':
-                          {
-                            backgroundColor: (theme) => theme.palette.custom.border,
-                          },
+                            {
+                              backgroundColor: (theme) => theme.palette.custom.border,
+                            },
                           '& .MuiFormControlLabel-asterisk': {
-                            display: "none"
-                          }
+                            display: 'none',
+                          },
                         }}
                         required={required.pickupLocationCode}
                         // PASS THE UNIQUE ID AS THE VALUE
@@ -199,8 +154,7 @@ function PickupStoreForm({ storeData }) {
                               border: (theme) => `1px solid ${theme.palette.custom.wishlistColor}`,
                               borderRadius: '4px',
                               padding: '28px  30px',
-                              // Conditional styling for the box
-                              // backgroundColor: (theme) => field.value === location.name.toString() ? theme.palette.custom.border : 'inherit',
+                              minWidth: '300px',
                             }}
                           >
                             <Typography
@@ -220,7 +174,7 @@ function PickupStoreForm({ storeData }) {
                                 color: (theme) => theme.palette.custom.main,
                                 lineHeight: '33px',
                                 fontWeight: 400,
-                                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                fontSize: { xs: '14px', md: '16px' },
                               }}
                             >
                               {location?.street} - {location?.city}
@@ -231,7 +185,7 @@ function PickupStoreForm({ storeData }) {
                                 color: (theme) => theme.palette.custom.main,
                                 lineHeight: '33px',
                                 fontWeight: 400,
-                                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                fontSize: { xs: '14px', md: '16px' },
                               }}
                             >
                               {location?.phone}

@@ -104,6 +104,8 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 zIndex: 9999,
                 // width: '100%',
+                borderBottomLeftRadius: '8px',
+                borderBottomRightRadius: '8px',
                 bottom: 'unset !important',
                 // px: '55px',
                 '& .CartTotals-root ': {

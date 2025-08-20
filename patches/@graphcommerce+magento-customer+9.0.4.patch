@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..98d8256 100644
+index 7bebe6d..920bff7 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -518,12 +518,12 @@ index 7bebe6d..98d8256 100644
 -  const { control, name, readOnly, required, countryList, regionList, loading } = form
 -
 +  const { control, name, readOnly, required, countryList, regionList, loading, defaultVariables } = form
-+  console.log("defaultVariables::", defaultVariables)
-+  console.log("name::", name)
-+  console.log("control::", control)
-+  console.log("v::", regionList)
-+  console.log("countryList::", countryList)
-+  console.log("control::", control.getFieldState(name.countryCode))
++  // slotListconsole.log("defaultVariables::", defaultVariables)
++  // slotListconsole.log("name::", name)
++  // slotListconsole.log("control::", control)
++  // slotListconsole.log("v::", regionList)
++  // slotListconsole.log("countryList::", countryList)
++  // slotListconsole.log("control::", control.getFieldState(name.countryCode))
    if (loading) {
      return (
        <FormRow>

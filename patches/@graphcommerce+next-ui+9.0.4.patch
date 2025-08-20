@@ -273,6 +273,23 @@ index c705a8c..4d3370c 100644
      </FabBase>
    )
  }
+diff --git a/node_modules/@graphcommerce/next-ui/Form/FormRow.tsx b/node_modules/@graphcommerce/next-ui/Form/FormRow.tsx
+index b47aab6..d0a1343 100644
+--- a/node_modules/@graphcommerce/next-ui/Form/FormRow.tsx
++++ b/node_modules/@graphcommerce/next-ui/Form/FormRow.tsx
+@@ -1,9 +1,10 @@
+ import { styled } from '@mui/material'
+ 
+ export const FormRow = styled('div', { name: 'FormRow' })(({ theme }) => ({
+-  paddingTop: theme.spacings.xxs,
++ // paddingTop: theme.spacings.xxs,
+   paddingBottom: theme.spacings.xxs,
+   display: 'grid',
+   gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+-  gap: `calc(${theme.spacings.xxs} * 2)`,
++ // gap: `calc(${theme.spacings.xxs} * 2)`,
++ gap:'11px'
+ }))
 diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 index ca14954..9fbadab 100644
 --- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx

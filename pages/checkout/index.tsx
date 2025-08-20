@@ -242,7 +242,7 @@ function ShippingPage(props: ShippingPageProps) {
                 <Typography
                   sx={{
                     color: '#000',
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '14px', md: '16px' },
                     lineHeight: '120%',
                     marginBottom: { xs: '13px', md: '23px' },
                   }}
@@ -324,7 +324,7 @@ function ShippingPage(props: ShippingPageProps) {
                               color: (theme) => theme.palette.custom.dark,
                               fontSize: { xs: '16px', md: '20px' },
                               lineHeight: '120%',
-                              // marginBottom: { xs: '10px', md: '15px' },
+                              marginBottom: { xs: '10px', md: '15px' },
                               textTransform: 'capitalize',
                               fontWeight: 400,
                               fontVariationSettings: '"wght" 400',
@@ -334,6 +334,7 @@ function ShippingPage(props: ShippingPageProps) {
                           </Typography>
                           <ShippingAddressForm
                             sx={{
+                              paddingTop: '0',
                               '& .MuiInputLabel-formControl': {
                                 color: (theme) => theme.palette.custom.main,
                                 fontSize: { xs: '14px', md: '16px' },
@@ -366,6 +367,10 @@ function ShippingPage(props: ShippingPageProps) {
                                 },
                                 '&.Mui-focused': {
                                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                  '& .MuiOutlinedInput-input': {
+                                    color: (theme) => theme.palette.custom.main,
+                                    caretColor: (theme) => theme.palette.custom.main,
+                                  },
                                 },
 
                                 '& .MuiOutlinedInput-notchedOutline': {
@@ -380,7 +385,15 @@ function ShippingPage(props: ShippingPageProps) {
                     </ComposedForm>
                   </TabPanel>
 
-                  <TabPanel value={value} index={1}>
+                  <TabPanel
+                    value={value}
+                    index={1}
+                    sx={{
+                      '& > .MuiBox-root': {
+                        padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
+                      },
+                    }}
+                  >
                     <ComposedForm>
                       {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
                         <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
@@ -394,7 +407,8 @@ function ShippingPage(props: ShippingPageProps) {
                               color: (theme) => theme.palette.custom.dark,
                               fontSize: { xs: '16px', md: '20px' },
                               lineHeight: '120%',
-                              // marginBottom: { xs: '10px', md: '15px' },
+                              marginTop: { xs: '15px', md: '25px', lg: '30px' },
+                              marginBottom: { xs: '10px', md: '15px' },
                               textTransform: 'capitalize',
                               fontWeight: 400,
                               fontVariationSettings: '"wght" 400',
@@ -403,7 +417,9 @@ function ShippingPage(props: ShippingPageProps) {
                             <Trans id='Your details' />
                           </Typography>
                           <ShippingAddressForm
+                            isPickup={value === 1}
                             sx={{
+                              paddingTop: 0,
                               '& .MuiInputLabel-formControl': {
                                 color: (theme) => theme.palette.custom.main,
                                 fontSize: { xs: '14px', md: '16px' },
@@ -472,7 +488,7 @@ function ShippingPage(props: ShippingPageProps) {
                   width: '100%',
                   borderRadius: '8px',
                   backgroundColor: '#fff',
-                  padding: { xs: '20px 14px', md: '25px 30px' },
+                  padding: { xs: '10px 14px', md: '10px 30px' },
                   display: 'flex',
                   gap: '10px',
                 }}
@@ -480,6 +496,60 @@ function ShippingPage(props: ShippingPageProps) {
                 <DeliveryDate slotList={slotData} />
               </Box>
             </Box>
+
+            {/* Shipping Method */}
+            {!shippingPage.error && cartExists && (
+              <ComposedForm>
+                <Box>
+                  <>
+                    {/*!shippingPage.data?.cart?.is_virtual && (
+                  <ShippingMethodForm
+                    step={4}
+                    sx={(theme) => ({ mt: theme.spacings.lg })}
+                    isPickup={value === 1}
+                  />
+                )*/}
+
+                    <ComposedSubmit
+                      onSubmitSuccessful={() => router.push('/checkout/payment')}
+                      render={(renderProps) => (
+                        <>
+                          <FormActions
+                            sx={{
+                              paddingTop: { xs: '10px', md: '15px', lg: '25px' },
+                              paddingBottom: 0,
+                              justifyContent: 'unset',
+                              '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
+                                {
+                                  boxShadow: 'none',
+                                },
+                              '& .MuiButtonBase-root': {
+                                fontSize: { xs: '14px', md: '16px' },
+                                backgroundColor: (theme) => theme.palette.custom.heading,
+                                borderColor: (theme) => theme.palette.custom.heading,
+                                borderRadius: '4px',
+                                '& span': {
+                                  display: 'none',
+                                },
+                              },
+                            }}
+                          >
+                            <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                              <Trans id='Proceed To Pay' />
+                            </ComposedSubmitButton>
+                          </FormActions>
+                          <ApolloCartErrorSnackbar
+                            error={
+                              renderProps.buttonState.isSubmitting ? undefined : renderProps.error
+                            }
+                          />
+                        </>
+                      )}
+                    />
+                  </>
+                </Box>
+              </ComposedForm>
+            )}
           </Box>
 
           <Box
@@ -495,34 +565,7 @@ function ShippingPage(props: ShippingPageProps) {
             <OrderSummary orderData={cartData} error={error} IsItems={hasItems} />
           </Box>
         </Box>
-        {/* Shipping Method */}
-        {!shippingPage.error && cartExists && (
-          <ComposedForm>
-            <Container maxWidth='md'>
-              <>
-                {!shippingPage.data?.cart?.is_virtual && (
-                  <ShippingMethodForm step={4} sx={(theme) => ({ mt: theme.spacings.lg })} isPickup={value === 1} />
-                )}
 
-                <ComposedSubmit
-                  onSubmitSuccessful={() => router.push('/checkout/payment')}
-                  render={(renderProps) => (
-                    <>
-                      <FormActions>
-                        <ComposedSubmitButton {...renderProps} size='large' id='next'>
-                          <Trans id='Next' />
-                        </ComposedSubmitButton>
-                      </FormActions>
-                      <ApolloCartErrorSnackbar
-                        error={renderProps.buttonState.isSubmitting ? undefined : renderProps.error}
-                      />
-                    </>
-                  )}
-                />
-              </>
-            </Container>
-          </ComposedForm>
-        )}
         {shippingPage.error && <ApolloCartErrorFullPage error={shippingPage.error} />}
         {/*!shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
 

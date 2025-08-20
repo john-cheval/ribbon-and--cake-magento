@@ -62,7 +62,7 @@
   padding-inline: 18px;
 }
 .responsive-fonts {
-  font-size: 12px;
+  font-size: 14px;
 }
 .heading-main {
   color: var(--color-custom-heading);
@@ -335,7 +335,7 @@
   padding-top: 27px;
 }
 .banner-section {
-  background-image: url('../components/Assets/cta.jpg');
+  /*.background-image: url('../components/Assets/cta.jpg');*/
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -611,7 +611,7 @@
 .social-box .content span,
 .social-box .content a {
   color: var(--color-custom-dark);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -650,7 +650,7 @@
 .events-detail p:first-of-type {
   color: var(--color-custom-secondary);
   line-height: 174%;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 10px;
 }
 .events-detail p:nth-of-type(2) {
@@ -672,7 +672,7 @@
   font-weight: normal;
   color: var(--color-custom-secondary);
   line-height: 174%;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .events-detail ul li::before {
@@ -706,7 +706,7 @@ ol {
 .coursesInner ol li,
 .coursesInner p {
   color: var(--color-custom-secondary);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 174%;
 }
 
@@ -961,6 +961,12 @@ ol {
 @media (min-width: 1025px) {
   .banner-overlay-gradient {
     top: 79px;
+  }
+  .orderProduct span span:first-child {
+    background: url(../components/Assets/aed.svg) 27px center no-repeat;
+    background-size: 18px auto;
+    color: transparent;
+    width: 20px;
   }
   .sms-page-contets {
     margin-top: 20px;
@@ -1508,7 +1514,7 @@ ol {
   width: 20px;
 }
 .orderProduct span span:first-child {
-  background: url(../components/Assets/aed.svg) 27px center no-repeat;
+  background: url(../components/Assets/aed.svg) 20px center no-repeat;
   background-size: 18px auto;
   color: transparent;
   width: 20px;
@@ -1546,6 +1552,13 @@ ol {
   width: 20px;
   display: inline-block;
 }
+.adsOn span span:nth-child(1) {
+  background: url(../components/Assets/aed.svg) 2px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+  display: inline-block;
+}
 .MuiSlider-valueLabelLabel span span:first-child {
   background: url(../components/Assets/aed.svg) 0px no-repeat;
   background-size: 18px auto;
@@ -1567,7 +1580,7 @@ ol {
 .ActionCard-details.mui-style-3k8hts > div {
   display: inline-block;
   vertical-align: top;
-  font-size: 12px;
+  font-size: 14px;
   padding-right: 5px;
   padding-bottom: 2px;
 }
@@ -1741,4 +1754,18 @@ input:-webkit-autofill {
   background-color: white !important;
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
   -webkit-text-fill-color: #441e14 !important;
+}
+/* Hide the number input arrows for WebKit browsers (Chrome, Safari) */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the number input arrows for Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.MuiLoadingButton-loading {
+  color: #2a110a !important;
 }

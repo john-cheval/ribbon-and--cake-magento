@@ -13,6 +13,15 @@ const inputFieldSx: SxProps<Theme> = {
   // padding: '16px ',
   height: 'fit-content',
 
+  '& input[type="number"]': {
+    MozAppearance: 'textfield', // Firefox
+  },
+  '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
+    {
+      WebkitAppearance: 'none', // Chrome, Safari
+      margin: 0,
+    },
+
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
     fontSize: { xs: '12px', sm: '14px', md: '16px' },
@@ -122,29 +131,36 @@ function CourseEnquiryForm({ defaultTitle }) {
           flexDirection: 'column',
         }}
       >
-        <Controller
-          name={formFields.find((f) => f?.frontend_label === 'Class Type')?.attribute_code || ''}
-          control={control}
-          //  rules={{ required: 'Name is Required' }}
-          render={({ field, fieldState }) => (
-            <>
-              <OutlinedInput
-                {...field}
-                fullWidth
-                value={defaultTitle}
-                placeholder={defaultTitle}
-                sx={inputFieldSx}
-                disabled
-                defaultValue={defaultTitle}
-              />
-              {/*fieldState.error && (
+        <Box
+          sx={{
+            display: 'none',
+          }}
+        >
+          <Controller
+            name={formFields.find((f) => f?.frontend_label === 'Class Type')?.attribute_code || ''}
+            control={control}
+            //  rules={{ required: 'Name is Required' }}
+            render={({ field, fieldState }) => (
+              <>
+                <OutlinedInput
+                  {...field}
+                  fullWidth
+                  value={defaultTitle}
+                  placeholder={defaultTitle}
+                  sx={inputFieldSx}
+                  disabled
+                  defaultValue={defaultTitle}
+                />
+                {/*fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
                 </Typography>
               )*/}
-            </>
-          )}
-        />
+              </>
+            )}
+          />
+        </Box>
+
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Your Name')?.attribute_code || ''}
           control={control}
@@ -261,6 +277,14 @@ function CourseEnquiryForm({ defaultTitle }) {
                 fullWidth
                 placeholder='Number of attendees'
                 sx={inputFieldSx}
+                inputProps={{ min: 0 }}
+                onChange={(e) => {
+                  const value = e.target.value
+                  const numValue = parseInt(value, 10)
+                  if (value === '' || numValue >= 0) {
+                    field.onChange(value)
+                  }
+                }}
               />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>

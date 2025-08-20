@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import Link from 'next/link'
 import CartActions from './CartActions'
 import CartPriceAndQuantity from './CartPriceAndQuantity'
 
@@ -10,29 +11,50 @@ function CartTop({ item }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
       <Box>
-        <Typography
-          sx={{
-            color: '#000',
-            fontSize: { xs: '14px', md: '16px' },
-            fontWeight: 600,
-            lineHeight: '120%',
-          }}
-        >
-          {item?.product?.name}
-        </Typography>
-
-        {configurationOptions?.length > 0 && (
+        <Link href={`/p/${item?.product?.url_key}`} passHref legacyBehavior>
           <Typography
             sx={{
               color: '#000',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
-              fontWeight: 400,
+              fontSize: { xs: '14px', md: '16px' },
+              fontWeight: 600,
+              lineHeight: '120%',
+              cursor: 'pointer',
             }}
           >
-            With{' '}
-            {configurationOptions[0].charAt(0).toUpperCase() + configurationOptions[0].slice(1)},{' '}
-            {configurationOptions[1] && configurationOptions[1].toUpperCase()}
+            {item?.product?.name}
           </Typography>
+        </Link>
+
+        {configurationOptions?.length > 0 && (
+          <Box>
+            {configurationOptions?.slice(0, 2)?.map((data, index, array) => (
+              <Typography
+                sx={{
+                  color: '#000',
+                  fontSize: { xs: '12px', md: '14px' },
+                  fontWeight: 400,
+                }}
+                component='span'
+                key={`${data}-${index}`}
+              >
+                {data}
+
+                {index < array.length - 1 ? ', ' : ''}
+              </Typography>
+            ))}
+            {configurationOptions?.length > 2 && configurationOptions[2] && (
+              <Typography
+                sx={{
+                  color: '#000',
+                  fontSize: { xs: '12px', md: '14px' },
+                  fontWeight: 400,
+                }}
+                component='span'
+              >
+                {configurationOptions[2]}
+              </Typography>
+            )}
+          </Box>
         )}
 
         <Box sx={{ display: { xs: 'block', md: 'none' }, marginTop: '10px' }}>

@@ -485,7 +485,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
                       <Typography
                         sx={{
-                          fontSize: { xs: '14px', sm: '16px', md: '18px' },
+                          fontSize: { xs: '14px', sm: '16px', md: '20px' },
                           fontWeight: 400,
                           lineHeight: '120%',
                           color: (theme: any) => theme.palette.custom.dark,

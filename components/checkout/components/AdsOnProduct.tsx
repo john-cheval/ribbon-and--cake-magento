@@ -34,6 +34,8 @@ function AdsOnProduct(props: AdsOnProductType) {
 
   const uniqueCategories = Array.from(allCategories)
   const cartItems = data?.cart?.items
+
+  // console.log(adsOnData, 'this is adsOnDta')
   return (
     <Box>
       <Typography
@@ -115,8 +117,8 @@ function AdsOnProduct(props: AdsOnProductType) {
                             height={100}
                             width={85}
                             sx={{
-                              width: '100%',
-                              height: '100%',
+                              width: '85px',
+                              height: '100px',
                               objectFit: 'cover',
                               borderRadius: '8px',
                               // maxHeight: '100px',

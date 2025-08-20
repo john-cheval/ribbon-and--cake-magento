@@ -231,7 +231,11 @@ function EnquiryForm() {
           />
         </Box>
 
-        <Box>
+        <Box
+          sx={{
+            marginTop: { xs: '10px', lg: '16px' },
+          }}
+        >
           <Controller
             name={formFields.find((f) => f?.frontend_label === 'Message')?.attribute_code || ''}
             control={control}

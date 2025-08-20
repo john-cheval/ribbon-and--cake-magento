@@ -144,9 +144,11 @@ function ShippingPage(props: ShippingPageProps) {
             {!session.loggedIn && <TopBannerMesasge />}
 
             {/* Add On */}
-            <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '20px' } }}>
-              <AdsOnProduct adsOnData={addonProductsData} />
-            </Box>
+            {addonProductsData && addonProductsData?.length > 0 && (
+              <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '20px' } }}>
+                <AdsOnProduct adsOnData={addonProductsData} />
+              </Box>
+            )}
 
             {/* Cart Items */}
             <Box
@@ -160,7 +162,7 @@ function ShippingPage(props: ShippingPageProps) {
                   marginBottom: { xs: '10px', md: '14px' },
                 }}
               >
-                Your Oder
+                Your Order
               </Typography>
               <Box
                 sx={{
@@ -478,37 +480,6 @@ function ShippingPage(props: ShippingPageProps) {
                 <DeliveryDate slotList={slotData} />
               </Box>
             </Box>
-
-            {/* Shipping Method 
-            <Box>
-              <Typography
-                sx={{
-                  color: (theme: any) => theme.palette.custom.dark,
-                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
-                  lineHeight: '120%',
-                  marginTop: { xs: '18px', md: '27px' },
-                  marginBottom: { xs: '10px', md: '20px' },
-                }}
-              >
-                Payment Method
-              </Typography>
-              <Box
-                sx={{
-                  width: '100%',
-                  borderRadius: '8px',
-                  backgroundColor: '#fff',
-                  padding: { xs: '20px 14px', md: '25px 30px' },
-                  display: 'flex',
-                  gap: '10px',
-                }}
-              >
-                <ComposedForm>
-                  <PaymentMethodContextProvider>
-                    <PaymentMethodActionCardListForm step={4} />
-                  </PaymentMethodContextProvider>
-                </ComposedForm>
-              </Box>
-            </Box>*/}
           </Box>
 
           <Box
@@ -612,7 +583,7 @@ function ShippingPage(props: ShippingPageProps) {
                 },
               }}
               cart={cartData?.cart}
-            // disabled={hasError}
+              // disabled={hasError}
             />
           </OverlayStickyBottom>
         </Box>

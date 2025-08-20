@@ -50,7 +50,7 @@ index 2cb4e6f..567bda0 100644
            [theme.breakpoints.down('md')]: {
              opacity: '1 !important',
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
-index 0b04f2c..b289d1d 100644
+index 0b04f2c..d40008e 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartStartCheckout/CartStartCheckout.tsx
 @@ -13,6 +13,7 @@ export type CartStartCheckoutProps = {
@@ -69,7 +69,13 @@ index 0b04f2c..b289d1d 100644
    } = props
  
    const shouldLoginToContinue = useCheckoutShouldLoginToContinue()
-@@ -68,8 +70,8 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+@@ -63,13 +65,13 @@ export function CartStartCheckout(props: CartStartCheckoutProps) {
+       )}
+ 
+       <Button
+-        href='/checkout'
++        href='/checkout/payment'
+         id='cart-start-checkout'
          variant='pill'
          color='secondary'
          size='large'
@@ -98,7 +104,7 @@ index 0b04f2c..b289d1d 100644
  
        {children}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
-index 11b4847..cd81cb4 100644
+index 11b4847..0c20a43 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 @@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
@@ -110,7 +116,32 @@ index 11b4847..cd81cb4 100644
  import { useCartQuery, useDisplayInclTax } from '../../hooks'
  import { GetCartTotalsDocument } from './GetCartTotals.gql'
  
-@@ -108,9 +108,19 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -85,10 +85,22 @@ export function CartTotals(props: CartTotalsProps) {
+           key='subtotal'
+           sx={{ display: 'flex', justifyContent: 'space-between' }}
+         >
+-          <Box>
++          <Box sx={{
++            color: (theme: any) => theme.palette.custom.smallHeading,
++            fontSize: { xs: '14px', md: '16px' },
++            fontWeight: 400,
++            lineHeight: 'normal',
++          }}>
+             <Trans id='Products' />
+           </Box>
+-          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
++          <Box className={classes.money} sx={{ whiteSpace: 'nowrap',
++            '& span span':{
++               color: (theme: any) => theme.palette.custom.smallHeading,
++               fontWeight: 600,
++               fontSize: { xs: '14px', md: '16px' },
++               textTransform: 'capitalize',
++            }
++           }}>
+             <Money {...(inclTax ? prices.subtotal_including_tax : prices.subtotal_excluding_tax)} />
+           </Box>
+         </Box>
+@@ -108,10 +120,32 @@ export function CartTotals(props: CartTotalsProps) {
              sx={{
                display: 'flex',
                justifyContent: 'space-between',
@@ -118,20 +149,34 @@ index 11b4847..cd81cb4 100644
              }}
            >
 -            <Box>{discount?.label}</Box>
+-            <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
 +            <Box>
-+              <Typography>
++              <Typography sx={{
++            color: (theme: any) => theme.palette.custom.smallHeading,
++            fontSize: { xs: '14px', md: '16px' },
++            fontWeight: 400,
++            lineHeight: 'normal',
++          }}>
 +                Discount
 +              </Typography>
 +              <Typography sx={{
-+                fontSize:{xs:'12px', md:'14px'}
++                fontSize:{xs:'12px', md:'14px'},
++                color:'#9d9d9d',
++                marginTop:'2px'
 +              }}>
 +              {discount?.label && `(${discount.label})`}
 +              </Typography>
 +            </Box>
-             <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
++            <Box  className={`${classes.money} discount`} sx={{ whiteSpace: 'nowrap','& span span':{
++               color: (theme: any) => theme.palette.custom.smallHeading,
++               fontWeight: 600,
++               fontSize: { xs: '14px', md: '16px' },
++               textTransform: 'capitalize',
++            } }}>
                {discount?.amount && <Money {...discount.amount} value={value} />}
              </Box>
-@@ -154,6 +164,8 @@ export function CartTotals(props: CartTotalsProps) {
+           </Box>
+@@ -154,6 +188,8 @@ export function CartTotals(props: CartTotalsProps) {
            </Box>
          ))}
  
@@ -140,7 +185,32 @@ index 11b4847..cd81cb4 100644
        {additionalSubtotals}
  
        <Box key='divider'>
-@@ -201,6 +213,7 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -170,10 +206,22 @@ export function CartTotals(props: CartTotalsProps) {
+             color: theme.palette.primary.main,
+           })}
+         >
+-          <Box>
++          <Box sx={{
++              color: (theme: any) => theme.palette.custom.smallHeading,
++              fontSize: { xs: '16px', md: '20px' },
++              fontWeight: 700,
++              lineHeight: 'normal',
++              textTransform: 'capitalize',
++          }}>
+             <Trans id='Grand total' />
+           </Box>
+-          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
++          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' , 
++          '& span span': {
++           color: (theme: any) => theme.palette.custom.smallHeading,
++           fontWeight: 700,
++           fontSize: { xs: '16px', md: '20px' },
++           textTransform: 'capitalize',
++                      },}}>
+             <Money {...prices.grand_total} />
+           </Box>
+         </Box>
+@@ -201,6 +249,7 @@ export function CartTotals(props: CartTotalsProps) {
          ))}
  
        {additionalTotals}

@@ -157,18 +157,29 @@ export default function DeliveryDate({ slotList }) {
                 },
               }}
               onChange={(value) => {
-                setDate(value as any);
+                // setDate(value as any);
+
+                // const filteredSlots = slotList?.slots?.filter((s) =>
+                //   dayjs(s.date).isSame(value, 'day')
+                // );
+
+                // setSlotTime(filteredSlots);
+                // form.setValue("date", value as any, { shouldDirty: true });
+                const onlyDate = dayjs(value).format("YYYY-MM-DD");
+
+                setDate(onlyDate);
 
                 const filteredSlots = slotList?.slots?.filter((s) =>
-                  dayjs(s.date).isSame(value, 'day')
+                  dayjs(s.date).isSame(onlyDate, "day")
                 );
 
                 setSlotTime(filteredSlots);
-                form.setValue("date", value as any, { shouldDirty: true });
+
+                form.setValue("date", onlyDate, { shouldDirty: true });
               }}
               // defaultValue={dayjs(slotList?.start_date)}
-              minDate={dayjs(slotList?.start_date)}
-              maxDate={dayjs(slotList?.start_date).add(slotList?.maxdays, 'day')}
+              minDate={dayjs()}
+              maxDate={dayjs(slotList?.start_date).add(slotList?.maxdays || 1, 'day')}
             />
           </DemoContainer>
         </LocalizationProvider>

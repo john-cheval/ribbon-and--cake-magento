@@ -623,7 +623,7 @@ index 12d2b28..c1716bc 100644
 +  return <NumberFormat {...props} numberStyle='currency' sx={props.sx} />
  }
 diff --git a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx b/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
-index af23c02..7bc22ab 100644
+index af23c02..9444f9b 100644
 --- a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
 @@ -1,22 +1,60 @@
@@ -668,7 +668,7 @@ index af23c02..7bc22ab 100644
 +      sx={[
 +        {
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
-+          fontSize: { xs: '14px', sm: '16px', md: '18px' },
++          fontSize: { xs: '16px', md: '18px' },
 +          fontWeight: 800,
 +          color: '#000',
 +        },

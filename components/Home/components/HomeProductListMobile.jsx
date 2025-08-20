@@ -65,6 +65,7 @@ function HomeProductListMobile({
             alignItems: 'center',
             overflowX: 'auto',
             whiteSpace: 'nowrap',
+            marginBottom: '15px',
 
             '&::-webkit-scrollbar': {
               display: 'none',
@@ -98,7 +99,7 @@ function HomeProductListMobile({
                 padding: { xs: '6px 15px', md: '10px 20px' },
                 transition: 'all 0.3s ease',
                 border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
-                fontSize: { xs: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
                 '&:hover': {
                   border: (theme) => `1px solid ${theme.palette.custom.border}`,
                   borderRadius: '999px',
@@ -132,7 +133,7 @@ function HomeProductListMobile({
                 display: 'grid',
                 gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
                 columnGap: '13px',
-                rowGap: '16px',
+                rowGap: '30px',
                 marginTop: { xs: '10px', sm: '15px' },
               }}
             >
@@ -165,7 +166,7 @@ function HomeProductListMobile({
                       '& .ProductListItem-title': {
                         color: (theme) => theme.palette.custom.dark,
                         // minHeight: { xs: '40px', md: '50px' },
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontSize: { sm: '15px', md: '16px' },
                         lineHeight: '158%',
                         minWidth: { xs: '130px' },
                         maxWidth: { xs: '100%' },
@@ -195,7 +196,7 @@ function HomeProductListMobile({
               <Typography
                 onClick={() => setShowAll(!showAll)}
                 sx={{
-                  fontSize: '14px',
+                  fontSize: '15px',
                   fontWeight: 500,
                   color: (theme) => theme.palette.custom.main,
                   textDecoration: 'underline',

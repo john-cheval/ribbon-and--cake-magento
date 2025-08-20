@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { Box } from '@mui/material'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaWhatsapp } from 'react-icons/fa'
 import { AlekseonFormDocument } from '../../graphql/aleskonForm.gql'
@@ -33,6 +34,29 @@ export function Footer({ footerContent }) {
     ),
   })
   const isSuccess = data?.updateAlekseonForm?.success
+
+  useEffect(() => {
+    const summaries = document.querySelectorAll<HTMLDivElement>('.footer-accordion-summary')
+
+    const handlers: Array<() => void> = []
+
+    summaries.forEach((summary) => {
+      const handler = () => {
+        const item = summary.closest('.footer-accordion-item')
+        const details = item?.querySelector<HTMLElement>('.footer-accordion-details')
+        summary.classList.toggle('is-expanded')
+        details?.classList.toggle('is-expanded')
+        console.log('clicked')
+      }
+
+      summary.addEventListener('click', handler)
+      handlers.push(() => summary.removeEventListener('click', handler))
+    })
+
+    return () => {
+      handlers.forEach((remove) => remove())
+    }
+  }, [footerContent])
 
   return (
     <>

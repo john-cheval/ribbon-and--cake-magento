@@ -139,9 +139,10 @@ export function HeroSwiper({ products }) {
                       component='p'
                       sx={{
                         color: '#000 !important',
-                        fontSize: { xs: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                         maxWidth: { xs: '100px', md: '100%' },
                         fontWeight: 300,
+                        minHeight: { xs: '0', md: '54px' },
                       }}
                     >
                       {item?.name}
@@ -157,7 +158,7 @@ export function HeroSwiper({ products }) {
                     >
                       <ProductListPrice
                         sx={{
-                          fontSize: { xs: '14px', md: '16px' },
+                          fontSize: { xs: '15px', md: '16px' },
                         }}
                         {...item?.price_range?.minimum_price}
                       />
@@ -170,7 +171,7 @@ export function HeroSwiper({ products }) {
                             sx={{
                               fontWeight: 400,
                               lineHeight: '170%',
-                              fontSize: { xs: '12px !important', md: '14px !important' },
+                              fontSize: { xs: '15px !important', md: '15px !important' },
                               color: '#302100',
                               textDecoration: 'underline',
                               display: 'flex',

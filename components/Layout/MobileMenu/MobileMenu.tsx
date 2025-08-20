@@ -68,7 +68,7 @@ function MobileMenu({ ShopCategories }) {
         </Box>
       </Link>
 
-      <Box onClick={handleShopMenuOpen}>
+      <Link href='/shop'>
         <Box
           sx={{
             display: 'flex',
@@ -81,7 +81,7 @@ function MobileMenu({ ShopCategories }) {
           <MdOutlineInterests size={20} />
           <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Shop</Typography>
         </Box>
-      </Box>
+      </Link>
 
       <Link href='/cart' onClick={handleCloseAllOtherPopups}>
         <Box>
@@ -98,23 +98,6 @@ function MobileMenu({ ShopCategories }) {
             <AiOutlineShopping size={20} />
             <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Cart</Typography>
           </Box>
-        </Box>
-      </Link>
-
-      <Link href='https://api.whatsapp.com/send/?phone=971528899029&text&type=phone_number&app_absent=0'>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            rowGap: '4px',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          <FaWhatsapp size={20} />
-          <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>
-            WhatsApp
-          </Typography>
         </Box>
       </Link>
 

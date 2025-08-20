@@ -96,7 +96,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   useEffect(() => {
     const observer = new IntersectionObserver(async ([entry]) => {
-      if (entry.isIntersecting && currentPage < totalPage) {
+      if (entry.isIntersecting && currentPage < totalPage && !isLoading) {
         setCurrentPage((prev) => prev + 1)
         await fetchProducts(currentPage + 1)
       }

@@ -23,13 +23,38 @@ function EditBillingAddress() {
         metaRobots={['noindex', 'nofollow']}
       />
 
-      <LayoutOverlayHeader>
+      <LayoutOverlayHeader
+        sx={{
+          '& .LayoutHeaderContent-content': {
+            '& .LayoutTitle-root': {
+              gap: { xs: '10px' },
+              '& svg': {
+                fontSize: { xs: '23px' },
+                stroke: (theme) => theme.palette.custom.wishlistColor,
+              },
+              '& .MuiTypography-h6': {
+                color: (theme) => theme.palette.custom.heading,
+                fontFamily: 'Saxo Grammaticus',
+                fontWeight: 300,
+              },
+            },
+          },
+        }}
+      >
         <LayoutTitle component='span' size='small'>
           <Trans id='Billing address' />
         </LayoutTitle>
       </LayoutOverlayHeader>
 
-      <LayoutTitle variant='h1'>
+      <LayoutTitle
+        variant='h1'
+        sx={{
+          marginBottom: '0 !important',
+          '& h1': {
+            color: (theme) => theme.palette.custom.heading,
+          },
+        }}
+      >
         <Trans id='Billing address' />
       </LayoutTitle>
 

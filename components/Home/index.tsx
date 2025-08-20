@@ -21,7 +21,7 @@ export function HomePage({
   statementProducts,
 }) {
   const cakesCategory = Categories?.find((cat) => cat.uid === 'Mw==')
-  const occasionsCategory = Categories?.find((cat) => cat.uid === 'MTE=')
+  const occasionsCategory = Categories?.find((cat) => cat.uid === 'OQ==')
   const jarsAndMniBytesCategory = Categories?.find((cat) => cat.uid === 'MTA=')
   return (
     <>

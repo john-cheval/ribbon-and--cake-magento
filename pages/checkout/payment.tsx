@@ -123,7 +123,7 @@ function PaymentPage() {
                       display: 'none',
                     },
                     '& .ActionCard-title': {
-                      fontSize: { xs: '14px', md: '16px' },
+                      fontSize: { xs: '15px', md: '16px' },
                       fontWeight: 700,
                       lineHeight: '158%',
                       color: (theme) => theme.palette.custom.main,
@@ -174,42 +174,62 @@ function PaymentPage() {
                           borderBottom: '1px solid #e6e6e6',
                           marginBottom: '10px',
                           '& .SectionHeader-left': {
-                            fontSize: { xs: '14px', md: '16px' },
+                            fontSize: { xs: '15px', md: '16px' },
                             fontWeight: 700,
                             color: (theme) => theme.palette.custom.main,
                           },
                           '& .SectionHeader-right a': {
                             color: (theme) => theme.palette.custom.main,
                             cursor: 'pointer',
-                            fontSize: { xs: '14px', md: '16px' },
+                            fontSize: { xs: '15px', md: '16px' },
                           },
                         },
                       },
                       '& .MuiTypography-body1': {
                         color: (theme) => theme.palette.custom.main,
-                        fontSize: { xs: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                         fontWeight: 400,
                       },
                     },
                   }}
                   editable
                 >
-                  <CartTotals sx={{ marginTop: '15px' }} />
+                  <CartTotals
+                    sx={{
+                      marginTop: '20px',
+                      background: '#fff',
+                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                      borderRadius: '4px !important',
+                    }}
+                  />
                 </CartSummary>
 
-                <CouponAccordion />
+                <CouponAccordion isCheckout={true} />
                 <SubscribeToNewsletter
                   step={3}
                   label={i18n._(
                     /* i18n */ 'Subscribe to our newsletter to stay informed about our new products!',
                   )}
-                  sx={(theme) => ({ marginTop: theme.spacings.md })}
+                  sx={(theme) => ({ marginTop: theme.spacings.xs })}
                 />
                 <CartAgreementsForm step={2} sx={{ pt: 0 }} />
 
                 <PaymentMethodPlaceOrder step={5} />
 
-                <FormActions>
+                <FormActions
+                  sx={(theme) => ({
+                    paddingTop: theme.spacings.sm,
+                    width: '100%',
+                    justifyContent: 'unset',
+                    '& button': {
+                      borderRadius: '4px',
+                      fontSize: { xs: '15px', md: '16px' },
+                    },
+                    '& svg': {
+                      display: 'none',
+                    },
+                  })}
+                >
                   <PaymentMethodButton
                     id='place-order'
                     type='submit'

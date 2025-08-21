@@ -397,9 +397,19 @@ const createOverrides = (theme: Theme): Components<Theme> => ({
       root: {
         '& .MuiOutlinedInput-root': {
           borderRadius: '4px',
+          fontSize: { xs: '15px', md: '16px' },
+          color: '#441E14',
+          '& .MuiSelect-icon': {
+            color: '#F1A8B6',
+            fill: '#F1A8B6',
+          },
         },
-        '& fieldset': {
-          borderColor: (theme: any) => theme.palette.custom.border,
+        '& fieldset, .mui-style-1dmcmbw-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline, .mui-style-ioqfy8-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+          {
+            borderColor: '#D5B1B8',
+          },
+        '& .MuiFormLabel-root': {
+          color: '#441e14',
         },
       },
     },

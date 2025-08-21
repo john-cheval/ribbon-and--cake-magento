@@ -67,7 +67,7 @@ function CheckoutAdded() {
               width: responsiveVal(50, 80),
               height: responsiveVal(50, 80),
               display: 'block',
-              borderRadius: 1,
+              borderRadius: '4px',
               objectFit: 'contain',
             }}
             pictureProps={{ sx: { gridArea: 'icon', alignSelf: 'stretch' } }}

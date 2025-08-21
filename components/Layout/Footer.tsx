@@ -22,17 +22,7 @@ export function Footer({ footerContent }) {
     },
   })
   const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: formFields.reduce(
-      (acc, field) => {
-        if (field?.attribute_code) {
-          acc[field.attribute_code] = ''
-        }
-        return acc
-      },
-      {} as Record<string, string>,
-    ),
-  })
+
   const isSuccess = data?.updateAlekseonForm?.success
 
   useEffect(() => {
@@ -46,7 +36,6 @@ export function Footer({ footerContent }) {
         const details = item?.querySelector<HTMLElement>('.footer-accordion-details')
         summary.classList.toggle('is-expanded')
         details?.classList.toggle('is-expanded')
-        console.log('clicked')
       }
 
       summary.addEventListener('click', handler)
@@ -57,6 +46,42 @@ export function Footer({ footerContent }) {
       handlers.forEach((remove) => remove())
     }
   }, [footerContent])
+
+  useEffect(() => {
+    const button = document.querySelector<HTMLButtonElement>('.send-button')
+    const input = document.querySelector<HTMLInputElement>('#news-letter')
+
+    const handler = async () => {
+      if (!input?.value) {
+        // alert('Please enter your email')
+        return
+      }
+
+      try {
+        await updateAlekseonForm({
+          variables: {
+            input: {
+              identifier: 'newsletter',
+              fields: [
+                { fieldIdentifier: formFields[0]?.attribute_code || '', value: input.value },
+              ],
+            },
+          },
+        })
+        if (isSuccess) {
+          // alert('Subscribed successfully!')
+          input.value = ''
+        }
+      } catch (e) {
+        console.error(e)
+        // alert('Something went wrong. Try again.')
+      }
+    }
+
+    button?.addEventListener('click', handler)
+
+    return () => button?.removeEventListener('click', handler)
+  }, [updateAlekseonForm, isSuccess])
 
   return (
     <>

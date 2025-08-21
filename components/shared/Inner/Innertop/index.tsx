@@ -81,7 +81,7 @@ export function InnerTop(props: InnerTopProps) {
               sx={{
                 color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
               }}
             >
               <Link href='/'>Home</Link>
@@ -107,7 +107,7 @@ export function InnerTop(props: InnerTopProps) {
                   sx={{
                     color: (theme: any) => theme.palette.custom.tertiary,
                     fontWeight: 400,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                   }}
                 >
                   {title}
@@ -150,7 +150,7 @@ export function InnerTop(props: InnerTopProps) {
                       sx={{
                         color: (theme: any) => theme.palette.custom.tertiary,
                         fontWeight: 400,
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                       }}
                     >
                       {formattedLink}
@@ -202,6 +202,7 @@ export function InnerTop(props: InnerTopProps) {
             {!isShopPage && (
               <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 {props.params && props.products?.items && props.filterTypes && (
+
                   // <ProductFiltersPro
                   //   params={props.params}
                   //   aggregations={props.filters?.aggregations}
@@ -210,29 +211,25 @@ export function InnerTop(props: InnerTopProps) {
                   //   autoSubmitMd
                   //   handleSubmit={props.handleSubmit}
                   // >
-                  <ProductFiltersProSortSection
-                    sort_fields={props.products?.sort_fields}
-                    total_count={props.products?.total_count}
-                    category={props.category}
-                    openAccordionIcon={iconArrowDropDown}
-                    closeAccordionIcon={iconArrowDropDownUp}
-                    sx={{
-                      borderBottom: 'none !important',
-                      '& .MuiAccordionSummary-content .MuiTypography-body1': {
-                        color: (theme: any) => theme.palette.custom.main,
-                        fontWeight: 500,
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
-                        marginBottom: '0 !important',
-                        position: 'relative',
-                      },
-                      '& .MuiAccordionDetails-root > div': {
-                        position: 'absolute',
-                        backgroundColor: '#fff',
-                        width: '100%',
-                        borderRadius: '4px',
-                        zIndex: 1000,
-                        '& .ActionCardLayout-root ': {
-                          border: (theme) => theme.palette.custom.border,
+                    <ProductFiltersProSortSection
+                      sort_fields={props.products?.sort_fields}
+                      total_count={props.products?.total_count}
+                      category={props.category}
+                      openAccordionIcon={iconArrowDropDown}
+                      closeAccordionIcon={iconArrowDropDownUp}
+                      sx={{
+                        borderBottom: 'none !important',
+                        '& .MuiAccordionSummary-content .MuiTypography-body1': {
+                          color: (theme: any) => theme.palette.custom.main,
+                          fontWeight: 500,
+                          fontSize: { xs: '15px', md: '16px' },
+                          marginBottom: '0 !important',
+                          position: 'relative',
+                        },
+                        '& .MuiAccordionDetails-root > div': {
+                          position: 'absolute',
+                          backgroundColor: '#fff',
+                          width: '100%',
                           borderRadius: '4px',
                         },
                         '& .ActionCard-root.selected': {

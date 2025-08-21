@@ -23,14 +23,17 @@ export function HomeBanner({ content, productList, title }) {
             bottom: '50px',
             left: { xs: '18px', md: '25px', lg: '55px' },
             right: 0,
+            display: { xs: 'none', md: 'block' },
           }}
         >
           {title && <div dangerouslySetInnerHTML={{ __html: title }} />}
+
           <HeroSwiper products={productList} />
         </Box>
       </Box>
       <Box
         sx={{
+          display: { xs: 'none', md: 'block' },
           backdropFilter: 'blur(0px)',
           background: 'linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.00) 100%)',
           width: '100%',

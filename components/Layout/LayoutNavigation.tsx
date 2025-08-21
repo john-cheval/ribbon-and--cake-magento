@@ -52,6 +52,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
           ['& .LayoutDefault-header']: {
             height: { xs: '65px', md: '80px', lg: '90px' },
             paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+            boxShadow: { xs: '0px -9px 24px #00000026', md: 'none' },
 
             ...(scroll ? { boxShadow: '0px -9px 24px #00000026' } : {}),
           },
@@ -194,7 +195,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     },
 
                     ['& .MuiBadge-root']: {
-                      left: '4px',
+                      left: '6px',
                       top: '5px',
                     },
                     '&  svg': {

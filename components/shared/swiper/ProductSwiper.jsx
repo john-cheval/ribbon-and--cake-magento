@@ -208,7 +208,7 @@ export function ProductSwiper({ data = [], link = '/', initial = '', productList
                         '& .ProductListItem-title': {
                           color: (theme) => theme.palette.custom.dark,
                           //  minHeight: '50px',
-                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                          fontSize: { sm: '15px', md: '16px' },
                           lineHeight: '158%',
                         },
                         '& .MuiButtonBase-root': {

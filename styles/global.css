@@ -62,7 +62,7 @@
   padding-inline: 18px;
 }
 .responsive-fonts {
-  font-size: 14px;
+  font-size: 15px;
 }
 .heading-main {
   color: var(--color-custom-heading);
@@ -98,9 +98,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 6px;
   position: relative;
-  top: -10%;
+  top: auto;
+  bottom: 30px;
+  align-items: center;
 }
 
 .heading {
@@ -113,19 +115,20 @@
 }
 
 .banner-text {
-  max-width: 250px;
+  max-width: 300px;
   color: #302100;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   margin-top: 0;
+  text-align: center;
   margin-bottom: 10px;
 }
 
 .home-banner-content .heading {
-  width: 200px;
   color: #302100 !important;
   margin-top: 0;
+  text-align: center;
 }
 
 .explore-menu-btn {
@@ -134,7 +137,7 @@
   column-gap: 8px;
   position: relative;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 158%;
   letter-spacing: 0%;
   width: fit-content;
@@ -196,7 +199,7 @@
   column-gap: 0;
   position: relative;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 30px;
 }
 .sectionThreeWrapper .left-content-wrapper {
   display: flex;
@@ -278,7 +281,7 @@
 .customize-title {
   color: #000;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   text-transform: uppercase;
   margin-bottom: 5px;
   margin-top: 0;
@@ -311,7 +314,7 @@
   border-radius: 8px;
   padding: 50px 40px 40px;
   text-align: center;
-  margin-top: -30px;
+  margin-top: -19px;
   z-index: 99;
   margin-left: auto;
   width: 100%;
@@ -404,34 +407,36 @@
 .image-content-wrapper {
   position: relative;
 }
+
 .main-image {
-  object-fit: cover;
+  display: none;
+  /*object-fit: cover;
   border-radius: 8px;
   height: 100%;
   width: 100%;
-  max-height: 400px;
+  max-height: 400px;*/
 }
 .overlay-content {
-  position: absolute;
+  position: static;
   width: 100%;
-  top: 30px;
-  left: unset;
-  padding-inline: 20px;
 }
 .overlay-title {
-  color: var(--color-custom-main) !important;
+  color: var(--color-custom-heading) !important;
   text-align: center;
   margin-bottom: 3px;
   margin-top: 0;
 }
 .overlay-description {
-  color: var(--color-custom-main) !important;
+  color: var(--color-custom-secondary) !important;
   line-height: 170%;
   font-weight: 400;
   margin-bottom: 12px;
   max-width: 100%;
   text-align: center;
   margin-top: 0;
+}
+.overlay-content .explore-menu-btn {
+  display: none;
 }
 .expore-btn,
 .customCakeBtn {
@@ -611,7 +616,7 @@
 .social-box .content span,
 .social-box .content a {
   color: var(--color-custom-dark);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -650,7 +655,7 @@
 .events-detail p:first-of-type {
   color: var(--color-custom-secondary);
   line-height: 174%;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 10px;
 }
 .events-detail p:nth-of-type(2) {
@@ -672,7 +677,7 @@
   font-weight: normal;
   color: var(--color-custom-secondary);
   line-height: 174%;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .events-detail ul li::before {
@@ -706,7 +711,7 @@ ol {
 .coursesInner ol li,
 .coursesInner p {
   color: var(--color-custom-secondary);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 174%;
 }
 
@@ -760,7 +765,7 @@ ol {
   .coursesInner ol li,
   .coursesInner p,
   .social-box .content a {
-    font-size: 14px;
+    font-size: 15px;
   }
   .left-svg {
     top: 40%;
@@ -769,7 +774,7 @@ ol {
     margin-top: 20px;
   }
   .customize-title {
-    font-size: 16px;
+    font-size: 17px;
   }
   .home-collection {
     padding-top: 35px;
@@ -785,7 +790,7 @@ ol {
     margin-bottom: 17px;
   }
   .ActionCard-details.mui-style-3k8hts > div {
-    font-size: 14px;
+    font-size: 15px;
   }
   .sms-page-contets {
     margin-top: 15px;
@@ -822,11 +827,12 @@ ol {
   }
   .home-banner-content {
     gap: 17px;
-    top: '13%';
+    top: 13%;
   }
   .banner-text {
     max-width: 400px;
     font-size: 16px;
+    text-align: left;
   }
   .explore-menu-btn {
     font-size: 16px;
@@ -942,9 +948,7 @@ ol {
   .banner-section-wrapper {
     padding-top: 50px;
   }
-  .overlay-content {
-    top: 40px;
-  }
+
   .overlay-title {
     margin-bottom: 5px;
   }
@@ -954,6 +958,15 @@ ol {
   .sectionThreeWrapper {
     column-gap: 15px;
   }
+  .home-banner-content {
+    top: -10%;
+    bottom: auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .home-banner-content .heading {
+    text-align: left;
+  }
 }
 
 /* lg breakpoint */
@@ -961,6 +974,9 @@ ol {
 @media (min-width: 1025px) {
   .banner-overlay-gradient {
     top: 79px;
+  }
+  .home-banner-content {
+    align-items: start;
   }
   .orderProduct span span:first-child {
     background: url(../components/Assets/aed.svg) 27px center no-repeat;
@@ -975,6 +991,11 @@ ol {
   }
   .main-image {
     max-height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 8px;
+    height: 100%;
+    width: 100%;
   }
   .clients img {
     max-width: 100px;
@@ -1086,19 +1107,27 @@ ol {
     top: 50px;
     width: 50%;
   }
+
   .overlay-content {
     width: 50%;
     top: 63px;
     left: 69px;
     padding-inline: 0;
+    position: absolute;
+    width: 100%;
   }
   .overlay-title {
     /*margin-bottom: 8px;*/
     text-align: left;
+    color: var(--color-custom-main) !important;
   }
   .overlay-description {
     text-align: left;
     max-width: 500px;
+    color: var(--color-custom-main) !important;
+  }
+  .overlay-content .explore-menu-btn {
+    display: inline-flex;
   }
   .sectionThreeWrapper {
     column-gap: 30px;
@@ -1208,7 +1237,7 @@ ol {
 }
 .footer-accordion-title {
   color: #2a110a;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 33px;
 }
@@ -1313,7 +1342,7 @@ ol {
 .newsletter .sub {
   margin-top: 0;
   color: #2a110a;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 33px;
   margin-bottom: 0;
@@ -1321,7 +1350,7 @@ ol {
 }
 .newsletter .desc {
   color: #2a110a;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 20px;
   max-width: 100%;
@@ -1347,7 +1376,7 @@ ol {
 }
 .email-input-field {
   color: #302100;
-  font-size: 14px;
+  font-size: 15px;
   padding: 15px 14px;
   width: 100%;
   border: none;
@@ -1374,7 +1403,7 @@ ol {
 }
 .send-button {
   background-color: #9b7c38;
-  padding: 13px 20px;
+  padding: 14px 20px;
   margin-right: 0;
   border-radius: 0 8px 8px 0;
   overflow: hidden;
@@ -1468,7 +1497,7 @@ ol {
   color: #333;
   font-weight: 400;
   line-height: 205.5%;
-  font-size: 14px;
+  font-size: 15px;
   margin: 0;
 }
 .wrapper--left .cards-image {
@@ -1483,7 +1512,7 @@ ol {
 .bottom-right {
   font-weight: 400;
   line-height: 205.5%;
-  font-size: 14px;
+  font-size: 15px;
   color: #000;
   text-decoration: none;
   text-align: center;
@@ -1580,7 +1609,7 @@ ol {
 .ActionCard-details.mui-style-3k8hts > div {
   display: inline-block;
   vertical-align: top;
-  font-size: 14px;
+  font-size: 15px;
   padding-right: 5px;
   padding-bottom: 2px;
 }

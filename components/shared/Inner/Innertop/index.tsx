@@ -218,18 +218,22 @@ export function InnerTop(props: InnerTopProps) {
                       openAccordionIcon={iconArrowDropDown}
                       closeAccordionIcon={iconArrowDropDownUp}
                       sx={{
-                        borderBottom: 'none !important',
-                        '& .MuiAccordionSummary-content .MuiTypography-body1': {
-                          color: (theme: any) => theme.palette.custom.main,
-                          fontWeight: 500,
-                          fontSize: { xs: '15px', md: '16px' },
-                          marginBottom: '0 !important',
-                          position: 'relative',
-                        },
-                        '& .MuiAccordionDetails-root > div': {
-                          position: 'absolute',
-                          backgroundColor: '#fff',
-                          width: '100%',
+                      borderBottom: 'none !important',
+                      '& .MuiAccordionSummary-content .MuiTypography-body1': {
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontWeight: 500,
+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        marginBottom: '0 !important',
+                        position: 'relative',
+                      },
+                      '& .MuiAccordionDetails-root > div': {
+                        position: 'absolute',
+                        backgroundColor: '#fff',
+                        width: '100%',
+                        borderRadius: '4px',
+                        zIndex: 1000,
+                        '& .ActionCardLayout-root ': {
+                          border: (theme) => theme.palette.custom.border,
                           borderRadius: '4px',
                         },
                         '& .ActionCard-root.selected': {

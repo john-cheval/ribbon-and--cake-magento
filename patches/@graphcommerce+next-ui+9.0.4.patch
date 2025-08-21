@@ -92,7 +92,7 @@ index f94c113..7a9996c 100644
                <Box
                  className={classes.title}
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-index 323c7e3..b9d6051 100644
+index 323c7e3..3fb9b2b 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 @@ -1,22 +1,36 @@
@@ -188,7 +188,7 @@ index 323c7e3..b9d6051 100644
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontWeight:400,
 +          color:'#000',
-+          fontSize: {xs:'14px', sm:'16px', md:'20px'},
++          fontSize: {xs:'15px', md:'20px'},
 +          lineHeight: '120%',
 +          marginBottom:theme => theme.spacings.xxs,
 +        }}>{summary}</Typography>
@@ -623,7 +623,7 @@ index 12d2b28..c1716bc 100644
 +  return <NumberFormat {...props} numberStyle='currency' sx={props.sx} />
  }
 diff --git a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx b/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
-index af23c02..9444f9b 100644
+index af23c02..450f5bf 100644
 --- a/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
 +++ b/node_modules/@graphcommerce/next-ui/Intl/NumberFormat/NumberFormat.tsx
 @@ -1,22 +1,60 @@
@@ -669,7 +669,7 @@ index af23c02..9444f9b 100644
 +        {
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontSize: { xs: '16px', md: '18px' },
-+          fontWeight: 800,
++          fontWeight: 700,
 +          color: '#000',
 +        },
 +        

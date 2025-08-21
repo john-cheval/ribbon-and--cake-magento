@@ -202,7 +202,6 @@ export function InnerTop(props: InnerTopProps) {
             {!isShopPage && (
               <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 {props.params && props.products?.items && props.filterTypes && (
-
                   // <ProductFiltersPro
                   //   params={props.params}
                   //   aggregations={props.filters?.aggregations}
@@ -211,18 +210,18 @@ export function InnerTop(props: InnerTopProps) {
                   //   autoSubmitMd
                   //   handleSubmit={props.handleSubmit}
                   // >
-                    <ProductFiltersProSortSection
-                      sort_fields={props.products?.sort_fields}
-                      total_count={props.products?.total_count}
-                      category={props.category}
-                      openAccordionIcon={iconArrowDropDown}
-                      closeAccordionIcon={iconArrowDropDownUp}
-                      sx={{
+                  <ProductFiltersProSortSection
+                    sort_fields={props.products?.sort_fields}
+                    total_count={props.products?.total_count}
+                    category={props.category}
+                    openAccordionIcon={iconArrowDropDown}
+                    closeAccordionIcon={iconArrowDropDownUp}
+                    sx={{
                       borderBottom: 'none !important',
                       '& .MuiAccordionSummary-content .MuiTypography-body1': {
                         color: (theme: any) => theme.palette.custom.main,
                         fontWeight: 500,
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                         marginBottom: '0 !important',
                         position: 'relative',
                       },
@@ -232,31 +231,40 @@ export function InnerTop(props: InnerTopProps) {
                         width: '100%',
                         borderRadius: '4px',
                         zIndex: 1000,
+                        border: (theme) => `1px solid ${theme.palette.custom.border}`,
                         '& .ActionCardLayout-root ': {
                           border: (theme) => theme.palette.custom.border,
                           borderRadius: '4px',
+                          '& .MuiButtonBase-root': {
+                            borderBottom: (theme) => `1px solid ${theme.palette.custom.border}`,
+
+                            '& .ActionCard-title': {
+                              fontSize: { xs: '15px', md: '16px' },
+                              fontWeight: 400,
+                            },
+                            '& .ActionCard-end': {
+                              display: 'none',
+                            },
+                          },
                         },
                         '& .ActionCard-root.selected': {
                           backgroundColor: (theme) => theme.palette.custom.border,
                         },
                       },
-                      '& .ActionCardLayout-root .MuiButtonBase-root': {
-                        paddingBlock: '12px',
-                        borderRadius: '2px',
-                        '& .ActionCard-title': {
-                          color: (theme: any) => theme.palette.custom.main,
-                          fontSize: { xs: '14px', md: '16px' },
-                          fontWeight: 500,
-                          lineHeight: '158%',
-                        },
+                      '& .ActionCardLayout-root ': {
+                        backgroundColor: 'white',
+                      },
+                      '& .ActionCard-root.selected': {
+                        backgroundColor: (theme) => theme.palette.custom.border,
                       },
                       '& .MuiAccordionSummary-expandIconWrapper': {
                         position: 'relative',
                         top: '8px',
+                        marginLeft: '15px',
                       },
                     }}
-                  // isDropdown={true}
-                  // isButton={true}
+                    // isDropdown={true}
+                    // isButton={true}
                   />
                   // </ProductFiltersPro>
                 )}

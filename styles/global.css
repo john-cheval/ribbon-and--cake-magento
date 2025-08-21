@@ -99,10 +99,11 @@
   flex-direction: column;
   justify-content: center;
   gap: 6px;
-  position: relative;
+  position: absolute;
   top: auto;
   bottom: 30px;
   align-items: center;
+  width: 100%;
 }
 
 .heading {
@@ -783,11 +784,23 @@ ol {
     padding-top: 35px;
   }
 }
+.slider_bner {
+  display: none;
+}
+.slider_bner-res {
+  display: block;
+}
 
 /* md breakpoint */
 @media (min-width: 769px) {
   .justin {
     margin-bottom: 17px;
+  }
+  .slider_bner {
+    display: block;
+  }
+  .slider_bner-res {
+    display: none;
   }
   .ActionCard-details.mui-style-3k8hts > div {
     font-size: 15px;
@@ -827,7 +840,9 @@ ol {
   }
   .home-banner-content {
     gap: 17px;
-    top: 13%;
+    top: 5%;
+    width: fit-content;
+    align-items: start;
   }
   .banner-text {
     max-width: 400px;
@@ -959,9 +974,9 @@ ol {
     column-gap: 15px;
   }
   .home-banner-content {
-    top: -10%;
+    top: 5%;
     bottom: auto;
-    gap: 10px;
+    gap: 8px;
     align-items: start;
   }
   .home-banner-content .heading {
@@ -977,6 +992,7 @@ ol {
   }
   .home-banner-content {
     align-items: start;
+    top: 45px;
   }
   .orderProduct span span:first-child {
     background: url(../components/Assets/aed.svg) 27px center no-repeat;
@@ -1145,6 +1161,10 @@ ol {
 @media (min-width: 1536px) {
   .clients {
     column-gap: 40px;
+  }
+  .home-banner-content {
+    align-items: start;
+    top: 60px;
   }
   .left-svg img {
     max-height: 300px;

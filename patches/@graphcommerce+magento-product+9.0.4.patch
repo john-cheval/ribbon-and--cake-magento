@@ -261,7 +261,7 @@ index a1ec789..b384c62 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..d9647d3 100644
+index fb82adb..90771f4 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -286,7 +286,7 @@ index fb82adb..d9647d3 100644
 +  const from = isFilterRange && value?.from ? Number(value?.from) : min
 +  const to = isFilterRange && value?.to ? Number(value?.to) : max
 +
-+  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight: 400, fontSize: { xs: '12px', sm: '14px', md: '16px' } }} round value={v} />, [])
++  const renderMoney = useCallback((v: number) => <Money sx={{ fontWeight: 400, fontSize: { xs:  '15px', md: '16px' } }} round value={v} />, [])
  
    return (
      <Box
@@ -408,7 +408,7 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..f5215c1 100644
+index cabc140..3fe7bca 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -490,7 +490,7 @@ index cabc140..f5215c1 100644
 +                ['& .MuiSlider-valueLabelOpen span span:not-(:first-child)']: {
 +                  transform: 'translateX(10px) translateY(40%) scale(1)',
 +                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  fontSize: { xs: '14px', md: '16px' },
++                  fontSize: { xs: '15px', md: '16px' },
 +                  fontWeight: 400,
 +                  '& .MuiSlider-valueLabelCircle': {
 +                    color: (theme: any) => `${theme.palette.custom.dark} !important`,
@@ -501,7 +501,7 @@ index cabc140..f5215c1 100644
 +                  left: "unset",
 +                  right: "10px",
 +                  color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+                  fontSize: { xs: '14px', md: '16px' },
++                  fontSize: { xs: '15px', md: '16px' },
 +                  fontWeight: 400,
 +                  '& .MuiSlider-valueLabelCircle': {
 +                    color: (theme: any) => `${theme.palette.custom.dark} !important`,
@@ -553,11 +553,48 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..7c28b93 100644
+index 5643683..27e183c 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-@@ -40,7 +40,7 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
+ import { activeAggregations } from './activeAggregations'
+ import { applyAggregationCount } from './applyAggregationCount'
+ import { useProductFiltersProClearAllAction } from './useProductFiltersProClearAllAction'
++import { Box, Typography } from '@mui/material'
++import { ProductFiltersProCategorySection } from '@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection'
++import { iconFilterProduct } from '../../../../../plugins/icons'
++import { useState } from 'react'
++import Link from 'next/link'
  
+-export type ProductFiltersProAllFiltersChipProps = ProductFiltersProAggregationsProps &
++export type Productfilterprops ={
++  menus?:any
++  paramss?:any
++}
++
++export type ProductFiltersProAllFiltersChipProps = ProductFiltersProAggregationsProps & Productfilterprops &
+   ProductFiltersProSortSectionProps &
+   Omit<
+     ChipOverlayOrPopperProps,
+@@ -23,7 +33,7 @@ export type ProductFiltersProAllFiltersChipProps = ProductFiltersProAggregations
+   Partial<Pick<ChipOverlayOrPopperProps, 'label' | 'selectedLabel' | 'children'>>
+ 
+ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFiltersChipProps) {
+-  const { sort_fields, total_count, renderer, category, ...rest } = props
++  const { sort_fields, total_count, renderer, category,menus,paramss, ...rest } = props
+ 
+   const { submit, params, aggregations, appliedAggregations } = useProductFiltersPro()
+   const { sort } = params
+@@ -38,9 +48,15 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+ 
+   const clearAll = useProductFiltersProClearAllAction()
+ 
++  const curentPath = params?.url?.split('/').filter(Boolean)
++  const [expanded, setExpanded] = useState<string | false>(curentPath[0] || false)
++  const handleAccordionChange = (categoryName: string) => {
++    setExpanded(expanded === categoryName ? false : categoryName)
++  }
++
    return (
      <ChipOverlayOrPopper
 -      label={<Trans id='All filters' />}
@@ -565,7 +602,7 @@ index 5643683..7c28b93 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +48,33 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,93 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
@@ -587,24 +624,86 @@ index 5643683..7c28b93 100644
      >
        {() => (
          <>
+-          <ProductFiltersProSortSection
 +        <ProductFiltersProAggregations
 +            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
 +          />
-           <ProductFiltersProSortSection
++
++          <Typography
++            sx={{
++                fontSize: { xs: '18px', },
++                fontWeight: 500,
++                lineHeight: '120%',
++                color: (theme: any) => theme.palette.custom.dark,
++                paddingBlock:'15px',
++                borderBottom: (theme:any) => `1px solid ${theme.palette.custom.borderSecondary}`,
++                }}
++                >
++                  Categories
++              </Typography>
++
++              {menus
++              ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
++              .map((menu, index) =>
++                menu?.children?.length > 0 ? (
++                  <Box key={index}>
++                    <ProductFiltersProCategorySection
++                    sx={{
++                      '& .MuiCollapse-root':{
++                        '& .MuiAccordionDetails-root .ActionCardLayout-root':{
++                          display:'flex',
++                          flexWrap:'wrap',
++                         
++                        }
++                      }
++                    }}
++                      filterIcons={iconFilterProduct}
++                      category={menu}
++                      params={paramss}
++                      hideBreadcrumbs
++                      categoryTitle={menu?.name}
++                      expanded={expanded === menu?.name}
++                      handleChange={() => handleAccordionChange(menu?.name)}
++                    />
++                  </Box>
++                ) : (
++                  <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
++                    <Typography
++                      sx={{
++                        fontSize: { xs: '18px'},
++                        fontWeight: 400,
++                        lineHeight: '120%',
++                        color: (theme: any) => theme.palette.custom.dark,
++                        display: 'flex',
++                        alignItems: 'center',
++                        gap: '8px',
++                        paddingBlock: '15px',
++                        cursor: 'pointer',
++                        borderBottom: (theme: any) =>
++                          `1px solid ${theme.palette.custom.borderSecondary}`,
++                      }}
++                    >
++                      {menu?.name}
++                    </Typography>
++                  </Link>
++                ),
++              )}
++        {/*   <ProductFiltersProSortSection
              sort_fields={sort_fields}
              total_count={total_count}
              category={category}
            />
-           <ProductFiltersProLimitSection />
+-          <ProductFiltersProLimitSection />
 -          <ProductFiltersProAggregations
 -            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
 -          />
++          <ProductFiltersProLimitSection /> */}
 +          
          </>
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..13b90a2 100644
+index 80912c1..eec94b7 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,162 @@ import {
@@ -698,7 +797,7 @@ index 80912c1..13b90a2 100644
 +        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
-+          fontSize: { xs: '14px', sm: '16px', md: '20px' },
++          fontSize: { xs: '18px', md: '20px' },
 +          fontWeight: 400,
 +          lineHeight: '120%',
 +          color: (theme: any) => theme.palette.custom.dark,
@@ -780,7 +879,7 @@ index 80912c1..13b90a2 100644
 +                  size='responsive'
 +                  title={
 +                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme: any) => theme.palette.custom.dark, }}>
-+                      <Box sx={{ marginRight: 1, fontSize: { xs: '14px',  md: '16px' }}}>
++                      <Box sx={{ marginRight: 1, fontSize: { xs: '15px',  md: '16px' }}}>
 +                        {isBack ? (
 +                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
 +                            <IconSvg src={iconChevronLeft} size='medium' />

@@ -7,6 +7,7 @@ import {
   ProductFiltersProClearAll,
   ProductFiltersProNoResults,
   productFiltersProSectionRenderer,
+  ProductFiltersProSortSection,
   productListApplyCategoryDefaults,
   ProductListDocument,
   ProductListFiltersContainer,
@@ -16,7 +17,8 @@ import { useApolloClient } from '@apollo/client'
 import { Box, FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { iconFilterProduct } from '../../plugins/icons'
+import { iconArrowDropDown, iconArrowDropDownUp, iconFilterProduct } from '../../plugins/icons'
+import filterIcon from '../Assets/instant_mix.svg'
 import mix from '../Assets/mix.svg'
 import { ProductListItems } from '../ProductListItems'
 import CustomSelectInput from '../shared/Inputs/CustomSelectInput'
@@ -130,27 +132,27 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           display: isShopPage ? 'block' : 'grid',
           alignItems: 'start',
           rowGap: isShopPage ? '0' : { xs: 0, md: theme.spacings.md },
-          columnGap: isShopPage ? '0' : { xs: '30px', md: '50px', lg: '60px', xl: '70px' },
+          columnGap: isShopPage ? '0' : { xs: '30px', md: '50px', lg: '60px' },
           mb: theme.spacings.xl,
-          // gridTemplate: {
-          //   xs: '"title" "horizontalFilters"  "items" ',
-          //   md: `
-          //   "sidebar count"      auto
-          //   "sidebar items"      auto
-          //   /${configuration.sidebarWidth}   auto
-          //   `,
-          // },
-          gridTemplateAreas: {
-            xs: isShopPage ? 'items' : "'sidebar' 'horizontalFilters' 'items'",
-            md: isShopPage ? 'items' : "'sidebar items'",
+          gridTemplate: {
+            xs: '"title" "horizontalFilters"  "items" ',
+            md: `
+             "sidebar count"      auto
+             "sidebar items"      auto
+             /${configuration.sidebarWidth}   auto
+             `,
           },
+          // gridTemplateAreas: {
+          //   xs: isShopPage ? 'items' : "'sidebar' 'horizontalFilters' 'items'",
+          //   md: isShopPage ? 'items' : "'sidebar items'",
+          // },
           paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
         <Box
           sx={{
             gridArea: 'items',
-            marginTop: '30px',
+            //    marginTop: '30px',
             '& .ProductListItemsBase-root': {
               gap: { xs: '15px', md: '20px' },
               gridTemplateColumns: {
@@ -186,7 +188,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
               '& .ProductListItem-title': {
                 color: (theme) => theme.palette.custom.dark,
                 //  minHeight: '50px',
-                fontSize: { xs: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
                 lineHeight: '158%',
               },
               '& .MuiButtonBase-root': {
@@ -225,7 +227,14 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
         {!isShopPage && (
           <>
-            <MediaQuery query={(theme) => theme.breakpoints.down('md')}>
+            <MediaQuery
+              query={(theme) => theme.breakpoints.down('md')}
+              sx={{
+                '& .ProductListFiltersContainer-wrapper': {
+                  display: 'inline-block',
+                },
+              }}
+            >
               <StickyBelowHeader
                 sx={{
                   gridArea: 'horizontalFilters',
@@ -241,8 +250,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 <ProductListFiltersContainer
                   sx={(theme) => ({
                     width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
+                    // display: 'flex',
+                    // justifyContent: 'space-between',
                     borderBottom: '1px solid #d4d4d4',
                     padding: '0px',
                     margin: '0 !important',
@@ -253,37 +262,76 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     '& .ProductListFiltersContainer-container': {
                       textAlign: 'center',
                       justifyContent: 'center',
+                      display: 'inline-block',
+                      width: '100%',
 
                       '& .Scroller-root': {
                         padding: 0,
                         alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        '& > button': {
+                          // width: '50%',
+                        },
+                        '& > .MuiButtonBase-root': {
+                          // width: '50%',
+                        },
+                        '& .MuiChip-outlined': {
+                          width: '50%',
+                        },
                         '& .MuiButtonBase-root': {
                           borderRight: '1px solid #d4d4d4',
                           borderRadius: 0,
                           paddingRight: { xs: '15px', sm: '30px' },
+                          // '& .MuiChip-label .MuiTypography-root': {
+                          //   '&::before': {
+                          //     content: '""',
+                          //     display: 'inline-block',
+                          //     backgroundImage: `url(${filterIcon.src})`,
+                          //     backgroundPosition: 'center',
+                          //     backgroundRepeat: 'repeat',
+                          //     width: '16px',
+                          //     height: '16px',
+                          //     marginRight: '8px',
+                          //   },
+                          // },
 
                           '& .MuiChip-label': {
                             paddingInline: '0 !important',
                             position: 'relative',
+                            '& p': {
+                              display: 'inline-block',
+                              lineHeight: 'normal',
+                              paddingLeft: '25px',
+                              '& svg': {
+                                display: 'none',
+                              },
+                            },
 
                             '& p::before': {
                               content: '""',
                               display: 'inline-block',
                               width: '16px',
-                              height: '16px',
+                              height: '15px',
                               marginRight: '8px',
-                              // backgroundImage: `url(${filterSvg.src})`,
-                              // backgroundSize: 'contain',
-                              // backgroundPosition: 'center',
-                              // backgroundRepeat: 'no-repeat',
-                              // flexShrink: 0,
-                              backgroundColor: 'red',
+                              backgroundImage: `url(${filterIcon.src})`,
+                              backgroundSize: 'contain',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat',
+                              flexShrink: 0,
+                              position: 'absolute',
+                              left: 0,
+                              marginTop: '2px',
                             },
 
                             '& span': {
                               display: 'none',
                             },
                           },
+                        },
+                        '& .MuiAccordionSummary-root': {
+                          borderRight: 0,
+                          paddingRight: 0,
                         },
                         '& .MuiBox-root': {
                           minWidth: '200px',
@@ -297,7 +345,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             marginTop: '3px',
                           },
                           '& .MuiInputBase-root': {
-                            fontSize: { xs: '14px', md: '16px' },
+                            fontSize: { xs: '15px', md: '16px' },
                           },
                         },
                       },
@@ -313,7 +361,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
                         '& span .MuiTypography-root': {
                           color: (theme: any) => theme.palette.custom.main,
-                          fontSize: { xs: '14px', md: '16px' },
+                          fontSize: { xs: '15px', md: '16px' },
                           fontWeight: 500,
                           lineHeight: 500,
                         },
@@ -337,52 +385,86 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     total_count={total_count}
                     sort_fields={sort_fields}
                     category={category}
+                    menus={menuList}
+                    paramss={params}
                   />
-                  <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                    <Typography
-                      variant='p'
-                      sx={{
-                        color: '#441E14 !important',
-                        fontWeight: 500,
-                        fontSize: { xs: '14px', md: '16px' },
-                      }}
-                    >
-                      Sort by :{' '}
-                    </Typography>
 
-                    <FormControl
-                      variant='standard'
-                      sx={{ m: 0, minWidth: 120, fontSize: { xs: '14px', md: '16px' } }}
-                    >
-                      {' '}
-                      <Select
-                        value={sortValue}
-                        onChange={handleSortChange}
-                        displayEmpty
-                        input={<CustomSelectInput />}
-                        inputProps={{ 'aria-label': 'Sort by' }}
-                        MenuProps={{
-                          PaperProps: {
-                            sx: {
-                              bgcolor: '#F6DBE0',
-                              '& .MuiMenuItem-root': {
-                                // padding: 2,
-                                color: '#441E14',
+                  <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                    {props.params && props.products?.items && props.filterTypes && (
+                      <ProductFiltersPro
+                        params={props.params}
+                        aggregations={props.filters?.aggregations}
+                        appliedAggregations={props.products?.aggregations}
+                        filterTypes={props.filterTypes}
+                        autoSubmitMd
+                        handleSubmit={props.handleSubmit}
+                      >
+                        <ProductFiltersProSortSection
+                          sort_fields={props.products?.sort_fields}
+                          total_count={props.products?.total_count}
+                          category={props.category}
+                          openAccordionIcon={iconArrowDropDown}
+                          closeAccordionIcon={iconArrowDropDownUp}
+                          sx={{
+                            borderBottom: 'none !important',
+                            '& .MuiAccordionSummary-content .MuiTypography-body1': {
+                              color: (theme: any) => theme.palette.custom.main,
+                              fontWeight: 500,
+                              fontSize: { xs: '15px', md: '16px' },
+                              marginBottom: '0 !important',
+                              position: 'relative',
+                            },
+                            '& .MuiAccordionDetails-root > div': {
+                              position: 'absolute',
+                              backgroundColor: '#fff',
+                              width: '100%',
+                              borderRadius: '4px',
+                              zIndex: 1000,
+                              border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                              '& .ActionCardLayout-root ': {
+                                border: (theme) => theme.palette.custom.border,
+                                borderRadius: '4px',
+                                '& .MuiButtonBase-root': {
+                                  borderBottom: (theme) =>
+                                    `1px solid ${theme.palette.custom.border}`,
 
-                                fontSize: { xs: '14px', md: '16px' },
+                                  '& .ActionCard-title': {
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    fontWeight: 400,
+                                  },
+                                  '& .ActionCard-end': {
+                                    display: 'none',
+                                  },
+                                },
+                              },
+                              '& .ActionCard-root.selected': {
+                                backgroundColor: (theme) => theme.palette.custom.border,
+                              },
+                            },
+                            '& .ActionCardLayout-root ': {
+                              backgroundColor: 'white',
+                            },
+                            '& .ActionCardLayout-root .MuiButtonBase-root': {
+                              paddingBlock: '12px',
+                              borderRadius: '2px',
+                              '& .ActionCard-title': {
+                                color: (theme: any) => theme.palette.custom.main,
+                                fontSize: { xs: '15px', md: '16px' },
                                 fontWeight: 500,
                                 lineHeight: '158%',
                               },
                             },
-                          },
-                        }}
-                      >
-                        <MenuItem value='Latest'>Latest</MenuItem>
-                        <MenuItem value='Price_ASC'>Price: Low to High</MenuItem>
-                        <MenuItem value='Price_DESC'>Price: High to Low</MenuItem>
-                        <MenuItem value='Name_ASC'>Name: A-Z</MenuItem>
-                      </Select>
-                    </FormControl>
+                            '& .MuiAccordionSummary-expandIconWrapper': {
+                              position: 'relative',
+                              top: '8px',
+                              marginLeft: '15px',
+                            },
+                          }}
+                          // isDropdown={true}
+                          // isButton={true}
+                        />
+                      </ProductFiltersPro>
+                    )}
                   </Box>
                 </ProductListFiltersContainer>
               </StickyBelowHeader>
@@ -397,112 +479,143 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 position: 'sticky',
                 top: '100px',
                 mt: { xs: '30px' },
-                // overflowY: 'scroll',
+                height: 'calc(100vh - 100px)',
               })}
             >
-              {!isSearch && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
-                    paddingBottom: '20px',
-                  }}
-                >
+              <Box
+                sx={{
+                  height: '100%',
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                  pr: 1,
+                  '&::-webkit-scrollbar': {
+                    width: '6px',
+                    borderRadius: '0px',
+                    backgroundColor: '#EBEBEB',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: '#EBEBEB',
+                    borderRadius: '0px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    borderRadius: '0px',
+                  },
+                }}
+              >
+                {!isSearch && (
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: '24px' }} />{' '}
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                        fontWeight: 500,
-                        lineHeight: '120%',
-                        color: (theme: any) => theme.palette.custom.dark,
-                      }}
-                    >
-                      Filter
-                    </Typography>
-                  </Box>
-
-                  <ProductFiltersProClearAll
-                    sx={{
-                      alignSelf: 'center',
-                      background: 'transparent',
-                      padding: 0,
-                      borderRadius: '0 !important',
-                      color: (theme: any) => theme.palette.custom.tertiary,
-                      width: 'fit-content',
-                      textDecoration: 'underline',
-                      minWidth: 'unset',
-                      fontSize: '14px',
-                      '&:hover:not(.Mui-disabled)': {
-                        backgroundColor: 'transparent',
+                      //  alignItems: 'center',
+                      justifyContent: 'space-between',
+                      borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                      paddingBottom: '15px',
+                      '& .MuiButtonBase-root': {
+                        fontSize: { xs: '15px', md: '16px' },
+                        lineHeight: 'normal',
                       },
                     }}
-                    title='Clear'
-                    menuList={menuList}
-                  />
-                </Box>
-              )}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
 
-              <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
-
-              <Typography
-                sx={{
-                  fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                  fontWeight: 500,
-                  lineHeight: '120%',
-                  color: (theme: any) => theme.palette.custom.dark,
-                  paddingTop: isSearch ? '0px' : '35px',
-                  paddingBottom: '15px',
-                  borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
-                }}
-              >
-                Categories
-              </Typography>
-              {menuList
-                ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
-                .map((menu, index) =>
-                  menu?.children?.length > 0 ? (
-                    <Box key={index}>
-                      <ProductFiltersProCategorySection
-                        filterIcons={iconFilterProduct}
-                        category={menu}
-                        params={params}
-                        hideBreadcrumbs
-                        categoryTitle={menu?.name}
-                        expanded={expanded === menu?.name}
-                        handleChange={() => handleAccordionChange(menu?.name)}
-                      />
-                    </Box>
-                  ) : (
-                    <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
+                        '& picture': {
+                          width: '24px',
+                          height: '24px',
+                        },
+                      }}
+                    >
+                      <Image src={mix} alt='mix_alter' sx={{ width: '24px', height: '24px' }} />{' '}
                       <Typography
                         sx={{
-                          fontSize: { xs: '14px', sm: '16px', md: '20px' },
-                          fontWeight: 400,
+                          fontSize: { xs: '15px', sm: '16px', md: '20px' },
+                          fontWeight: 500,
                           lineHeight: '120%',
                           color: (theme: any) => theme.palette.custom.dark,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          paddingBlock: '15px',
-                          cursor: 'pointer',
-                          borderBottom: (theme: any) =>
-                            `1px solid ${theme.palette.custom.borderSecondary}`,
                         }}
                       >
-                        {menu?.name}
+                        Filter
                       </Typography>
-                    </Link>
-                  ),
+                    </Box>
+
+                    <ProductFiltersProClearAll
+                      sx={{
+                        alignSelf: 'center',
+                        background: 'transparent',
+                        padding: 0,
+                        borderRadius: '0 !important',
+                        color: (theme: any) => theme.palette.custom.tertiary,
+                        width: 'fit-content',
+                        textDecoration: 'underline',
+                        minWidth: 'unset',
+                        fontSize: '15px',
+                        '&:hover:not(.Mui-disabled)': {
+                          backgroundColor: 'transparent',
+                        },
+                      }}
+                      title='Clear'
+                      menuList={menuList}
+                    />
+                  </Box>
                 )}
+
+                <ProductFiltersProAggregations renderer={productFiltersProSectionRenderer} />
+
+                <Typography
+                  sx={{
+                    fontSize: { xs: '15px', sm: '16px', md: '20px' },
+                    fontWeight: 500,
+                    lineHeight: '120%',
+                    color: (theme: any) => theme.palette.custom.dark,
+                    paddingTop: isSearch ? '0px' : '30px',
+                    paddingBottom: '15px',
+                    borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                  }}
+                >
+                  Categories
+                </Typography>
+                {menuList
+                  ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
+                  .map((menu, index) =>
+                    menu?.children?.length > 0 ? (
+                      <Box key={index}>
+                        <ProductFiltersProCategorySection
+                          filterIcons={iconFilterProduct}
+                          category={menu}
+                          params={params}
+                          hideBreadcrumbs
+                          categoryTitle={menu?.name}
+                          expanded={expanded === menu?.name}
+                          handleChange={() => handleAccordionChange(menu?.name)}
+                        />
+                      </Box>
+                    ) : (
+                      <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
+                        <Typography
+                          sx={{
+                            fontSize: { xs: '15px', sm: '16px', md: '20px' },
+                            fontWeight: 400,
+                            lineHeight: '120%',
+                            color: (theme: any) => theme.palette.custom.dark,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            paddingBlock: '15px',
+                            cursor: 'pointer',
+                            borderBottom: (theme: any) =>
+                              `1px solid ${theme.palette.custom.borderSecondary}`,
+                          }}
+                        >
+                          {menu?.name}
+                        </Typography>
+                      </Link>
+                    ),
+                  )}
+              </Box>
             </MediaQuery>
           </>
         )}

@@ -231,9 +231,21 @@ export function InnerTop(props: InnerTopProps) {
                           width: '100%',
                           borderRadius: '4px',
                           zIndex: 1000,
+                          border: (theme) => `1px solid ${theme.palette.custom.border}`,
                           '& .ActionCardLayout-root ': {
                             border: (theme) => theme.palette.custom.border,
                             borderRadius: '4px',
+                            '& .MuiButtonBase-root': {
+                              borderBottom: (theme) => `1px solid ${theme.palette.custom.border}`,
+
+                              '& .ActionCard-title': {
+                                fontSize: { xs: '15px', md: '16px' },
+                                fontWeight: 400,
+                              },
+                              '& .ActionCard-end': {
+                                display: 'none',
+                              },
+                            },
                           },
                           '& .ActionCard-root.selected': {
                             backgroundColor: (theme) => theme.palette.custom.border,
@@ -241,7 +253,6 @@ export function InnerTop(props: InnerTopProps) {
                         },
                         '& .ActionCardLayout-root ': {
                           backgroundColor: 'white',
-                          border: (theme) => `1px solid ${theme.palette.custom.border}`,
                         },
                         '& .ActionCardLayout-root .MuiButtonBase-root': {
                           paddingBlock: '12px',
@@ -256,6 +267,7 @@ export function InnerTop(props: InnerTopProps) {
                         '& .MuiAccordionSummary-expandIconWrapper': {
                           position: 'relative',
                           top: '8px',
+                          marginLeft: '15px',
                         },
                       }}
                       // isDropdown={true}

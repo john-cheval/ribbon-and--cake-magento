@@ -531,6 +531,110 @@ index cabc140..3fe7bca 100644
            />
          )
        }}
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
+index 174d687..32692a1 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
+@@ -119,23 +119,87 @@ export function ProductFiltersPro(props: FilterFormProviderProps) {
+   const scrollMarginTop = useTransform(() => (isDesktop.get() ? 0 : theme.appShell.headerHeightSm))
+   const scroll = useTransform(() => !autoSubmitMd || isDesktop.get())
+ 
++  function modifyUrl(url: string, comparewUrl: string) {
++    // Regex to match the part between '/c/' and '/q/'
++    const regex = comparewUrl?.includes('/c') ? /\/c\/([^\/]+)\/q/ : /\/c\/(.*?)\/q/;
++
++    // Check if the segment between /c/ and /q/ exists and contains 'cake'
++    return url.replace(regex, (match, segment) => {
++      // If the segment does not contain 'cake', replace it with comparewUrl
++      if (!segment.includes(comparewUrl)) {
++        return `/c/${comparewUrl}/q`;  // Replace the segment with 'cake' or the comparewUrl
++      }
++      return match;  // If the segment already includes comparewUrl, return the original match
++    });
++  }
++
++
++  // const submit = useEventCallback(
++  //   form.handleSubmit(async (formValues) => {
++  //     const path = productListLinkFromFilter({ ...formValues, currentPage: 1 })
++  //     const path123 = modifyUrl(path, router.asPath);
++  //     console.log('ProductFiltersPro submit--->', path)
++  //     console.log('ProductFiltersPro submit--->', path123)
++  //     if (router.asPath === path123 || router.asPath === path || path123?.incluces('/c/c')) return false
++  //     console.log('ProductFiltersPro submit--->', path)
++  //     const isSearch = router.asPath.startsWith('/search')
++  //     const isFilter = (router.query.url ?? []).includes('q')
++
++  //     // console.log("path123::", path123)
++  //     const next = async (shallow = false, replace: boolean = isSearch || isFilter) => {
++  //       const opts = { shallow, scroll: scroll.get() }
++  //       await (replace ? router.replace(path123, path123, opts) : router.push(path123, path123, opts))
++  //     }
++
++  //     if (handleSubmit) return handleSubmit(formValues, next)
++  //     return next()
++  //   }),
++  // )
++
++  useEffect(() => {
++    if (!router.asPath?.includes('/c')) {
++      form.setValue('url', router.asPath)
++    }
++
++  }, [router.asPath])
++  // When the component mounts, we want to set the global filter form
++
+   const submit = useEventCallback(
+     form.handleSubmit(async (formValues) => {
+-      const path = productListLinkFromFilter({ ...formValues, currentPage: 1 })
+-      if (router.asPath === path) return false
++      // Generate path from form values
++      const path = productListLinkFromFilter({ ...formValues, currentPage: 1 });
++
++      // Modify the path based on the router's current path
++      const modifyPath = modifyUrl(path, router.asPath);
++      if (
++        router.asPath === modifyPath ||
++        router.asPath === path ||
++        modifyPath.includes('/c/c/')
++      ) {
++        return false;
++      }
+ 
+-      const isSearch = router.asPath.startsWith('/search')
+-      const isFilter = (router.query.url ?? []).includes('q')
++      // Check if the current path is a search or filter page
++      const isSearch = router.asPath.startsWith('/search');
++      const isFilter = (router.query.url ?? []).includes('q');
+ 
+-      const next = async (shallow = false, replace: boolean = isSearch || isFilter) => {
+-        const opts = { shallow, scroll: scroll.get() }
+-        await (replace ? router.replace(path, path, opts) : router.push(path, path, opts))
+-      }
++      // Function to handle routing (with optional shallow routing)
++      const next = async (shallow = false, replace = isSearch || isFilter) => {
++        const opts = { shallow, scroll: scroll.get() };
++        // Perform either replace or push routing
++        await (replace
++          ? router.replace(modifyPath, modifyPath, opts)
++          : router.push(modifyPath, modifyPath, opts));
++      };
++
++      // If there's a custom handleSubmit, call it with formValues and next as a callback
++      if (handleSubmit) return handleSubmit(formValues, next);
++
++      // Otherwise, just call next directly
++      return next();
++    })
++  );
+ 
+-      if (handleSubmit) return handleSubmit(formValues, next)
+-      return next()
+-    }),
+-  )
+ 
+   const filterFormContext = useMemo(() => {
+     const ctx: ProductFiltersProContext = {
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
 index 918ce2e..4308043 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
@@ -1186,19 +1290,22 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..0f920e9 100644
+index d3b392c..6df7696 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -20,7 +20,7 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+@@ -19,9 +19,8 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+ 
  export function useProductFiltersProSort(props: ProductListActionSortProps) {
    const { sort_fields, category } = props
- 
+-
 -  const { params, form } = useProductFiltersPro()
+-  const { control, setValue } = form
 +  const { params, submit, form } = useProductFiltersPro()
-   const { control, setValue } = form
++  const { control, setValue, getValues } = form
  
    const sortFields = useMemo(
-@@ -53,15 +53,19 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+     () =>
+@@ -53,15 +52,20 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
        sortFields
          .filter((o) => availableSortBy.includes(o.value))
          .map((option) => {
@@ -1211,6 +1318,7 @@ index d3b392c..0f920e9 100644
              value,
              title: option.label,
 +            onClick: (e, va) => {
++              console.log(getValues('url'))
 +              setValue('sort', va)
 +              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
 +              submit()
@@ -1329,10 +1437,10 @@ index d1ae621..328df78 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..e2a634e 100644
+index 9dc2505..ce5fcc1 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-@@ -1,18 +1,26 @@
+@@ -1,34 +1,65 @@
  import type { SxProps, Theme } from '@mui/material'
 -import { Box, Typography } from '@mui/material'
 +import { Box, Typography, useMediaQuery } from '@mui/material'
@@ -1355,13 +1463,17 @@ index 9dc2505..e2a634e 100644
  export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPriceProps) {
 -  const { titleComponent = 'h2', classes, children, subTitle, title, sx } = props
 +  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku,isConfigured,urlKey } = props
-+
++  const isMobile = useMediaQuery('(max-width:768px)')
 +  
 +
++const characterLimit =isMobile ? 15 :30; 
  
++  const displayTitle = typeof title === 'string' && title.length > characterLimit
++    ? `${title.slice(0, characterLimit)}...`
++    : title;
    return (
      <Box
-@@ -20,15 +28,34 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+       className={classes.titleContainer}
        sx={[
          (theme) => ({
            display: 'grid',
@@ -1401,37 +1513,37 @@ index 9dc2505..e2a634e 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -40,16 +67,21 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -40,16 +71,21 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
            display: 'inline',
            color: 'text.primary',
            overflowWrap: 'break-word',
 -          maxWidth: '100%',
 +          // maxWidth: '100%',
            gridArea: 'title',
-+          fontSize:{ xs: '15px',md: '16px' },
++          fontSize:{ xs: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' },
-+          // minHeight:'30px'
++         // minHeight:'30px'
          }}
          className={classes.title}
        >
 -        {title}
-+       {title}
++        {displayTitle}
        </Typography>
  
        {subTitle && (
 -        <Box sx={{ gridArea: 'subtitle' }} className={classes.subtitle}>
 +        <Box sx={{ gridArea: 'subtitle',
-+          fontSize:{ xs: '15px',md: '16px' },
++          fontSize:{ xs: '14px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '252px' }, }} className={classes.subtitle}>
            {subTitle}
          </Box>
        )}
-@@ -58,10 +90,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
+@@ -58,10 +94,27 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice
          component='div'
          variant='body1'
          className={productListPrice.classes.root}
 -        sx={{ gridArea: 'price', textAlign: 'right', justifySelf: { sm: 'flex-end' } }}
-+        sx={{ gridArea: 'price', textAlign: 'left', fontSize:'16px'}}
++        sx={{ gridArea: 'price', textAlign: 'left',}}
        >
          {children}
        </Typography>

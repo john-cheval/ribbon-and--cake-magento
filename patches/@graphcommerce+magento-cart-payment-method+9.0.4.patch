@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
-index 3cf189f..3bbf8d7 100644
+index 3cf189f..00aca7e 100644
 --- a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodActionCardList/PaymentMethodActionCardListForm.tsx
 @@ -6,7 +6,7 @@ import type { UseFormComposeOptions } from '@graphcommerce/react-hook-form'
@@ -11,22 +11,201 @@ index 3cf189f..3bbf8d7 100644
  import { useEffect } from 'react'
  import type { PaymentOptionsProps } from '../Api/PaymentMethod'
  import { useCartLock } from '../hooks'
-@@ -28,6 +28,7 @@ function PaymentMethodActionCard(
+@@ -28,34 +28,37 @@ function PaymentMethodActionCard(
    const Card = modules[code]?.PaymentActionCard ?? ActionCard
  
    return (
+-    <Card
+-      code={code}
+-      child={child}
+-      sx={[
+-        {
+-          '& .ActionCard-title': { typography: 'h6' },
+-          '& .ActionCard-details': { lineHeight: 1.5 },
+-          '& .ActionCard-image svg, .ActionCard-image img': { width: '32px', height: '32px' },
+-        },
+-        ...(Array.isArray(sx) ? sx : [sx]),
+-      ]}
+-      action={
+-        <Button disableRipple variant='inline' color='secondary' tabIndex={-1}>
+-          <Trans id='Select' />
+-        </Button>
+-      }
+-      reset={
+-        <Button disableRipple variant='inline' color='secondary' onClick={onReset}>
+-          <Trans id='Change' />
+-        </Button>
+-      }
+-      after={
+-        selectedAndOptions && (
+-          <selectedModule.PaymentOptions {...selectedMethod} step={step} Container={Container} />
+-        )
+-      }
+-      {...rest}
+-    />
 +    <>
-     <Card
-       code={code}
-       child={child}
-@@ -54,8 +55,10 @@ function PaymentMethodActionCard(
-           <selectedModule.PaymentOptions {...selectedMethod} step={step} Container={Container} />
-         )
-       }
-+      isRadioBtn={true}
-       {...rest}
-     />
++      <Card
++        code={code}
++        child={child}
++        sx={[
++          {
++            '& .ActionCard-title': { typography: 'h6' },
++            '& .ActionCard-details': { lineHeight: 1.5 },
++            '& .ActionCard-image svg, .ActionCard-image img': { width: '32px', height: '32px' },
++          },
++          ...(Array.isArray(sx) ? sx : [sx]),
++        ]}
++        action={
++          <Button disableRipple variant='inline' color='secondary' tabIndex={-1}>
++            <Trans id='Select' />
++          </Button>
++        }
++        reset={
++          <Button disableRipple variant='inline' color='secondary' onClick={onReset}>
++            <Trans id='Change' />
++          </Button>
++        }
++        after={
++          selectedAndOptions && (
++            <selectedModule.PaymentOptions {...selectedMethod} step={step} Container={Container} />
++          )
++        }
++        isRadioBtn={true}
++        {...rest}
++      />
 +    </>
    )
  }
  
+@@ -72,7 +75,7 @@ export function PaymentMethodActionCardListForm(props: PaymentMethodActionCardLi
+   const form = useForm<FormFields>({})
+ 
+   const { control, handleSubmit, watch, setValue } = form
+-  const submit = handleSubmit(() => {})
++  const submit = handleSubmit(() => { })
+ 
+   const paymentMethod = watch('paymentMethod')
+ 
+@@ -118,7 +121,8 @@ export function PaymentMethodActionCardListForm(props: PaymentMethodActionCardLi
+           value: `${method.code}___${method.child}`,
+           step,
+           Container: FormDiv,
+-          disabled: !modules?.[method.code ?? ''],
++          // disabled: !modules?.[method.code ?? ''],
++          disabled: false,
+         }))}
+         render={PaymentMethodActionCard}
+       />
+diff --git a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
+index 459ca75..84f1f7f 100644
+--- a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
++++ b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
+@@ -1,4 +1,4 @@
+-import { useApolloClient } from '@graphcommerce/graphql'
++import { gql, useApolloClient, useMutation } from '@graphcommerce/graphql'
+ import { useCartQuery, useClearCurrentCartId } from '@graphcommerce/magento-cart'
+ import { filterNonNullableKeys } from '@graphcommerce/next-ui'
+ import { useEventCallback } from '@mui/material'
+@@ -25,6 +25,20 @@ export type PaymentMethodContextProviderProps = {
+   ) => Promise<void> | void
+ }
+ 
++const CCAVENUE_PAYMENT = gql`
++  mutation CcavenuePayment($order_increment_id: String!, $callBackUrl: String!) {
++    ccavanuePayment(input: {
++      order_increment_id: $order_increment_id
++      callBackUrl: $callBackUrl
++    }) {
++      success
++      gatewayurl
++      encRequest
++      access_code
++    }
++  }
++`
++
+ /**
+  * The PaymentMethodContextProvider configures all available PaymentMethods.
+  *
+@@ -44,13 +58,48 @@ export function PaymentMethodContextProvider(props: PaymentMethodContextProvider
+     [client, context?.data?.cart],
+   )
+ 
++  const [ccavenuePayment] = useMutation(CCAVENUE_PAYMENT)
++
+   const onSuccessCb: NonNullable<PaymentMethodContextType['onSuccess']> = useEventCallback(
+     async (orderNumber) => {
+-      await onSuccess?.(orderNumber, context.data?.cart)
+-      await push({
+-        pathname: successUrl,
+-        query: { order_number: orderNumber, cart_id: context.data?.cart?.id },
+-      })
++      if (context.data?.cart?.selected_payment_method?.code === "ccavenue") {
++        const { data } = await ccavenuePayment({
++          variables: {
++            order_increment_id: orderNumber,
++            callBackUrl: `${window.location.origin}/checkout/success?order_number=${orderNumber}&cart_id=${context.data?.cart?.id}`,
++          },
++        })
++
++        if (data?.ccavanuePayment?.success) {
++          const { gatewayurl, encRequest, access_code } = data?.ccavanuePayment
++
++          const form = document.createElement('form')
++          form.setAttribute('method', 'POST')
++          form.setAttribute('action', gatewayurl)
++          form.setAttribute('id', 'CcavenueForm')
++
++          const encRequestInput = document.createElement('input')
++          encRequestInput.type = 'hidden'
++          encRequestInput.name = 'encRequest'
++          encRequestInput.value = encRequest
++          form.appendChild(encRequestInput)
++
++          const accessCodeInput = document.createElement('input')
++          accessCodeInput.type = 'hidden'
++          accessCodeInput.name = 'access_code'
++          accessCodeInput.value = access_code
++          form.appendChild(accessCodeInput)
++
++          document.body.appendChild(form)
++          form.submit()
++        }
++      } else {
++        await onSuccess?.(orderNumber, context.data?.cart)
++        await push({
++          pathname: successUrl,
++          query: { order_number: orderNumber, cart_id: context.data?.cart?.id },
++        })
++      }
+       clearCurrentCartId()
+     },
+   )
+@@ -72,18 +121,18 @@ export function PaymentMethodContextProvider(props: PaymentMethodContextProvider
+   // Expand the payment methods
+   useEffect(() => {
+     if (!cartContext) return // eslint-disable-next-line @typescript-eslint/no-floating-promises
+-    ;(async () => {
+-      const promises = availableMethods.map(async (method) =>
+-        method
+-          ? (modules[method.code]?.expandMethods?.(method, cartContext) ?? [
++      ; (async () => {
++        const promises = availableMethods.map(async (method) =>
++          method
++            ? (modules[method.code]?.expandMethods?.(method, cartContext) ?? [
+               { ...method, child: '' },
+             ])
+-          : Promise.resolve([]),
+-      )
+-      const loaded = (await Promise.all(promises)).flat(1).sort((a) => (a.preferred ? 1 : 0))
++            : Promise.resolve([]),
++        )
++        const loaded = (await Promise.all(promises)).flat(1).sort((a) => (a.preferred ? 1 : 0))
+ 
+-      setMethods(loaded)
+-    })()
++        setMethods(loaded)
++      })()
+   }, [availableMethods, cartContext, modules])
+ 
+   const value = useMemo(

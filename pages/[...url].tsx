@@ -18,6 +18,7 @@ import {
   getFilterTypes,
   parseParams,
   ProductFiltersDocument,
+  ProductFiltersPro,
   productListApplyCategoryDefaults,
   ProductListDocument,
   productListLink,
@@ -85,38 +86,58 @@ function CategoryPage(props: CategoryProps) {
     )
   }
 
+  const contexProps = {
+    ...productList,
+    count: products?.total_count,
+    title: category?.name ?? '',
+    isFilter: true,
+    id: category?.uid,
+    category: category,
+    isShopPage: isShop,
+  }
+
   return (
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
-
-      {isCategory && !isLanding && (
-        <InnerTop
-          {...productList}
-          count={products?.total_count}
-          title={category.name ?? ''}
-          isFilter={true}
-          id={category.uid}
-          category={category}
-          isShopPage={isShop}
-        />
-      )}
-      {isCategory && !isLanding && (
-        <>
-          {import.meta.graphCommerce.productFiltersPro &&
-            import.meta.graphCommerce.productFiltersLayout === 'SIDEBAR' && (
-              <ProductListLayoutSidebar
-                {...productList}
-                key={category.uid}
-                title={category.name ?? ''}
-                id={category.uid}
-                category={category}
-                menuList={menu?.items[0]?.children}
-                conf={apolloState}
-                isShopPage={isShop}
-              />
-            )}
-        </>
-      )}
+      <ProductFiltersPro
+        params={contexProps.params ?? {} as ProductListParams}
+        aggregations={contexProps.filters?.aggregations}
+        appliedAggregations={contexProps.products?.aggregations}
+        filterTypes={Object.fromEntries(
+          Object.entries(contexProps.filterTypes ?? {}).map(([k, v]) => [k, v?.toString()])
+        )}
+        autoSubmitMd
+        handleSubmit={contexProps.handleSubmit}
+      >
+        {isCategory && !isLanding && (
+          <InnerTop
+            {...productList}
+            count={products?.total_count}
+            title={category.name ?? ''}
+            isFilter={true}
+            id={category.uid}
+            category={category}
+            isShopPage={isShop}
+          />
+        )}
+        {isCategory && !isLanding && (
+          <>
+            {import.meta.graphCommerce.productFiltersPro &&
+              import.meta.graphCommerce.productFiltersLayout === 'SIDEBAR' && (
+                <ProductListLayoutSidebar
+                  {...productList}
+                  key={category.uid}
+                  title={category.name ?? ''}
+                  id={category.uid}
+                  category={category}
+                  menuList={menu?.items[0]?.children}
+                  conf={apolloState}
+                  isShopPage={isShop}
+                />
+              )}
+          </>
+        )}
+      </ProductFiltersPro>
     </PrivateQueryMaskProvider>
   )
 }
@@ -161,6 +182,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const filteredCategoryUid = productListParams && productListParams.filters.category_uid?.in?.[0]
 
   const category = categoryPage.then((res) => res.data.categories?.items?.[0])
+
   const waitForSiblings = appendSiblingsAsChildren(category, staticClient)
   let categoryUid = filteredCategoryUid
   if (!categoryUid) {
@@ -172,22 +194,22 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-        query: ProductFiltersDocument,
-        variables: categoryDefaultsToProductListFilters(
-          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-        ),
-      })
+      query: ProductFiltersDocument,
+      variables: categoryDefaultsToProductListFilters(
+        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+      ),
+    })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-        query: ProductListDocument,
-        variables: await productListApplyCategoryDefaults(
-          productListParams,
-          (await conf).data,
-          category,
-        ),
-      })
+      query: ProductListDocument,
+      variables: await productListApplyCategoryDefaults(
+        productListParams,
+        (await conf).data,
+        category,
+      ),
+    })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

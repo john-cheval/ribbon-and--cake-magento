@@ -502,13 +502,13 @@ function ShippingPage(props: ShippingPageProps) {
               <ComposedForm>
                 <Box>
                   <>
-                    {/*!shippingPage.data?.cart?.is_virtual && (
-                  <ShippingMethodForm
-                    step={4}
-                    sx={(theme) => ({ mt: theme.spacings.lg })}
-                    isPickup={value === 1}
-                  />
-                )*/}
+                    {!shippingPage.data?.cart?.is_virtual && (
+                      <ShippingMethodForm
+                        step={4}
+                        sx={(theme) => ({ mt: theme.spacings.lg })}
+                        isPickup={value === 1}
+                      />
+                    )}
 
                     <ComposedSubmit
                       onSubmitSuccessful={() => router.push('/checkout/payment')}
@@ -520,9 +520,9 @@ function ShippingPage(props: ShippingPageProps) {
                               paddingBottom: 0,
                               justifyContent: 'unset',
                               '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                                {
-                                  boxShadow: 'none',
-                                },
+                              {
+                                boxShadow: 'none',
+                              },
                               '& .MuiButtonBase-root': {
                                 fontSize: { xs: '14px', md: '16px' },
                                 backgroundColor: (theme) => theme.palette.custom.heading,
@@ -627,7 +627,7 @@ function ShippingPage(props: ShippingPageProps) {
                 },
               }}
               cart={cartData?.cart}
-              // disabled={hasError}
+            // disabled={hasError}
             />
           </OverlayStickyBottom>
         </Box>

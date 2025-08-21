@@ -27,7 +27,7 @@ index bbf68aa..c92f143 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
-index 2df7a90..67a9a15 100644
+index 2df7a90..39ff445 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 @@ -27,18 +27,19 @@ import { ShippingMethodFormDocument } from './ShippingMethodForm.gql'
@@ -54,7 +54,7 @@ index 2df7a90..67a9a15 100644
    const { data: cartQuery } = useCartQuery(GetShippingMethodsDocument)
  
    const shippingAddress = cartQuery?.cart?.shipping_addresses?.[0]
-@@ -75,13 +76,26 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -75,15 +76,28 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
      defaultValues: { carrierMethod },
      onBeforeSubmit: (variables) => {
        const [carrier, method] = (variables.carrierMethod ?? '').split('-')
@@ -80,20 +80,46 @@ index 2df7a90..67a9a15 100644
 -  const submit = handleSubmit(() => {})
 +  const submit = handleSubmit(() => { })
  
-   useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
+-  useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
++  // useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
  
-@@ -113,8 +127,17 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
-     }
-   }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
+   const renderItems = [...items]
+   if (renderItems.length === 0) {
+@@ -101,20 +115,31 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+     })
+   }
  
-+  useEffect(() => {
+-  const firstCarrierMethod = items.length === 1 ? items[0].value : undefined
++  // const firstCarrierMethod = items.length === 1 ? items[0].value : undefined
++  // useEffect(() => {
++  //   //  If there is a shipping address AND there is only one shipping method
++  //   if (shippingAddress && firstCarrierMethod) {
++  //     // AND the current carrierMethod is not the same (or not set) as the single shipping method
++  //     if (carrierMethod !== firstCarrierMethod) {
++  //       // THEN set the shipping method to the only one available.
++  //       setValue('carrierMethod', firstCarrierMethod, { shouldValidate: true })
++  //     }
++  //   }
++  // }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
++
+   useEffect(() => {
+-    //  If there is a shipping address AND there is only one shipping method
+-    if (shippingAddress && firstCarrierMethod) {
+-      // AND the current carrierMethod is not the same (or not set) as the single shipping method
+-      if (carrierMethod !== firstCarrierMethod) {
+-        // THEN set the shipping method to the only one available.
+-        setValue('carrierMethod', firstCarrierMethod, { shouldValidate: true })
+-      }
 +    if (isPickup && shippingAddress?.pickup_location_code) {
 +      setValue('carrierMethod', "instore", { shouldValidate: true })
++      submit()
 +    } else {
 +      setValue('carrierMethod', availableMethods?.[0]?.carrier_code, { shouldValidate: true })
-+    }
-+  }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
-+
++      submit()
+     }
+-  }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
++  }, [shippingAddress])
+ 
    return (
 -    <FormProvider {...form}>
 +    <>
@@ -101,7 +127,7 @@ index 2df7a90..67a9a15 100644
        <FormAutoSubmit
          control={control}
          submit={submit}
-@@ -132,16 +155,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -132,16 +157,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
            name='carrierMethod'
            size='large'
            color='secondary'

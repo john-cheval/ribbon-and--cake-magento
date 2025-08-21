@@ -102,7 +102,7 @@ function OrderSuccessPage() {
               background: (theme) => theme.palette.custom.main,
               color: (theme) => theme.palette.custom.border,
               borderRadius: '4px',
-              fontSize: { xs: '12px', md: '14px', lg: '16px' },
+              fontSize: { xs: '15px', lg: '16px' },
               border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
               textTransform: 'capitalize',
               transition: 'all 0.4s ease-in-out',

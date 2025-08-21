@@ -81,7 +81,7 @@ export function InnerTop(props: InnerTopProps) {
               sx={{
                 color: (theme: any) => theme.palette.custom.tertiary,
                 fontWeight: 400,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
               }}
             >
               <Link href='/'>Home</Link>
@@ -107,7 +107,7 @@ export function InnerTop(props: InnerTopProps) {
                   sx={{
                     color: (theme: any) => theme.palette.custom.tertiary,
                     fontWeight: 400,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                   }}
                 >
                   {title}
@@ -150,7 +150,7 @@ export function InnerTop(props: InnerTopProps) {
                       sx={{
                         color: (theme: any) => theme.palette.custom.tertiary,
                         fontWeight: 400,
-                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                       }}
                     >
                       {formattedLink}
@@ -221,7 +221,7 @@ export function InnerTop(props: InnerTopProps) {
                         '& .MuiAccordionSummary-content .MuiTypography-body1': {
                           color: (theme: any) => theme.palette.custom.main,
                           fontWeight: 500,
-                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                          fontSize: { xs: '15px', md: '16px' },
                           marginBottom: '0 !important',
                           position: 'relative',
                         },
@@ -239,12 +239,16 @@ export function InnerTop(props: InnerTopProps) {
                             backgroundColor: (theme) => theme.palette.custom.border,
                           },
                         },
+                        '& .ActionCardLayout-root ': {
+                          backgroundColor: 'white',
+                          border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                        },
                         '& .ActionCardLayout-root .MuiButtonBase-root': {
                           paddingBlock: '12px',
                           borderRadius: '2px',
                           '& .ActionCard-title': {
                             color: (theme: any) => theme.palette.custom.main,
-                            fontSize: { xs: '14px', md: '16px' },
+                            fontSize: { xs: '15px', md: '16px' },
                             fontWeight: 500,
                             lineHeight: '158%',
                           },

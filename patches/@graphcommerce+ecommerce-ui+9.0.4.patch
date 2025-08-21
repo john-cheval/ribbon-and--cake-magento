@@ -163,16 +163,14 @@ index 17f5055..2803608 100644
        rules={{
          pattern: {
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
-index dc4fb00..6ea26e8 100644
+index dc4fb00..ef8da17 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
-@@ -13,8 +13,8 @@ export function TelephoneElement<TFieldValues extends FieldValues>(
-   const { rules, ...rest } = props
+@@ -14,7 +14,7 @@ export function TelephoneElement<TFieldValues extends FieldValues>(
    return (
      <TextFieldElement
--      type='text'
+       type='text'
 -      label={<Trans>Telephone</Trans>}
-+      type='number'
 +      label={<Trans>Phone</Trans>}
        autoComplete='tel'
        rules={{

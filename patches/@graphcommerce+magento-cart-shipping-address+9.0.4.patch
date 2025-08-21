@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..0306496 100644
+index a128fe9..8358211 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -43,12 +43,12 @@ index a128fe9..0306496 100644
     */
    ignoreCache?: boolean
    sx?: SxProps<Theme>
-+  isPickup?:boolean | undefined
++  isPickup?: boolean | undefined
  }
  
  export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props) => {
 -  const { step, sx } = props
-+  const { step, sx,isPickup } = props
++  const { step, sx, isPickup } = props
 +
    const { data: cartQuery } = useCartQuery(GetAddressesDocument)
    const { data: config } = useQuery(StoreConfigDocument)
@@ -101,7 +101,7 @@ index a128fe9..0306496 100644
          variables.vatId = ''
        }
 -
-+     // console.log(regionId, "==>regionId")
++      // console.log(regionId, "==>regionId")
        return {
          ...variables,
          telephone: variables.telephone || '000 - 000 0000',
@@ -114,7 +114,7 @@ index a128fe9..0306496 100644
  
    useFormCompose({ form, step, submit, key: 'ShippingAddressForm' })
  
-@@ -134,22 +138,80 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -134,22 +138,78 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
        <FormAutoSubmit
          submit={submit}
          control={form.control}
@@ -183,7 +183,6 @@ index a128fe9..0306496 100644
 +        </FormRow>
        </FormRow>
 +
-+    {!isPickup && (
 +      <Box>
 +        <Typography sx={{
 +          color: (theme) => theme.palette.custom.dark,
@@ -197,7 +196,6 @@ index a128fe9..0306496 100644
 +
 +        <AddressFields form={form} />
 +      </Box>
-+    )}  
 +
 +
 +

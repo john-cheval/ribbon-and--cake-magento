@@ -1,0 +1,53 @@
+diff --git a/node_modules/@graphcommerce/magento-payment-included/index.ts b/node_modules/@graphcommerce/magento-payment-included/index.ts
+index 233dd91..bb13d0e 100644
+--- a/node_modules/@graphcommerce/magento-payment-included/index.ts
++++ b/node_modules/@graphcommerce/magento-payment-included/index.ts
+@@ -1,5 +1,5 @@
+ import { purchaseorder } from './PurchaseOrder'
+-import { banktransfer, cashondelivery, checkmo, free } from './methods'
++import { banktransfer, cashondelivery, checkmo, free,ccavenue } from './methods'
+ 
+ export const included_methods = {
+   purchaseorder,
+@@ -7,4 +7,5 @@ export const included_methods = {
+   checkmo,
+   cashondelivery,
+   free,
++  ccavenue
+ }
+diff --git a/node_modules/@graphcommerce/magento-payment-included/methods.tsx b/node_modules/@graphcommerce/magento-payment-included/methods.tsx
+index 0ee7c0c..77c536c 100644
+--- a/node_modules/@graphcommerce/magento-payment-included/methods.tsx
++++ b/node_modules/@graphcommerce/magento-payment-included/methods.tsx
+@@ -26,3 +26,9 @@ export const cashondelivery: PaymentModule = {
+   PaymentPlaceOrder: PaymentMethodPlaceOrderNoop,
+   PaymentActionCard: (props) => <ActionCard {...props} image={<IconSvg src={iconCreditCard} />} />,
+ }
++
++export const ccavenue: PaymentModule = {
++  PaymentOptions: PaymentMethodOptionsNoop,
++  PaymentPlaceOrder: PaymentMethodPlaceOrderNoop,
++  PaymentActionCard: (props) => <ActionCard {...props} image={<IconSvg src={iconCreditCard} />} />,
++}
+diff --git a/node_modules/@graphcommerce/magento-payment-included/plugins/AddIncludedMethods.tsx b/node_modules/@graphcommerce/magento-payment-included/plugins/AddIncludedMethods.tsx
+index c40f83f..c3ef432 100644
+--- a/node_modules/@graphcommerce/magento-payment-included/plugins/AddIncludedMethods.tsx
++++ b/node_modules/@graphcommerce/magento-payment-included/plugins/AddIncludedMethods.tsx
+@@ -1,7 +1,7 @@
+ import type { PaymentMethodContextProviderProps } from '@graphcommerce/magento-cart-payment-method'
+ import type { PluginConfig, PluginProps } from '@graphcommerce/next-config'
+ import { purchaseorder } from '../PurchaseOrder'
+-import { banktransfer, cashondelivery, checkmo, free } from '../methods'
++import { banktransfer, cashondelivery, checkmo, free, ccavenue } from '../methods'
+ 
+ export const config: PluginConfig = {
+   type: 'component',
+@@ -15,7 +15,7 @@ export function PaymentMethodContextProvider(
+   return (
+     <Prev
+       {...rest}
+-      modules={{ ...modules, banktransfer, checkmo, free, cashondelivery, purchaseorder }}
++      modules={{ ...modules, banktransfer, checkmo, free, cashondelivery, purchaseorder, ccavenue }}
+     />
+   )
+ }

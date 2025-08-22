@@ -19,8 +19,6 @@ export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
   const isMobile = useMediaQuery('(max-width:769px)')
 
-  console.log(products, 'this s the prducts')
-
   return (
     <Box
       component='div'

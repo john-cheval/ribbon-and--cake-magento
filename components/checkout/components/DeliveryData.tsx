@@ -33,8 +33,6 @@ export default function DeliveryDate({ slotList }) {
     },
     skipUnchanged: true,
     onBeforeSubmit: (variables) => {
-      console.log(variables, '==>variables')
-
       return {
         ...variables,
         date: variables?.date,
@@ -54,7 +52,6 @@ export default function DeliveryDate({ slotList }) {
     label: dateString,
     value: dateString,
   }))
-  // console.log("slotList::", slotList)
   return (
     <Form
       noValidate
@@ -280,7 +277,6 @@ export default function DeliveryDate({ slotList }) {
             label: slot.slot,
           }))}
           onChange={(value) => {
-            console.log(value, slotTime, '=>value')
             setTime(value as any)
             form.setValue('time', value as any, { shouldDirty: true })
           }}

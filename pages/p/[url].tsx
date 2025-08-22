@@ -463,6 +463,7 @@ function ProductPage(props: Props) {
             sx={{
               py: 0.1,
               backgroundColor: '#fff',
+              zIndex: 99999,
               // bottom: 'unset !important',
               '& .CartTotals-root ': {
                 backgroundColor: 'transparent',

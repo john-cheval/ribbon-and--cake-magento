@@ -151,6 +151,9 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                 marginLeft: '0',
                 color: (theme: any) => theme.palette.custom.tertiary,
               },
+              '& .mui-style-brh10v:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: (theme: any) => `${theme.palette.custom.border} !important`,
+              },
             }}
           >
             <ProductCustomizable product={product} />

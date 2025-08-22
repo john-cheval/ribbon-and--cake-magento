@@ -14,11 +14,12 @@ import {
   ProductListPrice,
 } from '@graphcommerce/magento-product'
 import { IoArrowForwardSharp } from 'react-icons/io5'
-import { truncateByChars, truncateByWords } from '../../../utils/truncate'
 
 export function HeroSwiper({ products }) {
   const swiperRef = useRef<SwiperCore | null>(null)
   const isMobile = useMediaQuery('(max-width:769px)')
+
+  console.log(products, 'this s the prducts')
 
   return (
     <Box
@@ -31,7 +32,7 @@ export function HeroSwiper({ products }) {
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          modules={[Autoplay]}
+          //  modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,
@@ -120,19 +121,20 @@ export function HeroSwiper({ products }) {
                     }}
                   >
                     {item?.categories?.length > 0 && (
-                      <Typography
-                        component='p'
-                        sx={{
+                      <Link
+                        href={`/${item?.categories[0]?.url_key}`}
+                        style={{
                           fontWeight: 300,
                           lineHeight: '170%',
-                          fontSize: '12px !important',
+                          fontSize: '12px',
                           letterSpacing: '0%',
                           color: '#878787',
                           textDecoration: 'underline',
+                          cursor: 'pointer',
                         }}
                       >
                         {item?.categories[0]?.name}
-                      </Typography>
+                      </Link>
                     )}
 
                     <Typography

@@ -865,7 +865,7 @@ index 3a5a250..20686c4 100644
          active={active}
          direction={direction}
 diff --git a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
-index bbf6b28..59385e6 100644
+index bbf6b28..6704b65 100644
 --- a/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
 +++ b/node_modules/@graphcommerce/next-ui/LayoutParts/Logo.tsx
 @@ -25,11 +25,11 @@ const useUtilityClasses = ({ classes }: LogoClassProps) =>
@@ -883,6 +883,20 @@ index bbf6b28..59385e6 100644
    pointerEvents: 'all',
  }
  
+@@ -60,11 +60,10 @@ export const Logo = forwardRef<HTMLAnchorElement, LogoProps>((props, ref) => {
+   )
+ 
+   const shouldRedirect = router.asPath.split('?')[0] !== href
+-
+   return (
+     <Box
+-      component={shouldRedirect ? LogoContainer : 'div'}
+-      href={shouldRedirect ? href : undefined}
++      component={ LogoContainer}
++      href={ href }
+       ref={ref}
+       sx={[...(Array.isArray(sx) ? sx : [sx]), commonLogoStyles]}
+       className={classes.parent}
 diff --git a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx b/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx
 index b792f5c..1aaece7 100644
 --- a/node_modules/@graphcommerce/next-ui/Overlay/components/OverlayStickyBottom.tsx

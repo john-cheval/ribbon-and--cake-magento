@@ -91,6 +91,7 @@ export function Footer({ footerContent }) {
         href={
           'https://api.whatsapp.com/send/?phone=971528899029&text&type=phone_number&app_absent=0'
         }
+        target='_blank'
       >
         <Box
           sx={{

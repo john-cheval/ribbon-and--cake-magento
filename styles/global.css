@@ -1184,9 +1184,6 @@ ol {
     font-size: 45px;
   }
 
-  .image-wrapper img {
-    max-height: 612px;
-  }
   .home-collection-content-box {
     padding: 100px 88px;
   }
@@ -1300,7 +1297,7 @@ ol {
   max-height: 500px;
   transition: max-height 0.3s ease-in;
 }
-.footer-link,
+.footer-link a,
 .footer-phone-link {
   color: #2a110a;
   font-size: 16px;
@@ -1730,7 +1727,7 @@ ol {
     padding: 0 17px;
   }
   .footer-social a img {
-    width: 30px;
+    width: 25px;
     top: 13px;
   }
   .footer-social .google {
@@ -1809,7 +1806,7 @@ ol {
   color: black !important;
 }
 .google-desk {
-  width: 25px !important;
+  width: 20px !important;
 }
 
 input:-webkit-autofill {

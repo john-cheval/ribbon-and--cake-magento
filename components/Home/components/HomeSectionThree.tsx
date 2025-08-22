@@ -17,9 +17,9 @@ export function HomeSectionThree(props) {
         component='div'
         sx={{
           position: 'absolute',
-          left: { xs: '20px', lg: '25%' },
+          left: { xs: '20px', lg: '22%', xl: '26%' },
           bottom: { xs: 'unset', lg: 'none' },
-          top: { xs: '12%', sm: '8%', md: '6%', lg: '53%' },
+          top: { xs: '12%', sm: '8%', md: '6%', lg: '51%', xl: '53%' },
         }}
       >
         <Image

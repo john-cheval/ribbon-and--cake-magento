@@ -129,7 +129,7 @@ function CartPage() {
                   position: 'relative',
                   zIndex: 1,
 
-                  '& .ActionCard-title': {
+                  '& .ActionCard-title a': {
                     color: (theme: any) => theme.palette.custom.dark,
                     fontSize: { xs: '15px', md: '16px' },
                     fontWeight: 600,
@@ -260,7 +260,7 @@ function CartPage() {
                     },
                     '& .CartTotals-money.MuiBox-root': {
                       '& span span:first-child': {
-                        backgroundPosition: '20px center',
+                        backgroundPosition: '23px center',
                       },
                       '& span span': {
                         color: (theme: any) => theme.palette.custom.smallHeading,

@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..481e227 100644
+index de7b68f..38aa7e3 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,4 +1,4 @@
@@ -43,7 +43,7 @@ index de7b68f..481e227 100644
    ActionCardProps,
    'value' | 'image' | 'price' | 'title' | 'action'
  >
-@@ -24,7 +29,7 @@ export function productEditLink(link: ProductLinkProps) {
+@@ -24,10 +29,12 @@ export function productEditLink(link: ProductLinkProps) {
  }
  
  export function CartItemActionCard(props: CartItemActionCardProps) {
@@ -52,11 +52,17 @@ index de7b68f..481e227 100644
    const { uid, quantity, prices, errors, product } = cartItem
    const { name, thumbnail, url_key } = product
  
-@@ -48,11 +53,12 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
++//  console.log(cartItem,"this is the cartItems")
++
+   const inclTaxes = useDisplayInclTax()
+ 
+   let price: number | null | undefined
+@@ -47,12 +54,13 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+     (cartItem.__typename === 'SimpleCartItem' || cartItem.__typename === 'VirtualCartItem') &&
      cartItem.customizable_options.length === 0
    )
++// console.log(thumbnail,'this is the thubnail')
  
-+
    return (
      <ActionCard
        value={uid}
@@ -66,7 +72,7 @@ index de7b68f..481e227 100644
            '&.ActionCard-root': {
              px: 0,
              py: theme.spacings.xs,
-@@ -72,6 +78,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -72,6 +80,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
            },
            '& .ActionCard-action': {
              pr: readOnly ? 0 : theme.spacings.xs,
@@ -74,7 +80,7 @@ index de7b68f..481e227 100644
            },
            '& .ActionCard-image': {
              alignSelf: 'flex-start',
-@@ -85,6 +92,26 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -85,6 +94,26 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
              pr: readOnly ? 0 : theme.spacings.xs,
              mb: { xs: 0.5, sm: 0 },
            },
@@ -101,7 +107,7 @@ index de7b68f..481e227 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -97,8 +124,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -97,8 +126,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                width: actionCardImageSizes[size],
                height: actionCardImageSizes[size],
                display: 'block',
@@ -113,7 +119,7 @@ index de7b68f..481e227 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -131,32 +159,129 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +161,129 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
@@ -140,12 +146,12 @@ index de7b68f..481e227 100644
 +                     },
 +                    '& .MuiButtonBase-root':{
 +                      color:'#333333',
-+                      fontsize: { xs: '12px', md: '14px', lg: '18px' },
++                      fontsize: { xs: '15px', lg: '18px' },
 +                      fontWeight:500
 +                    },'& .MuiInputBase-input':{
 +                      color:'#333333',
 +                      fontWeight:'500',
-+                      fontsize: { xs: '12px', md: '14px', lg: '18px' }
++                      fontsize: { xs: '15px', lg: '18px' }
 +
 +                    },  '& .MuiButtonBase-root svg': {
 +              fontSize: { xs: '15px', md: '20px', xl:'24px' },
@@ -262,7 +268,7 @@ index de7b68f..481e227 100644
        size={size}
        after={filterNonNullableKeys(errors).map((error) => (
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
-index 13d03bb..86bb97d 100644
+index 13d03bb..b4a1120 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemsActionCards/CartItemsActionCards.tsx
 @@ -3,10 +3,12 @@ import { ActionCardLayout, nonNullable } from '@graphcommerce/next-ui'
@@ -278,7 +284,7 @@ index 13d03bb..86bb97d 100644
    itemProps?: Omit<
      CartItemActionCardProps,
      | 'cartItem'
-@@ -28,6 +30,7 @@ export function CartItemsActionCards(props: CartProps) {
+@@ -28,17 +30,23 @@ export function CartItemsActionCards(props: CartProps) {
      layout = 'list',
      itemProps = {},
      variant = 'default',
@@ -286,7 +292,14 @@ index 13d03bb..86bb97d 100644
      ...remainingProps
    } = props
  
-@@ -39,6 +42,8 @@ export function CartItemsActionCards(props: CartProps) {
+   if (!cart?.items?.length) return null
+ 
++  // console.log(cart?.items[0]?.product?.thumbnail,"this is the parent items thumbnail")
++
++
+   return (
+     <ActionCardLayout layout={layout} {...remainingProps}>
+       {cart.items
          ?.filter(nonNullable)
          .map((item) => (
            <CartItemActionCard

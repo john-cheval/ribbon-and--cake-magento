@@ -93,7 +93,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                   component='p'
                   sx={{
                     color: '#2A110A',
-                    fontSize: { xs: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                     fontWeight: 500,
                   }}
                 >
@@ -136,7 +136,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
               },
               '& .SectionHeader-root .SectionHeader-left': {
                 color: '#2A110A ',
-                fontSize: { xs: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
                 textTransform: 'capitalize',
                 fontWeight: 500,
               },

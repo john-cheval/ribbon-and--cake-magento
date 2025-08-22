@@ -216,7 +216,7 @@ function ProductPage(props: Props) {
                   },
                   '& .ActionCard-title': {
                     color: (theme) => theme.palette.custom.smallHeading,
-                    fontSize: { xs: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                     //fontWeight: 600,
                   },
                 },
@@ -438,7 +438,7 @@ function ProductPage(props: Props) {
                 sx={(theme) => ({
                   mb: theme.spacings.xs,
                   color: '#6F6F6F',
-                  fontSize: { xs: '14px', md: '16px' },
+                  fontSize: { xs: '15px', md: '16px' },
                   lineHeight: '170%',
                   paddingTop: '15px',
                 })}
@@ -493,7 +493,7 @@ function ProductPage(props: Props) {
                 sx={{
                   backgroundColor: '#FFE09D',
                   color: '#441E14',
-                  fontSize: { xs: '14px', md: '16px' },
+                  fontSize: { xs: '15px', md: '16px' },
                   fontWeight: 500,
                   lineHeight: '158%',
                   borderRadius: '4px',
@@ -519,7 +519,7 @@ function ProductPage(props: Props) {
                     backgroundColor: '#9B7C38',
                     border: '1px solid #9B7C38',
                     color: '#fff',
-                    fontSize: { xs: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent',
                       color: '#2A110A',
@@ -546,7 +546,7 @@ function ProductPage(props: Props) {
                         sx={{
                           backgroundColor: (theme: any) => theme.palette.custom.heading,
                           color: '#FFFFFF',
-                          fontSize: { xs: '14px', md: '16px' },
+                          fontSize: { xs: '15px', md: '16px' },
                           borderRadius: '4px',
                           border: '1px solid #9B7C38 ',
                           paddingBlock: { xs: '9px', md: '12px' },
@@ -570,7 +570,7 @@ function ProductPage(props: Props) {
                         sx={{
                           backgroundColor: (theme: any) => theme.palette.custom.heading,
                           color: '#FFFFFF',
-                          fontSize: { xs: '14px', md: '16px' },
+                          fontSize: { xs: '15px', md: '16px' },
                           borderRadius: '4px',
                           border: '1px solid #9B7C38 ',
                           // paddingBlock: { xs: '5px' },
@@ -619,7 +619,7 @@ function ProductPage(props: Props) {
             )}
 
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-              <Link href='/cakes' css={linkStyle}>
+              <Link href={`/${relatedProducts[0]?.categories[0]?.url_key}`} css={linkStyle}>
                 View All
               </Link>
             </Box>

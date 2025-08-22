@@ -12,43 +12,40 @@ import { GoHome } from 'react-icons/go'
 import { IoMenuSharp } from 'react-icons/io5'
 import { MdOutlineInterests } from 'react-icons/md'
 import MenuDrawer from './MenuDrawer'
-import ShopMenuDrawer from './ShopMenuDrawer'
+
+// import ShopMenuDrawer from './ShopMenuDrawer'
 
 const moreMenu = [
-  { id: 1, title: 'About', link: '/about' },
-  { id: 2, title: 'Events', link: '/events' },
-  { id: 3, title: 'Courses', link: '/courses' },
-  { id: 4, title: 'Checkout', link: '/checkout' },
-  { id: 5, title: 'Login / Register', link: '/account/sigin' },
+  { id: 1, title: 'Cakes', link: '/cakes' },
+  { id: 2, title: "Chef's Special", link: '/chef-s-special' },
+  { id: 3, title: 'Corporate Events', link: '/events' },
+  { id: 4, title: 'Baking Classes', link: '/courses' },
+  { id: 5, title: 'Login/Signup', link: '/account/sigin' },
+  { id: 6, title: 'Orders', link: '/account/orders' },
+  { id: 7, title: 'About', link: '/about' },
+  { id: 8, title: 'Events', link: '/events' },
+  { id: 9, title: 'Home', link: '/' },
 ]
 
 function MobileMenu({ ShopCategories }) {
-  const [openDrawer, setOpenDrawer] = useState(false)
-  const [openshopMenu, setOpenShopMenu] = useState(false)
+  const [openDrawer, setOpenDrawer] = useState(true)
+  //  const [openshopMenu, setOpenShopMenu] = useState(false)
   const router = useRouter()
   const currentPath = router?.pathname
-  const splittedPath = currentPath.split('/').filter(Boolean)[0]
   const isMatch = moreMenu.some((menu) => {
-    if (menu.link.startsWith('/courses')) {
-      return router.pathname.startsWith('/courses')
-    }
-    return menu.link === splittedPath
+    return currentPath.startsWith(menu.link)
   })
-
-  const handleShopMenuOpen = () => {
-    setOpenShopMenu(!openshopMenu)
-    setOpenDrawer(false)
-  }
 
   const handleMoreMenuOpen = () => {
     setOpenDrawer(!openDrawer)
-    setOpenShopMenu(false)
   }
 
   const handleCloseAllOtherPopups = () => {
     setOpenDrawer(false)
-    setOpenShopMenu(false)
   }
+
+  console.log(router, 'this is the router')
+  console.log(currentPath, 'this is the current path')
 
   return (
     <>
@@ -68,7 +65,7 @@ function MobileMenu({ ShopCategories }) {
         </Box>
       </Link>
 
-      <Link href='/shop'>
+      <Link href='/shop' onClick={handleCloseAllOtherPopups}>
         <Box
           sx={{
             display: 'flex',
@@ -76,6 +73,7 @@ function MobileMenu({ ShopCategories }) {
             rowGap: '4px',
             alignItems: 'center',
             cursor: 'pointer',
+            color: router?.asPath === '/shop' ? '#D23552' : '#441E14',
           }}
         >
           <MdOutlineInterests size={20} />
@@ -92,7 +90,7 @@ function MobileMenu({ ShopCategories }) {
               rowGap: '4px',
               alignItems: 'center',
               cursor: 'pointer',
-              color: currentPath === '/cart' ? '#D23552' : '#441E14',
+              color: router.asPath === '/cart' ? '#D23552' : '#441E14',
             }}
           >
             <AiOutlineShopping size={20} />
@@ -122,7 +120,7 @@ function MobileMenu({ ShopCategories }) {
         {openDrawer && <MenuDrawer isOpen={openDrawer} setIsOpen={setOpenDrawer} more={moreMenu} />}
       </AnimatePresence>
 
-      {/* Shop Menu */}
+      {/* Shop Menu 
       <AnimatePresence>
         {openshopMenu && (
           <ShopMenuDrawer
@@ -131,7 +129,7 @@ function MobileMenu({ ShopCategories }) {
             shopMenu={ShopCategories}
           />
         )}
-      </AnimatePresence>
+      </AnimatePresence>*/}
     </>
   )
 }

@@ -100,11 +100,11 @@ function CategoryPage(props: CategoryProps) {
     <PrivateQueryMaskProvider mask={productList.mask}>
       <CategoryMeta params={params} {...category} />
       <ProductFiltersPro
-        params={contexProps.params ?? {} as ProductListParams}
+        params={contexProps.params ?? ({} as ProductListParams)}
         aggregations={contexProps.filters?.aggregations}
         appliedAggregations={contexProps.products?.aggregations}
         filterTypes={Object.fromEntries(
-          Object.entries(contexProps.filterTypes ?? {}).map(([k, v]) => [k, v?.toString()])
+          Object.entries(contexProps.filterTypes ?? {}).map(([k, v]) => [k, v?.toString()]),
         )}
         autoSubmitMd
         handleSubmit={contexProps.handleSubmit}
@@ -194,22 +194,22 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-      query: ProductFiltersDocument,
-      variables: categoryDefaultsToProductListFilters(
-        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-      ),
-    })
+        query: ProductFiltersDocument,
+        variables: categoryDefaultsToProductListFilters(
+          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+        ),
+      })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-      query: ProductListDocument,
-      variables: await productListApplyCategoryDefaults(
-        productListParams,
-        (await conf).data,
-        category,
-      ),
-    })
+        query: ProductListDocument,
+        variables: await productListApplyCategoryDefaults(
+          productListParams,
+          (await conf).data,
+          category,
+        ),
+      })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

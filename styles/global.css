@@ -974,7 +974,7 @@ ol {
     column-gap: 15px;
   }
   .home-banner-content {
-    top: 5%;
+    top: 12%;
     bottom: auto;
     gap: 8px;
     align-items: start;
@@ -992,7 +992,7 @@ ol {
   }
   .home-banner-content {
     align-items: start;
-    top: 45px;
+    top: 15%;
   }
   .orderProduct span span:first-child {
     background: url(../components/Assets/aed.svg) 27px center no-repeat;
@@ -1136,6 +1136,7 @@ ol {
     /*margin-bottom: 8px;*/
     text-align: left;
     color: var(--color-custom-main) !important;
+    max-width: 500px;
   }
   .overlay-description {
     text-align: left;
@@ -1164,7 +1165,7 @@ ol {
   }
   .home-banner-content {
     align-items: start;
-    top: 60px;
+    top: 17%;
   }
   .left-svg img {
     max-height: 300px;
@@ -1186,6 +1187,9 @@ ol {
   }
   .left-image-section {
     width: 41.666667%;
+  }
+  .overlay-title {
+    max-width: 350px;
   }
   .overlay-description {
     margin-bottom: 20px;

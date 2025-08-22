@@ -52,7 +52,10 @@ export function InnerTop(props: InnerTopProps) {
             // borderTop: '1px solid #d4d4d4',
             borderTop: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
             ...((isFilter || mainTitle) && {
-              borderBottom: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+              borderBottom: {
+                xs: isFilter ? 0 : (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                md: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+              },
             }),
             paddingBlock: { xs: '10px', lg: '15px' },
           },
@@ -181,6 +184,7 @@ export function InnerTop(props: InnerTopProps) {
                 alignItems: 'center',
                 columnGap: '40px',
                 justifyContent: { xs: 'space-between', md: 'start' },
+                width: { xs: '100%', md: 'fit-content' },
               }}
             >
               <Typography component='h2' variant='h2' sx={{}}>
@@ -231,7 +235,11 @@ export function InnerTop(props: InnerTopProps) {
                         width: '100%',
                         borderRadius: '4px',
                         zIndex: 1000,
+                        minWidth: '200px',
                         border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                        '& .ActionCard-root': {
+                          borderRadius: '0',
+                        },
                         '& .ActionCardLayout-root ': {
                           border: (theme) => theme.palette.custom.border,
                           borderRadius: '4px',
@@ -260,7 +268,7 @@ export function InnerTop(props: InnerTopProps) {
                       '& .MuiAccordionSummary-expandIconWrapper': {
                         position: 'relative',
                         top: '8px',
-                        marginLeft: '15px',
+                        marginLeft: '5px',
                       },
                     }}
                     // isDropdown={true}

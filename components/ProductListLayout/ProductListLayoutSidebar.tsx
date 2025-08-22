@@ -244,7 +244,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                   width: '100%',
                   marginBottom: { xs: '20px', sm: '25px' },
                   //top: '68px !important',
-                  position: 'static',
+                  position: 'sticky',
+                  top: '65px !important',
+                  backgroundColor: '#fff',
+                  zIndex: 9999,
+                  borderTop: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
                 }}
               >
                 <ProductListFiltersContainer
@@ -270,6 +274,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                         alignItems: 'center',
                         display: 'flex',
                         justifyContent: 'space-between',
+                        overflow: 'visible',
+
                         '& > button': {
                           // width: '50%',
                         },
@@ -278,6 +284,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                         },
                         '& .MuiChip-outlined': {
                           width: '50%',
+                        },
+                        '& .ActionCardLayout-root.layoutList': {
+                          '& .MuiButtonBase-root': {
+                            borderRight: 0,
+                          },
                         },
                         '& .MuiButtonBase-root': {
                           borderRight: '1px solid #d4d4d4',
@@ -334,11 +345,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                           paddingRight: 0,
                         },
                         '& .MuiBox-root': {
-                          minWidth: '200px',
+                          minWidth: '120px',
                           alignContent: 'center',
                           height: '100%',
                           alignItems: 'center',
-                          paddingLeft: '10px',
+                          // paddingLeft: '10px',
                           '& .MuiTypography-root': {
                             display: 'inline-block',
                             verticalAlign: 'top',
@@ -446,7 +457,9 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             },
                             '& .ActionCardLayout-root .MuiButtonBase-root': {
                               paddingBlock: '12px',
-                              borderRadius: '2px',
+                              // borderRadius: '2px',
+                              textAlign: 'left',
+
                               '& .ActionCard-title': {
                                 color: (theme: any) => theme.palette.custom.main,
                                 fontSize: { xs: '15px', md: '16px' },
@@ -456,9 +469,18 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             },
                             '& .MuiAccordionSummary-expandIconWrapper': {
                               position: 'relative',
-                              top: '8px',
+                              top: '10px',
                               marginLeft: '15px',
                             },
+                            '& .MuiAccordionSummary-content': {
+                              flexGrow: 'unset',
+                            },
+
+                            // '& .MuiCollapse-root': {
+                            //   position: 'absolute',
+                            //   height: '100px',
+                            //   width: '100%',
+                            // },
                           }}
                           // isDropdown={true}
                           // isButton={true}
@@ -498,7 +520,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     borderRadius: '0px',
                   },
                   '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: (theme) => theme.palette.primary.main,
+                    backgroundColor: (theme) => theme.palette.custom.wishlistColor,
                     borderRadius: '0px',
                   },
                 }}

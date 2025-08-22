@@ -657,7 +657,7 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..27e183c 100644
+index 5643683..dcfdacc 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 @@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
@@ -706,7 +706,7 @@ index 5643683..27e183c 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +64,93 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,127 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
@@ -716,19 +716,54 @@ index 5643683..27e183c 100644
 +           bottom:'80px',
 +           position:'fixed',
 +           minHeight:'80% !important', width:'100%',
-+           borderRadius:'8px 8px 0 0 !important',
++          borderRadius:'0 0 0 0 !important',
 +           top:'unset',
-+           '& .LayoutHeader-root':{display:'none'},
++           overflowY: 'visible',
++           overflowX:'hidden',
++           '& .LayoutHeader-root':{
++            '& .LayoutHeaderContent-bg':{
++              boxShadow:'none',
++              borderRadius:0,
++            },
++            '& .LayoutHeaderContent-center .MuiTypography-root':{
++              display:'none'
++            },
++            '& .LayoutHeaderContent-left .MuiButtonBase-root':{
++              position:'absolute',
++              right:0,
++              top:'5px',
++              '& svg':{
++                stroke:(theme:any)=>theme.palette.custom.main,
++                fontSize:{xs:'28px', md:'30px'}
++              }
++            }
++           },
 +           '& .OverlayPanelActions-content':{
-+            paddingTop:'30px'
++           // paddingTop:'30px'
++           flex: '1 1 auto',
++           minHeight: 0,                 // <- important for flex scroll areas
++           overflowY: 'auto',
++           WebkitOverflowScrolling: 'touch',
++           paddingBottom: '30px',
++           },
++           '& .OverlayPanelActions-footer':{
++            flex: '0 0 auto',
++            '& .MuiButtonBase-root':{
++              backgroundColor:(theme:any)=>theme.palette.custom.heading,
++              color:'#fff',
++              borderRadius:'4px',
++              boxShadow:'none',
++              border:(theme:any)=>`1px solid ${theme.palette.custom.heading}`
++            }
 +           }
 +          }
 +      } }}
        {...rest}
      >
        {() => (
-         <>
+-        <>
 -          <ProductFiltersProSortSection
++        < >
 +        <ProductFiltersProAggregations
 +            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
 +          />
@@ -1157,14 +1192,15 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..3e451f2 100644
+index b64ae6d..ca284d9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,15 +5,19 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,15 +5,21 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
 +import { StaticImport } from '@graphcommerce/image'
++import { useEffect, useState } from 'react'
  
  export type ProductFiltersProSortSectionProps = UseProductFiltersProSortProps & {
    sx?: SxProps<Theme>
@@ -1178,11 +1214,12 @@ index b64ae6d..3e451f2 100644
 +  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
-+  const { options, showReset, selected, selectedLabel } = useProductFiltersProSort(props)
- 
++  const { options, showReset, selected, selectedLabel, } = useProductFiltersProSort(props)
++
+   
    if ((options.length ?? 0) <= 1) return null
  
-@@ -21,7 +25,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -21,7 +27,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
      <ActionCardAccordion
        sx={sx}
        defaultExpanded={selected}
@@ -1193,7 +1230,7 @@ index b64ae6d..3e451f2 100644
        details={
          <ActionCardListForm
            control={form.control}
-@@ -30,24 +36,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +38,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
@@ -1347,7 +1384,7 @@ index d3b392c..6df7696 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
-index 68f7cab..ab58133 100644
+index 68f7cab..0b76b65 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 @@ -22,33 +22,37 @@ export function ProductListCount(props: ProductCountProps) {
@@ -1382,7 +1419,7 @@ index 68f7cab..ab58133 100644
 +        sx={{ color: '#441e14 !important',
 +                  fontWeight: 300,
 +                  fontFamily: "'Bricolage Grotesque', sans-serif",
-+                  fontSize: { xs: '14px', md: '16px' },
++                  fontSize: { xs: '15px', md: '16px' },
 +                  lineHeight: '130%', }}
        >
          {children ? <> {children} </> : null}
@@ -1424,7 +1461,7 @@ index 0b9f236..7593709 100644
            >
              <ProductListPrice {...price_range.minimum_price} />
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
-index d1ae621..328df78 100644
+index d1ae621..f84eede 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
 @@ -69,7 +69,7 @@ export function ProductListItemImage(props: ImageOrPlaceholderProps) {
@@ -1432,7 +1469,7 @@ index d1ae621..328df78 100644
          sx={[
            {
 -            objectFit: 'contain',
-+            // objectFit: 'contain',
++             objectFit: 'cover',
              aspectRatio: `${aspectRatio[0] / aspectRatio[1]}`,
              display: 'block',
            },

@@ -650,21 +650,30 @@
   text-align: left;
   margin: 0;
 }
+.events-detail {
+  margin-top: 10px;
+}
+
 .events-detail p {
   margin: 0;
 }
-.events-detail p:first-of-type {
+.events-detail p {
   color: var(--color-custom-secondary);
   line-height: 174%;
   font-size: 15px;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.events-detail p:nth-of-type(2) {
+.events-detail h3 {
+  color: var(--color-custom-dark);
+  font-size: 18px;
+  line-height: 120%;
+  margin-bottom: 10px;
+}
+.events-detail h4 {
   color: var(--color-custom-dark);
   font-size: 16px;
   line-height: 120%;
   margin-bottom: 10px;
-  margin-top: 14px;
 }
 .events-detail ul {
   margin: 0;
@@ -760,7 +769,7 @@ ol {
 @media (min-width: 641px) {
   .responsive-fonts,
   .social-box .content span,
-  .events-detail p:first-of-type,
+  .events-detail p,
   .events-detail ul li,
   .coursesInner ol,
   .coursesInner ol li,
@@ -771,9 +780,7 @@ ol {
   .left-svg {
     top: 40%;
   }
-  .events-detail p:nth-of-type(2) {
-    margin-top: 20px;
-  }
+
   .customize-title {
     font-size: 17px;
   }
@@ -897,6 +904,9 @@ ol {
   .social-box {
     gap: 27px;
   }
+  .events-detail {
+    margin-top: 15px;
+  }
   .social-box img {
     width: 30px;
   }
@@ -926,14 +936,18 @@ ol {
   .events-dec {
     text-align: center;
   }
-  .events-detail p:first-of-type,
+  .events-detail p {
+    margin-bottom: 15px;
+  }
+  .events-detail p,
   .events-detail ul li {
     font-size: 16px;
   }
-  .events-detail p:nth-of-type(2) {
+  .events-detail h3 {
     font-size: 20px;
-    margin-bottom: 15px;
-    margin-top: 25px;
+  }
+  .events-detail h4 {
+    font-size: 18px;
   }
   .course-top-wrapper {
     padding-bottom: 25px;
@@ -1065,12 +1079,7 @@ ol {
     border-bottom: none;
     padding-bottom: 10px;
   }
-  .events-detail p:first-of-type {
-    margin-top: 18px;
-  }
-  .events-detail p:nth-of-type(2) {
-    margin-top: 34px;
-  }
+
   .sectionThreeWrapper {
     padding-top: 65px;
     column-gap: 30px;
@@ -1165,7 +1174,7 @@ ol {
   }
   .home-banner-content {
     align-items: start;
-    top: 17%;
+    top: 20%;
   }
   .left-svg img {
     max-height: 300px;
@@ -1189,7 +1198,7 @@ ol {
     width: 41.666667%;
   }
   .overlay-title {
-    max-width: 350px;
+    max-width: 500px;
   }
   .overlay-description {
     margin-bottom: 20px;

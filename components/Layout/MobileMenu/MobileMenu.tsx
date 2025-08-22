@@ -28,7 +28,7 @@ const moreMenu = [
 ]
 
 function MobileMenu({ ShopCategories }) {
-  const [openDrawer, setOpenDrawer] = useState(true)
+  const [openDrawer, setOpenDrawer] = useState(false)
   //  const [openshopMenu, setOpenShopMenu] = useState(false)
   const router = useRouter()
   const currentPath = router?.pathname
@@ -43,9 +43,6 @@ function MobileMenu({ ShopCategories }) {
   const handleCloseAllOtherPopups = () => {
     setOpenDrawer(false)
   }
-
-  console.log(router, 'this is the router')
-  console.log(currentPath, 'this is the current path')
 
   return (
     <>

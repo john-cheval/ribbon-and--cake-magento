@@ -111,6 +111,7 @@ function EventsDetails({ list }) {
             columnGap: { xs: 0, md: '15px', lg: '20px' },
             rowGap: { xs: '10px', md: 0 },
             flexDirection: { xs: 'column', md: 'row' },
+            marginTop: { xs: '10px', md: '15px' },
           }}
         >
           <Image

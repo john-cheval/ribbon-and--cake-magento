@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'configurator.reachdigital.dev' },
       { protocol: 'https', hostname: 'rnb.chevaldemo.xyz' },
-      { protocol: 'https', hostname: 'via.placeholder.com' },
+      { protocol: 'https', hostname: 'srv900162.hstgr.cloud' },
     ],
   },
   eslint: {

@@ -217,338 +217,350 @@ function ShippingPage(props: ShippingPageProps) {
               </Box>
             </Box>
 
-            {/* Shiping */}
-            <Box>
-              {' '}
-              <Typography
-                sx={{
-                  color: (theme: any) => theme.palette.custom.dark,
-                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
-                  lineHeight: '120%',
-                  marginTop: { xs: '18px', md: '27px' },
-                  marginBottom: { xs: '10px', md: '20px' },
-                }}
-              >
-                Shipping
-              </Typography>
-              <Box
-                sx={{
-                  width: '100%',
-                  borderRadius: '8px',
-                  backgroundColor: '#fff',
-                  padding: { xs: '20px 14px', md: '25px 30px' },
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: '#000',
-                    fontSize: { xs: '15px', md: '16px' },
-                    lineHeight: '120%',
-                    marginBottom: { xs: '13px', md: '23px' },
-                  }}
-                >
-                  Add your delivery location or select pick you if you wish to pick up from one of
-                  our stores.
-                </Typography>
-
-                <Box
-                  sx={{
-                    width: '100%',
-                  }}
-                >
-                  <Tabs
-                    sx={{
-                      justifyContent: 'unset',
-                      columnGap: '10px',
-
-                      // '& .MuiTabs-scroller': {
-                      //   overflow: 'unset',
-                      //   overflowX: 'unset',
-                      // },
-                      '& .MuiTabs-flexContainer': {
-                        gap: '11px',
-                      },
-
-                      '& .MuiTab-root': {
-                        // width: '50%',
-                        flexGrow: 1,
-                        maxWidth: 'unset',
-                        color: (theme) => theme.palette.custom.dark,
-                        fontSize: { xs: '15px', md: '16px' },
-                        lineHeight: '158%',
-                        borderRadius: '4px',
-                        textTransform: 'capitalize',
-                        fontWeight: 400,
-                        minHeight: { xs: '40px', md: '48px' },
-                        padding: { xs: '10px 14x', md: '12px 16px' },
-                        border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                        transition: 'background-color 0.3s ease, border 0.3s ease, color 0.3s ease',
-                        '&.Mui-selected': {
-                          backgroundColor: (theme) => theme.palette.custom.border,
-                          color: (theme) => theme.palette.custom.dark,
-                          border: (theme) => `1px solid ${theme.palette.custom.main}`,
-                        },
-                      },
-                      '& .MuiTabs-indicator': {
-                        display: 'none',
-                      },
-                    }}
-                    value={value}
-                    onChange={handleChange}
-                    centered
-                  >
-                    <Tab label='Delivery' {...a11yProps(0)} />
-                    <Tab label='Pickup' />
-                  </Tabs>
-                  <TabPanel
-                    sx={{
-                      '&.MuiBox-root.mui-style-19kzrtu': {
-                        padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
-
-                        '& .MuiTypography-h4': {},
-                      },
-                    }}
-                    value={value}
-                    index={0}
-                  >
-                    <ComposedForm>
-                      {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
-                        <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
-                          <ShippingAddressForm step={3} />
-                        </CustomerAddressForm>
-                      ) : (
-                        <>
-                          <Typography
-                            variant='h4'
-                            sx={{
-                              color: (theme) => theme.palette.custom.dark,
-                              fontSize: { xs: '16px', md: '20px' },
-                              lineHeight: '120%',
-                              marginBottom: { xs: '10px', md: '15px' },
-                              textTransform: 'capitalize',
-                              fontWeight: 400,
-                              fontVariationSettings: '"wght" 400',
-                            }}
-                          >
-                            <Trans id='Your details' />
-                          </Typography>
-                          <ShippingAddressForm
-                            sx={{
-                              paddingTop: '0',
-                              '& .MuiInputLabel-formControl': {
-                                color: (theme) => theme.palette.custom.main,
-                                fontSize: { xs: '15px', md: '16px' },
-                                lineHeight: '158%',
-                                fontWeight: 400,
-
-                                '&.Mui-focused': {
-                                  color: (theme) => theme.palette.custom.main,
-                                },
-                                '& .MuiFormLabel-asterisk': {
-                                  display: 'none',
-                                },
-                                '&.MuiInputLabel-animated': {
-                                  backgroundColor: '#fff',
-                                  padding: '0 6px',
-                                },
-                              },
-
-                              '& .MuiOutlinedInput-root': {
-                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                borderRadius: '4px',
-                                paddingRight: '0',
-
-                                '& .InputCheckmark': {
-                                  display: 'none',
-                                },
-
-                                '&:hover': {
-                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                },
-                                '&.Mui-focused': {
-                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                  '& .MuiOutlinedInput-input': {
-                                    color: (theme) => theme.palette.custom.main,
-                                    caretColor: (theme) => theme.palette.custom.main,
-                                  },
-                                },
-
-                                '& .MuiOutlinedInput-notchedOutline': {
-                                  border: 'none',
-                                },
-                              },
-                            }}
-                            step={3}
-                          />
-                        </>
-                      )}
-                    </ComposedForm>
-                  </TabPanel>
-
-                  <TabPanel
-                    value={value}
-                    index={1}
-                    sx={{
-                      '& > .MuiBox-root': {
-                        padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
-                      },
-                    }}
-                  >
-                    <ComposedForm>
-                      {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
-                        <CustomerAddressForm step={2} sx={(theme) => ({ mt: theme.spacings.lg })}>
-                          <ShippingAddressForm step={3} />
-                        </CustomerAddressForm>
-                      ) : (
-                        <>
-                          <Typography
-                            variant='h4'
-                            sx={{
-                              color: (theme) => theme.palette.custom.dark,
-                              fontSize: { xs: '16px', md: '20px' },
-                              lineHeight: '120%',
-                              marginTop: { xs: '15px', md: '25px', lg: '30px' },
-                              marginBottom: { xs: '10px', md: '15px' },
-                              textTransform: 'capitalize',
-                              fontWeight: 400,
-                              fontVariationSettings: '"wght" 400',
-                            }}
-                          >
-                            <Trans id='Your details' />
-                          </Typography>
-                          <ShippingAddressForm
-                            isPickup={value === 1}
-                            sx={{
-                              paddingTop: 0,
-                              '& .MuiInputLabel-formControl': {
-                                color: (theme) => theme.palette.custom.main,
-                                fontSize: { xs: '15px', md: '16px' },
-                                lineHeight: '158%',
-                                fontWeight: 400,
-
-                                '&.Mui-focused': {
-                                  color: (theme) => theme.palette.custom.main,
-                                },
-                                '& .MuiFormLabel-asterisk': {
-                                  display: 'none',
-                                },
-                                '&.MuiInputLabel-animated': {
-                                  backgroundColor: '#fff',
-                                  padding: '0 6px',
-                                },
-                              },
-
-                              '& .MuiOutlinedInput-root': {
-                                border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                borderRadius: '4px',
-                                paddingRight: '0',
-
-                                '& .InputCheckmark': {
-                                  display: 'none',
-                                },
-
-                                '&:hover': {
-                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                },
-                                '&.Mui-focused': {
-                                  border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                                },
-
-                                '& .MuiOutlinedInput-notchedOutline': {
-                                  border: 'none',
-                                },
-                              },
-                            }}
-                            step={3}
-                          />
-                        </>
-                      )}
-                    </ComposedForm>
-                    <PickupStoreForm storeData={prickupstoreData} />
-                  </TabPanel>
-                </Box>
-              </Box>
-            </Box>
-
-            {/* Delivery Date & Time */}
-            <Box>
-              <Typography
-                sx={{
-                  color: (theme: any) => theme.palette.custom.dark,
-                  fontSize: { xs: '16px', md: '18px', lg: '20px' },
-                  lineHeight: '120%',
-                  marginTop: { xs: '18px', md: '27px' },
-                  marginBottom: { xs: '10px', md: '20px' },
-                }}
-              >
-                Choose Delivery Date & Time
-              </Typography>
-              <Box
-                sx={{
-                  width: '100%',
-                  borderRadius: '8px',
-                  backgroundColor: '#fff',
-                  padding: { xs: '10px 14px', md: '10px 30px' },
-                  display: 'flex',
-                  gap: '10px',
-                }}
-              >
-                <DeliveryDate slotList={slotData} />
-              </Box>
-            </Box>
-
-            {/* Shipping Method */}
-            {!shippingPage.error && cartExists && (
-              <ComposedForm>
+            {hasItems && (
+              <>
+                {/* Shiping */}
                 <Box>
-                  <>
-                    {!shippingPage.data?.cart?.is_virtual && (
-                      <ShippingMethodForm
-                        step={4}
-                        sx={(theme) => ({ mt: theme.spacings.lg })}
-                        isPickup={value === 1}
-                      />
-                    )}
+                  {' '}
+                  <Typography
+                    sx={{
+                      color: (theme: any) => theme.palette.custom.dark,
+                      fontSize: { xs: '16px', md: '18px', lg: '20px' },
+                      lineHeight: '120%',
+                      marginTop: { xs: '18px', md: '27px' },
+                      marginBottom: { xs: '10px', md: '20px' },
+                    }}
+                  >
+                    Shipping
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      padding: { xs: '20px 14px', md: '25px 30px' },
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: '#000',
+                        fontSize: { xs: '15px', md: '16px' },
+                        lineHeight: '120%',
+                        marginBottom: { xs: '13px', md: '23px' },
+                      }}
+                    >
+                      Add your delivery location or select pick you if you wish to pick up from one
+                      of our stores.
+                    </Typography>
 
-                    <ComposedSubmit
-                      onSubmitSuccessful={() => router.push('/checkout/payment')}
-                      render={(renderProps) => (
-                        <>
-                          <FormActions
-                            sx={{
-                              paddingTop: { xs: '10px', md: '15px', lg: '25px' },
-                              paddingBottom: 0,
-                              justifyContent: 'unset',
-                              '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                                {
-                                  boxShadow: 'none',
-                                },
-                              '& .MuiButtonBase-root': {
-                                fontSize: { xs: '15px', md: '16px' },
-                                backgroundColor: (theme) => theme.palette.custom.heading,
-                                borderColor: (theme) => theme.palette.custom.heading,
-                                borderRadius: '4px',
-                                '& span': {
-                                  display: 'none',
-                                },
-                              },
-                            }}
-                          >
-                            <ComposedSubmitButton {...renderProps} size='large' id='next'>
-                              <Trans id='Proceed To Pay' />
-                            </ComposedSubmitButton>
-                          </FormActions>
-                          <ApolloCartErrorSnackbar
-                            error={
-                              renderProps.buttonState.isSubmitting ? undefined : renderProps.error
-                            }
-                          />
-                        </>
-                      )}
-                    />
-                  </>
+                    <Box
+                      sx={{
+                        width: '100%',
+                      }}
+                    >
+                      <Tabs
+                        sx={{
+                          justifyContent: 'unset',
+                          columnGap: '10px',
+
+                          // '& .MuiTabs-scroller': {
+                          //   overflow: 'unset',
+                          //   overflowX: 'unset',
+                          // },
+                          '& .MuiTabs-flexContainer': {
+                            gap: '11px',
+                          },
+
+                          '& .MuiTab-root': {
+                            // width: '50%',
+                            flexGrow: 1,
+                            maxWidth: 'unset',
+                            color: (theme) => theme.palette.custom.dark,
+                            fontSize: { xs: '15px', md: '16px' },
+                            lineHeight: '158%',
+                            borderRadius: '4px',
+                            textTransform: 'capitalize',
+                            fontWeight: 400,
+                            minHeight: { xs: '40px', md: '48px' },
+                            padding: { xs: '10px 14x', md: '12px 16px' },
+                            border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                            transition:
+                              'background-color 0.3s ease, border 0.3s ease, color 0.3s ease',
+                            '&.Mui-selected': {
+                              backgroundColor: (theme) => theme.palette.custom.border,
+                              color: (theme) => theme.palette.custom.dark,
+                              border: (theme) => `1px solid ${theme.palette.custom.main}`,
+                            },
+                          },
+                          '& .MuiTabs-indicator': {
+                            display: 'none',
+                          },
+                        }}
+                        value={value}
+                        onChange={handleChange}
+                        centered
+                      >
+                        <Tab label='Delivery' {...a11yProps(0)} />
+                        <Tab label='Pickup' />
+                      </Tabs>
+                      <TabPanel
+                        sx={{
+                          '&.MuiBox-root.mui-style-19kzrtu': {
+                            padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
+
+                            '& .MuiTypography-h4': {},
+                          },
+                        }}
+                        value={value}
+                        index={0}
+                      >
+                        <ComposedForm>
+                          {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
+                            <CustomerAddressForm
+                              step={2}
+                              sx={(theme) => ({ mt: theme.spacings.lg })}
+                            >
+                              <ShippingAddressForm step={3} />
+                            </CustomerAddressForm>
+                          ) : (
+                            <>
+                              <Typography
+                                variant='h4'
+                                sx={{
+                                  color: (theme) => theme.palette.custom.dark,
+                                  fontSize: { xs: '16px', md: '20px' },
+                                  lineHeight: '120%',
+                                  marginBottom: { xs: '10px', md: '15px' },
+                                  textTransform: 'capitalize',
+                                  fontWeight: 400,
+                                  fontVariationSettings: '"wght" 400',
+                                }}
+                              >
+                                <Trans id='Your details' />
+                              </Typography>
+                              <ShippingAddressForm
+                                sx={{
+                                  paddingTop: '0',
+                                  '& .MuiInputLabel-formControl': {
+                                    color: (theme) => theme.palette.custom.main,
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    lineHeight: '158%',
+                                    fontWeight: 400,
+
+                                    '&.Mui-focused': {
+                                      color: (theme) => theme.palette.custom.main,
+                                    },
+                                    '& .MuiFormLabel-asterisk': {
+                                      display: 'none',
+                                    },
+                                    '&.MuiInputLabel-animated': {
+                                      backgroundColor: '#fff',
+                                      padding: '0 6px',
+                                    },
+                                  },
+
+                                  '& .MuiOutlinedInput-root': {
+                                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                    borderRadius: '4px',
+                                    paddingRight: '0',
+
+                                    '& .InputCheckmark': {
+                                      display: 'none',
+                                    },
+
+                                    '&:hover': {
+                                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                    },
+                                    '&.Mui-focused': {
+                                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                      '& .MuiOutlinedInput-input': {
+                                        color: (theme) => theme.palette.custom.main,
+                                        caretColor: (theme) => theme.palette.custom.main,
+                                      },
+                                    },
+
+                                    '& .MuiOutlinedInput-notchedOutline': {
+                                      border: 'none',
+                                    },
+                                  },
+                                }}
+                                step={3}
+                              />
+                            </>
+                          )}
+                        </ComposedForm>
+                      </TabPanel>
+
+                      <TabPanel
+                        value={value}
+                        index={1}
+                        sx={{
+                          '& > .MuiBox-root': {
+                            padding: { xs: '15px 0', md: '25px 0', lg: '30px 0' },
+                          },
+                        }}
+                      >
+                        <ComposedForm>
+                          {(customerAddresses.data?.customer?.addresses?.length ?? 0) >= 1 ? (
+                            <CustomerAddressForm
+                              step={2}
+                              sx={(theme) => ({ mt: theme.spacings.lg })}
+                            >
+                              <ShippingAddressForm step={3} />
+                            </CustomerAddressForm>
+                          ) : (
+                            <>
+                              <Typography
+                                variant='h4'
+                                sx={{
+                                  color: (theme) => theme.palette.custom.dark,
+                                  fontSize: { xs: '16px', md: '20px' },
+                                  lineHeight: '120%',
+                                  marginTop: { xs: '15px', md: '25px', lg: '30px' },
+                                  marginBottom: { xs: '10px', md: '15px' },
+                                  textTransform: 'capitalize',
+                                  fontWeight: 400,
+                                  fontVariationSettings: '"wght" 400',
+                                }}
+                              >
+                                <Trans id='Your details' />
+                              </Typography>
+                              <ShippingAddressForm
+                                isPickup={value === 1}
+                                sx={{
+                                  paddingTop: 0,
+                                  '& .MuiInputLabel-formControl': {
+                                    color: (theme) => theme.palette.custom.main,
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    lineHeight: '158%',
+                                    fontWeight: 400,
+
+                                    '&.Mui-focused': {
+                                      color: (theme) => theme.palette.custom.main,
+                                    },
+                                    '& .MuiFormLabel-asterisk': {
+                                      display: 'none',
+                                    },
+                                    '&.MuiInputLabel-animated': {
+                                      backgroundColor: '#fff',
+                                      padding: '0 6px',
+                                    },
+                                  },
+
+                                  '& .MuiOutlinedInput-root': {
+                                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                    borderRadius: '4px',
+                                    paddingRight: '0',
+
+                                    '& .InputCheckmark': {
+                                      display: 'none',
+                                    },
+
+                                    '&:hover': {
+                                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                    },
+                                    '&.Mui-focused': {
+                                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                                    },
+
+                                    '& .MuiOutlinedInput-notchedOutline': {
+                                      border: 'none',
+                                    },
+                                  },
+                                }}
+                                step={3}
+                              />
+                            </>
+                          )}
+                        </ComposedForm>
+                        <PickupStoreForm storeData={prickupstoreData} />
+                      </TabPanel>
+                    </Box>
+                  </Box>
                 </Box>
-              </ComposedForm>
+                {/* Delivery Date & Time */}
+                <Box>
+                  <Typography
+                    sx={{
+                      color: (theme: any) => theme.palette.custom.dark,
+                      fontSize: { xs: '16px', md: '18px', lg: '20px' },
+                      lineHeight: '120%',
+                      marginTop: { xs: '18px', md: '27px' },
+                      marginBottom: { xs: '10px', md: '20px' },
+                    }}
+                  >
+                    Choose Delivery Date & Time
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      padding: { xs: '10px 14px', md: '10px 30px' },
+                      display: 'flex',
+                      gap: '10px',
+                    }}
+                  >
+                    <DeliveryDate slotList={slotData} />
+                  </Box>
+                </Box>
+
+                {/* Shipping Method */}
+                {!shippingPage.error && cartExists && (
+                  <ComposedForm>
+                    <Box>
+                      <>
+                        {!shippingPage.data?.cart?.is_virtual && (
+                          <ShippingMethodForm
+                            step={4}
+                            sx={(theme) => ({ mt: theme.spacings.lg })}
+                            isPickup={value === 1}
+                          />
+                        )}
+
+                        <ComposedSubmit
+                          onSubmitSuccessful={() => router.push('/checkout/payment')}
+                          render={(renderProps) => (
+                            <>
+                              <FormActions
+                                sx={{
+                                  paddingTop: { xs: '10px', md: '15px', lg: '25px' },
+                                  paddingBottom: 0,
+                                  justifyContent: 'unset',
+                                  '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
+                                    {
+                                      boxShadow: 'none',
+                                    },
+                                  '& .MuiButtonBase-root': {
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    backgroundColor: (theme) => theme.palette.custom.heading,
+                                    borderColor: (theme) => theme.palette.custom.heading,
+                                    borderRadius: '4px',
+                                    '& span': {
+                                      display: 'none',
+                                    },
+                                  },
+                                }}
+                              >
+                                <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                  <Trans id='Proceed To Pay' />
+                                </ComposedSubmitButton>
+                              </FormActions>
+                              <ApolloCartErrorSnackbar
+                                error={
+                                  renderProps.buttonState.isSubmitting
+                                    ? undefined
+                                    : renderProps.error
+                                }
+                              />
+                            </>
+                          )}
+                        />
+                      </>
+                    </Box>
+                  </ComposedForm>
+                )}
+              </>
             )}
           </Box>
 

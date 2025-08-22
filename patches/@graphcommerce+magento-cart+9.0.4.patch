@@ -106,7 +106,7 @@ index 0b04f2c..5a63da3 100644
  
        {children}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
-index 11b4847..956fad5 100644
+index 11b4847..251f6cb 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 @@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
@@ -163,7 +163,7 @@ index 11b4847..956fad5 100644
 +                Discount
 +              </Typography>
 +              <Typography sx={{
-+                fontSize:{xs:'14px', md:'15px'},
++                fontSize:{xs:'15px', md:'15px'},
 +                color:'#9d9d9d',
 +                marginTop:'2px'
 +              }}>

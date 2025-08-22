@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
-index 039c584..78cdd84 100644
+index 039c584..7c8af81 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AccountAddresses/AccountAddresses.tsx
 @@ -48,6 +48,20 @@ export function AccountAddresses(props: AccountAddressesProps) {
@@ -10,7 +10,7 @@ index 039c584..78cdd84 100644
 +            color:(theme:any)=>theme.palette.custom.border,
 +            // paddingBlock:'18px',
 +            borderRadius:'4px',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +          // width:'200px',
 +           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +           textTransform:'capitalize',
@@ -33,7 +33,7 @@ index 039c584..78cdd84 100644
 +            color:(theme:any)=>theme.palette.custom.border,
 +            // paddingBlock:'18px',
 +            borderRadius:'4px',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +          // width:'200px',
 +           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +           textTransform:'capitalize',
@@ -49,7 +49,7 @@ index 039c584..78cdd84 100644
              </Button>
            }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
-index 1f2027c..81c5cbd 100644
+index 1f2027c..42b19be 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AccountDeleteForm/AccountDeleteForm.tsx
 @@ -38,11 +38,48 @@ export function AccountDeleteForm() {
@@ -73,7 +73,7 @@ index 1f2027c..81c5cbd 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -126,7 +126,7 @@ index 1f2027c..81c5cbd 100644
 +            color:'#fff',
 +            // paddingBlock:'18px',
 +            borderRadius:'4px',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +          // width:'200px',
 +           border: (theme:any) => `1px solid red`,
 +           textTransform:'capitalize',
@@ -207,7 +207,7 @@ index eb0007f..5721a88 100644
          )}
  
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
-index 495d466..0240815 100644
+index 495d466..cb4139e 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AccountSignInUpForm/AccountSignInUpForm.tsx
 @@ -80,7 +80,7 @@ export function AccountSignInUpForm(props: AccountSignInUpFormProps) {
@@ -268,7 +268,7 @@ index 495d466..0240815 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -310,7 +310,7 @@ index 495d466..0240815 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -349,7 +349,7 @@ index 495d466..0240815 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -752,7 +752,7 @@ index fe2fe28..906ac8d 100644
            </Button>
          ) : (
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
-index 0be3575..e59cb69 100644
+index 0be3575..0405ee2 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangeNameForm/ChangeNameForm.tsx
 @@ -30,25 +30,102 @@ export function ChangeNameForm(props: ChangeNameFormProps) {
@@ -780,7 +780,7 @@ index 0be3575..e59cb69 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -822,7 +822,7 @@ index 0be3575..e59cb69 100644
 +                        color:(theme:any)=>theme.palette.custom.border,
 +                        // paddingBlock:'18px',
 +                        borderRadius:'4px',
-+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                        fontSize: { xs: '15px', md: '16px' },
 +                      // width:'200px',
 +                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +                       textTransform:'capitalize',
@@ -848,7 +848,7 @@ index 0be3575..e59cb69 100644
 +            },
 +            '& .MuiBox-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              textAlign:'center'
 +            },
 +            '& .MuiButtonBase-root':{
@@ -865,7 +865,7 @@ index 0be3575..e59cb69 100644
        >
          <Trans id='Successfully saved changes' />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-index de1222a..5066959 100644
+index de1222a..1437d87 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 @@ -35,10 +35,44 @@ export function ChangePasswordForm() {
@@ -893,7 +893,7 @@ index de1222a..5066959 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -942,7 +942,7 @@ index de1222a..5066959 100644
 +            color:(theme:any)=>theme.palette.custom.border,
 +            // paddingBlock:'18px',
 +            borderRadius:'4px',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +          // width:'200px',
 +           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +           textTransform:'capitalize',
@@ -971,7 +971,7 @@ index de1222a..5066959 100644
 +            },
 +            '& .MuiBox-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              textAlign:'center'
 +            },
 +            '& .MuiButtonBase-root':{
@@ -985,7 +985,7 @@ index de1222a..5066959 100644
          </MessageSnackbar>
        )}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
-index 65401af..5747ac0 100644
+index 65401af..cc61b69 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/CreateCustomerAddressForm/CreateCustomerAddressForm.tsx
 @@ -60,7 +60,44 @@ export function CreateCustomerAddressForm() {
@@ -1012,7 +1012,7 @@ index 65401af..5747ac0 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -1055,7 +1055,7 @@ index 65401af..5747ac0 100644
 +                        color:(theme:any)=>theme.palette.custom.border,
 +                         paddingBlock:'18px',
 +                        borderRadius:'4px',
-+                        fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                        fontSize: { xs: '15px', md: '16px' },
 +                      // width:'200px',
 +                       border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +                       textTransform:'capitalize',
@@ -1080,7 +1080,7 @@ index 65401af..5747ac0 100644
 +            },
 +            '& .MuiBox-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              textAlign:'center'
 +            },
 +            '& .MuiButtonBase-root':{
@@ -1120,7 +1120,7 @@ index 68bd1d0..eb342cf 100644
      </Fab>
    )
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
-index c50a52a..4a13ca4 100644
+index c50a52a..452c2a9 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ForgotPasswordForm/ForgotPasswordForm.tsx
 @@ -30,6 +30,8 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
@@ -1151,7 +1151,7 @@ index c50a52a..4a13ca4 100644
 +    },
 +    '& .MuiOutlinedInput-input': {
 +      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '12px', sm: '14px', md: '16px' },
++      fontSize: { xs: '15px', md: '16px' },
 +      fontStyle: 'normal',
 +      fontWeight: 400,
 +      lineHeight: '158%',
@@ -1191,7 +1191,7 @@ index c50a52a..4a13ca4 100644
 +            color:(theme:any)=>theme.palette.custom.border,
 +            paddingBlock:'18px',
 +            borderRadius:'4px',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +           width:'200px',
 +           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            transition:'all 0.4s ease-in-out',
@@ -1388,7 +1388,7 @@ index c4ad49e..bd30ca6 100644
            className={classes.image}
            sx={sxx}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
-index a89744e..e815d50 100644
+index a89744e..10d7701 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderDetails.tsx
 @@ -47,20 +47,36 @@ export function OrderDetails(props: OrderDetailsProps) {
@@ -1416,7 +1416,7 @@ index a89744e..e815d50 100644
 +            borderBottom:'1px solid #e6e6e6',
 +            '& .MuiTypography-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              fontWeight:600,
 +              lineHeight:'158%',
 +              textTransform:'capitalize'
@@ -1426,7 +1426,7 @@ index a89744e..e815d50 100644
 +            '& .OrderDetails-orderDetailRow .SectionContainer-root':{
 +              '& p, span, .OrderDetails-invoice, .AddressMultiLine-root':{
 +                color:(theme:any)=>theme.palette.custom.main,
-+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                fontSize: { xs: '15px', md: '16px' },
 +                },
 +              '& .SectionHeader-root':{
 +                mb:theme.spacings.xxs,
@@ -1440,7 +1440,7 @@ index a89744e..e815d50 100644
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
-index 14b7419..36ae4b9 100644
+index 14b7419..ff7db36 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderDetails/OrderTotals.tsx
 @@ -21,15 +21,17 @@ export function OrderTotals(props: OrderTotalsProps) {
@@ -1462,7 +1462,7 @@ index 14b7419..36ae4b9 100644
 -          ),
 +          '& .OrderTotals-totalsRow p':{
 +           color:(theme:any)=>theme.palette.custom.main,
-+           fontSize: { xs: '12px', sm: '14px', md: '16px' },
++           fontSize: { xs: '15px', md: '16px' },
 +          }
 +          
          }),
@@ -1481,7 +1481,7 @@ index 14b7419..36ae4b9 100644
          </Typography>
          <Money {...total?.grand_total} />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
-index 3be6e6b..7c9c857 100644
+index 3be6e6b..107c31a 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderItem/OrderItem.tsx
 @@ -55,43 +55,43 @@ export function OrderItem(props: OrderItemProps) {
@@ -1557,7 +1557,7 @@ index 3be6e6b..7c9c857 100644
 -          fontWeight: 500,
 +        sx={(theme:any) => ({
 +          // typography: 'h5',
-+          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          fontSize: { xs: '15px', md: '16px' },
 +          fontWeight: 600,
            gridArea: 'itemName',
 -          color: theme.palette.text.primary,
@@ -1579,7 +1579,7 @@ index 3be6e6b..7c9c857 100644
                  display: 'inline',
                })}
 diff --git a/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx b/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
-index 0e7f493..a71e3bd 100644
+index 0e7f493..50190cf 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/OrderItems/OrderItems.tsx
 @@ -30,6 +30,23 @@ export function OrderItems(props: OrderItemsProps) {
@@ -1597,7 +1597,7 @@ index 0e7f493..a71e3bd 100644
 +            borderBottom:'1px solid #e6e6e6',
 +            '& .MuiTypography-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              fontWeight:600,
 +              lineHeight:'158%',
 +              textTransform:'capitalize'
@@ -1743,7 +1743,7 @@ index 62c2fbb..9eadfab 100644
    $middlename: String
    $lastname: String!
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
-index c68c353..770ba45 100644
+index c68c353..c454fd3 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 @@ -7,23 +7,27 @@ import type { UseFormClearErrors, UseFormSetError } from '@graphcommerce/react-h
@@ -1849,7 +1849,7 @@ index c68c353..770ba45 100644
 +            minWidth:'400px',
 +            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            transition:'all 0.4s ease-in-out',
-+            fontSize: { xs: '12px', sm: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +            '&:hover':{
 +              backgroundColor:'transparent',
 +              color:(theme:any)=>theme.palette.custom.main,
@@ -1866,7 +1866,7 @@ index c68c353..770ba45 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx b/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
-index 2c28caa..b88c101 100644
+index 2c28caa..096e6ca 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/UpdateCustomerEmailForm/UpdateCustomerEmailForm.tsx
 @@ -52,7 +52,44 @@ export function UpdateCustomerEmailForm(props: UpdateCustomerEmailFormProps) {
@@ -1893,7 +1893,7 @@ index 2c28caa..b88c101 100644
 +        },
 +        '& .MuiOutlinedInput-input': {
 +          fontFamily: '"Bricolage Grotesque"',
-+          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++          fontSize: { xs: '15px', md: '16px' },
 +          fontStyle: 'normal',
 +          fontWeight: 400,
 +          lineHeight: '158%',
@@ -1940,7 +1940,7 @@ index 2c28caa..b88c101 100644
 +                                  color:(theme:any)=>theme.palette.custom.border,
 +                                  // paddingBlock:'18px',
 +                                  borderRadius:'4px',
-+                                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                                  fontSize: { xs: '15px', md: '16px' },
 +                                // width:'200px',
 +                                 border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +                                 textTransform:'capitalize',
@@ -1965,7 +1965,7 @@ index 2c28caa..b88c101 100644
 +            },
 +            '& .MuiBox-root':{
 +              color:(theme:any)=>theme.palette.custom.main,
-+              fontSize: { xs: '12px', sm: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              textAlign:'center'
 +            },
 +            '& .MuiButtonBase-root':{
@@ -1979,7 +1979,7 @@ index 2c28caa..b88c101 100644
          severity='success'
          sticky
 diff --git a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
-index 505bd21..4a223e5 100644
+index 505bd21..3484be2 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/WaitForCustomer/WaitForCustomer.tsx
 @@ -49,7 +49,7 @@ export function WaitForCustomer(props: WaitForCustomerProps) {
@@ -2005,7 +2005,7 @@ index 505bd21..4a223e5 100644
 +                          color:(theme:any)=>theme.palette.custom.border,
 +                         // paddingBlock:'18px',
 +                          borderRadius:'4px',
-+                          fontSize: { xs: '12px', sm: '14px', md: '16px' },
++                          fontSize: { xs: '15px', md: '16px' },
 +                        width:'200px',
 +                         border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +                          transition:'all 0.4s ease-in-out',

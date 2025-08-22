@@ -54,20 +54,6 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 pr: { xs: '5px', md: '10px' },
                 paddingBottom: '50px',
                 minHeight: '300px',
-
-                // '&::-webkit-scrollbar': {
-                //   width: '6px',
-                //   borderRadius: '0px',
-                //   backgroundColor: '#EBEBEB',
-                // },
-                // '&::-webkit-scrollbar-track': {
-                //   backgroundColor: '#EBEBEB',
-                //   borderRadius: '0px',
-                // },
-                // '&::-webkit-scrollbar-thumb': {
-                //   backgroundColor: (theme) => theme.palette.primary.main,
-                //   borderRadius: '0px',
-                // },
               }}
             >
               <Box

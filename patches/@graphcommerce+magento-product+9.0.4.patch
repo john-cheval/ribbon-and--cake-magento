@@ -62,7 +62,7 @@ index 6ae6263..55c401b 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..9d9d589 100644
+index 2050980..41e2af9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 @@ -2,18 +2,23 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
@@ -105,7 +105,7 @@ index 2050980..9d9d589 100644
 +      sx={{
 +       fontWeight: 400,
 +        lineHeight: '170%',
-+        fontSize: {xs:'14px !important', md:'14px !important'},
++        fontSize: {xs:'15px !important', md:'15px !important'},
 +        color: '#302100',
 +        textDecoration: 'underline',
 +        display: 'flex',

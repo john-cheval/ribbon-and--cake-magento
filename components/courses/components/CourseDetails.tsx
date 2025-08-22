@@ -53,6 +53,7 @@ function CourseDetail({ categories, coursesList }) {
         course.categories?.items?.some((cat) => cat?.name === selectedCategory),
       )
     : coursesList
+
   return (
     <Box
       component='section'
@@ -161,7 +162,7 @@ function CourseDetail({ categories, coursesList }) {
             marginBottom: { xs: '14px', md: '17px' },
           }}
         >
-          Workshops & Courses
+          {filteredCourses?.length} Workshops & Courses
         </Typography>
 
         <MotionDiv

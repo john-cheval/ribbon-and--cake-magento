@@ -9,7 +9,7 @@ function TopBannerMesasge() {
         component='p'
         sx={{
           color: (theme: any) => theme.palette.custom.dark,
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           fontWeight: 300,
           textAlign: 'center',
         }}

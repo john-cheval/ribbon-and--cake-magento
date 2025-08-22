@@ -6,7 +6,7 @@ const CustomSelectInput = styled(InputBase)(({ theme }) => ({
   '& .MuiSelect-select': {
     color: '#441E14',
     fontFamily: '"Bricolage Grotesque", sans-serif',
-    fontSize: { xs: '14px', md: '16px' },
+    fontSize: { xs: '15px', md: '16px' },
     fontWeight: 500,
     lineHeight: '158%',
     padding: '0px 16px',

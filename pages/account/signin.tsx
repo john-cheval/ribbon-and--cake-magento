@@ -69,7 +69,7 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
               backgroundColor: (theme) => theme.palette.custom.main,
               color: (theme: any) => theme.palette.custom.border,
               borderRadius: '4px',
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
               transition: 'all 0.4s ease-in-out',
               '&:hover': {

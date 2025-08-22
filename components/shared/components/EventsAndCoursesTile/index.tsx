@@ -21,7 +21,7 @@ function EventsAndCoursesTile(props: EventsCourseTitleProps) {
         color: isSelected
           ? (theme: any) => theme.palette.custom.main
           : (theme: any) => theme.palette.custom.heading,
-        fontSize: { xs: '14px', md: '25px', lg: '30px', xl: '35px' },
+        fontSize: { xs: '15px', md: '25px', lg: '30px', xl: '35px' },
         textTransform: 'uppercase',
         fontWeight: '300 !important',
         borderBottom: length && length - 1 ? '1px solid #E6E6E6' : '',

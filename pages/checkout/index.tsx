@@ -242,7 +242,7 @@ function ShippingPage(props: ShippingPageProps) {
                 <Typography
                   sx={{
                     color: '#000',
-                    fontSize: { xs: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                     lineHeight: '120%',
                     marginBottom: { xs: '13px', md: '23px' },
                   }}
@@ -274,7 +274,7 @@ function ShippingPage(props: ShippingPageProps) {
                         flexGrow: 1,
                         maxWidth: 'unset',
                         color: (theme) => theme.palette.custom.dark,
-                        fontSize: { xs: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                         lineHeight: '158%',
                         borderRadius: '4px',
                         textTransform: 'capitalize',
@@ -337,7 +337,7 @@ function ShippingPage(props: ShippingPageProps) {
                               paddingTop: '0',
                               '& .MuiInputLabel-formControl': {
                                 color: (theme) => theme.palette.custom.main,
-                                fontSize: { xs: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                                 lineHeight: '158%',
                                 fontWeight: 400,
 
@@ -422,7 +422,7 @@ function ShippingPage(props: ShippingPageProps) {
                               paddingTop: 0,
                               '& .MuiInputLabel-formControl': {
                                 color: (theme) => theme.palette.custom.main,
-                                fontSize: { xs: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                                 lineHeight: '158%',
                                 fontWeight: 400,
 
@@ -520,11 +520,11 @@ function ShippingPage(props: ShippingPageProps) {
                               paddingBottom: 0,
                               justifyContent: 'unset',
                               '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                              {
-                                boxShadow: 'none',
-                              },
+                                {
+                                  boxShadow: 'none',
+                                },
                               '& .MuiButtonBase-root': {
-                                fontSize: { xs: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                                 backgroundColor: (theme) => theme.palette.custom.heading,
                                 borderColor: (theme) => theme.palette.custom.heading,
                                 borderRadius: '4px',
@@ -627,7 +627,7 @@ function ShippingPage(props: ShippingPageProps) {
                 },
               }}
               cart={cartData?.cart}
-            // disabled={hasError}
+              // disabled={hasError}
             />
           </OverlayStickyBottom>
         </Box>

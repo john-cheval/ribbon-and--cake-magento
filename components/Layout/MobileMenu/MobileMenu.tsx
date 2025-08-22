@@ -58,7 +58,7 @@ function MobileMenu({ ShopCategories }) {
           }}
         >
           <GoHome size={20} />
-          <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Home</Typography>
+          <Typography sx={{ fontSize: { xs: '15px', md: '16px' } }}>Home</Typography>
         </Box>
       </Link>
 
@@ -74,7 +74,7 @@ function MobileMenu({ ShopCategories }) {
           }}
         >
           <MdOutlineInterests size={20} />
-          <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Shop</Typography>
+          <Typography sx={{ fontSize: { xs: '15px', md: '16px' } }}>Shop</Typography>
         </Box>
       </Link>
 
@@ -91,7 +91,7 @@ function MobileMenu({ ShopCategories }) {
             }}
           >
             <AiOutlineShopping size={20} />
-            <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>Cart</Typography>
+            <Typography sx={{ fontSize: { xs: '15px', md: '16px' } }}>Cart</Typography>
           </Box>
         </Box>
       </Link>
@@ -108,7 +108,7 @@ function MobileMenu({ ShopCategories }) {
           }}
         >
           <IoMenuSharp size={20} />
-          <Typography sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>More</Typography>
+          <Typography sx={{ fontSize: { xs: '15px', md: '16px' } }}>More</Typography>
         </Box>
       </Box>
 

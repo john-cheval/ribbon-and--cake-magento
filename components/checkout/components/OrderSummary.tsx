@@ -141,7 +141,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                     border: (theme) => `1px solid ${theme.palette.custom.heading}`,
                     color: '#fff',
                     boxShadow: 'none !important',
-                    // fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    // fontSize: { xs: '15px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent !important',
                       color: (theme) => theme.palette.custom.smallHeading,

@@ -117,7 +117,7 @@ function ShopMenuDrawer({ isOpen, setIsOpen, shopMenu }) {
             marginTop: '18px',
             backgroundColor: '#441e14',
             color: '#f6f6f6',
-            fontSize: { xs: '14px', md: '16px' },
+            fontSize: { xs: '15px', md: '16px' },
             textAlign: 'center',
             fontWeight: 400,
             padding: '14px 24px',

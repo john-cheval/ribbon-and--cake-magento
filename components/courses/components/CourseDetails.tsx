@@ -157,7 +157,7 @@ function CourseDetail({ categories, coursesList }) {
         <Typography
           sx={{
             color: (theme: any) => theme.palette.custom.tertiary,
-            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+            fontSize: { xs: '15px', md: '16px' },
             marginBottom: { xs: '14px', md: '17px' },
           }}
         >

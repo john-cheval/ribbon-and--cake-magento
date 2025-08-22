@@ -39,7 +39,7 @@ function CourseCard(props) {
                   border: '1px solid #F6DBE0',
                   backdropFilter: 'blur(4.699999809265137px)',
                   color: 'primary.main',
-                  fontSize: { xs: '12px', sm: '14px' },
+                  fontSize: { xs: '15px' },
                 }}
               >
                 {tag?.name}
@@ -68,7 +68,7 @@ function CourseCard(props) {
           <Typography
             sx={{
               color: (theme: any) => theme.palette.custom.secondary,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               lineHeight: '174%',
             }}
           >
@@ -86,7 +86,7 @@ function CourseCard(props) {
               justifyContent: 'center',
               columnGap: '3px',
               color: (theme: any) => theme.palette.primary.contrastText,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               borderRadius: '4px',
               marginTop: '12px',
               cursor: 'pointer',

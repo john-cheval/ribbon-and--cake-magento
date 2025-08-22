@@ -113,7 +113,7 @@ function WishlistPage() {
                   padding: '5px',
                   borderRadius: '8px',
                   color: '#333',
-                  fontsize: { xs: '12px', md: '14px', lg: '18px' },
+                  fontsize: { xs: '15px', lg: '18px' },
                   fontWeight: 500,
                 },
 

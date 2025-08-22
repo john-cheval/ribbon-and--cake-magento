@@ -27,7 +27,7 @@ function CartPriceAndQuantity({ product }) {
           order: { xs: 1, md: 0 },
           textAlign: { xs: 'left', md: 'right' },
           ['& span']: {
-            fontSize: { xs: '14px', md: '16px', lg: '20px' },
+            fontSize: { xs: '15px', md: '16px', lg: '20px' },
             lineHeight: '24px',
             fontWeight: '700',
             color: '#000000',
@@ -59,13 +59,13 @@ function CartPriceAndQuantity({ product }) {
             },
             '& .MuiButtonBase-root': {
               color: '#333333',
-              fontsize: { xs: '12px', md: '14px', lg: '18px' },
+              fontsize: { xs: '15px', lg: '18px' },
               fontWeight: 500,
             },
             '& .MuiInputBase-input': {
               color: '#333333',
               fontWeight: '500',
-              fontsize: { xs: '12px', md: '14px', lg: '18px' },
+              fontsize: { xs: '15px', lg: '18px' },
             },
             '& .MuiButtonBase-root svg': {
               fontSize: { xs: '15px', md: '18px' },

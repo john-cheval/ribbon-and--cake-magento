@@ -14,7 +14,7 @@ function FooterSocial() {
           padding: '8px 17px',
           borderRadius: '999px',
           color: (theme: any) => theme.palette.custom.main,
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           width: 'fit-content',
         }}
       >
@@ -47,7 +47,7 @@ function FooterSocial() {
           padding: '8px 17px',
           borderRadius: '999px',
           color: (theme: any) => theme.palette.custom.main,
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           marginTop: { xs: '0px', lg: '9px' },
           width: 'fit-content',
         }}

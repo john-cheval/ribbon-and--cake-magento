@@ -97,7 +97,7 @@ index 3cf189f..00aca7e 100644
          render={PaymentMethodActionCard}
        />
 diff --git a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
-index 459ca75..84f1f7f 100644
+index 459ca75..056956b 100644
 --- a/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-payment-method/PaymentMethodContext/PaymentMethodContext.tsx
 @@ -1,4 +1,4 @@
@@ -144,7 +144,7 @@ index 459ca75..84f1f7f 100644
 +        const { data } = await ccavenuePayment({
 +          variables: {
 +            order_increment_id: orderNumber,
-+            callBackUrl: `${window.location.origin}/checkout/success?order_number=${orderNumber}&cart_id=${context.data?.cart?.id}`,
++            callBackUrl: `${window.location.origin}/checkout/success?cart_id=${context.data?.cart?.id}`,
 +          },
 +        })
 +

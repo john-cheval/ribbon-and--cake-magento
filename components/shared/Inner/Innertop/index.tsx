@@ -48,17 +48,21 @@ export function InnerTop(props: InnerTopProps) {
     <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
       <Box
         sx={[
-          {
-            // borderTop: '1px solid #d4d4d4',
-            borderTop: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+          (theme) => ({
+            borderTop: `1px solid ${theme.palette.custom.borderSecondary}`,
+            paddingBlock: { xs: '10px', lg: '15px' },
+
             ...((isFilter || mainTitle) && {
               borderBottom: {
-                xs: isFilter ? 0 : (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
-                md: (theme) => `1px solid ${theme.palette.custom.borderSecondary}`,
+                xs: mainTitle
+                  ? `1px solid ${theme.palette.custom.borderSecondary}` // show if mainTitle=true
+                  : 0, // hide if only isFilter=true
+              },
+              [theme.breakpoints.up('md')]: {
+                borderBottom: `1px solid ${theme.palette.custom.borderSecondary}`, // always show on md+
               },
             }),
-            paddingBlock: { xs: '10px', lg: '15px' },
-          },
+          }),
 
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}

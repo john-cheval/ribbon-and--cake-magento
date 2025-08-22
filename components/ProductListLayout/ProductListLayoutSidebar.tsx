@@ -510,18 +510,10 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                   overflowY: 'auto',
                   overflowX: 'hidden',
                   pr: 1,
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
                   '&::-webkit-scrollbar': {
-                    width: '6px',
-                    borderRadius: '0px',
-                    backgroundColor: '#EBEBEB',
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: '#EBEBEB',
-                    borderRadius: '0px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: (theme) => theme.palette.custom.wishlistColor,
-                    borderRadius: '0px',
+                    display: 'none',
                   },
                 }}
               >

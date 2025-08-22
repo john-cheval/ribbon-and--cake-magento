@@ -24,7 +24,7 @@ const moreMenu = [
   { id: 6, title: 'Orders', link: '/account/orders' },
   { id: 7, title: 'About', link: '/about' },
   { id: 8, title: 'Events', link: '/events' },
-  { id: 9, title: 'Home', link: '/' },
+  { id: 9, title: 'Account', link: '/account' },
 ]
 
 function MobileMenu({ ShopCategories }) {
@@ -104,7 +104,7 @@ function MobileMenu({ ShopCategories }) {
             rowGap: '4px',
             alignItems: 'center',
             cursor: 'pointer',
-            color: isMatch ? '#D23552' : '#441E14',
+            //  color: isMatch ? '#D23552' : '#441E14',
           }}
         >
           <IoMenuSharp size={20} />

@@ -62,7 +62,7 @@ export default function DeliveryDate({ slotList }) {
           paddingBottom: '0px',
           '& .MuiInputLabel-root': {
             color: (theme) => theme.palette.custom.main,
-            fontSize: { xs: '14px', md: '16px' },
+            fontSize: { xs: '15px', md: '16px' },
             fontWeight: '400',
             lineHeight: '158%',
           },
@@ -136,7 +136,7 @@ export default function DeliveryDate({ slotList }) {
                   sx: {
                     '& .MuiInputLabel-root': {
                       color: (theme) => theme.palette.custom.main,
-                      fontSize: { xs: '14px', md: '16px' },
+                      fontSize: { xs: '15px', md: '16px' },
                       fontWeight: 400,
                     },
                     '& .MuiOutlinedInput-root': {

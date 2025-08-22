@@ -17,7 +17,7 @@ function EventsAndCoursesTileResponsive(props: EventsCourseTitleProps) {
         cursor: 'pointer',
         borderRadius: '999px',
         transition: 'all 0.3s ease',
-        fontSize: { xs: '12px', sm: '14px', md: '16px' },
+        fontSize: { xs: '15px', md: '16px' },
         fontWeight: 400,
       }}
     >

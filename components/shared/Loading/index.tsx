@@ -7,7 +7,7 @@ function Loading() {
         sx={{
           textAlign: 'center',
           color: '#F1A8B6',
-          fontSize: { xs: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           marginTop: '30px',
           fontWeight: 300,
           display: 'flex',

@@ -41,7 +41,7 @@ function EventsTop({ title, description, isBorder = false }: EventsTopProps) {
           sx={{
             color: (theme: any) => theme.palette.custom.secondary,
             textAlign: { xs: 'left', md: 'center' },
-            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+            fontSize: { xs: '15px', md: '16px' },
           }}
         >
           {description}

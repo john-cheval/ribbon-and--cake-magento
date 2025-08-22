@@ -112,7 +112,7 @@ export function ProductSwiper({ data = [], link = '/', initial = '', productList
                   padding: { md: '5px 15px', lg: '8px 20px' },
                   transition: 'all 0.3s ease',
                   border: (theme) => `1px solid ${theme.palette.primary.contrastText}`,
-                  fontSize: { xs: '14px', lg: '16px' },
+                  fontSize: { xs: '15px', lg: '16px' },
                   '&:hover': {
                     border: (theme) => `1px solid ${theme.palette.custom.border}`,
                     borderRadius: '999px',

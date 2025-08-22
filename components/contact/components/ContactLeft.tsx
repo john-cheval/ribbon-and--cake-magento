@@ -46,7 +46,7 @@ function ContactLeft() {
           <Typography
             sx={{
               color: (theme: any) => theme.palette.custom.secondary,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               lineHeight: '170%',
               marginTop: { xs: '5px' },
             }}
@@ -89,7 +89,8 @@ function ContactLeft() {
                 component='span'
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontSize: { xs: '12px', sm: '14px', fontWeight: 500 },
+                  fontSize: { xs: '15px' },
+                  fontWeight: 500,
                 }}
               >
                 Call Us
@@ -100,7 +101,7 @@ function ContactLeft() {
                   component='span'
                   sx={{
                     color: (theme: any) => theme.palette.custom.dark,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px', lg: '20px' },
+                    fontSize: { xs: '15px', md: '16px', lg: '20px' },
                     fontWeight: 500,
                   }}
                 >
@@ -135,7 +136,8 @@ function ContactLeft() {
                 component='span'
                 sx={{
                   color: (theme: any) => theme.palette.custom.dark,
-                  fontSize: { xs: '12px', sm: '14px', fontWeight: 500 },
+                  fontSize: { xs: '15px' },
+                  fontWeight: 500,
                 }}
               >
                 Email
@@ -146,7 +148,7 @@ function ContactLeft() {
                   component='span'
                   sx={{
                     color: (theme: any) => theme.palette.custom.dark,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px', lg: '20px' },
+                    fontSize: { xs: '15px', md: '16px', lg: '20px' },
                     fontWeight: 500,
                   }}
                 >

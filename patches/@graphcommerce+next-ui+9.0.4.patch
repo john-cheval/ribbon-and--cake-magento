@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
-index f94c113..7a9996c 100644
+index f94c113..2e770e3 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCard.tsx
 @@ -1,8 +1,10 @@
@@ -46,7 +46,7 @@ index f94c113..7a9996c 100644
 +    return (
 +      <FormControlLabel
 +        className={classes.root}
-+        sx={{ fontSize: "14px", '& svg':{
++        sx={{ fontSize: "15px", '& svg':{
 +          color:'#F1A8B6',
 +        } ,'.MuiCheckbox-root:hover':{
 +          backgroundColor:'transparent'

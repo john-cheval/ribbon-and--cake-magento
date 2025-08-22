@@ -36,7 +36,7 @@ export default function FooterAccordion({ linksData, expanded, onChange, id, isL
             component='span'
             sx={{
               color: (theme: any) => theme.palette.custom.smallHeading,
-              fontSize: { xs: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               fontWeight: 700,
               lineHeight: '33px',
             }}

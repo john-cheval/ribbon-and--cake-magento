@@ -43,7 +43,7 @@ export function OrderPrimaryButton({
         component='a'
         css={buttonStyles}
         sx={{
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           padding: { xs: '16px 60px', lg: padding },
         }}
       >

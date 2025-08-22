@@ -109,7 +109,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
                 variant='p'
                 sx={{
                   color: (theme: any) => theme.palette.custom.smallHeading,
-                  fontSize: { xs: '14px !important', md: '16px !important', lg: '20px !important' },
+                  fontSize: { xs: '15px !important', md: '16px !important', lg: '20px !important' },
                   fontWeight: 700,
                   textAlign: 'center',
                   marginBlock: { xs: '10px', md: '0' },
@@ -123,7 +123,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
                 variant='p'
                 sx={{
                   color: (theme: any) => theme.palette.custom.secondary,
-                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  fontSize: { xs: '15px', md: '16px' },
                   textAlign: 'center',
                   // maxWidth: '650px',
                 }}
@@ -152,7 +152,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
               justifyContent: 'center',
               minWidth: 'fit-content',
               '& svg': {
-                fontSize: { sx: '12px', md: '20px' },
+                fontSize: { sx: '15px', md: '20px' },
               },
             }}
             disableRipple
@@ -170,7 +170,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
               justifyContent: 'center',
               minWidth: 'fit-content',
               '& svg': {
-                fontSize: { sx: '12px', md: '20px' },
+                fontSize: { sx: '15px', md: '20px' },
               },
             }}
             disableRipple

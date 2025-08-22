@@ -24,7 +24,7 @@ const inputFieldSx: SxProps<Theme> = {
 
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
-    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+    fontSize: { xs: '15px', md: '16px' },
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '158%',
@@ -32,7 +32,7 @@ const inputFieldSx: SxProps<Theme> = {
   },
   '& .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
-    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+    fontSize: { xs: '15px', md: '16px' },
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '158%',
@@ -354,7 +354,7 @@ function CourseEnquiryForm({ defaultTitle }) {
               // marginTop: '18px',
               backgroundColor: (theme: any) => theme.palette.custom.main,
               color: (theme: any) => theme.palette.custom.border,
-              fontSize: { xs: '12px', sm: '14px', md: '18px' },
+              fontSize: { xs: '15px', md: '18px' },
               fontWeight: 500,
               lineHeight: '158%',
               borderRadius: '4px',
@@ -399,7 +399,7 @@ function CourseEnquiryForm({ defaultTitle }) {
               },
               '& .MuiBox-root': {
                 color: (theme: any) => theme.palette.custom.main,
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
                 textAlign: 'center',
               },
               '& .MuiButtonBase-root': {

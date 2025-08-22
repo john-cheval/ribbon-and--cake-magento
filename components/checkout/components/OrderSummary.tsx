@@ -54,20 +54,6 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 pr: { xs: '5px', md: '10px' },
                 paddingBottom: '50px',
                 minHeight: '300px',
-
-                // '&::-webkit-scrollbar': {
-                //   width: '6px',
-                //   borderRadius: '0px',
-                //   backgroundColor: '#EBEBEB',
-                // },
-                // '&::-webkit-scrollbar-track': {
-                //   backgroundColor: '#EBEBEB',
-                //   borderRadius: '0px',
-                // },
-                // '&::-webkit-scrollbar-thumb': {
-                //   backgroundColor: (theme) => theme.palette.primary.main,
-                //   borderRadius: '0px',
-                // },
               }}
             >
               <Box
@@ -141,7 +127,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                     border: (theme) => `1px solid ${theme.palette.custom.heading}`,
                     color: '#fff',
                     boxShadow: 'none !important',
-                    // fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    // fontSize: { xs: '15px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent !important',
                       color: (theme) => theme.palette.custom.smallHeading,

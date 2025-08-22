@@ -77,7 +77,7 @@ export function HomeSectionFour(props) {
                             '& .ProductListItem-title': {
                               color: (theme) => theme.palette.custom.dark,
                               //  minHeight: '50px',
-                              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                              fontSize: { xs: '15px', md: '16px' },
                               lineHeight: '158%',
                             },
                             '& .MuiButtonBase-root': {
@@ -134,7 +134,7 @@ export function HomeSectionFour(props) {
                             '& .ProductListItem-title': {
                               color: (theme) => theme.palette.custom.dark,
                               //  minHeight: '50px',
-                              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                              fontSize: { xs: '15px', md: '16px' },
                               lineHeight: '158%',
                             },
                             '& .MuiButtonBase-root': {

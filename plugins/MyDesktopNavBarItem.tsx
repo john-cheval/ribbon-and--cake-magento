@@ -71,7 +71,7 @@ export function DesktopNavItem(
           padding: activeValue ? '7px 16px' : { lg: '9px 12px', xl: '9px 20px' },
           background: activeValue && '#F6DBE0',
           borderRadius: activeValue && '999px',
-          fontSize: { xs: '14px', lg: '15px', xl: '16px' },
+          fontSize: { xs: '15px', lg: '15px', xl: '16px' },
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

@@ -73,7 +73,7 @@ export function HomeCollection(props) {
                 maxWidth: { xs: '100%', lg: '465px' },
                 marginBottom: { xs: '20px', xl: '25px' },
                 marginTop: { xl: '16px' },
-                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                fontSize: { xs: '15px', md: '16px' },
                 textAlign: { xs: 'center', lg: 'left' },
               }}
             >

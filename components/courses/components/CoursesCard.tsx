@@ -6,18 +6,20 @@ import { saxoGrammaticus } from '../../../lib/fonts'
 
 function CourseCard(props) {
   const { courseCardData } = props
+  console.log(courseCardData?.image, 'this is the course card data')
   return (
     <Card sx={{ position: 'relative', border: '1px solid #E6E6E6', borderRadius: '8px' }}>
       <CardMedia sx={{ position: 'relative', padding: '8px 8px 0px' }}>
-        {courseCardData?.image && (
-          <Image
-            src={courseCardData?.image || 'https://via.placeholder.com/200x190'}
-            alt={courseCardData?.name}
-            width={200}
-            height={190}
-            sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
-          />
-        )}
+        <Image
+          src={
+            courseCardData?.image ||
+            'https://srv900162.hstgr.cloud/media/mageplaza/blog/post/r/e/rectangle_221.jpg'
+          }
+          alt={courseCardData?.name}
+          width={200}
+          height={190}
+          sx={{ height: 'auto', width: '100%', objectFit: 'cover' }}
+        />
 
         {courseCardData?.tags?.items.length > 0 && (
           <Box
@@ -39,7 +41,7 @@ function CourseCard(props) {
                   border: '1px solid #F6DBE0',
                   backdropFilter: 'blur(4.699999809265137px)',
                   color: 'primary.main',
-                  fontSize: { xs: '12px', sm: '14px' },
+                  fontSize: { xs: '15px' },
                 }}
               >
                 {tag?.name}
@@ -68,7 +70,7 @@ function CourseCard(props) {
           <Typography
             sx={{
               color: (theme: any) => theme.palette.custom.secondary,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               lineHeight: '174%',
             }}
           >
@@ -86,7 +88,7 @@ function CourseCard(props) {
               justifyContent: 'center',
               columnGap: '3px',
               color: (theme: any) => theme.palette.primary.contrastText,
-              fontSize: { xs: '12px', sm: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               borderRadius: '4px',
               marginTop: '12px',
               cursor: 'pointer',

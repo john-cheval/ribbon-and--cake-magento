@@ -50,7 +50,7 @@ function InnerLeft({ coursesData }) {
                   border: '1px solid #F6DBE0',
                   backdropFilter: 'blur(4.699999809265137px)',
                   color: (theme: any) => theme.palette.custom.smallHeading,
-                  fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                  fontSize: { xs: '15px', md: '16px' },
                 }}
               >
                 {tag?.name || 'tag'}

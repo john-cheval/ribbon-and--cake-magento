@@ -106,7 +106,7 @@ index 0b04f2c..5a63da3 100644
  
        {children}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
-index 11b4847..0c20a43 100644
+index 11b4847..251f6cb 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 @@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
@@ -123,20 +123,21 @@ index 11b4847..0c20a43 100644
            sx={{ display: 'flex', justifyContent: 'space-between' }}
          >
 -          <Box>
+-            <Trans id='Products' />
 +          <Box sx={{
 +            color: (theme: any) => theme.palette.custom.smallHeading,
-+            fontSize: { xs: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +            fontWeight: 400,
 +            lineHeight: 'normal',
 +          }}>
-             <Trans id='Products' />
++            <Trans id='Items Total' />
            </Box>
 -          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
 +          <Box className={classes.money} sx={{ whiteSpace: 'nowrap',
 +            '& span span':{
 +               color: (theme: any) => theme.palette.custom.smallHeading,
 +               fontWeight: 600,
-+               fontSize: { xs: '14px', md: '16px' },
++               fontSize: { xs: '15px', md: '16px' },
 +               textTransform: 'capitalize',
 +            }
 +           }}>
@@ -155,14 +156,14 @@ index 11b4847..0c20a43 100644
 +            <Box>
 +              <Typography sx={{
 +            color: (theme: any) => theme.palette.custom.smallHeading,
-+            fontSize: { xs: '14px', md: '16px' },
++            fontSize: { xs: '15px', md: '16px' },
 +            fontWeight: 400,
 +            lineHeight: 'normal',
 +          }}>
 +                Discount
 +              </Typography>
 +              <Typography sx={{
-+                fontSize:{xs:'12px', md:'14px'},
++                fontSize:{xs:'15px', md:'15px'},
 +                color:'#9d9d9d',
 +                marginTop:'2px'
 +              }}>
@@ -172,7 +173,7 @@ index 11b4847..0c20a43 100644
 +            <Box  className={`${classes.money} discount`} sx={{ whiteSpace: 'nowrap','& span span':{
 +               color: (theme: any) => theme.palette.custom.smallHeading,
 +               fontWeight: 600,
-+               fontSize: { xs: '14px', md: '16px' },
++               fontSize: { xs: '15px', md: '16px' },
 +               textTransform: 'capitalize',
 +            } }}>
                {discount?.amount && <Money {...discount.amount} value={value} />}

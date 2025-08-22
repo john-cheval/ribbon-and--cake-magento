@@ -71,7 +71,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                 <Typography
                   sx={{
                     color: (theme: any) => theme.palette.custom.main,
-                    fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                    fontSize: { xs: '15px', md: '16px' },
                     fontWeight: 700,
                     marginBottom: { xs: '8px', md: '13px' },
                   }}
@@ -150,7 +150,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                             <Typography
                               sx={{
                                 color: (theme: any) => theme.palette.custom.smallHeading,
-                                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                                 lineHeight: '164%',
                                 minHeight: { lg: '50px', xl: 0 },
                                 marginBottom: '2px',
@@ -163,7 +163,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                               className='adsOn'
                               sx={{
                                 ['& span']: {
-                                  fontSize: { xs: '14px', md: '16px', lg: '20px' },
+                                  fontSize: { xs: '15px', md: '16px', lg: '20px' },
                                   lineHeight: '24px',
                                   fontWeight: '700',
                                   color: (theme: any) => theme.palette.custom.dark,
@@ -234,7 +234,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                     sx={{
                                       backgroundColor: (theme: any) => theme.palette.custom.heading,
                                       color: '#FFFFFF',
-                                      fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                      fontSize: { xs: '15px', md: '16px' },
                                       borderRadius: '8px',
                                       border: '1px solid #9B7C38 ',
                                       paddingBlock: { xs: '5px' },
@@ -268,7 +268,7 @@ function AdsOnProduct(props: AdsOnProductType) {
           sx={{
             marginTop: { xs: '15px', md: '26px' },
             color: (theme: any) => theme.palette.custom.dark,
-            fontSize: { xs: '12px', md: '14px' },
+            fontSize: { xs: '15px' },
             textDecoration: 'underline',
             textAlign: 'center',
             transition: 'all 0.4s ease-in-out',

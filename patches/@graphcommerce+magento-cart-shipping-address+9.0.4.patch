@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..8358211 100644
+index a128fe9..c4d5a7d 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -96,16 +96,15 @@ index a128fe9..8358211 100644
      skipUnchanged: true,
      onBeforeSubmit: (variables) => {
        const regionId = countries
-@@ -114,7 +118,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -114,7 +118,6 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
          variables.company = ''
          variables.vatId = ''
        }
 -
-+      // console.log(regionId, "==>regionId")
        return {
          ...variables,
          telephone: variables.telephone || '000 - 000 0000',
-@@ -125,7 +129,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -125,7 +128,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
      },
    })
    const { handleSubmit, required, error } = form
@@ -114,7 +113,7 @@ index a128fe9..8358211 100644
  
    useFormCompose({ form, step, submit, key: 'ShippingAddressForm' })
  
-@@ -134,22 +138,78 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -134,22 +137,78 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
        <FormAutoSubmit
          submit={submit}
          control={form.control}
@@ -139,7 +138,7 @@ index a128fe9..8358211 100644
 +            '& .MuiInputLabel-formControl': {
 +              color: (theme) => theme.palette.custom.main,
 +              //    marginBottom:'clamp(10px, (9.14px + 0.27vw), 16px)',
-+              fontSize: { xs: '14px', md: '16px' },
++              fontSize: { xs: '15px', md: '16px' },
 +              lineHeight: '158%',
 +              fontWeight: 400,
 +

@@ -73,7 +73,7 @@ export function HoveredButton({
         css={buttonStyles}
         sx={{
           marginInline: { xs: isCenter ? 'auto' : 'none', lg: '0px' },
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           padding: { xs: '12px 20px', lg: padding },
           width: { xs: 'fit-content', lg: width },
           backgroundColor: { xs: '#F6DBE0', md: 'inherit' },

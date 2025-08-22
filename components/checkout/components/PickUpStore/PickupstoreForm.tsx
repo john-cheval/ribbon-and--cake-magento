@@ -42,7 +42,7 @@ function PickupStoreForm({ storeData }) {
         paddingTop: 0,
         '& .MuiInputLabel-formControl': {
           color: (theme) => theme.palette.custom.main,
-          fontSize: { xs: '14px', md: '16px' },
+          fontSize: { xs: '15px', md: '16px' },
           lineHeight: '158%',
           fontWeight: 400,
 
@@ -160,7 +160,7 @@ function PickupStoreForm({ storeData }) {
                             <Typography
                               component='p'
                               sx={{
-                                fontSize: { xs: '14px', sm: '16px', md: '20px' },
+                                fontSize: { xs: '15px', sm: '16px', md: '20px' },
                                 color: (theme) => theme.palette.custom.main,
                                 fontWeight: 700,
                                 lineHeight: '33px',
@@ -174,7 +174,7 @@ function PickupStoreForm({ storeData }) {
                                 color: (theme) => theme.palette.custom.main,
                                 lineHeight: '33px',
                                 fontWeight: 400,
-                                fontSize: { xs: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                               }}
                             >
                               {location?.street} - {location?.city}
@@ -185,7 +185,7 @@ function PickupStoreForm({ storeData }) {
                                 color: (theme) => theme.palette.custom.main,
                                 lineHeight: '33px',
                                 fontWeight: 400,
-                                fontSize: { xs: '14px', md: '16px' },
+                                fontSize: { xs: '15px', md: '16px' },
                               }}
                             >
                               {location?.phone}

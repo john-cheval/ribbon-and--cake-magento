@@ -15,7 +15,7 @@ function CartTop({ item }) {
           <Typography
             sx={{
               color: '#000',
-              fontSize: { xs: '14px', md: '16px' },
+              fontSize: { xs: '15px', md: '16px' },
               fontWeight: 600,
               lineHeight: '120%',
               cursor: 'pointer',
@@ -31,7 +31,7 @@ function CartTop({ item }) {
               <Typography
                 sx={{
                   color: '#000',
-                  fontSize: { xs: '12px', md: '14px' },
+                  fontSize: { xs: '15px' },
                   fontWeight: 400,
                 }}
                 component='span'
@@ -46,7 +46,7 @@ function CartTop({ item }) {
               <Typography
                 sx={{
                   color: '#000',
-                  fontSize: { xs: '12px', md: '14px' },
+                  fontSize: { xs: '15px' },
                   fontWeight: 400,
                 }}
                 component='span'

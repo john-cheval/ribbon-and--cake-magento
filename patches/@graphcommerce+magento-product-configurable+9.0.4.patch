@@ -11,7 +11,7 @@ index 3032ee5..6fbdca8 100644
      <>
        {options.map((option) => (
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
-index 0482241..e87d420 100644
+index 0482241..4601075 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 +++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 @@ -43,6 +43,9 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
@@ -42,7 +42,7 @@ index 0482241..e87d420 100644
 -        sx={{ mt: 0 }}
 +        sx={{ mt: 0 , '& .SectionHeader-left':{
 +          color:'#000',
-+          fontSize: { xs:'14px', md: '16px' },
++          fontSize: { xs:'15px', md: '16px' },
 +          fontWeight:500,
 +          lineHeight:'120%',
 +          textTransform:'capitalize'
@@ -62,7 +62,7 @@ index 0482241..e87d420 100644
 +          outline:'none',
 +          boxShadow:'none',
 +          textTransform:'capitalize',
-+          fontSize:{xs:'14px',md:'16px'},
++          fontSize:{xs:'15px',md:'16px'},
 +          fontWeight:400,
 +         '& .ActionCard-root.variantOutlined':{
 +          border:'1px solid #F6DBE0',

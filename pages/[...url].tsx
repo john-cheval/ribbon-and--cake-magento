@@ -76,7 +76,7 @@ function CategoryPage(props: CategoryProps) {
         <Typography
           sx={{
             textAlign: 'center',
-            fontSize: { xs: '14px', md: '16px', lg: '20px' },
+            fontSize: { xs: '15px', lg: '20px' },
             color: (theme) => theme.palette.custom.main,
           }}
         >

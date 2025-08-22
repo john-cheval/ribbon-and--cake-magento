@@ -20,7 +20,7 @@ function RelativeProductListMobile({ count = 4, productList }) {
               display: 'grid',
               gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
               columnGap: '13px',
-              rowGap: '16px',
+              rowGap: '30px',
               marginTop: { xs: '10px', sm: '15px' },
             }}
           >
@@ -53,7 +53,7 @@ function RelativeProductListMobile({ count = 4, productList }) {
                     '& .ProductListItem-title': {
                       color: (theme) => theme.palette.custom.dark,
                       // minHeight: { xs: '40px', md: '50px' },
-                      fontSize: { xs: '14px', md: '16px' },
+                      fontSize: { xs: '15px', md: '16px' },
                       lineHeight: '158%',
                       minWidth: { xs: '130px' },
                       maxWidth: { xs: '100%' },
@@ -83,7 +83,7 @@ function RelativeProductListMobile({ count = 4, productList }) {
             <Typography
               onClick={() => setShowAll(!showAll)}
               sx={{
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: 500,
                 color: (theme) => theme.palette.custom.main,
                 textDecoration: 'underline',

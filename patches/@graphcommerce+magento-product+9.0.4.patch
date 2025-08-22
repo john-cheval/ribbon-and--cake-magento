@@ -1474,7 +1474,7 @@ index d1ae621..f84eede 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..2057237 100644
+index 9dc2505..558c2da 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,18 +1,23 @@
@@ -1551,7 +1551,7 @@ index 9dc2505..2057237 100644
            gridArea: 'title',
 +          fontSize:{ xs: '15px',md: '16px' },
 +          maxWidth: { xs: '131px', md: '250px' },
-+          minHeight:'50px',
++          minHeight:{xs:'70px', md:'50px'},
          }}
          className={classes.title}
        >

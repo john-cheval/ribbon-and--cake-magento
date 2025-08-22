@@ -154,7 +154,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             gridArea: 'items',
             //    marginTop: '30px',
             '& .ProductListItemsBase-root': {
-              gap: { xs: '15px', md: '20px' },
+              gap: { xs: '20px', md: '20px' },
               gridTemplateColumns: {
                 xs: 'repeat(2, 1fr)',
                 sm: isShopPage ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
@@ -510,6 +510,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                   overflowY: 'auto',
                   overflowX: 'hidden',
                   pr: 1,
+                  pl: 1,
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none',
                   '&::-webkit-scrollbar': {

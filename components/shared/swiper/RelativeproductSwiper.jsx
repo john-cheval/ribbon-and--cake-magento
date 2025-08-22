@@ -93,7 +93,7 @@ export function RelativeProductSwiper({ data = [], link = '/', initial = '', pro
                       '& .ProductListItem-title': {
                         color: (theme) => theme.palette.custom.dark,
                         //  minHeight: '50px',
-                        fontSize: { xs: '14px', md: '16px' },
+                        fontSize: { xs: '15px', md: '16px' },
                         lineHeight: '158%',
                       },
                       '& .MuiButtonBase-root': {

@@ -26,7 +26,6 @@ import { PageMeta, StoreConfigDocument } from '@graphcommerce/magento-store'
 import type { GetStaticProps } from '@graphcommerce/next-ui'
 import { LayoutHeader } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
-import { Box, Typography } from '@mui/material'
 import type { LayoutNavigationProps } from '../../components'
 import {
   LayoutDocument,
@@ -51,42 +50,13 @@ export type GetPageStaticProps = GetStaticProps<
 >
 
 function SearchResultPage(props: SearchResultProps) {
-  const { apolloState, categories, menu: menuList, ...rest } = props
-  const productList = useProductList({
-    ...rest,
-    category: categories?.items?.[0],
-  })
-  console.log(categories)
-  const { params, products, category } = productList
+  const { apolloState, menu: menuList } = props
+  const productList = useProductList(props)
+  const { params, menu, products } = productList
   const search = params.url.split('/')[1]
-  const productsLength = products?.total_count ?? 0
 
   if (!menuList?.items || menuList.items.length === 0) return
-  if (!productsLength) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '50vh',
-        }}
-      >
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontSize: { xs: '15px', lg: '20px' },
-            color: (theme) => theme.palette.custom.main,
-          }}
-        >
-          No Products Found For this Category
-        </Typography>
-      </Box>
-    )
-  }
 
-  const isCategory = params && category && products?.items
-  console.log(category, 'this is the params')
   return (
     <>
       <PageMeta

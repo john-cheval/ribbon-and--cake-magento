@@ -32,7 +32,7 @@ export function HeroSwiper({ products }) {
           onSwiper={(swiper) => {
             swiperRef.current = swiper
           }}
-          //  modules={[Autoplay]}
+          modules={[Autoplay]}
           loop
           autoplay={{
             delay: 3000,

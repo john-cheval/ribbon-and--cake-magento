@@ -337,29 +337,19 @@ function ProductPage(props: Props) {
           <Box
             sx={{
               flexGrow: 1,
-              // height: '600px',
               overflowY: 'scroll',
               overflowX: 'hidden',
-              // pr: { xs: '5px', md: '20px' },
               paddingBottom: { xs: '15px', md: '30px', lg: '40px' },
-              // pl: { xs: '5px', md: '20px', lg: '30px', xl: 0 },
 
               '&::-webkit-scrollbar': {
-                //   width: '6px',
-                //   borderRadius: '0px',
-                //   backgroundColor: '#EBEBEB',
                 display: 'none',
                 width: 0,
                 background: 'transparent',
               },
               '&::-webkit-scrollbar-track': {
-                //   backgroundColor: '#EBEBEB',
-                //    borderRadius: '0px',
                 display: 'none',
               },
               '&::-webkit-scrollbar-thumb': {
-                //     backgroundColor: (theme) => theme.palette.primary.main,
-                //     borderRadius: '0px',
                 display: 'none',
               },
 

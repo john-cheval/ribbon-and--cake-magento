@@ -48,7 +48,7 @@ function HomeProductListMobile({
     fetchProducts(String(category?.id))
   }
 
-  const isMobile = useMediaQuery('(max-width:420px)')
+  //const isMobile = useMediaQuery('(max-width:420px)')
 
   useEffect(() => {
     fetchProducts(String(data?.[0]?.id))
@@ -131,7 +131,7 @@ function HomeProductListMobile({
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
+                gridTemplateColumns: 'repeat(2,1fr)',
                 columnGap: '13px',
                 rowGap: '30px',
                 marginTop: { xs: '10px', sm: '15px' },

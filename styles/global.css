@@ -1828,3 +1828,20 @@ input[type='number'] {
 .MuiLoadingButton-loading {
   color: #2a110a !important;
 }
+
+@media (max-width: 768px) {
+  .ProductListItem-titleContainer .mui-style-102irip {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  .ProductListItem-titleContainer .ProductListPrice-root {
+    position: absolute;
+    bottom: 5px;
+    left: -4px;
+  }
+  .ProductListItem-titleContainer .ProductListItem-title {
+    min-height: auto;
+    padding-bottom: 43px;
+  }
+}

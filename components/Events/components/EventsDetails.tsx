@@ -107,7 +107,8 @@ function EventsDetails({ list }) {
 
         <Box
           sx={{
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns: { xs: 'repeat(1,1fr)', md: 'repeat(2,1fr)' },
             columnGap: { xs: 0, md: '15px', lg: '20px' },
             rowGap: { xs: '10px', md: 0 },
             flexDirection: { xs: 'column', md: 'row' },

@@ -1,14 +1,32 @@
 import { Image, StaticImport } from '@graphcommerce/image'
-import { Box, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 import Link from 'next/link'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import { saxoGrammaticus } from '../../../lib/fonts'
+import { truncateByChars } from '../../../utils/truncate'
 
 function CourseCard(props) {
   const { courseCardData } = props
-  console.log(courseCardData?.image, 'this is the course card data')
+
+  const isMobile = useMediaQuery('(max-width:1024px)')
+  const charactersLegthTitle = isMobile ? 30 : 50
+  const descriptionCharactersLength = isMobile ? 100 : 200
   return (
-    <Card sx={{ position: 'relative', border: '1px solid #E6E6E6', borderRadius: '8px' }}>
+    <Card
+      sx={{
+        position: 'relative',
+        border: '1px solid #E6E6E6',
+        borderRadius: '8px',
+      }}
+    >
       <CardMedia sx={{ position: 'relative', padding: '8px 8px 0px' }}>
         <Image
           src={
@@ -62,9 +80,10 @@ function CourseCard(props) {
             textTransform: 'uppercase',
             fontWeight: '300 !important',
             marginBottom: { xs: 0 },
+            minHeight: { xs: 'auto', sm: '60px', md: '75px' },
           }}
         >
-          {courseCardData?.name}
+          {truncateByChars(courseCardData?.name, charactersLegthTitle)}
         </Typography>
         {courseCardData?.short_description && (
           <Typography
@@ -74,7 +93,7 @@ function CourseCard(props) {
               lineHeight: '174%',
             }}
           >
-            {courseCardData?.short_description}
+            {truncateByChars(courseCardData?.short_description, descriptionCharactersLength)}
           </Typography>
         )}
 

@@ -1,18 +1,25 @@
 import { MessageSnackbar } from '@graphcommerce/next-ui'
 import { useMutation, useQuery } from '@apollo/client'
 import { Trans } from '@lingui/react'
-import { Box, Button, CircularProgress, OutlinedInput, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { AlekseonFormDocument } from '../../../graphql/aleskonForm.gql'
 import { UpdateAlekseonFormDocument } from '../../../graphql/UpdateAleskonForm.gql'
+// import { UpdateAlekseonFormDocument } from '../../../graphql/UpdateAlekseonForm.gql'
+import ReCaptcha from '../../../utils/ReCaptcha'
 
+interface RecaptchaRefType {
+  resetCaptcha: () => void
+}
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
   color: (theme: any) => theme.palette.custom.main,
-  // padding: '18px ',
   height: 'fit-content',
-
+  '& input[type="number"]': {
+    MozAppearance: 'textfield',
+  },
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
     fontSize: { xs: '15px', md: '16px' },
@@ -29,21 +36,24 @@ const inputFieldSx: SxProps<Theme> = {
     color: (theme: any) => theme.palette.custom.main,
     opacity: 1,
   },
-
   '& .MuiOutlinedInput-notchedOutline': {
     borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
-
   '&:hover .MuiOutlinedInput-notchedOutline': {
     borderColor: (theme: any) => theme.palette.custom.borderInput,
   },
-
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
     borderColor: (theme: any) => theme.palette.custom.borderInput,
     borderWidth: '1px !important',
   },
+  '& .mui-style-y9718c-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+    {
+      borderColor: (theme: any) => `${theme.palette.custom.borderInput} !important`,
+    },
 }
 function EnquiryForm() {
+  const recaptchaRef = useRef<RecaptchaRefType>(null)
+  const [token, setToken] = useState('')
   const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
     UpdateAlekseonFormDocument,
   )
@@ -59,21 +69,50 @@ function EnquiryForm() {
   })
 
   const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
+
+  const defaultValues = formLoading
+    ? {}
+    : formFields.reduce(
+        (acc, field) => {
+          if (field?.attribute_code) {
+            acc[field.attribute_code] = ''
+          }
+          return acc
+        },
+        {} as Record<string, string>,
+      )
+
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: formFields.reduce(
-      (acc, field) => {
-        if (field?.attribute_code) {
-          acc[field.attribute_code] = ''
-        }
-        return acc
-      },
-      {} as Record<string, string>,
-    ),
+    defaultValues: defaultValues,
   })
 
   const isSuccess = data?.updateAlekseonForm?.success
 
+  useEffect(() => {
+    if (isSuccess) {
+      reset()
+      setToken('')
+      if (recaptchaRef.current) {
+        recaptchaRef.current.resetCaptcha()
+      }
+    }
+  }, [isSuccess, reset, recaptchaRef])
+
+  // Log data and errors for debugging purposes
+  useEffect(() => {
+    if (data) {
+      console.log('Mutation succeeded. Response data:', data)
+    }
+    if (error) {
+      console.error('Mutation failed. Error details:', error)
+    }
+  }, [data, error])
+
   const onSubmit = async (values: Record<string, string>) => {
+    if (!token) {
+      console.error('Please verify the captcha')
+      return
+    }
     try {
       const fields = formFields
         ?.filter((field) => typeof field?.attribute_code === 'string')
@@ -90,9 +129,16 @@ function EnquiryForm() {
           },
         },
       })
-      reset()
     } catch (err) {
       console.error(err)
+    }
+  }
+
+  const handleToken = (recaptchaToken: string | null) => {
+    if (recaptchaToken) {
+      setToken(recaptchaToken)
+    } else {
+      setToken('')
     }
   }
 
@@ -121,7 +167,7 @@ function EnquiryForm() {
             rules={{ required: 'Name is Required' }}
             render={({ field, fieldState }) => (
               <>
-                <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+                <TextField {...field} fullWidth label='Your Name' sx={inputFieldSx} />
                 {fieldState.error && (
                   <Typography variant='caption' color='error'>
                     {fieldState.error.message}
@@ -139,13 +185,13 @@ function EnquiryForm() {
             rules={{
               required: 'Email is required',
               pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // basic email regex
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: 'Enter a valid email address',
               },
             }}
             render={({ field, fieldState }) => (
               <>
-                <OutlinedInput {...field} fullWidth placeholder='Your Email' sx={inputFieldSx} />
+                <TextField {...field} fullWidth label='Your Email' sx={inputFieldSx} />
                 {fieldState.error && (
                   <Typography variant='caption' color='error'>
                     {fieldState.error.message}
@@ -171,27 +217,26 @@ function EnquiryForm() {
             rules={{
               required: 'Phone Number is Required',
               pattern: {
-                value: /^[0-9]*$/, // only digits
+                value: /^[0-9]*$/,
                 message: 'Only numbers are allowed',
               },
               minLength: {
-                value: 7, // optional: min length
+                value: 7,
                 message: 'Phone number is too short',
               },
               maxLength: {
-                value: 15, // optional: max length
+                value: 15,
                 message: 'Phone number is too long',
               },
             }}
             render={({ field, fieldState }) => (
               <>
-                <OutlinedInput
+                <TextField
                   {...field}
                   fullWidth
-                  placeholder='Your Phone'
+                  label='Your Phone'
                   sx={inputFieldSx}
                   onChange={(e) => {
-                    // allow only digits in input
                     field.onChange(e.target.value.replace(/\D/g, ''))
                   }}
                 />
@@ -207,18 +252,15 @@ function EnquiryForm() {
           <Controller
             name={formFields.find((f) => f?.frontend_label === 'Event Name')?.attribute_code || ''}
             control={control}
-            // rules={{ required: 'Name is Required' }}
             render={({ field, fieldState }) => (
               <>
-                <OutlinedInput
+                <TextField
                   {...field}
                   fullWidth
-                  placeholder='Personalised Gifts'
+                  label='Personalised Gifts'
                   sx={{
                     ...inputFieldSx,
-                    '& .MuiOutlinedInput-input::placeholder': {
-                      //   color: '#D1D1D1',
-                    },
+                    '& .MuiOutlinedInput-input::placeholder': {},
                   }}
                 />
                 {fieldState.error && (
@@ -239,7 +281,6 @@ function EnquiryForm() {
           <Controller
             name={formFields.find((f) => f?.frontend_label === 'Message')?.attribute_code || ''}
             control={control}
-            // rules={{ required: 'Message is  Required' }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -250,7 +291,6 @@ function EnquiryForm() {
                 fullWidth
                 variant='outlined'
                 sx={{
-                  // mt: 2,
                   backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                   color: (theme: any) => theme.palette.custom.main,
                   fontSize: { xs: '15px', md: '16px' },
@@ -264,10 +304,10 @@ function EnquiryForm() {
                       },
                     },
                     '&:hover fieldset': {
-                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Hover border color
+                      borderColor: (theme: any) => theme.palette.custom.borderInput,
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Focus border color
+                      borderColor: (theme: any) => theme.palette.custom.borderInput,
                       borderWidth: '1px !important',
                     },
                     '& textarea': {
@@ -286,13 +326,26 @@ function EnquiryForm() {
             )}
           />
         </Box>
+        <Box
+          sx={{
+            marginTop: '10px',
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'center',
+          }}
+        >
+          <ReCaptcha
+            siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+            callback={handleToken}
+            ref={recaptchaRef}
+          />
+        </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '18px' }}>
           <Button
             type='submit'
-            disabled={isSubmitting}
+            disabled={!token || isSubmitting}
             sx={{
-              // marginTop: '18px',
               backgroundColor: (theme: any) => theme.palette.custom.main,
               color: (theme: any) => theme.palette.custom.border,
               fontSize: { xs: '15px', md: '18px' },
@@ -303,9 +356,7 @@ function EnquiryForm() {
               transition: 'all 0.3s ease',
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
-
               width: { xs: '100%', md: '500px' },
-
               '&:hover': {
                 backgroundColor: (theme: any) => theme.palette.custom.border,
                 color: (theme: any) => theme.palette.custom.main,
@@ -313,6 +364,9 @@ function EnquiryForm() {
                 '& svg': {
                   color: (theme: any) => theme.palette.custom.main,
                 },
+              },
+              '&.Mui-disabled': {
+                color: (theme: any) => theme.palette.custom.border,
               },
             }}
           >
@@ -357,6 +411,35 @@ function EnquiryForm() {
           severity='success'
         >
           <Trans id='Form Submitted Successfully ' />
+        </MessageSnackbar>
+      )}
+
+      {/* Added error snackbar for better debugging */}
+      {error && (
+        <MessageSnackbar
+          sx={{
+            '& .MuiSnackbarContent-message': {
+              '& svg': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '18px', lg: '25px' },
+              },
+              '& .MuiBox-root': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '15px', md: '16px' },
+                textAlign: 'center',
+              },
+              '& .MuiButtonBase-root': {
+                width: { xs: '35px', xl: '40px' },
+                height: { xs: '35px', xl: '40px' },
+              },
+            },
+          }}
+          open={!!error}
+          sticky
+          variant='pill'
+          severity='error'
+        >
+          <Trans id='Submission Failed. Please try again.' />
         </MessageSnackbar>
       )}
     </Box>

@@ -3,24 +3,46 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Trans } from '@lingui/react'
 import { Box, Button, CircularProgress, OutlinedInput, TextField, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { AlekseonFormDocument } from '../../../../graphql/aleskonForm.gql'
 import { UpdateAlekseonFormDocument } from '../../../../graphql/UpdateAleskonForm.gql'
+import ReCaptcha from '../../../../utils/ReCaptcha'
+
+interface RecaptchaRefType {
+  resetCaptcha: () => void
+}
+
+interface CourseEnquiryFormValues {
+  'Class Type': string
+  'Your Name': string
+  'Your Phone': string
+  'Your Email': string
+  'Preferred Month and Week': string
+  'Number of attendees': string
+  'Your Message': string
+}
 
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
   color: '#441E14',
-  // padding: '16px ',
   height: 'fit-content',
 
   '& input[type="number"]': {
     MozAppearance: 'textfield', // Firefox
+  },
+  '& .MuiFormLabel-root': {
+    color: '#441E14', // Use a visible color
   },
   '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
     {
       WebkitAppearance: 'none', // Chrome, Safari
       margin: 0,
     },
+
+  '& .mui-style-ymipag-MuiButtonBase-root-MuiButton-root.Mui-disabled ': {
+    color: (theme: any) => theme.palette.custom.main,
+  },
 
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
     fontFamily: '"Bricolage Grotesque"',
@@ -48,13 +70,33 @@ const inputFieldSx: SxProps<Theme> = {
     borderColor: '#c5c5c5',
   },
 
+  '& .MuiInputLabel-root.Mui-focused': {
+    borderColor: '#c5c5c5',
+    borderWidth: '1px !important',
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderWidth: '1px !important',
+    },
+  },
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
     borderColor: '#c5c5c5',
     borderWidth: '1px !important',
   },
+  '& .mui-style-y9718c-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline ':
+    {
+      borderColor: '#c5c5c5',
+      borderWidth: '1px !important',
+    },
+  '& .mui-style-y9718c-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+    {
+      borderColor: '#c5c5c5',
+    },
 }
+
 function CourseEnquiryForm({ defaultTitle }) {
-  const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
+  const recaptchaRef = useRef<RecaptchaRefType>(null)
+  const [token, setToken] = useState('')
+
+  const [updateAlekseonForm, { data, loading: isSubmitting }] = useMutation(
     UpdateAlekseonFormDocument,
   )
 
@@ -70,29 +112,42 @@ function CourseEnquiryForm({ defaultTitle }) {
 
   const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
 
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: formFields.reduce(
-      (acc, field) => {
-        if (field?.frontend_label === 'Class Type' && field?.attribute_code) {
-          acc[field.attribute_code] = defaultTitle
-        } else if (field?.attribute_code) {
-          acc[field.attribute_code] = ''
-        }
-        return acc
-      },
-      {} as Record<string, string>,
-    ),
+  const { control, handleSubmit, reset } = useForm<CourseEnquiryFormValues>({
+    defaultValues: {
+      'Class Type': defaultTitle,
+      'Your Name': '',
+      'Your Phone': '',
+      'Your Email': '',
+      'Preferred Month and Week': '',
+      'Number of attendees': '',
+      'Your Message': '',
+    },
   })
 
   const isSuccess = data?.updateAlekseonForm?.success
 
-  const onSubmit = async (values: Record<string, string>) => {
+  useEffect(() => {
+    if (isSuccess) {
+      reset()
+      setToken('')
+      if (recaptchaRef.current) {
+        recaptchaRef.current.resetCaptcha()
+      }
+    }
+  }, [isSuccess, reset, recaptchaRef])
+
+  const onSubmit = async (values: CourseEnquiryFormValues) => {
+    if (!token) {
+      console.error('Please verify the captcha')
+      return
+    }
+
     try {
       const fields = formFields
         ?.filter((field) => typeof field?.attribute_code === 'string')
         .map((field) => ({
           fieldIdentifier: field!.attribute_code as string,
-          value: values[field!.attribute_code as string] || '',
+          value: values[field!.frontend_label as keyof CourseEnquiryFormValues] || '',
         }))
 
       await updateAlekseonForm({
@@ -103,11 +158,19 @@ function CourseEnquiryForm({ defaultTitle }) {
           },
         },
       })
-      reset()
     } catch (err) {
       console.error(err)
     }
   }
+
+  const handleToken = (recaptchaToken: string | null) => {
+    if (recaptchaToken) {
+      setToken(recaptchaToken)
+    } else {
+      setToken('')
+    }
+  }
+
   return (
     <Box
       component='form'
@@ -131,43 +194,30 @@ function CourseEnquiryForm({ defaultTitle }) {
           flexDirection: 'column',
         }}
       >
-        <Box
-          sx={{
-            display: 'none',
-          }}
-        >
+        <Box sx={{ display: 'none' }}>
           <Controller
-            name={formFields.find((f) => f?.frontend_label === 'Class Type')?.attribute_code || ''}
+            name='Class Type'
             control={control}
-            //  rules={{ required: 'Name is Required' }}
-            render={({ field, fieldState }) => (
-              <>
-                <OutlinedInput
-                  {...field}
-                  fullWidth
-                  value={defaultTitle}
-                  placeholder={defaultTitle}
-                  sx={inputFieldSx}
-                  disabled
-                  defaultValue={defaultTitle}
-                />
-                {/*fieldState.error && (
-                <Typography variant='caption' color='error'>
-                  {fieldState.error.message}
-                </Typography>
-              )*/}
-              </>
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label='Class Type'
+                value={defaultTitle}
+                disabled
+                sx={inputFieldSx}
+              />
             )}
           />
         </Box>
 
         <Controller
-          name={formFields.find((f) => f?.frontend_label === 'Your Name')?.attribute_code || ''}
+          name='Your Name'
           control={control}
           rules={{ required: 'Name is Required' }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+              <TextField {...field} fullWidth label='Your Name' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -178,32 +228,31 @@ function CourseEnquiryForm({ defaultTitle }) {
         />
 
         <Controller
-          name={formFields.find((f) => f?.frontend_label === 'Your Phone')?.attribute_code || ''}
+          name='Your Phone'
           control={control}
           rules={{
             required: 'Phone Number is Required',
             pattern: {
-              value: /^[0-9]*$/, // only digits
+              value: /^[0-9]*$/,
               message: 'Only numbers are allowed',
             },
             minLength: {
-              value: 7, // optional: min length
+              value: 7,
               message: 'Phone number is too short',
             },
             maxLength: {
-              value: 15, // optional: max length
+              value: 15,
               message: 'Phone number is too long',
             },
           }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput
+              <TextField
                 {...field}
                 fullWidth
-                placeholder='Your Phone'
+                label='Your Phone'
                 sx={inputFieldSx}
                 onChange={(e) => {
-                  // allow only digits in input
                   field.onChange(e.target.value.replace(/\D/g, ''))
                 }}
               />
@@ -217,18 +266,18 @@ function CourseEnquiryForm({ defaultTitle }) {
         />
 
         <Controller
-          name={formFields.find((f) => f?.frontend_label === 'Your Email')?.attribute_code || ''}
+          name='Your Email'
           control={control}
           rules={{
             required: 'Email is required',
             pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // basic email regex
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: 'Enter a valid email address',
             },
           }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput {...field} fullWidth placeholder='Your Email' sx={inputFieldSx} />
+              <TextField {...field} fullWidth label='Your Email' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -239,20 +288,12 @@ function CourseEnquiryForm({ defaultTitle }) {
         />
 
         <Controller
-          name={
-            formFields.find((f) => f?.frontend_label === 'Preferred Month and Week')
-              ?.attribute_code || ''
-          }
+          name='Preferred Month and Week'
           control={control}
           rules={{ required: 'This field is Madatory' }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput
-                {...field}
-                fullWidth
-                placeholder='Preferred Month and Week'
-                sx={inputFieldSx}
-              />
+              <TextField {...field} fullWidth label='Preferred Month and Week' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -263,19 +304,16 @@ function CourseEnquiryForm({ defaultTitle }) {
         />
 
         <Controller
-          name={
-            formFields.find((f) => f?.frontend_label === 'Number of attendees')?.attribute_code ||
-            ''
-          }
+          name='Number of attendees'
           control={control}
           rules={{ required: 'Field is Required' }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput
+              <TextField
                 {...field}
                 type='number'
                 fullWidth
-                placeholder='Number of attendees'
+                label='Number of attendees'
                 sx={inputFieldSx}
                 inputProps={{ min: 0 }}
                 onChange={(e) => {
@@ -297,9 +335,7 @@ function CourseEnquiryForm({ defaultTitle }) {
 
         <Box>
           <Controller
-            name={
-              formFields.find((f) => f?.frontend_label === 'Your Message')?.attribute_code || ''
-            }
+            name='Your Message'
             control={control}
             render={({ field }) => (
               <TextField
@@ -311,8 +347,6 @@ function CourseEnquiryForm({ defaultTitle }) {
                 fullWidth
                 variant='outlined'
                 sx={{
-                  // mt: 2,
-                  // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                   color: (theme: any) => theme.palette.custom.main,
                   fontSize: '20px',
                   borderRadius: '4px',
@@ -334,9 +368,6 @@ function CourseEnquiryForm({ defaultTitle }) {
                       padding: '10px',
                     },
                   },
-                  '& .mui-style-17dy96o-MuiFormLabel-root-MuiInputLabel-root ': {
-                    color: (theme: any) => theme.palette.custom.main,
-                  },
                   '& .MuiFormLabel-root': {
                     color: (theme: any) => theme.palette.custom.main,
                   },
@@ -345,13 +376,23 @@ function CourseEnquiryForm({ defaultTitle }) {
             )}
           />
         </Box>
+        <Box
+          sx={{
+            marginTop: '10px',
+          }}
+        >
+          <ReCaptcha
+            siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+            callback={handleToken}
+            ref={recaptchaRef}
+          />
+        </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '18px' }}>
           <Button
             type='submit'
-            disabled={isSubmitting}
+            disabled={!token || isSubmitting}
             sx={{
-              // marginTop: '18px',
               backgroundColor: (theme: any) => theme.palette.custom.main,
               color: (theme: any) => theme.palette.custom.border,
               fontSize: { xs: '15px', md: '18px' },
@@ -363,7 +404,7 @@ function CourseEnquiryForm({ defaultTitle }) {
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
               width: '100%',
-
+              cursor: !token || isSubmitting ? 'none' : 'auto',
               '&:hover': {
                 backgroundColor: (theme: any) => theme.palette.custom.border,
                 color: (theme: any) => theme.palette.custom.main,
@@ -371,6 +412,9 @@ function CourseEnquiryForm({ defaultTitle }) {
                 '& svg': {
                   color: (theme: any) => theme.palette.custom.main,
                 },
+              },
+              '&.Mui-disabled': {
+                color: (theme: any) => theme.palette.custom.border,
               },
             }}
           >

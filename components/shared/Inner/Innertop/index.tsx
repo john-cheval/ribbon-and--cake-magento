@@ -38,11 +38,13 @@ export function InnerTop(props: InnerTopProps) {
   const { count, title, isFilter, mainTitle, responsiveTitle, isShopPage = false, sx } = props
   const router = useRouter()
 
-  const nestedRoutes = Array.isArray(router.query.url)
-    ? router.query.url
-    : router.query.url
-      ? [router.query.url]
-      : []
+  // const nestedRoutes = Array.isArray(router.query.url)
+  //   ? router.query.url
+  //   : router.query.url
+  //     ? [router.query.url]
+  //     : []
+
+  const nestedRoutess = router?.asPath?.split('/').filter(Boolean)
 
   return (
     <Box sx={{ paddingInline: { xs: '18px', md: '25px', lg: '55px' } }}>
@@ -123,12 +125,14 @@ export function InnerTop(props: InnerTopProps) {
             )}
 
             {!title &&
-              nestedRoutes?.length > 0 &&
-              nestedRoutes.map((link, index) => {
+              nestedRoutess?.length > 0 &&
+              nestedRoutess.map((link, index) => {
                 const formattedLink = link
                   .split('-')
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(' ')
+
+                const linkPath = `/courses`
 
                 return (
                   <Box
@@ -152,16 +156,32 @@ export function InnerTop(props: InnerTopProps) {
                       }}
                     />
 
-                    <Typography
-                      component='p'
-                      sx={{
-                        color: (theme: any) => theme.palette.custom.tertiary,
-                        fontWeight: 400,
-                        fontSize: { xs: '15px', md: '16px' },
-                      }}
-                    >
-                      {formattedLink}
-                    </Typography>
+                    {index === 0 ? (
+                      <Link href={linkPath} passHref>
+                        <Typography
+                          component='p'
+                          sx={{
+                            color: (theme: any) => theme.palette.custom.tertiary,
+                            fontWeight: 400,
+                            fontSize: { xs: '15px', md: '16px' },
+                            textDecoration: 'none',
+                          }}
+                        >
+                          {formattedLink}
+                        </Typography>
+                      </Link>
+                    ) : (
+                      <Typography
+                        component='p'
+                        sx={{
+                          color: (theme: any) => theme.palette.custom.tertiary,
+                          fontWeight: 400,
+                          fontSize: { xs: '15px', md: '16px' },
+                        }}
+                      >
+                        {formattedLink}
+                      </Typography>
+                    )}
                   </Box>
                 )
               })}

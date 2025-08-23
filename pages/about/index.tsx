@@ -15,12 +15,20 @@ export type CmsBlocksProps = { cmsBlocks?: any; testimoanialsData?: MpBlogPostsQ
 function AboutPage(props: CmsBlocksProps) {
   const { cmsBlocks, testimoanialsData } = props
   const abuotLeft = cmsBlocks.find((block) => block.identifier === 'about-left')
+  const abuotSectionTwoLeft = cmsBlocks.find(
+    (block) => block.identifier === 'about-section-two-left',
+  )
   const abuotTopCenter = cmsBlocks.find((block) => block.identifier === 'about-top-center')
   const aboutTopRight = cmsBlocks.find((block) => block.identifier === 'about-top-right')
+  const aboutSectionTwoRight = cmsBlocks.find(
+    (block) => block.identifier === 'about-section-two-right',
+  )
   const aboutClients = cmsBlocks.find((block) => block.identifier === 'clients')
   const decodedAboutLeft = decodeHtmlEntities(abuotLeft?.content)
+  const decodedAboutSectionTwoLeft = decodeHtmlEntities(abuotSectionTwoLeft?.content)
   const decodedAboutTopCenter = decodeHtmlEntities(abuotTopCenter?.content)
   const decodedAboutTopRight = decodeHtmlEntities(aboutTopRight?.content)
+  const decodedAboutTwoRight = decodeHtmlEntities(aboutSectionTwoRight?.content)
   const decodedAboutclients = decodeHtmlEntities(aboutClients?.content)
   return (
     <>
@@ -39,6 +47,8 @@ function AboutPage(props: CmsBlocksProps) {
         topRight={decodedAboutTopRight}
         testimonials={testimoanialsData}
         clients={decodedAboutclients}
+        sectionTwoRight={decodedAboutTwoRight}
+        sectionTwoLeft={decodedAboutSectionTwoLeft}
       />
     </>
   )
@@ -65,7 +75,14 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const cmsPageBlocksQuery = staticClient.query({
     query: cmsMultipleBlocksDocument,
     variables: {
-      blockIdentifiers: ['about-left', 'about-top-center', 'about-top-right', 'clients'],
+      blockIdentifiers: [
+        'about-left',
+        'about-top-center',
+        'about-top-right',
+        'clients',
+        'about-section-two-left',
+        'about-section-two-right',
+      ],
     },
   })
 

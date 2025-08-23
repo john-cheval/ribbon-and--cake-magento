@@ -13,10 +13,13 @@ export type AboutPageProps = {
   topRight?: string
   testimonials?: MpBlogPostsQuery
   clients?: string
+  sectionTwoRight?: string
+  sectionTwoLeft?: string
 }
 
 export function About(props: AboutPageProps) {
-  const { left, topCenter, topRight, testimonials, clients } = props
+  const { left, topCenter, topRight, testimonials, clients, sectionTwoLeft, sectionTwoRight } =
+    props
   return (
     <Box sx={{ position: 'relative' }}>
       <Box
@@ -75,7 +78,7 @@ export function About(props: AboutPageProps) {
           marginTop: { xs: '20px', md: '30px', lg: '40px' },
         }}
       >
-        <AboutSectionTwo />
+        <AboutSectionTwo sectionLeft={sectionTwoLeft} sectionRight={sectionTwoRight} />
       </Box>
 
       <Testimonials testiData={testimonials} />

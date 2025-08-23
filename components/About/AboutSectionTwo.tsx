@@ -5,7 +5,7 @@ import imgs from '../Assets/about/image.png'
 import svgIcon from '../Assets/about/Vector_1.svg'
 import { HoveredButton } from '../shared/Button/HoveredButon'
 
-function AboutSectionTwo() {
+function AboutSectionTwo({ sectionLeft, sectionRight }) {
   return (
     <Box
       component='section'
@@ -23,29 +23,7 @@ function AboutSectionTwo() {
           order: { xs: 2, md: 1 },
         }}
       >
-        <div className='about-text-content'>
-          <p className='about-description responsive-fonts mb-20'>
-            We proudly offer over 50 exquisite flavors and deliver 100+ cakes daily to our loyal
-            cake lovers, ensuring variety, freshness, and unmatched taste for every occasion
-          </p>
-
-          <p className='about-description responsive-fonts mb-20'>
-            But we are not just about cakes—we customize and personalize desserts to match your
-            theme and event. From edible brand logos and photo-inspired creations to intricate 3D
-            characters, our team has worked with many leading brands to curate successful events and
-            bespoke setups that leave a lasting impression.
-          </p>
-          <p className='about-description responsive-fonts mb-20'>
-            Our philosophy is simple: use only the finest ingredients, never compromise on quality,
-            and deliver creations that are as stunning to look at as they are to taste. This
-            dedication has established Ribbons & Balloons as a premium destination for cakes and
-            desserts that redefine celebration.
-          </p>
-
-          <p className='about-description responsive-fonts '>
-            Because here, it’s never just a cake—it’s a creation to be remembered.
-          </p>
-        </div>
+        {sectionLeft && <div dangerouslySetInnerHTML={{ __html: sectionLeft }} />}
         <HoveredButton
           text='Explore our collections'
           href='/shop'
@@ -61,7 +39,7 @@ function AboutSectionTwo() {
           order: { xs: 1, md: 2 },
         }}
       >
-        <Image src={imgs} alt='imagesectoionTwo' className='sectionTwoImageAbout' />
+        {sectionRight && <div dangerouslySetInnerHTML={{ __html: sectionRight }} />}
 
         <Box
           sx={{

@@ -1,5 +1,5 @@
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
-import { cacheFirst } from '@graphcommerce/graphql'
+import { cacheFirst, gql, useMutation } from '@graphcommerce/graphql'
 import {
   CartItemSummary,
   CartSummary,
@@ -24,14 +24,44 @@ import { useRouter } from 'next/router'
 import type { LayoutMinimalProps, LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutMinimal } from '../../components'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { GetServerSideProps } from 'next'
+import { useEffect } from 'react'
+
+const CCAVENUE_Complete = gql`
+  mutation ccavanueComplete($orderNo: String, $encResp: String) {
+    ccavanueComplete(input: {
+      orderNo: $orderNo
+      encResp: $encResp
+    }) {
+      success
+      order_id
+    }
+  }
+`
 
 type Props = Record<string, unknown>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props>
 
-function OrderSuccessPage() {
+function OrderSuccessPage({ formData }) {
   const hasCartId = !!useRouter().query.cart_id
 
-  const orderNumber = useRouter().query.order_number
+  const orderNumber = useRouter()?.query?.order_number || formData?.orderNo
+
+  const [ccavanueComplete] = useMutation(CCAVENUE_Complete)
+
+  useEffect(() => {
+    const ccAvanueCompleteMutation = async () => {
+      if (formData?.orderNo) {
+        const { data } = await ccavanueComplete({
+          variables: {
+            ...formData
+          },
+        })
+      }
+    }
+
+    ccAvanueCompleteMutation();
+  }, [])
 
   return (
     <>
@@ -102,7 +132,7 @@ function OrderSuccessPage() {
               background: (theme) => theme.palette.custom.main,
               color: (theme) => theme.palette.custom.border,
               borderRadius: '4px',
-              fontSize: { xs: '15px', lg: '16px' },
+              fontSize: { xs: '12px', md: '14px', lg: '16px' },
               border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
               textTransform: 'capitalize',
               transition: 'all 0.4s ease-in-out',
@@ -177,7 +207,23 @@ OrderSuccessPage.pageOptions = pageOptions
 
 export default OrderSuccessPage
 
-export const getStaticProps: GetPageStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+
+  let formData: Record<string, string> | null = null
+
+  if (req?.method && req?.method === 'POST') {
+    const body = await new Promise<URLSearchParams>((resolve, reject) => {
+      let data = ''
+      req.on('data', (chunk) => {
+        data += chunk
+      })
+      req.on('end', () => resolve(new URLSearchParams(data)))
+      req.on('error', reject)
+    })
+    formData = Object.fromEntries(body)
+  }
+
   if (getCheckoutIsDisabled(context.locale)) return { notFound: true }
 
   const client = graphqlSharedClient(context)
@@ -193,6 +239,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       ...(await layout).data,
       up: { href: '/', title: i18n._(/* i18n */ 'Home') },
       apolloState: await conf.then(() => client.cache.extract()),
+      formData
     },
   }
 }

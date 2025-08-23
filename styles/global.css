@@ -56,7 +56,7 @@
   text-align: center;
 }
 .mb-20 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .container-wrapper {
   padding-inline: 18px;
@@ -492,8 +492,14 @@
   line-height: 170%;
   font-weight: 400;
   margin-top: 0;
+  text-align: center;
 }
-
+.sectionTwoImageAbout {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  position: relative;
+}
 .clients {
   display: flex;
   align-items: center;
@@ -797,11 +803,17 @@ ol {
 .slider_bner-res {
   display: block;
 }
+.mb-20 {
+  margin-bottom: 15px;
+}
 
 /* md breakpoint */
 @media (min-width: 769px) {
   .justin {
     margin-bottom: 17px;
+  }
+  .about-description {
+    text-align: left;
   }
   .slider_bner {
     display: block;
@@ -996,6 +1008,9 @@ ol {
   .home-banner-content .heading {
     text-align: left;
   }
+  .mb-20 {
+    margin-bottom: 20px;
+  }
 }
 
 /* lg breakpoint */
@@ -1164,6 +1179,8 @@ ol {
   }
   .container-wrapper {
     padding-inline: 55px;
+  }
+  .mb-20 {
   }
 }
 

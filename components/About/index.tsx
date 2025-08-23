@@ -3,9 +3,9 @@ import { Box } from '@mui/material'
 import { MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
 import aboutSvg from '../Assets/about/Vector_1.svg'
 import svgIcon from '../Assets/about/Vector.svg'
-import { HoveredButton } from '../shared/Button/HoveredButon'
 import Clients from '../shared/Clients'
 import Testimonials from '../shared/Testimonials'
+import AboutSectionTwo from './AboutSectionTwo'
 
 export type AboutPageProps = {
   left?: string
@@ -51,13 +51,6 @@ export function About(props: AboutPageProps) {
 
         <Box sx={{ gridColumn: { xs: 'auto', md: 'span 6', lg: 'span 4' } }}>
           {topRight && <div dangerouslySetInnerHTML={{ __html: topRight }} />}
-          <HoveredButton
-            text='Explore our collections'
-            href='/explore'
-            isArrow={true}
-            width='fit-content'
-            isCenter={true}
-          />
         </Box>
 
         <Box
@@ -74,6 +67,15 @@ export function About(props: AboutPageProps) {
             sx={{ width: '100%', height: '180px', objectCover: 'cover' }}
           />
         </Box>
+      </Box>
+
+      <Box
+        sx={{
+          paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+          marginTop: { xs: '20px', md: '30px', lg: '40px' },
+        }}
+      >
+        <AboutSectionTwo />
       </Box>
 
       <Testimonials testiData={testimonials} />

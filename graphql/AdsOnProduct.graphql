@@ -4,6 +4,7 @@ query AdsOnProducts($categoryId: String!) {
       uid
       sku
       name
+      url_key
       price_range {
         minimum_price {
           regular_price {

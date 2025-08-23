@@ -4,7 +4,8 @@ import { CartPageDocument } from '@graphcommerce/magento-cart-checkout'
 import { UpdateItemQuantity } from '@graphcommerce/magento-cart-items'
 import { AddProductsToCartButton, AddProductsToCartForm } from '@graphcommerce/magento-product'
 import { Money } from '@graphcommerce/magento-store'
-import { Box, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Typography, useMediaQuery } from '@mui/material'
+import Link from 'next/link'
 import { useState } from 'react'
 import { AdsOnProductsQuery } from '../../../graphql/AdsOnProduct.gql'
 import { truncateByChars } from '../../../utils/truncate'
@@ -20,22 +21,20 @@ function AdsOnProduct(props: AdsOnProductType) {
     errorPolicy: 'all',
     fetchPolicy: 'cache-and-network',
   })
-  const { error, data } = cart
+  const { data } = cart
 
   const allCategories = new Set<string>()
-
   adsOnData?.forEach((data) => {
     data.categories?.forEach((cat) => {
-      if (cat.name !== 'Add On') {
-        allCategories.add(cat.name)
-      }
+      if (cat.name !== 'Add On') allCategories.add(cat.name)
     })
   })
-  const isMobile = useMediaQuery('(max-width:700px)')
 
+  const isMobile = useMediaQuery('(max-width:700px)')
   const uniqueCategories = Array.from(allCategories)
   const cartItems = data?.cart?.items
   const categoriesToShow = showAll ? uniqueCategories : uniqueCategories.slice(0, 2)
+
   return (
     <Box>
       <Typography
@@ -48,10 +47,10 @@ function AdsOnProduct(props: AdsOnProductType) {
       >
         Add On
       </Typography>
+
       <Box
         sx={{
           width: '100%',
-          // height: '380px',
           borderRadius: '8px',
           backgroundColor: 'white',
           padding: { xs: '16px 8px 20px', md: '27px 27px 14px' },
@@ -62,9 +61,6 @@ function AdsOnProduct(props: AdsOnProductType) {
             const filteredItems = adsOnData?.filter((item) =>
               item.categories?.some((cat) => cat.name === cate),
             )
-
-            // const itemsToShow = showAll ? filteredItems : filteredItems?.slice(0, 4)
-            // const hasMoreItems = (filteredItems?.length || 0) > 4
 
             return (
               <Box key={index + 1}>
@@ -87,8 +83,12 @@ function AdsOnProduct(props: AdsOnProductType) {
                     flexDirection: { xs: 'column', sm: isMobile ? 'column' : 'row' },
                   }}
                 >
-                  {filteredItems &&
-                    filteredItems?.map((item, i) => (
+                  {filteredItems?.map((item, i) => {
+                    const matchedCartItem = cartItems?.find(
+                      (cart) => cart?.product?.sku === item?.sku,
+                    )
+
+                    return (
                       <Box
                         key={item?.uid || i}
                         sx={{
@@ -100,6 +100,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                           padding: { xs: '5px 25px 5px 5px', md: '5px 15px 5px 5px' },
                         }}
                       >
+                        {/* Product image */}
                         <Box
                           sx={{
                             width: { xs: '62px', sm: '85px' },
@@ -123,41 +124,34 @@ function AdsOnProduct(props: AdsOnProductType) {
                               height: '100px',
                               objectFit: 'cover',
                               borderRadius: '8px',
-                              // maxHeight: '100px',
                             }}
                           />
                         </Box>
 
+                        {/* Product info + actions */}
                         <Box
                           sx={{
                             display: 'flex',
                             width: '100%',
-                            flexDirection: {
-                              xs: 'row',
-                              md: 'column',
-                            },
-                            justifyContent: {
-                              xs: 'space-between',
-                              md: 'flex-start',
-                            },
-                            alignItems: {
-                              xs: 'center',
-                              md: 'center',
-                            },
+                            flexDirection: { xs: 'row', md: 'column' },
+                            justifyContent: { xs: 'space-between', md: 'flex-start' },
+                            alignItems: { xs: 'center', md: 'center' },
                           }}
                         >
+                          {/* Product name + price */}
                           <Box>
                             <Typography
                               sx={{
                                 color: (theme: any) => theme.palette.custom.smallHeading,
                                 fontSize: { xs: '15px', md: '16px' },
                                 lineHeight: '164%',
-                                minHeight: { lg: '50px', xl: 0 },
+                                minHeight: { lg: '50px', xl: '30px' },
                                 marginBottom: '2px',
                               }}
                               title={item?.name}
                             >
-                              {truncateByChars(item?.name, 20)}
+                              {/*truncateByChars(item?.name, 20)*/}
+                              {item?.name}
                             </Typography>
                             <Box
                               className='adsOn'
@@ -167,9 +161,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                   lineHeight: '24px',
                                   fontWeight: '700',
                                   color: (theme: any) => theme.palette.custom.dark,
-                                  ['&:first-child']: {
-                                    paddingRight: '6px',
-                                  },
+                                  ['&:first-child']: { paddingRight: '6px' },
                                 },
                               }}
                             >
@@ -180,89 +172,105 @@ function AdsOnProduct(props: AdsOnProductType) {
                             </Box>
                           </Box>
 
+                          {/* Cart action */}
                           <Box
                             sx={{
                               marginTop: { xs: '0', md: '4px' },
                               marginRight: { xs: '0', sm: isMobile ? '0' : 'auto' },
                             }}
                           >
-                            {(() => {
-                              const matchedCartItem = cartItems?.find(
-                                (cart) => cart?.product?.sku === item?.sku,
-                              )
-
-                              return matchedCartItem ? (
-                                <UpdateItemQuantity
+                            {matchedCartItem ? (
+                              <UpdateItemQuantity
+                                sx={{
+                                  flexShrink: '0',
+                                  maxWidth: '100px',
+                                  '& .MuiOutlinedInput-root': {
+                                    color: '#333',
+                                    borderRadius: '8px',
+                                    '& input': {
+                                      padding: { xs: '5.5px 5px', md: '8.5px 14px' },
+                                    },
+                                  },
+                                  '& .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: (theme: any) => theme.palette.custom.border,
+                                  },
+                                  '& .MuiButtonBase-root': {
+                                    color: '#333333',
+                                    fontSize: '18px',
+                                    fontWeight: 500,
+                                    '& svg': { fontSize: '17px' },
+                                  },
+                                  '& .MuiInputBase-input': {
+                                    color: '#333333',
+                                    fontWeight: '500',
+                                    fontSize: '18px',
+                                  },
+                                }}
+                                uid={matchedCartItem.uid}
+                                quantity={matchedCartItem.quantity}
+                              />
+                            ) : item.__typename === 'SimpleProduct' ? (
+                              <AddProductsToCartForm key={item.uid}>
+                                <AddProductsToCartButton
                                   sx={{
-                                    flexShrink: '0',
-                                    maxWidth: '100px',
-
-                                    '& .MuiOutlinedInput-root': {
-                                      color: '#333',
-                                      borderRadius: '8px',
-                                      '& input': {
-                                        padding: { xs: '5.5px 5px', md: '8.5px 14px' },
-                                      },
-                                    },
-                                    '& .mui-style-173mjj2-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
-                                      {
-                                        borderColor: (theme: any) => theme.palette.custom.border,
-                                      },
-                                    '& .MuiOutlinedInput-notchedOutline': {
-                                      borderColor: (theme: any) => theme.palette.custom.border,
-                                    },
-                                    '& .MuiButtonBase-root': {
-                                      color: '#333333',
-                                      fontSize: '18px',
-                                      fontWeight: 500,
-                                      '& svg': {
-                                        fontSize: '17px',
-                                      },
-                                    },
-                                    '& .MuiInputBase-input': {
-                                      color: '#333333',
-                                      fontWeight: '500',
-                                      fontSize: '18px',
+                                    backgroundColor: (theme: any) => theme.palette.custom.heading,
+                                    color: '#FFFFFF',
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    borderRadius: '8px',
+                                    border: '1px solid #9B7C38 ',
+                                    paddingBlock: { xs: '5px' },
+                                    boxShadow: 'none !important',
+                                    width: '100%',
+                                    maxWidth: '90px',
+                                    '&:hover': {
+                                      backgroundColor: 'white !important',
+                                      color: (theme: any) => theme.palette.custom.main,
                                     },
                                   }}
-                                  uid={matchedCartItem.uid}
-                                  quantity={matchedCartItem.quantity}
-                                />
-                              ) : (
-                                <AddProductsToCartForm key={item.uid}>
-                                  <AddProductsToCartButton
-                                    sx={{
-                                      backgroundColor: (theme: any) => theme.palette.custom.heading,
-                                      color: '#FFFFFF',
-                                      fontSize: { xs: '15px', md: '16px' },
-                                      borderRadius: '8px',
-                                      border: '1px solid #9B7C38 ',
-                                      paddingBlock: { xs: '5px' },
-                                      boxShadow: 'none !important',
-                                      width: '100%',
-                                      maxWidth: '90px',
-                                      '&:hover': {
-                                        backgroundColor: 'white !important',
-                                        color: (theme: any) => theme.palette.custom.main,
-                                      },
-                                    }}
-                                    product={item}
-                                  >
-                                    Add
-                                  </AddProductsToCartButton>
-                                </AddProductsToCartForm>
-                              )
-                            })()}
+                                  product={item}
+                                >
+                                  Add
+                                </AddProductsToCartButton>
+                              </AddProductsToCartForm>
+                            ) : (
+                              <Link href={`/p/${item.url_key}`}>
+                                <Button
+                                  sx={{
+                                    display: 'inline-block',
+                                    backgroundColor: '#9B7C38',
+                                    border: '1px solid #9B7C38 ',
+                                    color: '#fff',
+                                    fontSize: { xs: '15px', md: '16px' },
+                                    fontWeight: 500,
+                                    borderRadius: '8px',
+                                    // padding: '6px 12px',
+                                    textAlign: 'center',
+                                    textDecoration: 'none',
+                                    paddingBlock: { xs: '5px' },
+                                    width: '100%',
+                                    minWidth: '90px',
+                                    '&:hover': {
+                                      backgroundColor: 'white !important',
+                                      color: (theme: any) => theme.palette.custom.main,
+                                    },
+                                  }}
+                                >
+                                  Add
+                                </Button>
+                              </Link>
+                            )}
                           </Box>
                         </Box>
                       </Box>
-                    ))}
+                    )
+                  })}
                 </Box>
               </Box>
             )
           })}
         </Box>
 
+        {/* Toggle View More / Less */}
         <Box
           onClick={() => setShowAll((prev) => !prev)}
           sx={{
@@ -273,9 +281,7 @@ function AdsOnProduct(props: AdsOnProductType) {
             textAlign: 'center',
             transition: 'all 0.4s ease-in-out',
             cursor: 'pointer',
-            '&:hover': {
-              textDecoration: 'none',
-            },
+            '&:hover': { textDecoration: 'none' },
           }}
         >
           {showAll ? 'View Less' : 'View'}

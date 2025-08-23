@@ -1871,3 +1871,6 @@ input[type='number'] {
     display: inline-block;
   }
 }
+.Mui-disabled {
+  color: #f6dbe0;
+}

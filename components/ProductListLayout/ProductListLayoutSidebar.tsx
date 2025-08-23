@@ -151,7 +151,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
         <Box
           sx={{
             gridArea: 'items',
-            //    marginTop: '30px',
+            marginTop: {
+              xs: isSearch ? '30px' : 0,
+              md: isSearch ? '50px' : 0,
+              lg: isSearch ? '60px' : 0,
+            },
             '& .ProductListItemsBase-root': {
               gap: { xs: '20px', md: '20px' },
               gridTemplateColumns: {

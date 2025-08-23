@@ -95,7 +95,7 @@ function WishlistPage() {
                 marginRight: '10px',
                 objectFit: 'cover',
                 //width: '100%',
-                height: '100px',
+                height: { xs: 'auto', md: '100px' },
                 width: '130px',
               },
               '& .ActionCard-secondaryAction': {
@@ -156,6 +156,19 @@ function WishlistPage() {
                 top: '3px',
                 right: '8px',
               },
+              '& .ActionCard-title.sizeResponsive': {
+                fontSize: { xs: '15px !important', md: '16px!important' },
+                fontWeight: 600,
+                color: '#000',
+                lineHeight: 'normal',
+              },
+              '& .ActionCard-title': {
+                fontSize: { xs: '15px !important', md: '16px!important' },
+                fontWeight: 600,
+                color: '#000',
+                lineHeight: 'normal',
+              },
+
               '& .ActionCard-secondaryAction a': {
                 color: (theme) => theme.palette.custom.main,
                 backgroundColor: 'transparent',

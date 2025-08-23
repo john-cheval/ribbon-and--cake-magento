@@ -1604,10 +1604,11 @@ ol {
   width: 20px;
 }
 .ActionCard-action .MuiBox-root span span:first-child {
-  background: url(../components/Assets/aed.svg) 18px no-repeat;
+  background: url(../components/Assets/aed.svg) 0px no-repeat;
   background-size: 18px auto;
   color: transparent !important;
   width: 20px;
+  display: inline-block;
 }
 .ActionCard-price span span:first-child {
   background: url(../components/Assets/aed.svg) 25px no-repeat;
@@ -1616,10 +1617,11 @@ ol {
   width: 20px;
 }
 .CartTotals-costsRow .CartTotals-money span span:first-child {
-  background: url(../components/Assets/aed.svg) 13px no-repeat;
+  background: url(../components/Assets/aed.svg) 0px no-repeat;
   background-size: 18px auto;
   color: transparent !important;
   width: 20px;
+  display: inline-block;
 }
 .CartTotals-root .MuiBox-root .CartTotals-money.discount span span:nth-child(2) {
   background: url(../components/Assets/aed.svg) 2px no-repeat;
@@ -1860,5 +1862,12 @@ input[type='number'] {
   .ProductListItem-titleContainer .ProductListItem-title {
     min-height: auto;
     padding-bottom: 43px;
+  }
+  .ActionCard-secondaryAction .MuiBox-root span span:first-child {
+    background: url(../components/Assets/aed.svg) 0px no-repeat;
+    background-size: 18px auto;
+    color: transparent !important;
+    width: 20px;
+    display: inline-block;
   }
 }

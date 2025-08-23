@@ -260,7 +260,7 @@ function CartPage() {
                     },
                     '& .CartTotals-money.MuiBox-root': {
                       '& span span:first-child': {
-                        backgroundPosition: '23px center',
+                        backgroundPosition: '0px  center',
                       },
                       '& span span': {
                         color: (theme: any) => theme.palette.custom.smallHeading,

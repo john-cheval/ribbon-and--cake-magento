@@ -24,6 +24,7 @@ type InnerTopBaseProps = {
   sx?: SxProps<Theme>
   responsiveTitle?: string
   isShopPage?: boolean
+  isFilters?: boolean
 }
 type InnerTopWithFiltersProps = InnerTopBaseProps &
   ProductListLayoutProps & {
@@ -35,7 +36,16 @@ type InnerTopWithoutFiltersProps = InnerTopBaseProps & {
 export type InnerTopProps = InnerTopWithFiltersProps | InnerTopWithoutFiltersProps
 
 export function InnerTop(props: InnerTopProps) {
-  const { count, title, isFilter, mainTitle, responsiveTitle, isShopPage = false, sx } = props
+  const {
+    count,
+    title,
+    isFilter,
+    mainTitle,
+    responsiveTitle,
+    isShopPage = false,
+    sx,
+    isFilters = false,
+  } = props
   const router = useRouter()
 
   // const nestedRoutes = Array.isArray(router.query.url)
@@ -54,11 +64,12 @@ export function InnerTop(props: InnerTopProps) {
             borderTop: `1px solid ${theme.palette.custom.borderSecondary}`,
             paddingBlock: { xs: '10px', lg: '15px' },
 
-            ...((isFilter || mainTitle) && {
+            ...((isFilter || mainTitle || isFilters) && {
               borderBottom: {
-                xs: mainTitle
-                  ? `1px solid ${theme.palette.custom.borderSecondary}` // show if mainTitle=true
-                  : 0, // hide if only isFilter=true
+                xs:
+                  mainTitle || isFilters
+                    ? `1px solid ${theme.palette.custom.borderSecondary}` // show if mainTitle=true
+                    : 0, // hide if only isFilter=true
               },
               [theme.breakpoints.up('md')]: {
                 borderBottom: `1px solid ${theme.palette.custom.borderSecondary}`, // always show on md+
@@ -192,6 +203,33 @@ export function InnerTop(props: InnerTopProps) {
           <Typography component='h2' variant='h2' sx={{}}>
             {mainTitle}
           </Typography>
+        )}
+
+        {isFilters && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: '40px',
+              justifyContent: { xs: 'space-between', md: 'start' },
+              width: { xs: '100%', md: 'fit-content' },
+            }}
+          >
+            <Typography component='h2' variant='h2' sx={{}}>
+              {title}
+            </Typography>
+
+            <ProductListCount
+              total_count={count}
+              sx={{
+                gridArea: 'count',
+                width: '100%',
+                my: 0,
+                height: '1em-',
+                textAlign: { xs: 'right', md: 'left' },
+              }}
+            />
+          </Box>
         )}
 
         {isFilter && (

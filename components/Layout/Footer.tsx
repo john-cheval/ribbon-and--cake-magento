@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { Box } from '@mui/material'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaWhatsapp } from 'react-icons/fa'
 import { AlekseonFormDocument } from '../../graphql/aleskonForm.gql'
@@ -22,8 +22,9 @@ export function Footer({ footerContent }) {
     },
   })
   const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
-
+  const fieldIdentifier = formFields[0]?.attribute_code
   const isSuccess = data?.updateAlekseonForm?.success
+  const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
     const summaries = document.querySelectorAll<HTMLDivElement>('.footer-accordion-summary')
@@ -51,8 +52,24 @@ export function Footer({ footerContent }) {
     const button = document.querySelector<HTMLButtonElement>('.send-button')
     const input = document.querySelector<HTMLInputElement>('#news-letter')
 
-    const handler = async () => {
+    if (!input || !button) return
+    const validateEmail = (value: string) => {
+      return /\S+@\S+\.\S+/.test(value) && value.endsWith('@gmail.com')
+    }
+
+    const toggleButtonState = () => {
+      const isValid = validateEmail(input.value)
+      button.disabled = !isValid || isSubmitting
+    }
+    const handler = async (event: MouseEvent) => {
+      event.preventDefault()
+
+      if (button.disabled || !fieldIdentifier) {
+        return
+      }
       if (!input?.value) {
+        toggleButtonState()
+
         // alert('Please enter your email')
         return
       }
@@ -62,26 +79,30 @@ export function Footer({ footerContent }) {
           variables: {
             input: {
               identifier: 'newsletter',
-              fields: [
-                { fieldIdentifier: formFields[0]?.attribute_code || '', value: input.value },
-              ],
+              fields: [{ fieldIdentifier: fieldIdentifier || '', value: input.value }],
             },
           },
         })
         if (isSuccess) {
-          // alert('Subscribed successfully!')
           input.value = ''
+          button.disabled = true
         }
       } catch (e) {
         console.error(e)
         // alert('Something went wrong. Try again.')
       }
     }
+    toggleButtonState()
 
+    input.addEventListener('input', toggleButtonState)
     button?.addEventListener('click', handler)
 
-    return () => button?.removeEventListener('click', handler)
-  }, [updateAlekseonForm, isSuccess])
+    // return () => button?.removeEventListener('click', handler)
+    return () => {
+      input.removeEventListener('input', toggleButtonState)
+      button.removeEventListener('click', handler)
+    }
+  }, [updateAlekseonForm, isSuccess, fieldIdentifier])
 
   return (
     <>

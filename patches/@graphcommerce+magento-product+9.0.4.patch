@@ -408,7 +408,7 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..3fe7bca 100644
+index cabc140..c329ba2 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -433,7 +433,7 @@ index cabc140..3fe7bca 100644
    const { control } = form
    const attrCode = attribute_code as keyof ProductAttributeFilterInput
    const name = `filters.${attrCode}` as const
-@@ -33,23 +34,83 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -33,23 +34,87 @@ export function ProductFilterRangeSection(props: FilterProps) {
          const from = value?.from ? Number(value?.from) : min
          const to = value?.to ? Number(value?.to) : max
  
@@ -485,6 +485,10 @@ index cabc140..3fe7bca 100644
 +
 +              '& .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel': {
 +                color: (theme: any) => `${theme.palette.custom.dark} !important`,
++              },
++              '& .mui-style-j6qxfh-MuiSlider-root .MuiSlider-valueLabel ':{
++                color: (theme: any) => `${theme.palette.custom.dark} !important`,
++
 +              },
 +              ['& .MuiSlider-thumb']: {
 +                ['& .MuiSlider-valueLabelOpen span span:not-(:first-child)']: {
@@ -657,7 +661,7 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..dcfdacc 100644
+index 5643683..146725c 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 @@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
@@ -706,7 +710,7 @@ index 5643683..dcfdacc 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +64,127 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,142 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
@@ -718,7 +722,13 @@ index 5643683..dcfdacc 100644
 +           minHeight:'80% !important', width:'100%',
 +          borderRadius:'0 0 0 0 !important',
 +           top:'unset',
++           height:'80%',
 +           overflowY: 'visible',
++           scrollbarWidth: 'none',
++                  msOverflowStyle: 'none',
++                  '&::-webkit-scrollbar': {
++                    display: 'none',
++                  },
 +           overflowX:'hidden',
 +           '& .LayoutHeader-root':{
 +            '& .LayoutHeaderContent-bg':{
@@ -736,13 +746,20 @@ index 5643683..dcfdacc 100644
 +                stroke:(theme:any)=>theme.palette.custom.main,
 +                fontSize:{xs:'28px', md:'30px'}
 +              }
++            },
++            '& .LayoutHeaderContent-right .MuiButtonBase-root':{
++              position:'absolute',
++              left:'13px',
++              top:'20px',
++             
 +            }
 +           },
 +           '& .OverlayPanelActions-content':{
 +           // paddingTop:'30px'
 +           flex: '1 1 auto',
-+           minHeight: 0,                 // <- important for flex scroll areas
++           minHeight: 0,                
 +           overflowY: 'auto',
++           overflowX:'hidden',
 +           WebkitOverflowScrolling: 'touch',
 +           paddingBottom: '30px',
 +           },
@@ -756,6 +773,7 @@ index 5643683..dcfdacc 100644
 +              border:(theme:any)=>`1px solid ${theme.palette.custom.heading}`
 +            }
 +           }
++           
 +          }
 +      } }}
        {...rest}
@@ -790,8 +808,9 @@ index 5643683..dcfdacc 100644
 +                    sx={{
 +                      '& .MuiCollapse-root':{
 +                        '& .MuiAccordionDetails-root .ActionCardLayout-root':{
-+                          display:'flex',
-+                          flexWrap:'wrap',
++                          display:'grid',
++                          //flexWrap:'wrap',
++                          gridTemplateColumns:'repeat(2,1fr)'
 +                         
 +                        }
 +                      }
@@ -1192,7 +1211,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..ca284d9 100644
+index b64ae6d..51499d9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,15 +5,21 @@ import type { SxProps, Theme } from '@mui/material'
@@ -1216,7 +1235,7 @@ index b64ae6d..ca284d9 100644
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
 +  const { options, showReset, selected, selectedLabel, } = useProductFiltersProSort(props)
 +
-   
+ 
    if ((options.length ?? 0) <= 1) return null
  
 @@ -21,7 +27,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
@@ -1474,7 +1493,7 @@ index d1ae621..f84eede 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..6b5284b 100644
+index 9dc2505..5760042 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,18 +1,23 @@
@@ -1499,7 +1518,7 @@ index 9dc2505..6b5284b 100644
  export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPriceProps) {
 -  const { titleComponent = 'h2', classes, children, subTitle, title, sx } = props
 +  const { titleComponent = 'h2', classes, children, subTitle, title, sx,sku,isConfigured,urlKey } = props
-   
+ 
    return (
      <Box
 @@ -20,15 +25,34 @@ export function ProductListItemTitleAndPrice(props: ProductListItemTitleAndPrice

@@ -18,7 +18,7 @@ function RelativeProductListMobile({ count = 4, productList }) {
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)',
+              gridTemplateColumns: 'repeat(2,1fr)',
               columnGap: '13px',
               rowGap: '30px',
               marginTop: { xs: '10px', sm: '15px' },

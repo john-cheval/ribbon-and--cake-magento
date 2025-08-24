@@ -17,19 +17,20 @@ function InnerLeft({ coursesData }) {
       </Typography>
 
       <Box sx={{ marginBlock: { xs: '14px 10px', md: '15px 15px' }, position: 'relative' }}>
-        <Image
-          src={coursesData?.image}
-          alt={coursesData?.name}
-          width={775}
-          height={400}
-          sx={{
-            width: '100%',
-            height: 'auto',
-            objectFit: 'cover',
-            borderRadius: '8px',
-          }}
-        />
-
+        {coursesData?.image && (
+          <Image
+            src={coursesData?.image}
+            alt={coursesData?.name}
+            width={775}
+            height={400}
+            sx={{
+              width: '100%',
+              height: 'auto',
+              objectFit: 'cover',
+              borderRadius: '8px',
+            }}
+          />
+        )}{' '}
         {coursesData?.tags?.items?.length > 0 && (
           <Box
             sx={{

@@ -166,7 +166,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       },
       h6: {
         fontFamily: "'Bricolage Grotesque', sans-serif",
-        ...fontSize(14, 16),
+        ...fontSize(15, 16),
         fontWeight: 400,
         lineHeight: 1.8,
         textDecoration: 'none',
@@ -198,17 +198,17 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       },
       fontWeightBold: 600,
       body1: {
-        ...fontSize(14, 18),
+        ...fontSize(15, 18),
         lineHeight: 1.7,
       },
       subtitle2: {
-        ...fontSize(14, 16),
+        ...fontSize(15, 16),
         fontWeight: 500,
         fontVariationSettings: "'wght' 520",
         lineHeight: 1.7,
       },
       body2: {
-        ...fontSize(13, 15),
+        ...fontSize(15, 15),
         lineHeight: 1.7,
       },
       caption: {
@@ -218,7 +218,7 @@ const createThemeWithPalette = (palette: PaletteOptions) =>
       button: {},
       overline: {
         // https://web.dev/font-size/#how-the-lighthouse-font-size-audit-fails
-        ...fontSize(12, 14),
+        ...fontSize(12, 15),
         fontWeight: 500,
         letterSpacing: 1,
         lineHeight: 1.2,

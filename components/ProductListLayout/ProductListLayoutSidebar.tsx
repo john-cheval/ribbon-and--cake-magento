@@ -199,8 +199,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                 height: '45px',
 
                 '& svg': {
-                  fontSize: '28px',
-                  left: '7px',
+                  fontSize: { xs: '25px', md: '28px' },
+                  left: { xs: '5px', md: '7px' },
                   top: '4px',
                 },
               },

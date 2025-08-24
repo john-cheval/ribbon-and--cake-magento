@@ -16,6 +16,7 @@ function CourseDetail({ categories, coursesList }) {
   const observerRef = useRef<HTMLDivElement | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,6 +55,16 @@ function CourseDetail({ categories, coursesList }) {
       )
     : coursesList
 
+  useEffect(() => {
+    const index = categories.findIndex((item) => item?.name === selectedCategory)
+    if (index !== -1 && itemRefs.current[index]) {
+      itemRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      })
+    }
+  }, [selectedCategory, categories])
   return (
     <Box
       component='section'
@@ -133,18 +144,25 @@ function CourseDetail({ categories, coursesList }) {
         }}
       >
         {categories?.map((course, index) => (
-          <EventsAndCoursesTileResponsive
-            key={course?.category_id || index}
-            title={course?.name}
-            id={index}
-            isSelected={selectedCategory === course?.name}
-            length={categories?.length}
-            onClick={() => {
-              const name = course?.name
-              setSelectedCategory((prev) => (prev === name ? null : name))
-              setVisibleCount(4)
+          <div
+            key={course?.post_id || index}
+            ref={(el) => {
+              itemRefs.current[index] = el
             }}
-          />
+          >
+            <EventsAndCoursesTileResponsive
+              key={course?.category_id || index}
+              title={course?.name}
+              id={index}
+              isSelected={selectedCategory === course?.name}
+              length={categories?.length}
+              onClick={() => {
+                const name = course?.name
+                setSelectedCategory((prev) => (prev === name ? null : name))
+                setVisibleCount(4)
+              }}
+            />
+          </div>
         ))}
       </Box>
 

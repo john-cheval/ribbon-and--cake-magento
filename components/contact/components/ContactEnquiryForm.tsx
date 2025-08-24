@@ -3,14 +3,19 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Trans } from '@lingui/react'
 import { Box, Button, CircularProgress, OutlinedInput, TextField, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { AlekseonFormDocument } from '../../../graphql/aleskonForm.gql'
 import { UpdateAlekseonFormDocument } from '../../../graphql/UpdateAleskonForm.gql'
+import ReCaptcha from '../../../utils/ReCaptcha'
+
+interface RecaptchaRefType {
+  resetCaptcha: () => void
+}
 
 const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
   color: (theme: any) => theme.palette.custom.main,
-  // padding: '16px ',
   height: 'fit-content',
 
   '& .MuiOutlinedInput-input, & .MuiOutlinedInput-input::placeholder': {
@@ -43,8 +48,16 @@ const inputFieldSx: SxProps<Theme> = {
     borderColor: (theme: any) => theme.palette.custom.borderInput,
     borderWidth: '1px !important',
   },
+  '& .mui-style-y9718c-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+    {
+      borderColor: (theme: any) => `${theme.palette.custom.borderInput} !important`,
+    },
 }
+
 function ContactEnquiryForm() {
+  const recaptchaRef = useRef<RecaptchaRefType>(null)
+  const [token, setToken] = useState('')
+
   const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
     UpdateAlekseonFormDocument,
   )
@@ -58,9 +71,17 @@ function ContactEnquiryForm() {
       identifier: 'contact-us',
     },
   })
+
   const formFields = formData?.AlekseonForm?.Forms?.[0]?.formfield || []
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: formFields.reduce(
+
+  // Create proper default values - always return the structure
+  const getDefaultValues = () => {
+    if (formLoading || !formFields.length) {
+      // Return empty object while loading, will be updated later
+      return {}
+    }
+
+    return formFields.reduce(
       (acc, field) => {
         if (field?.attribute_code) {
           acc[field.attribute_code] = ''
@@ -68,10 +89,72 @@ function ContactEnquiryForm() {
         return acc
       },
       {} as Record<string, string>,
-    ),
+    )
+  }
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: getDefaultValues(),
   })
+
+  // Update form when formFields are loaded
+  useEffect(() => {
+    if (!formLoading && formFields.length > 0) {
+      const newDefaultValues = formFields.reduce(
+        (acc, field) => {
+          if (field?.attribute_code) {
+            acc[field.attribute_code] = ''
+          }
+          return acc
+        },
+        {} as Record<string, string>,
+      )
+      // Reset form with proper default values
+      reset(newDefaultValues)
+    }
+  }, [formLoading, formFields, reset])
+
   const isSuccess = data?.updateAlekseonForm?.success
+  console.log(isSuccess, 'this is success message')
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log('Resetting form after success')
+
+      // Create fresh empty values for all fields
+      const emptyValues = formFields.reduce(
+        (acc, field) => {
+          if (field?.attribute_code) {
+            acc[field.attribute_code] = ''
+          }
+          return acc
+        },
+        {} as Record<string, string>,
+      )
+
+      // Reset form with empty values
+      reset(emptyValues)
+      setToken('')
+
+      if (recaptchaRef.current) {
+        recaptchaRef.current.resetCaptcha()
+      }
+    }
+  }, [isSuccess, reset, formFields])
+
+  useEffect(() => {
+    if (data) {
+      console.log('Mutation succeeded. Response data:', data)
+    }
+    if (error) {
+      console.error('Mutation failed. Error details:', error)
+    }
+  }, [data, error])
+
   const onSubmit = async (values: Record<string, string>) => {
+    if (!token) {
+      console.error('Please verify the captcha')
+      return
+    }
     try {
       const fields = formFields
         ?.filter((field) => typeof field?.attribute_code === 'string')
@@ -88,17 +171,24 @@ function ContactEnquiryForm() {
           },
         },
       })
-      reset()
     } catch (err) {
       console.error(err)
     }
   }
+
+  const handleToken = (recaptchaToken: string | null) => {
+    if (recaptchaToken) {
+      setToken(recaptchaToken)
+    } else {
+      setToken('')
+    }
+  }
+
   return (
     <Box
       component='form'
       onSubmit={handleSubmit(onSubmit)}
       sx={{
-        // marginTop: '40px',
         backgroundColor: '#F6F6F6',
         borderRadius: '8px',
         padding: { xs: '26px 14px', md: '35px 38px 40px' },
@@ -122,7 +212,7 @@ function ContactEnquiryForm() {
           rules={{ required: 'Name is Required' }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput {...field} fullWidth placeholder='Your Name' sx={inputFieldSx} />
+              <TextField {...field} fullWidth label='Your Name' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -131,19 +221,19 @@ function ContactEnquiryForm() {
             </>
           )}
         />
+
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Your Email')?.attribute_code || ''}
           control={control}
           rules={{
-            // required: 'Email is required',
             pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // basic email regex
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: 'Enter a valid email address',
             },
           }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput {...field} fullWidth placeholder='Email' sx={inputFieldSx} />
+              <TextField {...field} fullWidth label='Email' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -152,33 +242,33 @@ function ContactEnquiryForm() {
             </>
           )}
         />
+
         <Controller
           name={formFields.find((f) => f?.frontend_label === 'Your Phone')?.attribute_code || ''}
           control={control}
           rules={{
             required: 'Phone Number is Required',
             pattern: {
-              value: /^[0-9]*$/, // only digits
+              value: /^[0-9]*$/,
               message: 'Only numbers are allowed',
             },
             minLength: {
-              value: 7, // optional: min length
+              value: 7,
               message: 'Phone number is too short',
             },
             maxLength: {
-              value: 15, // optional: max length
+              value: 15,
               message: 'Phone number is too long',
             },
           }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput
+              <TextField
                 {...field}
                 fullWidth
-                placeholder='Phone Number'
+                label='Phone Number'
                 sx={inputFieldSx}
                 onChange={(e) => {
-                  // allow only digits in input
                   field.onChange(e.target.value.replace(/\D/g, ''))
                 }}
               />
@@ -197,7 +287,7 @@ function ContactEnquiryForm() {
           rules={{ required: 'Subject is Required' }}
           render={({ field, fieldState }) => (
             <>
-              <OutlinedInput {...field} fullWidth placeholder='Subject' sx={inputFieldSx} />
+              <TextField {...field} fullWidth label='Subject' sx={inputFieldSx} />
               {fieldState.error && (
                 <Typography variant='caption' color='error'>
                   {fieldState.error.message}
@@ -221,8 +311,6 @@ function ContactEnquiryForm() {
                 fullWidth
                 variant='outlined'
                 sx={{
-                  //   mt: 2,
-                  // backgroundColor: '#fff',
                   color: (theme: any) => theme.palette.custom.main,
                   fontSize: { xs: '15px', md: '16px' },
                   borderRadius: '4px',
@@ -236,10 +324,10 @@ function ContactEnquiryForm() {
                       },
                     },
                     '&:hover fieldset': {
-                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Hover border color
+                      borderColor: (theme: any) => theme.palette.custom.borderInput,
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: (theme: any) => theme.palette.custom.borderInput, // Focus border color
+                      borderColor: (theme: any) => theme.palette.custom.borderInput,
                       borderWidth: '1px !important',
                     },
                     '& textarea': {
@@ -259,12 +347,19 @@ function ContactEnquiryForm() {
           />
         </Box>
 
+        <Box sx={{ marginTop: '10px' }}>
+          <ReCaptcha
+            siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+            callback={handleToken}
+            ref={recaptchaRef}
+          />
+        </Box>
+
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '18px' }}>
           <Button
             type='submit'
-            disabled={isSubmitting}
+            disabled={!token || isSubmitting}
             sx={{
-              // marginTop: '18px',
               backgroundColor: (theme: any) => theme.palette.custom.main,
               color: (theme: any) => theme.palette.custom.border,
               fontSize: { xs: '15px', md: '18px' },
@@ -275,7 +370,6 @@ function ContactEnquiryForm() {
               transition: 'all 0.3s ease',
               boxShadow: 'none !important',
               paddingBlock: { xs: '15px', md: '18px' },
-              // width: { xs: '100%', sm: '400px', md: '500px' },
               width: '100%',
 
               '&:hover': {
@@ -285,6 +379,9 @@ function ContactEnquiryForm() {
                 '& svg': {
                   color: (theme: any) => theme.palette.custom.main,
                 },
+              },
+              '&.Mui-disabled': {
+                color: (theme: any) => theme.palette.custom.border,
               },
             }}
           >
@@ -303,6 +400,7 @@ function ContactEnquiryForm() {
           </Button>
         </Box>
       </Box>
+
       {isSuccess && (
         <MessageSnackbar
           sx={{

@@ -188,7 +188,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                     color: '#333',
                                     borderRadius: '8px',
                                     '& input': {
-                                      padding: { xs: '5.5px 5px', md: '8.5px 14px' },
+                                      padding: { xs: '5.5px 5px', md: '8.5px 0px' },
                                     },
                                   },
                                   '& .MuiOutlinedInput-notchedOutline': {

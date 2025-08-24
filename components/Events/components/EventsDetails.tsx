@@ -1,6 +1,6 @@
 import { Image } from '@graphcommerce/image'
 import { Box, Divider } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import events1 from '../../Assets/events/image-1.jpg'
 import events2 from '../../Assets/events/image-2.jpg'
 import EventsAndCoursesTileResponsive from '../../shared/components/CoursetileResponsive'
@@ -14,6 +14,17 @@ function EventsDetails({ list }) {
   const filteredEvents = selectedCategory
     ? list.filter((event) => event?.name === selectedCategory)
     : list
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  useEffect(() => {
+    const index = list.findIndex((item) => item?.name === selectedCategory)
+    if (index !== -1 && itemRefs.current[index]) {
+      itemRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      })
+    }
+  }, [selectedCategory, list])
 
   return (
     <Box
@@ -78,16 +89,22 @@ function EventsDetails({ list }) {
         }}
       >
         {list?.map((item, index) => (
-          <EventsAndCoursesTileResponsive
+          <div
             key={item?.post_id || index}
-            title={item?.name}
-            id={index}
-            isSelected={selectedCategory === item?.name}
-            length={list?.length}
-            onClick={() => {
-              setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+            ref={(el) => {
+              itemRefs.current[index] = el
             }}
-          />
+          >
+            <EventsAndCoursesTileResponsive
+              title={item?.name}
+              id={index}
+              isSelected={selectedCategory === item?.name}
+              length={list?.length}
+              onClick={() => {
+                setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+              }}
+            />
+          </div>
         ))}
       </Box>
 

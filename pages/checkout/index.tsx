@@ -143,13 +143,6 @@ function ShippingPage(props: ShippingPageProps) {
           >
             {!session.loggedIn && <TopBannerMesasge />}
 
-            {/* Add On */}
-            {addonProductsData && addonProductsData?.length > 0 && (
-              <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '20px' } }}>
-                <AdsOnProduct adsOnData={addonProductsData} />
-              </Box>
-            )}
-
             {/* Cart Items */}
             <Box
               sx={{ display: { xs: 'block', lg: 'none' }, marginTop: { xs: '20px', md: '25px' } }}
@@ -217,6 +210,13 @@ function ShippingPage(props: ShippingPageProps) {
               </Box>
             </Box>
 
+            {/* Add On */}
+            {addonProductsData && addonProductsData?.length > 0 && (
+              <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '20px' } }}>
+                <AdsOnProduct adsOnData={addonProductsData} />
+              </Box>
+            )}
+
             {hasItems && (
               <>
                 {/* Shiping */}
@@ -262,11 +262,6 @@ function ShippingPage(props: ShippingPageProps) {
                         sx={{
                           justifyContent: 'unset',
                           columnGap: '10px',
-
-                          // '& .MuiTabs-scroller': {
-                          //   overflow: 'unset',
-                          //   overflowX: 'unset',
-                          // },
                           '& .MuiTabs-flexContainer': {
                             gap: '11px',
                           },
@@ -375,7 +370,7 @@ function ShippingPage(props: ShippingPageProps) {
                                       border: (theme) => `1px solid ${theme.palette.custom.border}`,
                                       '& .MuiOutlinedInput-input': {
                                         color: (theme) => theme.palette.custom.main,
-                                        caretColor: (theme) => theme.palette.custom.main,
+                                        // caretColor: (theme) => theme.palette.custom.main,
                                       },
                                     },
 
@@ -504,62 +499,67 @@ function ShippingPage(props: ShippingPageProps) {
                     <DeliveryDate slotList={slotData} />
                   </Box>
                 </Box>
-
-                {/* Shipping Method */}
-                {!shippingPage.error && cartExists && (
-                  <ComposedForm>
-                    <Box>
-                      <>
-                        {!shippingPage.data?.cart?.is_virtual && (
-                          <ShippingMethodForm
-                            step={4}
-                            sx={(theme) => ({ mt: theme.spacings.lg })}
-                            isPickup={value === 1}
-                          />
-                        )}
-
-                        <ComposedSubmit
-                          onSubmitSuccessful={() => router.push('/checkout/payment')}
-                          render={(renderProps) => (
-                            <>
-                              <FormActions
-                                sx={{
-                                  paddingTop: { xs: '10px', md: '15px', lg: '25px' },
-                                  paddingBottom: 0,
-                                  justifyContent: 'unset',
-                                  '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                                    {
-                                      boxShadow: 'none',
-                                    },
-                                  '& .MuiButtonBase-root': {
-                                    fontSize: { xs: '15px', md: '16px' },
-                                    backgroundColor: (theme) => theme.palette.custom.heading,
-                                    borderColor: (theme) => theme.palette.custom.heading,
-                                    borderRadius: '4px',
-                                    '& span': {
-                                      display: 'none',
-                                    },
-                                  },
-                                }}
-                              >
-                                <ComposedSubmitButton {...renderProps} size='large' id='next'>
-                                  <Trans id='Proceed To Pay' />
-                                </ComposedSubmitButton>
-                              </FormActions>
-                              <ApolloCartErrorSnackbar
-                                error={
-                                  renderProps.buttonState.isSubmitting
-                                    ? undefined
-                                    : renderProps.error
-                                }
-                              />
-                            </>
+                <Box
+                  sx={{
+                    display: { xs: 'none', lg: 'block' },
+                  }}
+                >
+                  {/* Shipping Method */}
+                  {!shippingPage.error && cartExists && (
+                    <ComposedForm>
+                      <Box>
+                        <>
+                          {!shippingPage.data?.cart?.is_virtual && (
+                            <ShippingMethodForm
+                              step={4}
+                              sx={(theme) => ({ mt: theme.spacings.lg })}
+                              isPickup={value === 1}
+                            />
                           )}
-                        />
-                      </>
-                    </Box>
-                  </ComposedForm>
-                )}
+
+                          <ComposedSubmit
+                            onSubmitSuccessful={() => router.push('/checkout/payment')}
+                            render={(renderProps) => (
+                              <>
+                                <FormActions
+                                  sx={{
+                                    paddingTop: { xs: '10px', md: '15px', lg: '25px' },
+                                    paddingBottom: 0,
+                                    justifyContent: 'unset',
+                                    '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
+                                      {
+                                        boxShadow: 'none',
+                                      },
+                                    '& .MuiButtonBase-root': {
+                                      fontSize: { xs: '15px', md: '16px' },
+                                      backgroundColor: (theme) => theme.palette.custom.heading,
+                                      borderColor: (theme) => theme.palette.custom.heading,
+                                      borderRadius: '4px',
+                                      '& span': {
+                                        display: 'none',
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                    <Trans id='Proceed To Pay' />
+                                  </ComposedSubmitButton>
+                                </FormActions>
+                                <ApolloCartErrorSnackbar
+                                  error={
+                                    renderProps.buttonState.isSubmitting
+                                      ? undefined
+                                      : renderProps.error
+                                  }
+                                />
+                              </>
+                            )}
+                          />
+                        </>
+                      </Box>
+                    </ComposedForm>
+                  )}
+                </Box>
               </>
             )}
           </Box>
@@ -581,68 +581,94 @@ function ShippingPage(props: ShippingPageProps) {
         {shippingPage.error && <ApolloCartErrorFullPage error={shippingPage.error} />}
         {/*!shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
 
-        <Box
-          sx={{
-            paddingInline: { xs: '18px', md: '25px', lg: '55px' },
-            display: { xs: 'block', lg: 'none' },
-          }}
-        >
-          <OverlayStickyBottom
+        {hasItems && (
+          <Box
             sx={{
-              py: 0.1,
-              // pt: 0.1,
-              // pb: { xs: '10px', md: '20px', lg: '30px' },
-              // px: { xs: '15px', sm: '20px', lg: '30px' },
-              // boxShadow: '1px 3px 8px #000',
-              // backgroundColor: (theme: any) => theme.palette.primary.contrastText,
-              // width: '100%',
-              bottom: 'unset !important',
-              // px: '55px',
-              '& .CartTotals-root ': {
-                backgroundColor: 'transparent',
-                borderRadius: 0,
-              },
-              flexShrink: 0,
-              mt: 'auto',
+              paddingInline: { xs: '18px', md: '25px', lg: '55px' },
+              display: { xs: 'block', lg: 'none' },
             }}
           >
-            <CartTotals
-              containerMargin
+            <OverlayStickyBottom
               sx={{
-                typography: 'body1',
-                '& .CartTotals-costsRow': {
-                  color: (theme) => theme.palette.custom.smallHeading,
+                py: 0.1,
+                bottom: 'unset !important',
+                '& .CartTotals-root ': {
+                  backgroundColor: 'transparent',
+                  borderRadius: 0,
                 },
-                '& .CartTotals-costsRow:nth-child(2)': {
-                  color: (theme) => theme.palette.custom.smallHeading,
-                  fontWeight: '600 !important',
-                  fontSize: '16px !important',
-                },
+                flexShrink: 0,
+                mt: 'auto',
               }}
-            />
-            <CartStartCheckout
-              title='Proceed To Pay'
-              isCheckout={true}
-              sx={{
-                '& .MuiButtonBase-root': {
-                  width: '100%',
-                  borderRadius: '4px',
-                  backgroundColor: (theme) => theme.palette.custom.heading,
-                  border: (theme) => `1px solid ${theme.palette.custom.heading}`,
-                  color: '#fff',
-                  boxShadow: 'none !important',
-                  '&:hover': {
-                    backgroundColor: 'transparent !important',
+            >
+              <CartTotals
+                //  containerMargin
+                sx={{
+                  typography: 'body1',
+                  '& .CartTotals-costsRow': {
                     color: (theme) => theme.palette.custom.smallHeading,
-                    boxShadow: 'none !important',
                   },
-                },
-              }}
-              cart={cartData?.cart}
-              // disabled={hasError}
-            />
-          </OverlayStickyBottom>
-        </Box>
+                  '& .CartTotals-costsRow:nth-child(2)': {
+                    color: (theme) => theme.palette.custom.smallHeading,
+                    fontWeight: '600 !important',
+                    fontSize: '16px !important',
+                  },
+                }}
+              />
+              {!shippingPage.error && cartExists && (
+                <ComposedForm>
+                  <Box>
+                    <>
+                      {!shippingPage.data?.cart?.is_virtual && (
+                        <ShippingMethodForm
+                          step={4}
+                          sx={(theme) => ({ mt: theme.spacings.lg })}
+                          //  isPickup={value === 1}
+                        />
+                      )}
+
+                      <ComposedSubmit
+                        onSubmitSuccessful={() => router.push('/checkout/payment')}
+                        render={(renderProps) => (
+                          <>
+                            <FormActions
+                              sx={{
+                                paddingTop: { xs: '10px', md: '15px', lg: '25px' },
+                                paddingBottom: 0,
+                                justifyContent: 'unset',
+                                '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
+                                  {
+                                    boxShadow: 'none',
+                                  },
+                                '& .MuiButtonBase-root': {
+                                  fontSize: { xs: '15px', md: '16px' },
+                                  backgroundColor: (theme) => theme.palette.custom.heading,
+                                  borderColor: (theme) => theme.palette.custom.heading,
+                                  borderRadius: '4px',
+                                  '& span': {
+                                    display: 'none',
+                                  },
+                                },
+                              }}
+                            >
+                              <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                <Trans id='Proceed To Pay' />
+                              </ComposedSubmitButton>
+                            </FormActions>
+                            <ApolloCartErrorSnackbar
+                              error={
+                                renderProps.buttonState.isSubmitting ? undefined : renderProps.error
+                              }
+                            />
+                          </>
+                        )}
+                      />
+                    </>
+                  </Box>
+                </ComposedForm>
+              )}
+            </OverlayStickyBottom>
+          </Box>
+        )}
       </WaitForQueries>
     </Box>
   )

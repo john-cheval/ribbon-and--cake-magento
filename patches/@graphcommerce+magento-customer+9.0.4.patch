@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..920bff7 100644
+index 7bebe6d..a7845fc 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -527,7 +527,7 @@ index 7bebe6d..920bff7 100644
    if (loading) {
      return (
        <FormRow>
-@@ -58,40 +66,156 @@ export function AddressCountryRegion<
+@@ -58,40 +66,158 @@ export function AddressCountryRegion<
            name={name.countryCode}
            showValid
            InputProps={{ readOnly }}
@@ -617,7 +617,9 @@ index 7bebe6d..920bff7 100644
 +                  }
 +                }
 +              }
-+            }, autoWidth: true
++            }, 
++            // autoWidth: true
++            fullWidth:true
 +          }}
            variant='outlined'
 -          label={<Trans id='Region' />}
@@ -1222,6 +1224,18 @@ index 3cba4b8..9daef9f 100644
  }
 + 
 \ No newline at end of file
+diff --git a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
+index 24faf9f..7a76ca0 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
+@@ -59,6 +59,7 @@ export function NameFields(props: NameFieldProps) {
+           InputProps={{ readOnly }}
+           showValid
+         />
++        
+         <TextFieldElement
+           control={control}
+           name='lastname'
 diff --git a/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx b/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx
 index 85cfe9f..356d87f 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/NoOrdersFound/NoOrdersFound.tsx

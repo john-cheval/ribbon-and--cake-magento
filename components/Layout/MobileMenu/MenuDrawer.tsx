@@ -65,6 +65,7 @@ function MenuDrawer({ isOpen, setIsOpen, more }) {
               initial='hidden'
               animate='visible'
               exit='hidden'
+              onClick={() => setIsOpen(false)}
               variants={drawerVariants}
               sx={{
                 borderBottom: '1px solid #d4d4d4',

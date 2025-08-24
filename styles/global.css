@@ -1651,12 +1651,12 @@ ol {
   transform: translate(10px, 40%);
 }
 .ActionCard-details.mui-style-3k8hts {
-  display: inline-block;
+  display: inline-block !important;
   vertical-align: top;
   width: 100%;
 }
 .ActionCard-details.mui-style-3k8hts > div {
-  display: inline-block;
+  display: inline-block !important;
   vertical-align: top;
   font-size: 15px;
   padding-right: 5px;
@@ -1856,7 +1856,7 @@ input[type='number'] {
   }
   .ProductListItem-titleContainer .ProductListPrice-root {
     position: absolute;
-    bottom: 5px;
+    bottom: -3px;
     left: -4px;
   }
   .ProductListItem-titleContainer .ProductListItem-title {
@@ -1870,4 +1870,7 @@ input[type='number'] {
     width: 20px;
     display: inline-block;
   }
+}
+.Mui-disabled {
+  color: #f6dbe0;
 }

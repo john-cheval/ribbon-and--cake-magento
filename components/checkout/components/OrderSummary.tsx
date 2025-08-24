@@ -1,13 +1,19 @@
+import { ComposedForm, ComposedSubmit, ComposedSubmitButton } from '@graphcommerce/ecommerce-ui'
 import {
   ApolloCartErrorAlert,
+  ApolloCartErrorSnackbar,
   CartStartCheckout,
   CartTotals,
   EmptyCart,
+  useCartQuery,
 } from '@graphcommerce/magento-cart'
-import { CartPageQuery } from '@graphcommerce/magento-cart-checkout'
+import { CartPageQuery, ShippingPageDocument } from '@graphcommerce/magento-cart-checkout'
 import { CouponAccordion } from '@graphcommerce/magento-cart-coupon'
-import { OverlayStickyBottom } from '@graphcommerce/next-ui'
+import { ShippingMethodForm } from '@graphcommerce/magento-cart-shipping-method'
+import { FormActions, OverlayStickyBottom } from '@graphcommerce/next-ui'
+import { Trans } from '@lingui/react'
 import { Box, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
 import CartItems from './Cart/CartItems'
 
 export type OrderSummaryPropsType = {
@@ -18,7 +24,12 @@ export type OrderSummaryPropsType = {
 
 function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
   const cartItems = orderData?.cart?.items
+  const shippingPage = useCartQuery(ShippingPageDocument, { fetchPolicy: 'cache-and-network' })
+  const router = useRouter()
 
+  const cartExists =
+    typeof shippingPage.data?.cart !== 'undefined' &&
+    (shippingPage.data.cart?.items?.length ?? 0) > 0
   return (
     <Box>
       <Typography
@@ -73,27 +84,19 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                   },
                 }}
               >
-                <CouponAccordion
-                  key='couponform'
-                  // sx={(theme) => ({ mt: theme.spacings.md })}
-                />
+                <CouponAccordion key='couponform' />
               </Box>
             </Box>
 
             <OverlayStickyBottom
               sx={{
                 py: 0.1,
-                // pt: 0.1,
-                // pb: { xs: '10px', md: '20px', lg: '30px' },
                 px: { xs: '15px', sm: '20px' },
-                // boxShadow: '1px 3px 8px #000',
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 zIndex: 9999,
-                // width: '100%',
                 borderBottomLeftRadius: '8px',
                 borderBottomRightRadius: '8px',
                 bottom: 'unset !important',
-                // px: '55px',
                 '& .CartTotals-root ': {
                   backgroundColor: 'transparent',
                   borderRadius: 0,
@@ -117,7 +120,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                   },
                 }}
               />
-              <CartStartCheckout
+              {/*   <CartStartCheckout
                 title='Proceed to Pay'
                 sx={{
                   '& .MuiButtonBase-root': {
@@ -127,7 +130,6 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                     border: (theme) => `1px solid ${theme.palette.custom.heading}`,
                     color: '#fff',
                     boxShadow: 'none !important',
-                    // fontSize: { xs: '15px', md: '16px' },
                     '&:hover': {
                       backgroundColor: 'transparent !important',
                       color: (theme) => theme.palette.custom.smallHeading,
@@ -137,7 +139,59 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 }}
                 cart={orderData?.cart}
                 // disabled={hasError}
-              />
+              />*/}
+              {!shippingPage.error && cartExists && (
+                <ComposedForm>
+                  <Box>
+                    <>
+                      {!shippingPage.data?.cart?.is_virtual && (
+                        <ShippingMethodForm
+                          step={4}
+                          sx={(theme) => ({ mt: theme.spacings.lg })}
+                          //  isPickup={value === 1}
+                        />
+                      )}
+
+                      <ComposedSubmit
+                        onSubmitSuccessful={() => router.push('/checkout/payment')}
+                        render={(renderProps) => (
+                          <>
+                            <FormActions
+                              sx={{
+                                paddingTop: { xs: '10px', md: '15px', lg: '25px' },
+                                paddingBottom: 0,
+                                justifyContent: 'unset',
+                                '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
+                                  {
+                                    boxShadow: 'none',
+                                  },
+                                '& .MuiButtonBase-root': {
+                                  fontSize: { xs: '15px', md: '16px' },
+                                  backgroundColor: (theme) => theme.palette.custom.heading,
+                                  borderColor: (theme) => theme.palette.custom.heading,
+                                  borderRadius: '4px',
+                                  '& span': {
+                                    display: 'none',
+                                  },
+                                },
+                              }}
+                            >
+                              <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                <Trans id='Proceed To Pay' />
+                              </ComposedSubmitButton>
+                            </FormActions>
+                            <ApolloCartErrorSnackbar
+                              error={
+                                renderProps.buttonState.isSubmitting ? undefined : renderProps.error
+                              }
+                            />
+                          </>
+                        )}
+                      />
+                    </>
+                  </Box>
+                </ComposedForm>
+              )}
             </OverlayStickyBottom>
           </>
         ) : (

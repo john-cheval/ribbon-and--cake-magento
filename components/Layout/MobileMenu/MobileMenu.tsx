@@ -20,7 +20,7 @@ const moreMenu = [
   { id: 2, title: "Chef's Special", link: '/chef-s-special' },
   { id: 3, title: 'Corporate Events', link: '/events' },
   { id: 4, title: 'Baking Classes', link: '/courses' },
-  { id: 5, title: 'Login/Signup', link: '/account/sigin' },
+  { id: 5, title: 'Login/Signup', link: '/account/signin' },
   { id: 6, title: 'Orders', link: '/account/orders' },
   { id: 7, title: 'About', link: '/about' },
   { id: 8, title: 'Events', link: '/events' },
@@ -46,7 +46,7 @@ function MobileMenu({ ShopCategories }) {
 
   return (
     <>
-      <Link href='/'>
+      <Link href='/' onClick={handleCloseAllOtherPopups}>
         <Box
           sx={{
             display: 'flex',

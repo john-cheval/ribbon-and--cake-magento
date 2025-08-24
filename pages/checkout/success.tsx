@@ -20,19 +20,16 @@ import {
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
 import { Box, Button, Container, Typography } from '@mui/material'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import type { LayoutMinimalProps, LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutMinimal } from '../../components'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
-import { GetServerSideProps } from 'next'
-import { useEffect } from 'react'
 
 const CCAVENUE_Complete = gql`
   mutation ccavanueComplete($orderNo: String, $encResp: String) {
-    ccavanueComplete(input: {
-      orderNo: $orderNo
-      encResp: $encResp
-    }) {
+    ccavanueComplete(input: { orderNo: $orderNo, encResp: $encResp }) {
       success
       order_id
     }
@@ -54,13 +51,13 @@ function OrderSuccessPage({ formData }) {
       if (formData?.orderNo) {
         const { data } = await ccavanueComplete({
           variables: {
-            ...formData
+            ...formData,
           },
         })
       }
     }
 
-    ccAvanueCompleteMutation();
+    ccAvanueCompleteMutation()
   }, [])
 
   return (
@@ -132,7 +129,7 @@ function OrderSuccessPage({ formData }) {
               background: (theme) => theme.palette.custom.main,
               color: (theme) => theme.palette.custom.border,
               borderRadius: '4px',
-              fontSize: { xs: '12px', md: '14px', lg: '16px' },
+              fontSize: { xs: '15px', lg: '16px' },
               border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
               textTransform: 'capitalize',
               transition: 'all 0.4s ease-in-out',
@@ -239,7 +236,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ...(await layout).data,
       up: { href: '/', title: i18n._(/* i18n */ 'Home') },
       apolloState: await conf.then(() => client.cache.extract()),
-      formData
+      formData,
     },
   }
 }

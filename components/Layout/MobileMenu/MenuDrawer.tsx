@@ -81,6 +81,8 @@ function MenuDrawer({ isOpen, setIsOpen, more }) {
                   alignItems: 'center',
                   width: '100%',
                 }}
+                passHref
+                legacyBehavior
               >
                 <Typography
                   sx={{

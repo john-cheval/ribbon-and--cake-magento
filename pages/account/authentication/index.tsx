@@ -43,9 +43,9 @@ function AccountAuthenticationPage() {
           },
         }}
       >
-        <LayoutTitle size='small' component='span' icon={iconLock}>
+        {/*<LayoutTitle size='small' component='span' icon={iconLock}>
           <Trans id='Authentication' />
-        </LayoutTitle>
+        </LayoutTitle> */}
       </LayoutOverlayHeader>
       <Container
         maxWidth='md'
@@ -96,11 +96,14 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   Layout: LayoutOverlay,
   layoutProps: {
     sx: {
+      '& .LayoutOverlayBase-overlayPane': {
+        paddingTop: 'calc(200px * 0.5) !important',
+      },
       '& .LayoutOverlayBase-background': {
         backgroundImage: `url(${bgImage.src})`,
         borderRadius: '30px 30px 0 0',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: { xs: 'unset', md: '100% auto' },
+        backgroundSize: { xs: 'cover', md: '100% auto' },
         backgroundPosition: '100% auto',
 
         '& .LayoutHeaderContent-right button': {

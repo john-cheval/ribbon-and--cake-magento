@@ -7,7 +7,7 @@ function CartTop({ item }) {
   const configurationOptions = item?.configurable_options?.map((option) => {
     return option.value_label
   })
-
+  console.log(item, 'this is the item')
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
       <Box>

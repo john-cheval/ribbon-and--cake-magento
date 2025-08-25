@@ -68,7 +68,7 @@ function CheckoutAdded() {
               height: responsiveVal(50, 80),
               display: 'block',
               borderRadius: '4px',
-              objectFit: 'contain',
+              objectFit: 'cover',
             }}
             pictureProps={{ sx: { gridArea: 'icon', alignSelf: 'stretch' } }}
             sizes='100px'
@@ -96,7 +96,23 @@ function CheckoutAdded() {
             </Box>
           )}
         </Box>
-        <Box gridArea='action'>
+        <Box
+          gridArea='action'
+          sx={{
+            '& .MuiButtonBase-root': {
+              transition: 'all 0.4s ease-in-out',
+              '& svg': {
+                stroke: '#fff',
+              },
+              '&:hover': {
+                '& svg': {
+                  stroke: '#441E14',
+                  transform: 'translateX(5px)',
+                },
+              },
+            },
+          }}
+        >
           <Button
             href='/cart'
             id='view-shopping-cart-button'

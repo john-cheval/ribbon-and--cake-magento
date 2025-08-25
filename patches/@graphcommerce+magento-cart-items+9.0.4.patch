@@ -19,20 +19,25 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..38aa7e3 100644
+index de7b68f..6576296 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-@@ -1,4 +1,4 @@
+@@ -1,6 +1,6 @@
 -import { Image } from '@graphcommerce/image'
 +import { Image, StaticImport } from '@graphcommerce/image'
  import { useDisplayInclTax } from '@graphcommerce/magento-cart/hooks'
- import type { ProductLinkProps } from '@graphcommerce/magento-product'
+-import type { ProductLinkProps } from '@graphcommerce/magento-product'
++import { useFormAddProductsToCart, type ProductLinkProps } from '@graphcommerce/magento-product'
  import { Money } from '@graphcommerce/magento-store'
-@@ -9,8 +9,13 @@ import { Box, Button, Link } from '@mui/material'
+ import type { ActionCardProps } from '@graphcommerce/next-ui'
+ import { ActionCard, actionCardImageSizes, filterNonNullableKeys } from '@graphcommerce/next-ui'
+@@ -9,8 +9,15 @@ import { Box, Button, Link } from '@mui/material'
  import type { CartItemFragment } from '../../Api/CartItem.gql'
  import { RemoveItemFromCart } from '../RemoveItemFromCart/RemoveItemFromCart'
  import { UpdateItemQuantity } from '../UpdateItemQuantity/UpdateItemQuantity'
 +import { CiEdit } from "react-icons/ci";
++import { useWatch } from 'react-hook-form'
++import { useEffect, useState } from 'react'
  
 -export type CartItemActionCardProps = { cartItem: CartItemFragment; readOnly?: boolean } & Omit<
 +
@@ -43,7 +48,7 @@ index de7b68f..38aa7e3 100644
    ActionCardProps,
    'value' | 'image' | 'price' | 'title' | 'action'
  >
-@@ -24,10 +29,12 @@ export function productEditLink(link: ProductLinkProps) {
+@@ -24,9 +31,16 @@ export function productEditLink(link: ProductLinkProps) {
  }
  
  export function CartItemActionCard(props: CartItemActionCardProps) {
@@ -51,18 +56,39 @@ index de7b68f..38aa7e3 100644
 +  const { cartItem, sx = [], size = 'responsive', readOnly = false, deleteIcon,...rest } = props
    const { uid, quantity, prices, errors, product } = cartItem
    const { name, thumbnail, url_key } = product
- 
-+//  console.log(cartItem,"this is the cartItems")
++  const [currentQuantity, setCurrentQuantity] = useState(quantity)
 +
++  useEffect(() => {
++      setCurrentQuantity(quantity)
++    }, [quantity])
++
++  let unitPrice: number | null | undefined
+ 
    const inclTaxes = useDisplayInclTax()
  
-   let price: number | null | undefined
-@@ -47,12 +54,13 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -34,25 +48,27 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+ 
+   if (inclTaxes) {
+     if (prices?.price_including_tax) {
+-      price = prices.price_including_tax.value
++      unitPrice = prices.price_including_tax.value
+     } else {
+       const rowTotalIncludingTax = prices?.row_total_including_tax?.value ?? 0
+-      price = rowTotalIncludingTax / quantity
++      unitPrice = rowTotalIncludingTax / quantity
+     }
+   } else {
+-    price = prices?.price.value
++    unitPrice = prices?.price.value
+   }
++  const totalPrice = (unitPrice || 0) * currentQuantity
+ 
+   const hasOptions = !(
      (cartItem.__typename === 'SimpleCartItem' || cartItem.__typename === 'VirtualCartItem') &&
      cartItem.customizable_options.length === 0
    )
-+// console.log(thumbnail,'this is the thubnail')
  
++ 
    return (
      <ActionCard
        value={uid}
@@ -72,7 +98,7 @@ index de7b68f..38aa7e3 100644
            '&.ActionCard-root': {
              px: 0,
              py: theme.spacings.xs,
-@@ -72,6 +80,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -72,6 +88,7 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
            },
            '& .ActionCard-action': {
              pr: readOnly ? 0 : theme.spacings.xs,
@@ -80,7 +106,7 @@ index de7b68f..38aa7e3 100644
            },
            '& .ActionCard-image': {
              alignSelf: 'flex-start',
-@@ -85,6 +94,26 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -85,6 +102,26 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
              pr: readOnly ? 0 : theme.spacings.xs,
              mb: { xs: 0.5, sm: 0 },
            },
@@ -88,7 +114,7 @@ index de7b68f..38aa7e3 100644
 +              display:"flex",
 +              gap:0.5,
 +            ['& .MuiBox-root']:{
-+              display:"flex",
++              //display:"flex",
 +              gap:0.5,
 +              ['&::after']:{
 +                content:'","',
@@ -107,7 +133,7 @@ index de7b68f..38aa7e3 100644
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -97,8 +126,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -97,8 +134,9 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                width: actionCardImageSizes[size],
                height: actionCardImageSizes[size],
                display: 'block',
@@ -119,7 +145,7 @@ index de7b68f..38aa7e3 100644
              }}
              sizes={actionCardImageSizes[size]}
            />
-@@ -131,32 +161,129 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
+@@ -131,32 +169,129 @@ export function CartItemActionCard(props: CartItemActionCardProps) {
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
@@ -152,14 +178,15 @@ index de7b68f..38aa7e3 100644
 +                      color:'#333333',
 +                      fontWeight:'500',
 +                      fontsize: { xs: '15px', lg: '18px' }
-+
+ 
+-            <Money value={price} currency={prices?.price.currency} />
 +                    },  '& .MuiButtonBase-root svg': {
 +              fontSize: { xs: '15px', md: '20px', xl:'24px' },
 +            },
 +                    
-+                  }} uid={uid} quantity={quantity} />}
++                  }} uid={uid} quantity={quantity}    />}
 +            {/*' ⨉ ' */}
- 
++
 +            {/* <Money sx={{color:'red'}} value={price} currency={prices?.price.currency} /> */}
 +              <Box sx={{
 +            ['& span']:{
@@ -172,7 +199,8 @@ index de7b68f..38aa7e3 100644
 +              }
 +            }
 +          }}>
-             <Money value={price} currency={prices?.price.currency} />
++            <Money value={totalPrice} currency={prices?.price.currency}  />
++          </Box>
            </Box>
 -          {hasOptions && !readOnly && (
 -            <Button
@@ -183,7 +211,6 @@ index de7b68f..38aa7e3 100644
 -              <Trans id='Edit options' />
 -            </Button>
 -          )}
-+          </Box>
          </>
        }
 -      price={<Money {...(inclTaxes ? prices?.row_total_including_tax : prices?.row_total)} />}
@@ -259,7 +286,7 @@ index de7b68f..38aa7e3 100644
 +              }
 +            }
 +          }}>
-+            <Money value={price} currency={prices?.price.currency} />
++              <Money value={totalPrice} currency={prices?.price.currency} />
 +          </Box>
 +        </Box>
 +        </>

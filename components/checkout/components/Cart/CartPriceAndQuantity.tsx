@@ -2,22 +2,30 @@ import { useDisplayInclTax } from '@graphcommerce/magento-cart'
 import { UpdateItemQuantity } from '@graphcommerce/magento-cart-items'
 import { Money } from '@graphcommerce/magento-store'
 import { Box } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 function CartPriceAndQuantity({ product }) {
   const inclTaxes = useDisplayInclTax()
+  const [currentQuantity, setCurrentQuantity] = useState(product?.quantity)
+  useEffect(() => {
+    setCurrentQuantity(product?.quantity)
+  }, [product?.quantity])
 
-  let price: number | null | undefined
+  let unitPrice: number | null | undefined
 
   if (inclTaxes) {
     if (product?.prices?.price_including_tax) {
-      price = product?.prices.price_including_tax.value
+      unitPrice = product?.prices.price_including_tax.value
     } else {
       const rowTotalIncludingTax = product?.prices?.row_total_including_tax?.value ?? 0
-      price = rowTotalIncludingTax / product?.quantity
+      unitPrice = rowTotalIncludingTax / product?.quantity
     }
   } else {
-    price = product?.prices?.price.value
+    unitPrice = product?.prices?.price.value
   }
+
+  const totalPrice = (unitPrice || 0) * currentQuantity
+  console.log(currentQuantity, 'this is the current Quantity')
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box
@@ -38,7 +46,7 @@ function CartPriceAndQuantity({ product }) {
           },
         }}
       >
-        <Money value={price} currency={product?.prices?.price.currency} />
+        <Money value={totalPrice} currency={product?.prices?.price.currency} />
       </Box>
       <Box>
         <UpdateItemQuantity

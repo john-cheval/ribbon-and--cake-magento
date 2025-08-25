@@ -660,8 +660,8 @@ msgid "Results for ‘{search}’"
 msgstr "Résultats pour ‘{search}’"
 
 #. js-lingui-generated-id
-msgid "Telephone"
-msgstr "Téléphone"
+msgid "Phone"
+msgstr "Phone"
 
 #. js-lingui-generated-id
 msgid "Please login to add products to your cart"

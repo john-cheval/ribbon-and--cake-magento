@@ -10,6 +10,7 @@ import {
   ProductPagePrice,
   ProductPagePriceTiers,
   ProductSidebarDelivery,
+  useFormAddProductsToCart,
 } from '@graphcommerce/magento-product'
 import { BundleProductOptions } from '@graphcommerce/magento-product-bundle'
 import {
@@ -20,6 +21,7 @@ import { DownloadableProductOptions } from '@graphcommerce/magento-product-downl
 import { GroupedProducts } from '@graphcommerce/magento-product-grouped'
 import { isTypename } from '@graphcommerce/next-ui'
 import { Box, Divider, Typography } from '@mui/material'
+import { useWatch } from 'react-hook-form'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
 import { fontSize } from '../theme'
 
@@ -32,13 +34,44 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
   const cartEnabled = useCartEnabled()
   const { configured } = useConfigurableOptionsSelection({ url_key: product?.url_key, index })
 
+  const { control } = useFormAddProductsToCart()
+  const currentQuantity = useWatch({
+    control,
+    name: `cartItems.${index}.quantity`,
+    defaultValue: 1,
+  })
+
   const productConfiguredPrice =
     configured && 'configurable_product_options_selection' in configured
       ? (configured as { configurable_product_options_selection?: { variant?: any } })
           .configurable_product_options_selection?.variant
       : undefined
 
-  const prodocutPrice = productConfiguredPrice ? productConfiguredPrice : product
+  const productPrice = productConfiguredPrice ? productConfiguredPrice : product
+
+  const unitPrice = productPrice.price_range.minimum_price.final_price.value || 0
+  const totalPrice = unitPrice * (currentQuantity || 1)
+
+  // Create a modified price object for display
+  const displayPrice = {
+    ...productPrice.price_range.minimum_price,
+    final_price: {
+      ...productPrice.price_range.minimum_price.final_price,
+      value: totalPrice,
+    },
+    regular_price: productPrice.price_range.minimum_price.regular_price
+      ? {
+          ...productPrice.price_range.minimum_price.regular_price,
+          value:
+            (productPrice.price_range.minimum_price.regular_price.value || 0) *
+            (currentQuantity || 1),
+        }
+      : undefined,
+  }
+
+  // console.log(currentQuantity, 'this is the currentQuantity')
+  // console.log(displayPrice, 'this is display price')
+
   return (
     <>
       {isTypename(product, ['ConfigurableProduct']) && (
@@ -62,7 +95,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
             <AddProductsToCartError>
               <Typography component='div' variant='h3' lineHeight='1'>
                 <ProductListPrice
-                  {...prodocutPrice.price_range.minimum_price}
+                  {...displayPrice}
                   sx={{
                     '& .ProductListPrice-finalPrice .MuiBox-root:nth-child(1)': {
                       // marginRight: '2px',

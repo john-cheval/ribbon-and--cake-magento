@@ -660,7 +660,7 @@ msgid "Results for ‘{search}’"
 msgstr "Risultati per ‘{search}’"
 
 #. js-lingui-generated-id
-msgid "Telephone"
+msgid "Phone"
 msgstr "Telefono"
 
 #. js-lingui-generated-id

@@ -1,8 +1,8 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..55c401b 100644
+index 6ae6263..8301111 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-@@ -4,8 +4,15 @@ import { Button } from '@graphcommerce/next-ui'
+@@ -4,8 +4,16 @@ import { Button } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
@@ -14,12 +14,13 @@ index 6ae6263..55c401b 100644
 +  isIcon?:boolean
 +  icConfigured?:boolean
 +  urlKey?:string
++  isBuyNow?:boolean
 +}
 +export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,14 +28,30 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,14 +29,31 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
@@ -30,6 +31,7 @@ index 6ae6263..55c401b 100644
  
    if (!cartEnabled) return null
  
++  
 +
    return (
 -    <Button
@@ -52,7 +54,7 @@ index 6ae6263..55c401b 100644
        type='submit'
        color='primary'
        variant='pill'
-@@ -39,5 +62,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+@@ -39,5 +64,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
      >
        {children || <Trans>Add to Cart</Trans>}
      </Button>
@@ -198,6 +200,54 @@ index 1b7a2ac..eb65af9 100644
          if (redirect === 'added') {
            await crosssellsQuery.current
            const method = router.pathname.startsWith('/checkout/added')
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
+index 0fff1a5..f8c48c9 100644
+--- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
++++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
+@@ -5,6 +5,7 @@ import type { UseAddProductsToCartActionFragment } from './UseAddProductsToCartA
+ import { toUserErrors } from './toUserErrors'
+ import type { AddToCartItemSelector } from './useFormAddProductsToCart'
+ import { useFormAddProductsToCart } from './useFormAddProductsToCart'
++import { useRouter } from 'next/router'
+ 
+ export type UseAddProductsToCartActionProps = AddToCartItemSelector & {
+   disabled?: boolean
+@@ -12,6 +13,7 @@ export type UseAddProductsToCartActionProps = AddToCartItemSelector & {
+   onClick?: React.MouseEventHandler<HTMLButtonElement>
+   sku?: string | null | undefined
+   product?: UseAddProductsToCartActionFragment
++  isBuyNow?:boolean
+ } & ({ sku: string | null | undefined } | { product: UseAddProductsToCartActionFragment })
+ 
+ export type UseAddProductsToCartActionReturn = {
+@@ -28,7 +30,7 @@ export function useAddProductsToCartAction(
+   const { setValue, getValues, control, error, data, submittedVariables } =
+     useFormAddProductsToCart()
+   const formState = useFormState({ control })
+-  const { sku = props.product?.sku, product, index = 0, onClick: onClickIncoming, disabled } = props
++  const { sku = props.product?.sku, product, index = 0, onClick: onClickIncoming, disabled,isBuyNow } = props
+ 
+   const loading = formState.isSubmitting && getValues(`cartItems.${index}.sku`) === sku
+ 
+@@ -39,9 +41,17 @@ export function useAddProductsToCartAction(
+   const submitSuccesful =
+     !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message && !userErrors.length
+ 
++    const router = useRouter()
++
+   useEffect(() => {
+     if (submitSuccesful && submittedVariables?.cartItems.find((item) => item.sku === sku)) {
+-      setShowSuccess(true)
++      if (isBuyNow) {
++        router?.push("/checkout")
++        console.log(isBuyNow,"==>isBuyNow");
++        
++      }else {
++        setShowSuccess(true)
++      }
+     }
+   }, [sku, submitSuccesful, submittedVariables?.cartItems])
+ 
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 index c61ffc0..ce11bee 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx

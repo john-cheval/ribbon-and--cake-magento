@@ -37,7 +37,8 @@ import { Box, Button, Typography } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import type { GetStaticPaths } from 'next'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import type { LayoutNavigationProps } from '../../components'
 import { LayoutDocument, LayoutNavigation } from '../../components'
@@ -97,6 +98,7 @@ function ProductPage(props: Props) {
   const router = useRouter()
 
   if (!product?.sku || !product.url_key) return null
+
   const handleBuyNowSuccess = () => {
     router.push('/checkout')
   }
@@ -126,6 +128,8 @@ function ProductPage(props: Props) {
       }
     }
   }, [])
+
+  const matchedCartItem = cartItems?.find((cart) => cart?.product?.sku === product?.sku)
 
   return (
     <PrivateQueryMaskProvider mask={scopedQuery.mask}>
@@ -536,59 +540,61 @@ function ProductPage(props: Props) {
               /> */}
 
               <Box sx={{ width: '100% !important' }}>
-                {(() => {
-                  const matchedCartItem = cartItems?.find(
-                    (cart) => cart?.product?.sku === product?.sku,
-                  )
-                  return matchedCartItem ? (
-                    <Link href='/checkout'>
-                      <Button
-                        sx={{
-                          backgroundColor: (theme: any) => theme.palette.custom.heading,
-                          color: '#FFFFFF',
-                          fontSize: { xs: '15px', md: '16px' },
-                          borderRadius: '4px',
-                          border: '1px solid #9B7C38 ',
-                          paddingBlock: { xs: '9px', md: '12px' },
-                          boxShadow: 'none !important',
-                          width: '100%',
-                          height: '100%',
-                          flexGrow: 1,
-                          '&:hover': {
-                            backgroundColor: 'white !important',
-                            color: (theme: any) => theme.palette.custom.main,
-                          },
-                        }}
-                      >
-                        Buy Now
-                      </Button>
-                    </Link>
-                  ) : (
-                    <AddProductsToCartForm key={product.uid} onSuccess={handleBuyNowSuccess}>
-                      <AddProductsToCartButton
-                        // fullWidth
-                        sx={{
-                          backgroundColor: (theme: any) => theme.palette.custom.heading,
-                          color: '#FFFFFF',
-                          fontSize: { xs: '15px', md: '16px' },
-                          borderRadius: '4px',
-                          border: '1px solid #9B7C38 ',
-                          // paddingBlock: { xs: '5px' },
-                          boxShadow: 'none !important',
-                          width: '100%',
-                          flexGrow: 1,
-                          '&:hover': {
-                            backgroundColor: 'white !important',
-                            color: (theme: any) => theme.palette.custom.main,
-                          },
-                        }}
-                        product={product}
-                      >
-                        Buy Now
-                      </AddProductsToCartButton>
-                    </AddProductsToCartForm>
-                  )
-                })()}
+                {matchedCartItem ? (
+                  <Link href='/checkout'>
+                    <Button
+                      sx={{
+                        backgroundColor: (theme: any) => theme.palette.custom.heading,
+                        color: '#FFFFFF',
+                        fontSize: { xs: '15px', md: '16px' },
+                        borderRadius: '4px',
+                        border: '1px solid #9B7C38 ',
+                        paddingBlock: { xs: '9px', md: '12px' },
+                        boxShadow: 'none !important',
+                        width: '100%',
+                        height: '100%',
+                        flexGrow: 1,
+                        '&:hover': {
+                          backgroundColor: 'white !important',
+                          color: (theme: any) => theme.palette.custom.main,
+                        },
+                      }}
+                    >
+                      Buy Now
+                    </Button>
+                  </Link>
+                ) : (
+                  // <AddProductsToCartForm key={product.uid} onSuccess={handleBuyNowSuccess}>
+                  <AddProductsToCartButton
+                    // fullWidth
+                    sx={{
+                      backgroundColor: (theme: any) => theme.palette.custom.heading,
+                      color: '#FFFFFF',
+                      fontSize: { xs: '15px', md: '16px' },
+                      borderRadius: '4px',
+                      border: '1px solid #9B7C38 ',
+                      // paddingBlock: { xs: '5px' },
+                      boxShadow: 'none !important',
+                      width: '100%',
+                      flexGrow: 1,
+                      '&:hover': {
+                        backgroundColor: 'white !important',
+                        color: (theme: any) => theme.palette.custom.main,
+                      },
+                    }}
+                    product={product}
+                    // onClick={() => {
+                    //   console.log('checkout', '==>checkout')
+
+                    //   router?.push('/checkout')
+                    // }}
+
+                    isBuyNow={true}
+                  >
+                    Buy Nowewee
+                  </AddProductsToCartButton>
+                  // </AddProductsToCartForm>
+                )}
               </Box>
             </ProductPageAddToCartActionsRow>
           </OverlayStickyBottom>

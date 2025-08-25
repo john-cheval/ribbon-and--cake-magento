@@ -17,9 +17,9 @@ function AccountForgotPasswordPage() {
   return (
     <>
       <LayoutOverlayHeader>
-        <LayoutTitle variant='h2' size='small' component='span'>
+        {/*  <LayoutTitle size='small' component='span'>
           <Trans id='Forgot your password?' />
-        </LayoutTitle>
+        </LayoutTitle> */}
       </LayoutOverlayHeader>
       <Container
         maxWidth='sm'
@@ -64,6 +64,9 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
   Layout: LayoutOverlay,
   layoutProps: {
     sx: {
+      '& .LayoutOverlayBase-overlayPane': {
+        paddingTop: 'calc(200px * 0.5) !important',
+      },
       '& .LayoutOverlayBase-background': {
         backgroundImage: `url(${bgImage.src})`,
         borderRadius: '30px 30px 0 0',

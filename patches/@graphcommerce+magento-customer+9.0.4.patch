@@ -867,57 +867,220 @@ index 0be3575..0405ee2 100644
        >
          <Trans id='Successfully saved changes' />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-index de1222a..1437d87 100644
+index de1222a..ee444ae 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-@@ -35,10 +35,44 @@ export function ChangePasswordForm() {
+@@ -12,18 +12,97 @@ import {
+   FormRow,
+   MessageSnackbar,
+ } from '@graphcommerce/next-ui'
+-import { useFormGqlMutation } from '@graphcommerce/react-hook-form'
++import { useFormContext, useFormGqlMutation } from '@graphcommerce/react-hook-form'
+ import { Trans } from '@lingui/react'
+ import { ValidatedPasswordElement } from '../ValidatedPasswordElement/ValidatedPasswordElement'
+ import type { ChangePasswordMutation, ChangePasswordMutationVariables } from './ChangePassword.gql'
+ import { ChangePasswordDocument } from './ChangePassword.gql'
++import { useState } from 'react'
++import { t } from '@lingui/macro'
  
+ export function ChangePasswordForm() {
++  const [validationError, setValidationError] = useState<string>('')
++  const [showValidationError, setShowValidationError] = useState<boolean>(false)
++   const [currentPassword, setCurrentPassword] = useState('')
++  const [newPassword, setNewPassword] = useState('')
++  const [confirmPassword, setConfirmPassword] = useState('')
++
++
+   const form = useFormGqlMutation<
+     ChangePasswordMutation,
+     ChangePasswordMutationVariables & { confirmPassword?: string }
+-  >(ChangePasswordDocument, {}, { errorPolicy: 'all' })
+-  const { handleSubmit, required, formState, error, control } = form
++  >(ChangePasswordDocument, {
++    mode:'onChange',
++    reValidateMode:'onChange',
++    onBeforeSubmit:(values)=>{
++ 
++      // Clear previous errors
++      setValidationError('')
++      setShowValidationError(false)
++      form.clearErrors()
++      
++      console.log(currentPassword,'this is the currentpassword')
++      console.log(newPassword,'new password')
++
++      // Check if current password and new password are the same
++      if (currentPassword === newPassword) {
++        const errorMsg = t`New password cannot be the same as the current password.`
++        setValidationError(errorMsg)
++        setShowValidationError(true)
++        form.setError('newPassword', { 
++          message: errorMsg 
++        })
++        return false
++      }
++
++      // Check if new password and confirm password match
++      if (newPassword !== confirmPassword) {
++        const errorMsg = t`New password and confirm password do not match`
++        setValidationError(errorMsg)
++        setShowValidationError(true)
++        form.setError('confirmPassword', { 
++          message: errorMsg 
++        })
++        return false
++      }
++
++      // Validate password strength
++      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/
++      if (!passwordRegex.test(newPassword)) {
++        const errorMsg = t`Password must be at least 8 characters long and contain at least one letter and one number`
++        setValidationError(errorMsg)
++        setShowValidationError(true)
++        form.setError('newPassword', { 
++          message: errorMsg 
++        })
++        return false
++      }
++console.log(newPassword,'newpass')
++console.log(currentPassword,'currentPassword')
++
++       return { currentPassword, newPassword }
++    },
++    onComplete:(result)=>{
++         if (!result.errors) {
++        setShowValidationError(false)
++        setValidationError('')
++
++        // 🔹 Clear all local states
++        setCurrentPassword('')
++        setNewPassword('')
++        setConfirmPassword('')
++
++        // 🔹 Reset form values in react-hook-form
++        form.reset({
++          currentPassword: '',
++          newPassword: '',
++          confirmPassword: '',
++        })
++      }
++    }
++  }, { errorPolicy: 'all' })
++
++  const { handleSubmit, required, formState, error, control, watch } = form
+   const [remainingError0, authenticationError] = graphqlErrorByCategory({
+     category: 'graphql-authentication',
+     error,
+@@ -33,12 +112,50 @@ export function ChangePasswordForm() {
+     error: remainingError0,
+   })
+ 
++  const watchedValues = watch()
++  
    const submitHandler = handleSubmit(() => {})
  
--  const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
-+ const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
-+
+   const showSuccess = !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message
  
++  const hasValidationErrors = 
++    Object.keys(formState.errors).length > 0 || 
++    !!error
++
    return (
 -    <Form onSubmit={submitHandler} noValidate>
-+    <Form onSubmit={submitHandler} noValidate  sx={{
-+            minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
-+  '& .MuiOutlinedInput-root': {
-+    '& .MuiOutlinedInput-notchedOutline': {
-+      borderColor: (theme:any)=>theme.palette.custom.borderInput,
-+    },
-+    '&:hover .MuiOutlinedInput-notchedOutline': {
-+      borderColor: (theme:any)=>theme.palette.custom.borderInput,
-+    },
-+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-+      borderColor: (theme:any)=>theme.palette.custom.borderInput,
-+      borderWidth: '1px',
-+    },
-+    '& .MuiOutlinedInput-input': {
-+      fontFamily: '"Bricolage Grotesque"',
-+      fontSize: { xs: '15px', md: '16px' },
-+      fontStyle: 'normal',
-+      fontWeight: 400,
-+      lineHeight: '158%',
-+      color: (theme:any)=>theme.palette.custom.main, 
-+      // padding:'17px',// input text color
-+    },
-+    '& .MuiOutlinedInput-input::placeholder': {
-+      color:(theme:any)=>theme.palette.custom.main,
-+      opacity: 1,
-+    },
-+  },
-+  '& .MuiInputLabel-root': {
-+    color: (theme:any)=>theme.palette.custom.main,
-+  },
-+  '& .MuiInputLabel-root.Mui-focused': {
-+    color:(theme:any)=>theme.palette.custom.main, // label when focused
-+  },
-+}}>
++    <Form onSubmit={submitHandler} noValidate sx={{
++      minWidth:{xs:'280px', sm:'350px', md:'400px',lg:'500px'},
++      '& .MuiOutlinedInput-root': {
++        '& .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++        },
++        '&:hover .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++        },
++        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++          borderColor: (theme:any)=>theme.palette.custom.borderInput,
++          borderWidth: '1px',
++        },
++        '& .MuiOutlinedInput-input': {
++          fontFamily: '"Bricolage Grotesque"',
++          fontSize: { xs: '15px', md: '16px' },
++          fontStyle: 'normal',
++          fontWeight: 400,
++          lineHeight: '158%',
++          color: (theme:any)=>theme.palette.custom.main, 
++        },
++        '& .MuiOutlinedInput-input::placeholder': {
++          color:(theme:any)=>theme.palette.custom.main,
++          opacity: 1,
++        },
++      },
++      '& .MuiInputLabel-root': {
++        color: (theme:any)=>theme.palette.custom.main,
++      },
++      '& .MuiInputLabel-root.Mui-focused': {
++        color:(theme:any)=>theme.palette.custom.main,
++      },
++    }}>
        <FormRow>
          <PasswordElement
            control={control}
-@@ -77,24 +111,62 @@ export function ChangePasswordForm() {
+@@ -50,6 +167,14 @@ export function ChangePasswordForm() {
+           disabled={formState.isSubmitting}
+           error={Boolean(authenticationError)}
+           helperText={authenticationError?.message}
++          onChange={(e) => {
++           setCurrentPassword(e.target.value)
++            // Clear validation errors when user starts typing in current password
++            if (showValidationError) {
++              setShowValidationError(false)
++              setValidationError('')
++            }
++          }}
+         />
+       </FormRow>
+ 
+@@ -62,8 +187,21 @@ export function ChangePasswordForm() {
+           label={<Trans id='New password' />}
+           required={required.newPassword}
+           disabled={formState.isSubmitting}
+-          error={Boolean(inputError)}
+-          helperText={inputError?.message}
++          error={Boolean(inputError) || Boolean(formState.errors.newPassword)}
++          helperText={formState.errors.newPassword?.message || inputError?.message}
++          onChange={(e) => {
++          setNewPassword(e.target.value)
++
++            // Clear validation errors when user starts typing
++            if (showValidationError) {
++              setShowValidationError(false)
++              setValidationError('')
++            }
++            // Clear confirm password error if passwords match
++            if (formState.errors.confirmPassword && watchedValues.newPassword === watchedValues.confirmPassword) {
++              form.clearErrors('confirmPassword')
++            }
++          }}
+         />
+         <PasswordRepeatElement
+           control={control}
+@@ -74,27 +212,90 @@ export function ChangePasswordForm() {
+           label={<Trans id='Confirm password' />}
+           required
+           disabled={formState.isSubmitting}
++          error={Boolean(formState.errors.confirmPassword)}
++          helperText={formState.errors.confirmPassword?.message}
++          onChange={(e) => {
++           setConfirmPassword(e.target.value)
++
++            // Clear validation errors when user starts typing in confirm password
++            if (showValidationError) {
++              setShowValidationError(false)
++              setValidationError('')
++            }
++            // Clear confirm password field error when user types
++            if (formState.errors.confirmPassword) {
++              form.clearErrors('confirmPassword')
++            }
++          }}
          />
        </FormRow>
  
@@ -936,23 +1099,32 @@ index de1222a..1437d87 100644
            loading={formState.isSubmitting}
 -          color='primary'
 -          variant='pill'
-+         // color='primary'
-+          //variant='pill'
            size='large'
-+           sx={{
++          disabled={
++            !currentPassword ||
++            !newPassword ||
++            !confirmPassword ||
++            formState.isSubmitting
++          }
++          sx={{
 +            backgroundColor:(theme:any)=>theme.palette.custom.main,
 +            color:(theme:any)=>theme.palette.custom.border,
-+            // paddingBlock:'18px',
 +            borderRadius:'4px',
 +            fontSize: { xs: '15px', md: '16px' },
-+          // width:'200px',
-+           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
-+           textTransform:'capitalize',
++            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++            textTransform:'capitalize',
 +            transition:'all 0.4s ease-in-out',
-+            '&:hover':{
-+              backgroundColor:'transparent',
-+              color:(theme:any)=>theme.palette.custom.main,
-+           border: (theme:any) => `1px solid ${theme.palette.custom.main}`
++            '&:hover:not(:disabled)': {
++              backgroundColor: 'transparent',
++              color: (theme: any) => theme.palette.custom.main,
++              border: (theme: any) => `1px solid ${theme.palette.custom.main}`
++            },
++            '&:disabled': {
++              backgroundColor: (theme: any) => theme.palette.grey[300],
++              color: (theme: any) => theme.palette.grey[500],
++              border: (theme: any) => `1px solid ${theme.palette.grey[300]}`,
++              cursor: 'not-allowed',
++              opacity: 0.6,
 +            }
 +          }}
          >
@@ -963,6 +1135,8 @@ index de1222a..1437d87 100644
  
        <ApolloErrorSnackbar error={remainingError} />
  
++     
++
        {showSuccess && (
 -        <MessageSnackbar open={showSuccess} sticky variant='pill' severity='success'>
 +        <MessageSnackbar sx={{
@@ -979,7 +1153,6 @@ index de1222a..1437d87 100644
 +            '& .MuiButtonBase-root':{
 +              width:{xs:'35px', xl:'40px'},
 +              height:{xs:'35px', xl:'40px'},
-+              
 +            }
 +          }
 +        }} open={showSuccess} sticky variant='pill' severity='success'>
@@ -1743,6 +1916,88 @@ index 9a27189..8b9a1e0 100644
            >
              <Trans id='Sign in' />
            </Button>
+diff --git a/node_modules/@graphcommerce/magento-customer/components/SignOutForm/SignOutForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignOutForm/SignOutForm.tsx
+index a7e71e8..955b85b 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/SignOutForm/SignOutForm.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/SignOutForm/SignOutForm.tsx
+@@ -2,10 +2,12 @@ import { useApolloClient } from '@graphcommerce/graphql'
+ import type { FormState } from '@graphcommerce/react-hook-form'
+ import { useFormGqlMutation } from '@graphcommerce/react-hook-form'
+ import { useRouter } from 'next/router'
+-import React from 'react'
++import React, { useState } from 'react'
+ import { ApolloCustomerErrorAlert } from '../ApolloCustomerError/ApolloCustomerErrorAlert'
+ import { SignOutFormDocument } from './SignOutForm.gql'
+ import { signOut } from './signOut'
++import { MessageSnackbar } from '@graphcommerce/next-ui'
++import { Trans } from '@lingui/react'
+ 
+ export type SignOutFormProps = {
+   button: (props: { formState: FormState<Record<string, unknown>> }) => React.ReactNode
+@@ -15,23 +17,59 @@ export function SignOutForm(props: SignOutFormProps) {
+   const { button: Button } = props
+   const router = useRouter()
+   const client = useApolloClient()
++  const [showSuccess, setShowSuccess] = useState(false)
+ 
+   const { handleSubmit, formState, error } = useFormGqlMutation(
+     SignOutFormDocument,
+     {
+-      onComplete: async () => {
+-        signOut(client)
+-        await router.push('/')
+-      },
++     onComplete: async () => {
++  setShowSuccess(true)
++  setTimeout(() => {
++    signOut(client)
++    setTimeout(async () => {
++      await router.push('/')
++    }, 1000)
++  }, 2000) 
++},
+     },
+     { errorPolicy: 'all' },
+   )
+   const submitHandler = handleSubmit(() => {})
+ 
+   return (
++    <>
+     <form onSubmit={submitHandler} noValidate>
+       <Button formState={formState} />
+       <ApolloCustomerErrorAlert error={error} />
+     </form>
++     {showSuccess && (
++            <MessageSnackbar
++              sx={{
++                '& .MuiSnackbarContent-message': {
++                  '& svg': {
++                    color: (theme: any) => theme.palette.custom.main,
++                    fontSize: { xs: '18px', lg: '25px' },
++                  },
++                  '& .MuiBox-root': {
++                    color: (theme: any) => theme.palette.custom.main,
++                    fontSize: { xs: '15px', md: '16px' },
++                    textAlign: 'center',
++                  },
++                  '& .MuiButtonBase-root': {
++                    width: { xs: '35px', xl: '40px' },
++                    height: { xs: '35px', xl: '40px' },
++                  },
++                },
++              }}
++              open={showSuccess}
++              onClose={() => setShowSuccess(false)}
++              sticky
++              variant='pill'
++              severity='success'
++            >
++              <Trans id='Signed out successfully' />
++            </MessageSnackbar>
++          )}
++    </>
+   )
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql
 index 62c2fbb..9eadfab 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUp.graphql
@@ -1757,7 +2012,7 @@ index 62c2fbb..9eadfab 100644
    $middlename: String
    $lastname: String!
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
-index c68c353..c454fd3 100644
+index c68c353..1b2caaf 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignUpForm/SignUpForm.tsx
 @@ -7,23 +7,27 @@ import type { UseFormClearErrors, UseFormSetError } from '@graphcommerce/react-h
@@ -1787,20 +2042,37 @@ index c68c353..c454fd3 100644
 -  const { email, setError, clearErrors } = props
 -
 +  const { email, setError, clearErrors,sx } = props
-+const [password,setpassword] = useState<string>("")
++const [password,setPassword] = useState<string>("")
    const storeConfig = useQuery(StoreConfigDocument)
    const signIn = useSignInForm({ email })
    const form = useFormGqlMutation<
-@@ -34,6 +38,7 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -32,16 +36,32 @@ export function SignUpForm(props: SignUpFormProps) {
+   >(
+     SignUpDocument,
      {
++      mode:'onChange',
++      reValidateMode: 'onChange',
        defaultValues: { email },
        onBeforeSubmit: (values) => {
-+
++     clearErrors()
          if (!email) {
            // eslint-disable-next-line @typescript-eslint/no-use-before-define
            setError('email', { message: t`Please enter a valid email address` })
-@@ -41,7 +46,7 @@ export function SignUpForm(props: SignUpFormProps) {
+           return false
          }
++
++        if(values.password !== values.confirmPassword){
++          form.setError('confirmPassword',{
++            message:t`Passwords do not match`
++          })
++          return false
++        }
++
++        if(!values.password || values.password.trim()===''){
++          form.setError('password',{
++            message:t`password Required`
++          })
++        }
          // eslint-disable-next-line @typescript-eslint/no-use-before-define
          clearErrors()
 -        return { ...values, email: email ?? '' }
@@ -1808,7 +2080,7 @@ index c68c353..c454fd3 100644
        },
        onComplete: async (result, variables) => {
          if (!result.errors && !storeConfig.data?.storeConfig?.create_account_confirmation) {
-@@ -75,7 +80,10 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -75,7 +95,10 @@ export function SignUpForm(props: SignUpFormProps) {
    }
  
    return (
@@ -1820,15 +2092,25 @@ index c68c353..c454fd3 100644
        <FormRow>
          <ValidatedPasswordElement
            control={control}
-@@ -88,6 +96,7 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -88,6 +111,13 @@ export function SignUpForm(props: SignUpFormProps) {
            required={required.password}
            disabled={formState.isSubmitting}
            helperText={inputError?.message}
-+          onChange={(e)=>{setpassword(e.target.value)}}
++          // onChange={(e)=>{setpassword(e.target.value)}}
++          onChange={(e) => {
++            setPassword(e.target.value)
++            if (formState.errors.confirmPassword) {
++              form.clearErrors('confirmPassword')
++            }
++          }}
          />
          <PasswordRepeatElement
            control={control}
-@@ -102,30 +111,45 @@ export function SignUpForm(props: SignUpFormProps) {
+@@ -99,33 +129,67 @@ export function SignUpForm(props: SignUpFormProps) {
+           autoComplete='new-password'
+           required
+           disabled={formState.isSubmitting}
++          helperText={formState.errors.confirmPassword?.message}
          />
        </FormRow>
  
@@ -1851,6 +2133,12 @@ index c68c353..c454fd3 100644
            id='create-account'
 -          variant='pill'
 +          // variant='pill'
++          disabled={
++            formState.isSubmitting || 
++            !formState.isValid ||
++            Object.keys(formState.errors).length > 0 ||
++            !!error
++          }
            color='primary'
            size='large'
            loading={formState.isSubmitting}
@@ -1864,10 +2152,22 @@ index c68c353..c454fd3 100644
 +            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
 +            transition:'all 0.4s ease-in-out',
 +            fontSize: { xs: '15px', md: '16px' },
++             '&:hover:not(:disabled)': {
++              backgroundColor: 'transparent',
++              color: (theme: any) => theme.palette.custom.main,
++              border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
++            },
 +            '&:hover':{
 +              backgroundColor:'transparent',
 +              color:(theme:any)=>theme.palette.custom.main,
 +           border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
++            },
++             '&:disabled': {
++              backgroundColor: (theme: any) => theme.palette.grey[300],
++              color: (theme: any) => theme.palette.grey[500],
++              border: (theme: any) => `1px solid ${theme.palette.grey[300]}`,
++              cursor: 'not-allowed',
++              opacity: 0.6,
 +            }
 +          }}
          >

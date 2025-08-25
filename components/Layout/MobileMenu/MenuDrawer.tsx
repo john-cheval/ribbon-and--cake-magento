@@ -73,32 +73,31 @@ function MenuDrawer({ isOpen, setIsOpen, more }) {
                 paddingBottom: '20px',
               }}
             >
-              <Link
-                href={item.link}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-                passHref
-                legacyBehavior
-              >
-                <Typography
+              <Link href={item.link} passHref legacyBehavior>
+                <Box
                   sx={{
-                    fontSize: '18px',
-                    fontWeight: 400,
-                    color: '#000',
-                    textDecoration: 'none',
-                    lineHeight: '120%',
-                    '&:hover': { textDecoration: 'underline' },
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
                   }}
-                  onClick={() => setIsOpen(false)}
                 >
-                  {item.title}
-                </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '18px',
+                      fontWeight: 400,
+                      color: '#000',
+                      textDecoration: 'none',
+                      lineHeight: '120%',
+                      '&:hover': { textDecoration: 'underline' },
+                    }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.title}
+                  </Typography>
 
-                <FaArrowRight color='#F6DBE0' size={20} />
+                  <FaArrowRight color='#F6DBE0' size={20} />
+                </Box>
               </Link>
             </MotionDiv>
           ))}

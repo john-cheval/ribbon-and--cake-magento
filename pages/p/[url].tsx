@@ -591,7 +591,7 @@ function ProductPage(props: Props) {
 
                     isBuyNow={true}
                   >
-                    Buy Nowewee
+                    Buy Now
                   </AddProductsToCartButton>
                   // </AddProductsToCartForm>
                 )}

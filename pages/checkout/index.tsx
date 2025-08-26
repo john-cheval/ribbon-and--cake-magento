@@ -106,6 +106,7 @@ function ShippingPage(props: ShippingPageProps) {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+  const selectedMethod = shippingPage?.data?.cart?.shipping_addresses?.[0]?.selected_shipping_method
 
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>
@@ -527,9 +528,9 @@ function ShippingPage(props: ShippingPageProps) {
                                     paddingBottom: 0,
                                     justifyContent: 'unset',
                                     '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                                      {
-                                        boxShadow: 'none',
-                                      },
+                                    {
+                                      boxShadow: 'none',
+                                    },
                                     '& .MuiButtonBase-root': {
                                       fontSize: { xs: '15px', md: '16px' },
                                       backgroundColor: (theme) => theme.palette.custom.heading,
@@ -541,7 +542,7 @@ function ShippingPage(props: ShippingPageProps) {
                                     },
                                   }}
                                 >
-                                  <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                                  <ComposedSubmitButton {...renderProps} disabled={selectedMethod?.carrier_code ? false : true} size='large' id='next'>
                                     <Trans id='Proceed To Pay' />
                                   </ComposedSubmitButton>
                                 </FormActions>
@@ -622,7 +623,7 @@ function ShippingPage(props: ShippingPageProps) {
                         <ShippingMethodForm
                           step={4}
                           sx={(theme) => ({ mt: theme.spacings.lg })}
-                          //  isPickup={value === 1}
+                        //  isPickup={value === 1}
                         />
                       )}
 
@@ -636,9 +637,9 @@ function ShippingPage(props: ShippingPageProps) {
                                 paddingBottom: 0,
                                 justifyContent: 'unset',
                                 '& .mui-style-dhqdz6-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root:not(.Mui-disabled):not(.MuiButton-disableElevation) ':
-                                  {
-                                    boxShadow: 'none',
-                                  },
+                                {
+                                  boxShadow: 'none',
+                                },
                                 '& .MuiButtonBase-root': {
                                   fontSize: { xs: '15px', md: '16px' },
                                   backgroundColor: (theme) => theme.palette.custom.heading,
@@ -650,7 +651,7 @@ function ShippingPage(props: ShippingPageProps) {
                                 },
                               }}
                             >
-                              <ComposedSubmitButton {...renderProps} size='large' id='next'>
+                              <ComposedSubmitButton {...renderProps} disabled={selectedMethod?.carrier_code ? false : true} size='large' id='next'>
                                 <Trans id='Proceed To Pay' />
                               </ComposedSubmitButton>
                             </FormActions>

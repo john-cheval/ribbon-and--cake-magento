@@ -30,3 +30,14 @@ index 869323a..2cc64df 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-store/StoreConfigFragment.graphql b/node_modules/@graphcommerce/magento-store/StoreConfigFragment.graphql
+index c7227bc..bb4edb8 100644
+--- a/node_modules/@graphcommerce/magento-store/StoreConfigFragment.graphql
++++ b/node_modules/@graphcommerce/magento-store/StoreConfigFragment.graphql
+@@ -35,4 +35,6 @@ fragment StoreConfigFragment on StoreConfig {
+   order_cancellation_reasons {
+     description
+   }
++
++  customer_access_token_lifetime
+ }

@@ -105,6 +105,19 @@ index 0b04f2c..5a63da3 100644
        </Button>
  
        {children}
+diff --git a/node_modules/@graphcommerce/magento-cart/components/CartSummary/CartSummary.tsx b/node_modules/@graphcommerce/magento-cart/components/CartSummary/CartSummary.tsx
+index 0d3023f..53aaeb0 100644
+--- a/node_modules/@graphcommerce/magento-cart/components/CartSummary/CartSummary.tsx
++++ b/node_modules/@graphcommerce/magento-cart/components/CartSummary/CartSummary.tsx
+@@ -102,7 +102,7 @@ export function CartSummary(props: CartSummaryProps) {
+             />
+             <Typography variant='body1'>
+               {shipping_addresses?.[0]?.selected_shipping_method?.carrier_title}
+-              {shipping_addresses?.[0]?.selected_shipping_method?.method_title}
++              {/* {shipping_addresses?.[0]?.selected_shipping_method?.method_title} */}
+             </Typography>
+           </Box>
+         )}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 index 11b4847..251f6cb 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx

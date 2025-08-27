@@ -44,6 +44,9 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   if (!params || !products?.items || !filterTypes) return null
   const { total_count, sort_fields, page_info } = products
 
+  console.log(products,"==>products");
+  
+
   const configuration = useLayoutConfiguration(true)
 
   const [sortValue, setSortValue] = useState('Latest')
@@ -71,6 +74,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const loaderRef = useRef<HTMLDivElement | null>(null)
 
   const client = useApolloClient()
+
   const fetchProducts = async (pageNumber) => {
     setIsLoading(true)
 
@@ -89,6 +93,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   useEffect(() => {
     if (products?.items) {
+      console.log(products?.items,products?.page_info?.current_page,"==>productsitems");
+      
       setAllPageItems(products?.items)
       setCurrentPage(products?.page_info?.current_page || 1)
       setTotalPage(products?.page_info?.total_pages || 1)
@@ -97,7 +103,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   useEffect(() => {
     const observer = new IntersectionObserver(async ([entry]) => {
-      if (entry.isIntersecting && currentPage < totalPage) {
+      if (entry.isIntersecting && currentPage < totalPage && !isLoading) {
         setCurrentPage((prev) => prev + 1)
         await fetchProducts(currentPage + 1)
       }
@@ -115,6 +121,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleAccordionChange = (categoryName: string) => {
     setExpanded(expanded === categoryName ? false : categoryName)
   }
+console.log(products?.items,allPageItems,"==>allPageItems");
 
   return (
     <ProductFiltersPro
@@ -485,8 +492,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             //   width: '100%',
                             // },
                           }}
-                          // isDropdown={true}
-                          // isButton={true}
+                        // isDropdown={true}
+                        // isButton={true}
                         />
                       </ProductFiltersPro>
                     )}

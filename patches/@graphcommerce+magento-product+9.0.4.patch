@@ -842,7 +842,7 @@ index 5643683..dcfdacc 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..d4e26d4 100644
+index 80912c1..6d139f3 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,162 @@ import {
@@ -932,7 +932,7 @@ index 80912c1..d4e26d4 100644
 +          ...(Array.isArray(sx) ? sx : [sx]),
 +        ]}
 +        defaultExpanded={expandeds}
-+        expanded={expandeds}
++        perentExpanded={expandeds}
 +        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -1192,10 +1192,10 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..e2a47a7 100644
+index b64ae6d..6b91c69 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,23 +5,32 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,23 +5,33 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
@@ -1214,7 +1214,7 @@ index b64ae6d..e2a47a7 100644
 +  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
-+  const { options, showReset, selected, selectedLabel, } = useProductFiltersProSort(props)
++  const { options, showReset, selected, selectedLabel, handleChange, expanded } = useProductFiltersProSort(props)
  
 -  if ((options.length ?? 0) <= 1) return null
  
@@ -1223,7 +1223,8 @@ index b64ae6d..e2a47a7 100644
    return (
      <ActionCardAccordion
        sx={sx}
-+      expanded={selected}
++      perentExpanded={expanded}
++      onChange={handleChange}
        defaultExpanded={selected}
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
@@ -1232,7 +1233,7 @@ index b64ae6d..e2a47a7 100644
        details={
          <ActionCardListForm
            control={form.control}
-@@ -30,24 +39,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +40,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
@@ -1329,10 +1330,10 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..6ec319f 100644
+index d3b392c..660217e 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -3,7 +3,7 @@ import { useQuery } from '@graphcommerce/graphql'
+@@ -3,13 +3,14 @@ import { useQuery } from '@graphcommerce/graphql'
  import { StoreConfigDocument } from '@graphcommerce/magento-store'
  import { filterNonNullableKeys } from '@graphcommerce/next-ui'
  import { i18n } from '@lingui/core'
@@ -1341,27 +1342,36 @@ index d3b392c..6ec319f 100644
  import type { CategoryDefaultFragment } from '../ProductListItems/CategoryDefault.gql'
  import type { ProductFilterParams } from '../ProductListItems/filterTypes'
  import type { ProductListSortFragment } from '../ProductListSort'
-@@ -19,9 +19,10 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ import type { ProductListActionSortProps } from './ProductFiltersProSortChip'
+ import { ProductFiltersProSortDirectionArrow } from './ProductFiltersProSortDirectionArrow'
++import { useRouter } from 'next/router'
+ 
+ const exclude = ['relevance', 'position']
+ 
+@@ -19,10 +20,11 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
  
  export function useProductFiltersProSort(props: ProductListActionSortProps) {
    const { sort_fields, category } = props
-+  const { params, submit, form } = useProductFiltersPro()
-+  const { control, setValue, getValues } = form
- 
+-
 -  const { params, form } = useProductFiltersPro()
 -  const { control, setValue } = form
+-
++  const { params, submit, form } = useProductFiltersPro()
++  const { control, setValue, getValues } = form
++  const router = useRouter()
 +  const [openSort, setOpenSort] = useState(false)
- 
++  const [expanded, setSetExpanded] = useState(false)
    const sortFields = useMemo(
      () =>
-@@ -48,31 +49,47 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+       filterNonNullableKeys(sort_fields?.options).map((o) =>
+@@ -48,31 +50,56 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
      Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
    const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
  
 +  useEffect(() => {
 +    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
 +  }, [])
-+
    const options = useMemo(
      () =>
        sortFields
@@ -1381,9 +1391,13 @@ index d3b392c..6ec319f 100644
 -            }),
 +            onClick: (e, va) => {
 +              setOpenSort(false)
-+              console.log(getValues("url"),"=>dede")
++              console.log(getValues("url"), "=>dede")
 +              setValue('sort', va)
 +              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
++              if (!router.asPath.includes("/c/")) {
++                setValue('url', router.asPath)
++              }
++              setSetExpanded(false)
 +              submit()
 +            },
 +            // ...(showSort && {
@@ -1400,13 +1414,19 @@ index d3b392c..6ec319f 100644
 +    return selectedOption ? selectedOption.label : defaultOption?.label
 +  }, [options, params.sort, defaultSortBy])
 +
++  const handleChange = (isExpanded: boolean) => {
++    setSetExpanded(isExpanded);
++  };
++
    return {
++    expanded,
      options,
 -    selected,
 +    selected: openSort,
      showReset,
 -    selectedLabel: options.find((option) => option.value === params.sort)?.label,
 +    selectedLabel: selectedLabel,
++    handleChange
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx

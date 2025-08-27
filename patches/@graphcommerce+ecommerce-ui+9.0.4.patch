@@ -190,3 +190,16 @@ index dc4fb00..ef8da17 100644
        autoComplete='tel'
        rules={{
          pattern: { value: phonePattern, message: t`Invalid phone number` },
+diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
+index 934da1e..1bb0786 100644
+--- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
++++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
+@@ -70,7 +70,7 @@ export function TextFieldElement<TFieldValues extends FieldValues>({
+       type={type}
+       error={Boolean(error) || rest.error}
+       helperText={error ? error.message : rest.helperText}
+-      InputLabelProps={{ ...rest.InputLabelProps, shrink }}
++      InputLabelProps={{ ...rest.InputLabelProps, shrink, sx: { margin: "2px" } }}
+       InputProps={{
+         ...rest.InputProps,
+         endAdornment:

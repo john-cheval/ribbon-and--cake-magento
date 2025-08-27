@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..a7845fc 100644
+index 7bebe6d..5321563 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -527,7 +527,7 @@ index 7bebe6d..a7845fc 100644
    if (loading) {
      return (
        <FormRow>
-@@ -58,40 +66,158 @@ export function AddressCountryRegion<
+@@ -58,40 +66,156 @@ export function AddressCountryRegion<
            name={name.countryCode}
            showValid
            InputProps={{ readOnly }}
@@ -567,7 +567,6 @@ index 7bebe6d..a7845fc 100644
 +    <>
 +      <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -617,9 +616,9 @@ index 7bebe6d..a7845fc 100644
 +                  }
 +                }
 +              }
-+            }, 
++            },
 +            // autoWidth: true
-+            fullWidth:true
++            fullWidth: true
 +          }}
            variant='outlined'
 -          label={<Trans id='Region' />}
@@ -641,7 +640,6 @@ index 7bebe6d..a7845fc 100644
 +
 +      <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -709,10 +707,10 @@ index 7bebe6d..a7845fc 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-index 400ed2c..7635188 100644
+index 400ed2c..7abe436 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-@@ -25,12 +25,24 @@ export function AddressFields<
+@@ -25,12 +25,23 @@ export function AddressFields<
        <FormRow>
          <AddressStreet {...props} />
          <AddressHousenumber {...props} />
@@ -722,7 +720,6 @@ index 400ed2c..7635188 100644
 -      <FormRow>
 +      {/* <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -1414,7 +1411,7 @@ index 24faf9f..3dcb63b 100644
            InputProps={{ readOnly }}
            showValid
          />
-+        
++
          <TextFieldElement
            control={control}
            name='lastname'

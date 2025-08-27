@@ -17,7 +17,7 @@ function DeliveryTime({ slotList }) {
   })
   const date = form.watch('region')
   const { required, error, handleSubmit } = form
-  const submit = handleSubmit(() => {})
+  const submit = handleSubmit(() => { })
 
   const uniqueDates = [...new Set(slotList?.slots?.map((slot) => slot.date))] as string[]
   return (
@@ -34,7 +34,6 @@ function DeliveryTime({ slotList }) {
             lineHeight: '158%',
           },
           '& .MuiInputLabel-root.MuiInputLabel-animated': {
-            backgroundColor: 'white',
             padding: '0 6px',
           },
           '& .MuiOutlinedInput-root .MuiSelect-icon': {

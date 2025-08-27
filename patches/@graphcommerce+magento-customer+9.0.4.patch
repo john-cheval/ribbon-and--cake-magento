@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..159049c 100644
+index 7bebe6d..9f03e20 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -515,9 +515,9 @@ index 7bebe6d..159049c 100644
      [countries],
    )
  
-+  useEffect(()=>{
-+    form.setValue("countryCode",countryList?.[0]?.two_letter_abbreviation  as any)
-+  },[])
++  useEffect(() => {
++    form.setValue("countryCode" as any, countryList?.[0]?.two_letter_abbreviation as any)
++  }, [])
 +
    const regionList = useMemo(
      () =>
@@ -630,8 +630,8 @@ index 7bebe6d..159049c 100644
 +            },
 +            // autoWidth: true
 +            fullWidth: true,
-+            value:countryList?.[0]?.two_letter_abbreviation,
-+            defaultValue:countryList?.[0]?.two_letter_abbreviation,
++            value: countryList?.[0]?.two_letter_abbreviation,
++            defaultValue: countryList?.[0]?.two_letter_abbreviation,
 +          }}
            variant='outlined'
 -          label={<Trans id='Region' />}

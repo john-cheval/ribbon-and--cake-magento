@@ -1,3 +1,20 @@
+diff --git a/node_modules/@graphcommerce/magento-product-configurable/ConfigurableCartItem/ConfigurableCartItem.tsx b/node_modules/@graphcommerce/magento-product-configurable/ConfigurableCartItem/ConfigurableCartItem.tsx
+index 0c7dbf4..d3e43c4 100644
+--- a/node_modules/@graphcommerce/magento-product-configurable/ConfigurableCartItem/ConfigurableCartItem.tsx
++++ b/node_modules/@graphcommerce/magento-product-configurable/ConfigurableCartItem/ConfigurableCartItem.tsx
+@@ -14,8 +14,10 @@ export function ConfigurableCartItem(props: ConfigurableCartItemFragment & CartI
+       {...props}
+       product={{
+         ...product,
+-        name: configured_variant?.name ?? product.name,
+-        thumbnail: configured_variant?.thumbnail ?? product.thumbnail,
++        // name: configured_variant?.name ?? product.name,
++        // thumbnail: configured_variant?.thumbnail ?? product.thumbnail,
++        name: product.name,
++        thumbnail: product.thumbnail,
+       }}
+       withOptions
+     >
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx b/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx
 index 3032ee5..6fbdca8 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/SwatchList.tsx
@@ -115,3 +132,24 @@ index d17ad07..05bd97c 100644
    return (
      <Box sx={(theme) => ({ display: 'grid', rowGap: theme.spacings.sm })}>
        {options.map((option, optionIndex) => (
+diff --git a/node_modules/@graphcommerce/magento-product-configurable/plugins/ConfigurableCartItemActionCard.tsx b/node_modules/@graphcommerce/magento-product-configurable/plugins/ConfigurableCartItemActionCard.tsx
+index 8e6acbf..c0d36fe 100644
+--- a/node_modules/@graphcommerce/magento-product-configurable/plugins/ConfigurableCartItemActionCard.tsx
++++ b/node_modules/@graphcommerce/magento-product-configurable/plugins/ConfigurableCartItemActionCard.tsx
+@@ -20,10 +20,12 @@ export function CartItemActionCard(props: PluginProps<CartItemActionCardProps>)
+         ...rest.cartItem,
+         product: {
+           ...rest.cartItem.product,
+-          name: import.meta.graphCommerce.configurableVariantValues?.content
+-            ? rest.cartItem.configured_variant.name
+-            : rest.cartItem.product.name,
+-          thumbnail: rest.cartItem.configured_variant.thumbnail,
++          // name: import.meta.graphCommerce.configurableVariantValues?.content
++          //   ? rest.cartItem.configured_variant.name
++          //   : rest.cartItem.product.name,
++          name: rest.cartItem.product.name,
++          // thumbnail: rest.cartItem.configured_variant.thumbnail,
++          thumbnail: rest.cartItem.product.thumbnail,
+           // url_key: import.meta.graphCommerce.configurableVariantValues?.url
+           //   ? rest.cartItem.configured_variant.url_key
+           //   : rest.cartItem.product.url_key,

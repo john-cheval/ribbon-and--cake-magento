@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..5321563 100644
+index 7bebe6d..159049c 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -511,7 +511,18 @@ index 7bebe6d..5321563 100644
  
  /** @public */
  export function useAddressCountryRegion<
-@@ -46,8 +49,13 @@ export function AddressCountryRegion<
+@@ -29,6 +32,10 @@ export function useAddressCountryRegion<
+     [countries],
+   )
+ 
++  useEffect(()=>{
++    form.setValue("countryCode",countryList?.[0]?.two_letter_abbreviation  as any)
++  },[])
++
+   const regionList = useMemo(
+     () =>
+       filterNonNullableKeys(
+@@ -46,8 +53,13 @@ export function AddressCountryRegion<
    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
  >(props: AddressFieldsOptions<TFieldValues, TName>) {
    const form = useAddressCountryRegion<TFieldValues, TName>(props)
@@ -527,7 +538,7 @@ index 7bebe6d..5321563 100644
    if (loading) {
      return (
        <FormRow>
-@@ -58,40 +66,156 @@ export function AddressCountryRegion<
+@@ -58,40 +70,158 @@ export function AddressCountryRegion<
            name={name.countryCode}
            showValid
            InputProps={{ readOnly }}
@@ -618,7 +629,9 @@ index 7bebe6d..5321563 100644
 +              }
 +            },
 +            // autoWidth: true
-+            fullWidth: true
++            fullWidth: true,
++            value:countryList?.[0]?.two_letter_abbreviation,
++            defaultValue:countryList?.[0]?.two_letter_abbreviation,
 +          }}
            variant='outlined'
 -          label={<Trans id='Region' />}
@@ -1395,7 +1408,7 @@ index 3cba4b8..9daef9f 100644
 + 
 \ No newline at end of file
 diff --git a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
-index 24faf9f..3dcb63b 100644
+index 24faf9f..4c206d0 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
 @@ -43,7 +43,7 @@ export function NameFields(props: NameFieldProps) {

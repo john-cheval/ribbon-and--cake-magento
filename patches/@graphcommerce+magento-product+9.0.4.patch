@@ -842,7 +842,7 @@ index 5643683..dcfdacc 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..d4e26d4 100644
+index 80912c1..6d139f3 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,162 @@ import {
@@ -932,7 +932,7 @@ index 80912c1..d4e26d4 100644
 +          ...(Array.isArray(sx) ? sx : [sx]),
 +        ]}
 +        defaultExpanded={expandeds}
-+        expanded={expandeds}
++        perentExpanded={expandeds}
 +        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",

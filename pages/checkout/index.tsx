@@ -438,7 +438,6 @@ function ShippingPage(props: ShippingPageProps) {
                                       display: 'none',
                                     },
                                     '&.MuiInputLabel-animated': {
-                                      backgroundColor: '#fff',
                                       padding: '0 6px',
                                     },
                                   },

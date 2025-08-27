@@ -80,7 +80,6 @@ export default function DeliveryDate({ slotList }) {
             lineHeight: '158%',
           },
           '& .MuiInputLabel-root.MuiInputLabel-animated': {
-            backgroundColor: 'white',
             padding: '0 6px',
           },
           '& .MuiOutlinedInput-root .MuiSelect-icon': {

@@ -1,12 +1,13 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..8301111 100644
+index 6ae6263..e5c5fa6 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-@@ -4,8 +4,16 @@ import { Button } from '@graphcommerce/next-ui'
+@@ -4,8 +4,18 @@ import { Button } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
 +import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab'
++import { CircularProgress } from '@mui/material'
  
 -export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
 +
@@ -15,18 +16,20 @@ index 6ae6263..8301111 100644
 +  icConfigured?:boolean
 +  urlKey?:string
 +  isBuyNow?:boolean
++  isAdson?:boolean
 +}
 +export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,14 +29,31 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +31,48 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
 -  const { children, product, disabled, ...rest } = props
-+  const { children, product, disabled,isIcon,icConfigured,urlKey, ...rest } = props
-   const { showSuccess, ...action } = useAddProductsToCartAction(props)
+-  const { showSuccess, ...action } = useAddProductsToCartAction(props)
++  const { children, product, disabled,isIcon,icConfigured,urlKey,isAdson, ...rest } = props
++  const { showSuccess, loading, ...action } = useAddProductsToCartAction(props)
    const cartEnabled = useCartEnabled()
  
    if (!cartEnabled) return null
@@ -54,9 +57,19 @@ index 6ae6263..8301111 100644
        type='submit'
        color='primary'
        variant='pill'
-@@ -39,5 +64,8 @@ export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
+       size='large'
+       {...rest}
+       {...action}
+-      disabled={disabled}
++      disabled={disabled || loading}
      >
-       {children || <Trans>Add to Cart</Trans>}
+-      {children || <Trans>Add to Cart</Trans>}
++       {loading ? ( 
++            <CircularProgress color='inherit' size={24} />
++          ) : (
++            children || <Trans>{isAdson? 'Add':'Add to Cart'}</Trans>
++          )}
++     
      </Button>
 +    )}
 +  

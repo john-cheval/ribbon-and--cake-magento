@@ -185,8 +185,10 @@ function ProductPage(props: Props) {
             '& .Scroller-root .MotionImageAspect picture': {
               aspectRatio: 'unset !important',
               overflow: 'hidden',
-
               borderRadius: '8px',
+              '& img': {
+                transform: 'none !important',
+              },
             },
             '& .SidebarGallery-bottomCenter': {
               bottom: { xs: '20px', md: '30px', lg: isLargeScreen ? '100px' : '50px', xl: '40px' },
@@ -240,7 +242,7 @@ function ProductPage(props: Props) {
             },
           },
           '& .SidebarGallery-row.breakoutLeft': {
-            paddingLeft: { xs: '18px', md: '25px', xl: '55px' },
+            paddingLeft: { xs: '18px', md: '25px', lg: '55px' },
 
             '& .SidebarGallery-root': {
               display: { xs: 'block', lg: 'grid' },

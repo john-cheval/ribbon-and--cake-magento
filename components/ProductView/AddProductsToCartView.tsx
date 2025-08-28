@@ -69,9 +69,6 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
       : undefined,
   }
 
-  // console.log(currentQuantity, 'this is the currentQuantity')
-  // console.log(displayPrice, 'this is display price')
-
   return (
     <>
       {isTypename(product, ['ConfigurableProduct']) && (

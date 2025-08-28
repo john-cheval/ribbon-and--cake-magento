@@ -61,9 +61,15 @@ function AdsOnProduct(props: AdsOnProductType) {
             const filteredItems = adsOnData?.filter((item) =>
               item.categories?.some((cat) => cat.name === cate),
             )
-
+            const isLast = index !== categoriesToShow.length - 1
             return (
-              <Box key={index + 1}>
+              <Box
+                key={index + 1}
+                sx={{
+                  borderBottom: isLast ? '1px solid #c7cacd6b' : 0,
+                  paddingBottom: '18px',
+                }}
+              >
                 <Typography
                   sx={{
                     color: (theme: any) => theme.palette.custom.main,
@@ -77,10 +83,18 @@ function AdsOnProduct(props: AdsOnProductType) {
 
                 <Box
                   sx={{
-                    display: 'flex',
+                    //display: 'flex',
+                    display: 'grid ',
                     gap: '8px',
-                    flexWrap: 'wrap',
-                    flexDirection: { xs: 'column', sm: isMobile ? 'column' : 'row' },
+
+                    gridTemplateColumns: {
+                      xs: 'repeat(1,1fr)',
+                      sm: 'repeat(2,1fr)',
+                      xl: 'repeat(3,1fr)',
+                      // xl: 'repeat(4,1fr)',
+                    },
+                    //flexWrap: 'wrap',
+                    // flexDirection: { xs: 'column', sm: isMobile ? 'column' : 'row' },
                   }}
                 >
                   {filteredItems?.map((item, i) => {
@@ -133,13 +147,17 @@ function AdsOnProduct(props: AdsOnProductType) {
                           sx={{
                             display: 'flex',
                             width: '100%',
-                            flexDirection: { xs: 'row', md: 'column' },
-                            justifyContent: { xs: 'space-between', md: 'flex-start' },
-                            alignItems: { xs: 'center', md: 'center' },
+                            flexDirection: { xs: 'row', sm: 'column' },
+                            justifyContent: { xs: 'space-between', sm: 'flex-start' },
+                            alignItems: { xs: 'center', sm: 'center' },
                           }}
                         >
                           {/* Product name + price */}
-                          <Box>
+                          <Box
+                            sx={{
+                              marginRight: 'auto',
+                            }}
+                          >
                             <Typography
                               sx={{
                                 color: (theme: any) => theme.palette.custom.smallHeading,
@@ -176,7 +194,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                           <Box
                             sx={{
                               marginTop: { xs: '0', md: '4px' },
-                              marginRight: { xs: '0', sm: isMobile ? '0' : 'auto' },
+                              marginRight: { xs: '0', sm: 'auto' },
                             }}
                           >
                             {matchedCartItem ? (
@@ -212,6 +230,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                             ) : item.__typename === 'SimpleProduct' ? (
                               <AddProductsToCartForm key={item.uid}>
                                 <AddProductsToCartButton
+                                  isAdson={true}
                                   sx={{
                                     backgroundColor: (theme: any) => theme.palette.custom.heading,
                                     color: '#FFFFFF',
@@ -228,9 +247,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                     },
                                   }}
                                   product={item}
-                                >
-                                  Add
-                                </AddProductsToCartButton>
+                                />
                               </AddProductsToCartForm>
                             ) : (
                               <Link href={`/p/${item.url_key}`}>

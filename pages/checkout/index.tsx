@@ -212,7 +212,7 @@ function ShippingPage(props: ShippingPageProps) {
 
             {/* Add On */}
             {addonProductsData && addonProductsData?.length > 0 && (
-              <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '20px' } }}>
+              <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '35px' } }}>
                 <AdsOnProduct adsOnData={addonProductsData} />
               </Box>
             )}

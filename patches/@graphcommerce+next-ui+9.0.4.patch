@@ -291,7 +291,7 @@ index b47aab6..d0a1343 100644
 + gap:'11px'
  }))
 diff --git a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
-index ca14954..9fbadab 100644
+index ca14954..9d1cd4d 100644
 --- a/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 +++ b/node_modules/@graphcommerce/next-ui/FramerScroller/SidebarGallery.tsx
 @@ -3,8 +3,8 @@ import type { MotionImageAspectProps, ScrollerButtonProps } from '@graphcommerce
@@ -389,11 +389,13 @@ index ca14954..9fbadab 100644
              <MotionBox
                layout
                layoutDependency={zoomed}
-@@ -189,21 +208,21 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -188,22 +207,22 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+               sx={[
                  {
                    gridArea: 'left',
-                   willChange: 'transform',
+-                  willChange: 'transform',
 -                  height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
++                  // willChange: 'transform',
 +                  // height: 0, // https://stackoverflow.com/questions/44770074/css-grid-row-height-safari-bug
                    backgroundColor: theme.palette.background.image,
                    position: 'relative',
@@ -420,7 +422,15 @@ index ca14954..9fbadab 100644
                    },
                  },
                  zoomed && {
-@@ -244,12 +263,12 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -233,6 +252,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+                     gridAutoColumns: '100%',
+                     gridTemplateRows: '100%',
+                     cursor: disableZoom ? 'auto' : 'zoom-in',
++                    fontSize:'2px',
+                   },
+                   zoomed && {
+                     height: 'var(--client-size-y)',
+@@ -244,12 +264,12 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    <MotionImageAspect
                      key={typeof image.src === 'string' ? image.src : idx}
                      layout
@@ -435,7 +445,7 @@ index ca14954..9fbadab 100644
                      sizes={{
                        0: '100vw',
                        [theme.breakpoints.values.md]: zoomed ? '100vw' : '60vw',
-@@ -258,8 +277,44 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -258,8 +278,44 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                      dontReportWronglySizedImages
                    />
                  ))}
@@ -480,7 +490,7 @@ index ca14954..9fbadab 100644
                <MotionBox
                  layout='position'
                  layoutDependency={zoomed}
-@@ -289,8 +344,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -289,8 +345,9 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                      )}
                    </Fab>
                  )}
@@ -492,7 +502,7 @@ index ca14954..9fbadab 100644
                  className={classes.centerLeft}
                  sx={{
                    display: 'grid',
-@@ -332,7 +388,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -332,7 +389,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                  >
                    <IconSvg src={iconChevronRight} />
                  </ScrollerButton>
@@ -501,7 +511,7 @@ index ca14954..9fbadab 100644
  
                <Box
                  className={classes.bottomCenter}
-@@ -349,14 +405,22 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -349,14 +406,22 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                    },
                  }}
                >
@@ -526,7 +536,7 @@ index ca14954..9fbadab 100644
            </TrapFocus>
            <Box
              className={classes.sidebarWrapper}
-@@ -371,12 +435,10 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -371,12 +436,10 @@ export function SidebarGallery(props: SidebarGalleryProps) {
                },
                zoomed && {
                  [theme.breakpoints.up('md')]: {
@@ -543,7 +553,7 @@ index ca14954..9fbadab 100644
                  },
                },
              ]}
-@@ -401,6 +463,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
+@@ -401,6 +464,7 @@ export function SidebarGallery(props: SidebarGalleryProps) {
            </Box>
          </MotionBox>
        </Row>

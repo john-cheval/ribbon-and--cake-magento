@@ -25,7 +25,6 @@ function CartPriceAndQuantity({ product }) {
   }
 
   const totalPrice = (unitPrice || 0) * currentQuantity
-  console.log(currentQuantity, 'this is the current Quantity')
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box
@@ -48,7 +47,7 @@ function CartPriceAndQuantity({ product }) {
       >
         <Money value={totalPrice} currency={product?.prices?.price.currency} />
       </Box>
-      <Box>
+      <Box sx={{ marginLeft: { xs: '0', md: 'auto' } }}>
         <UpdateItemQuantity
           sx={{
             flexShrink: '0',
@@ -81,6 +80,7 @@ function CartPriceAndQuantity({ product }) {
           }}
           uid={product?.uid}
           quantity={product?.quantity}
+          key={product?.quantity}
         />
       </Box>
     </Box>

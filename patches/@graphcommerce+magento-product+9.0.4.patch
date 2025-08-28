@@ -1,40 +1,50 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..9af7b3f 100644
+index 6ae6263..02dd496 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-@@ -4,8 +4,18 @@ import { Button } from '@graphcommerce/next-ui'
+@@ -1,11 +1,21 @@
+ import { useCartEnabled } from '@graphcommerce/magento-cart'
++import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab'
+ import type { ButtonProps } from '@graphcommerce/next-ui'
+ import { Button } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
++import { CircularProgress, Typography } from '@mui/material'
  import type { UseAddProductsToCartActionProps } from './useAddProductsToCartAction'
  import { useAddProductsToCartAction } from './useAddProductsToCartAction'
-+import { AddProductsToCartFab } from '@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab'
-+import { CircularProgress } from '@mui/material'
  
--export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
-+
 +export type customAddToCrtProps = {
 +  isIcon?: boolean
 +  icConfigured?: boolean
 +  urlKey?: string
 +  isBuyNow?: boolean
-+  isAdson?:boolean
++  isAdson?: boolean
 +}
-+export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
+ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
++  customAddToCrtProps &
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,23 +31,46 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +31,57 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
 -  const { children, product, disabled, ...rest } = props
 -  const { showSuccess, ...action } = useAddProductsToCartAction(props)
-+  const { children, product, disabled, isIcon, icConfigured, urlKey,isAdson= false, ...rest } = props
-+  const { showSuccess,loading, ...action } = useAddProductsToCartAction(props)
++  const {
++    children,
++    product,
++    disabled,
++    isIcon,
++    icConfigured,
++    urlKey,
++    isAdson = false,
++    ...rest
++  } = props
++  const { showSuccess, loading, ...action } = useAddProductsToCartAction(props)
    const cartEnabled = useCartEnabled()
  
    if (!cartEnabled) return null
  
-+
    return (
 -    <Button
 -      type='submit'
@@ -49,18 +59,22 @@ index 6ae6263..9af7b3f 100644
 -    </Button>
 +    <>
 +      {isIcon ? (
-+        <AddProductsToCartFab sku={product?.sku} isLink={icConfigured} url={urlKey} sx={{
-+          height: '50px',
-+          width: '50px',
-+          '& svg': {
-+            fontSize: '25px',
-+            stroke: 'unset !important',
-+            left: { xs: '5px', md: '6px' },
-+            top: { xs: '1px', md: '3px' },
-+            position: 'relative'
-+          },
-+
-+        }} />
++        <AddProductsToCartFab
++          sku={product?.sku}
++          isLink={icConfigured}
++          url={urlKey}
++          sx={{
++            height: '50px',
++            width: '50px',
++            '& svg': {
++              fontSize: '25px',
++              stroke: 'unset !important',
++              left: { xs: '5px', md: '6px' },
++              top: { xs: '1px', md: '3px' },
++              position: 'relative',
++            },
++          }}
++        />
 +      ) : (
 +        <Button
 +          type='submit'
@@ -69,16 +83,15 @@ index 6ae6263..9af7b3f 100644
 +          size='large'
 +          {...rest}
 +          {...action}
-+          disabled={disabled ||loading}
++          disabled={disabled || loading}
 +        >
-+         {loading ? (
-+            <CircularProgress color='inherit' size={24}/>
-+          ): (
-+            children || <Trans>{isAdson? 'Add':'Add to Cart'}</Trans>
++          {loading ? (
++            <CircularProgress color='inherit' size={24} />
++          ) : (
++            children || <Typography component='span'>{isAdson ? 'Add' : 'Add to Cart'}</Typography>
 +          )}
 +        </Button>
 +      )}
-+
 +    </>
    )
  }

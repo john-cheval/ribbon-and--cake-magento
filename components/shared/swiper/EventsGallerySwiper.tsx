@@ -58,33 +58,35 @@ function EventsGallerySwiper({ imageGallery }: GalleryProps) {
         ))}
       </Swiper>
 
-      <Box
-        sx={{
-          display: 'flex',
-          columnGap: '15px',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: { xs: '5px', md: '10px', lg: '30px' },
-          transition: 'all 0.3s ease-in-out',
-          width: '100%',
-        }}
-      >
-        {imageGallery?.map((_, i) => (
-          <Box
-            key={i}
-            sx={{
-              height: '10px',
-              width: '10px',
-              borderRadius: '50%',
-              transition: 'all 0.3s ease-in-out',
-              backgroundColor: activeIndex === i ? '#F1A8B6' : '#E9E9E9',
-            }}
-            className={`h-[7px] rounded-full transition-all duration-500 ease-in-out ${
-              activeIndex === i ? 'w-[50px] bg-[#d81100]' : 'w-[20px] bg-[#D9D9D9]'
-            }`}
-          ></Box>
-        ))}
-      </Box>
+      {imageGallery.length > 1 && (
+        <Box
+          sx={{
+            display: 'flex',
+            columnGap: '15px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: { xs: '5px', md: '10px', lg: '30px' },
+            transition: 'all 0.3s ease-in-out',
+            width: '100%',
+          }}
+        >
+          {imageGallery?.map((_, i) => (
+            <Box
+              key={i}
+              sx={{
+                height: '10px',
+                width: '10px',
+                borderRadius: '50%',
+                transition: 'all 0.3s ease-in-out',
+                backgroundColor: activeIndex === i ? '#F1A8B6' : '#E9E9E9',
+              }}
+              className={`h-[7px] rounded-full transition-all duration-500 ease-in-out ${
+                activeIndex === i ? 'w-[50px] bg-[#d81100]' : 'w-[20px] bg-[#D9D9D9]'
+              }`}
+            ></Box>
+          ))}
+        </Box>
+      )}
     </Box>
   )
 }

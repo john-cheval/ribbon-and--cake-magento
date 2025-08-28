@@ -15,6 +15,8 @@ function EventsDetails({ list }) {
     ? list.filter((event) => event?.name === selectedCategory)
     : list
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const contentRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     const index = list.findIndex((item) => item?.name === selectedCategory)
     if (index !== -1 && itemRefs.current[index]) {
@@ -26,6 +28,14 @@ function EventsDetails({ list }) {
     }
   }, [selectedCategory, list])
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, [selectedCategory])
   return (
     <Box
       component='section'
@@ -109,7 +119,9 @@ function EventsDetails({ list }) {
       </Box>
 
       <Box
+        ref={contentRef}
         sx={{
+          scrollMarginTop: '100px',
           gridColumn: { xs: 'span 12', lg: 'span 8' },
         }}
       >

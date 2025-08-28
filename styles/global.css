@@ -389,17 +389,21 @@
   border-radius: 4px;
   cursor: pointer;
   z-index: 1;
-  color: #302100;
+  color: #fff;
   transition: color 0.5s ease;
   text-decoration: none;
   border: 1px solid #9b7c38;
-  background: linear-gradient(90deg, #f6dbe0 0%, #f1a8b6 100%);
+  /*background: linear-gradient(90deg, #f6dbe0 0%, #f1a8b6 100%);*/
   width: fit-content;
+  background-color: #9b7c38;
 }
 .order-button:hover {
+  background-color: transparent;
+}
+/*.order-button:hover {
   color: #302100;
   background: linear-gradient(180deg, #f6dbe0 0%, #f1a8b6 100%);
-}
+}*/
 .left-image-section {
   position: static;
   align-self: start;
@@ -1590,10 +1594,11 @@ ol {
   width: 20px;
 }
 .orderProduct span span:first-child {
-  background: url(../components/Assets/aed.svg) 20px center no-repeat;
+  background: url(../components/Assets/aed.svg) 2px center no-repeat;
   background-size: 18px auto;
   color: transparent;
   width: 20px;
+  display: inline-block;
 }
 .OrderItem-itemPrice span span:first-child,
 .OrderItem-rowPrice span span:first-child,

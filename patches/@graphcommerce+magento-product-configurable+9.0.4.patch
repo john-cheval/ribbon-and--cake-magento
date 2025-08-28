@@ -28,20 +28,56 @@ index 3032ee5..6fbdca8 100644
      <>
        {options.map((option) => (
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
-index 0482241..4601075 100644
+index 0482241..e01bca1 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
 +++ b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOption.tsx
-@@ -43,6 +43,9 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+@@ -14,6 +14,7 @@ import type {
+   ConfigurableOptionValue,
+   ConfigurableOptionValueFragment,
+ } from '../ConfigurableOptionValue'
++import { useEffect } from 'react'
+ 
+ export type ConfigurableProductOptionProps = NonNullable<
+   NonNullable<ConfigurableOptionsFragment['configurable_options']>[number]
+@@ -43,7 +44,10 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
    } = props
    const fieldName = `cartItems.${index}.selected_options.${optionIndex}` as const
  
+-  const { control } = useFormAddProductsToCart()
 +  const splittedLabel = label?.split(' ')?.[1]
 +  
 +
-   const { control } = useFormAddProductsToCart()
++  const { control,setValue } = useFormAddProductsToCart()
  
    const selectedOption = useWatch({ control, name: fieldName })
-@@ -72,11 +75,25 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+ 
+@@ -57,6 +61,8 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+ 
+   const { configured } = useConfigurableOptionsForSelection({ url_key, selectedOptions })
+ 
++ 
++
+   const available =
+     configured?.configurable_product_options_selection?.options_available_for_selection?.find(
+       (o) => o?.attribute_code === attribute_code,
+@@ -68,15 +74,42 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+     disabled: !(!available || available.includes(ov.uid)),
+   }))
+ 
++    useEffect(() => {
++    // Check if a value for this field is already selected
++    if (!selectedOption) {
++      // Find the first item that is not disabled
++      const firstAvailableItem = items.find((item) => !item.disabled);
++      
++      // If a valid item exists, set it as the default value in the form
++      if (firstAvailableItem) {
++        setValue(fieldName, firstAvailableItem.value);
++      }
++    }
++  }, [items, selectedOption, fieldName, setValue]);
++
+   if (!values) return null
  
    return (
      <Box key={fieldName} sx={[...(Array.isArray(sx) ? sx : [sx])]}>
@@ -70,7 +106,7 @@ index 0482241..4601075 100644
  
        <ActionCardListForm<
          ActionCardItemBase & ConfigurableOptionValueFragment,
-@@ -92,6 +109,40 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
+@@ -92,7 +125,43 @@ export function ConfigurableProductOption(props: ConfigurableProductOptionProps)
          rules={{
            required: i18n._(/* i18n*/ 'Please select a value for ‘{label}’', { label }),
          }}
@@ -96,9 +132,9 @@ index 0482241..4601075 100644
 +          outline:'none', boxShadow:'none',
 +          backgroundColor:'#F6DBE0',  
 +          // fontWeight:500,
-+          '& .ActionCard-title.selected':{
-+            fontWeight:500
-+          }
++          // '& .ActionCard-title.selected':{
++          //   fontWeight:500
++          // }
 +         },
 +          '& .ActionCard-root.variantOutlined.selected:focus':{
 +          border:'1px solid #441E14',
@@ -111,6 +147,9 @@ index 0482241..4601075 100644
        />
      </Box>
    )
+ }
++
++
 diff --git a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx b/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx
 index d17ad07..05bd97c 100644
 --- a/node_modules/@graphcommerce/magento-product-configurable/components/ConfigurableProductOptions/ConfigurableProductOptions.tsx

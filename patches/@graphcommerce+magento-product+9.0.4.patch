@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..4aefd79 100644
+index 6ae6263..9af7b3f 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 @@ -4,8 +4,18 @@ import { Button } from '@graphcommerce/next-ui'
@@ -12,24 +12,24 @@ index 6ae6263..4aefd79 100644
 -export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
 +
 +export type customAddToCrtProps = {
-+  isIcon?:boolean
-+  icConfigured?:boolean
-+  urlKey?:string
-+  isBuyNow?:boolean
++  isIcon?: boolean
++  icConfigured?: boolean
++  urlKey?: string
++  isBuyNow?: boolean
 +  isAdson?:boolean
 +}
 +export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps & customAddToCrtProps &
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,23 +29,42 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +31,46 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
 -  const { children, product, disabled, ...rest } = props
 -  const { showSuccess, ...action } = useAddProductsToCartAction(props)
-+  const { children, product, disabled,isIcon,icConfigured,urlKey,isAdson, ...rest } = props
-+  const { showSuccess, loading, ...action } = useAddProductsToCartAction(props)
++  const { children, product, disabled, isIcon, icConfigured, urlKey,isAdson= false, ...rest } = props
++  const { showSuccess,loading, ...action } = useAddProductsToCartAction(props)
    const cartEnabled = useCartEnabled()
  
    if (!cartEnabled) return null
@@ -37,42 +37,49 @@ index 6ae6263..4aefd79 100644
 +
    return (
 -    <Button
-+<>
-+    {isIcon ? (
-+<AddProductsToCartFab sku={product?.sku} isLink={icConfigured} url={urlKey} sx={{
-+       height:'50px',
-+       width:'50px',
-+        '& svg': {
-+        fontSize: '25px',
-+        stroke: 'unset !important',
-+        left:{xs:'5px', md:'6px'},
-+         top: {xs:'1px',md:'3px'},
-+         position:'relative'
-+            },
-+            
-+      }}  />
-+    ):(
-+ <Button
-       type='submit'
-       color='primary'
-       variant='pill'
-       size='large'
-       {...rest}
-       {...action}
+-      type='submit'
+-      color='primary'
+-      variant='pill'
+-      size='large'
+-      {...rest}
+-      {...action}
 -      disabled={disabled}
-+      disabled={disabled || loading}
-     >
+-    >
 -      {children || <Trans>Add to Cart</Trans>}
-+       {loading ? ( 
-+            <CircularProgress color='inherit' size={24} />
-+          ) : (
+-    </Button>
++    <>
++      {isIcon ? (
++        <AddProductsToCartFab sku={product?.sku} isLink={icConfigured} url={urlKey} sx={{
++          height: '50px',
++          width: '50px',
++          '& svg': {
++            fontSize: '25px',
++            stroke: 'unset !important',
++            left: { xs: '5px', md: '6px' },
++            top: { xs: '1px', md: '3px' },
++            position: 'relative'
++          },
++
++        }} />
++      ) : (
++        <Button
++          type='submit'
++          color='primary'
++          variant='pill'
++          size='large'
++          {...rest}
++          {...action}
++          disabled={disabled ||loading}
++        >
++         {loading ? (
++            <CircularProgress color='inherit' size={24}/>
++          ): (
 +            children || <Trans>{isAdson? 'Add':'Add to Cart'}</Trans>
 +          )}
-+     
-     </Button>
-+    )}
-+  
-+</>
++        </Button>
++      )}
++
++    </>
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx

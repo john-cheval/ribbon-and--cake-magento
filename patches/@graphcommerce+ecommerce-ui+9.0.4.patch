@@ -162,6 +162,21 @@ index 17f5055..2803608 100644
        autoComplete='email'
        rules={{
          pattern: {
+diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/SelectElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/SelectElement.tsx
+index bc137f5..b9f6d66 100644
+--- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/SelectElement.tsx
++++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/SelectElement.tsx
+@@ -84,8 +84,8 @@ export function SelectElement<TFieldValues extends FieldValues, O extends Option
+     >
+       {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+       {isNativeSelect && <option />}
+-      {options.map((item) => (
+-        <ChildComponent key={item.id} value={item.id}>
++      {options.map((item: any) => (
++        <ChildComponent disabled={item?.disabled} key={item.id} value={item.id}>
+           {item.label}
+         </ChildComponent>
+       ))}
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
 index dc4fb00..ef8da17 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
@@ -175,3 +190,16 @@ index dc4fb00..ef8da17 100644
        autoComplete='tel'
        rules={{
          pattern: { value: phonePattern, message: t`Invalid phone number` },
+diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
+index 934da1e..1bb0786 100644
+--- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
++++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
+@@ -70,7 +70,7 @@ export function TextFieldElement<TFieldValues extends FieldValues>({
+       type={type}
+       error={Boolean(error) || rest.error}
+       helperText={error ? error.message : rest.helperText}
+-      InputLabelProps={{ ...rest.InputLabelProps, shrink }}
++      InputLabelProps={{ ...rest.InputLabelProps, shrink, sx: { margin: "2px" } }}
+       InputProps={{
+         ...rest.InputProps,
+         endAdornment:

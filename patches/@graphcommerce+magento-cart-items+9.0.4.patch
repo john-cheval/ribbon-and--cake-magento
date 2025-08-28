@@ -19,7 +19,7 @@ index 8ef7bb9..f46a92f 100644
          title={title ?? <Trans>Complete your purchase</Trans>}
          titleProps={{ variant: 'h6', ...titleProps }}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
-index de7b68f..6576296 100644
+index de7b68f..6888cb7 100644
 --- a/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-items/components/CartItemActionCard/CartItemActionCard.tsx
 @@ -1,6 +1,6 @@
@@ -42,9 +42,9 @@ index de7b68f..6576296 100644
 -export type CartItemActionCardProps = { cartItem: CartItemFragment; readOnly?: boolean } & Omit<
 +
 +export type iconPropsType = {
-+deleteIcon?:string | StaticImport | undefined 
++  deleteIcon?: string | StaticImport | undefined
 +}
-+export type CartItemActionCardProps = { cartItem: CartItemFragment;  readOnly?: boolean } & iconPropsType & Omit<
++export type CartItemActionCardProps = { cartItem: CartItemFragment; readOnly?: boolean } & iconPropsType & Omit<
    ActionCardProps,
    'value' | 'image' | 'price' | 'title' | 'action'
  >
@@ -53,14 +53,14 @@ index de7b68f..6576296 100644
  
  export function CartItemActionCard(props: CartItemActionCardProps) {
 -  const { cartItem, sx = [], size = 'responsive', readOnly = false, ...rest } = props
-+  const { cartItem, sx = [], size = 'responsive', readOnly = false, deleteIcon,...rest } = props
++  const { cartItem, sx = [], size = 'responsive', readOnly = false, deleteIcon, ...rest } = props
    const { uid, quantity, prices, errors, product } = cartItem
    const { name, thumbnail, url_key } = product
 +  const [currentQuantity, setCurrentQuantity] = useState(quantity)
-+
++  console.log(thumbnail, "==>thumbnail")
 +  useEffect(() => {
-+      setCurrentQuantity(quantity)
-+    }, [quantity])
++    setCurrentQuantity(quantity)
++  }, [quantity])
 +
 +  let unitPrice: number | null | undefined
  
@@ -88,13 +88,13 @@ index de7b68f..6576296 100644
      cartItem.customizable_options.length === 0
    )
  
-+ 
++
    return (
      <ActionCard
        value={uid}
        sx={[
 -        (theme) => ({
-+        (theme:any) => ({
++        (theme: any) => ({
            '&.ActionCard-root': {
              px: 0,
              py: theme.spacings.xs,
@@ -102,7 +102,7 @@ index de7b68f..6576296 100644
            },
            '& .ActionCard-action': {
              pr: readOnly ? 0 : theme.spacings.xs,
-+            height:"100%"
++            height: "100%"
            },
            '& .ActionCard-image': {
              alignSelf: 'flex-start',
@@ -111,21 +111,21 @@ index de7b68f..6576296 100644
              mb: { xs: 0.5, sm: 0 },
            },
 +          '& .ActionCard-details': {
-+              display:"flex",
-+              gap:0.5,
-+            ['& .MuiBox-root']:{
++            display: "flex",
++            gap: 0.5,
++            ['& .MuiBox-root']: {
 +              //display:"flex",
-+              gap:0.5,
-+              ['&::after']:{
-+                content:'","',
-+                display:"contents",
++              gap: 0.5,
++              ['&::after']: {
++                content: '","',
++                display: "contents",
 +              },
-+              ['&:last-child']:{
-+                ['&::after']:{
-+                  content:"unset"
++              ['&:last-child']: {
++                ['&::after']: {
++                  content: "unset"
 +                },
-+                ['&::before']:{
-+                  content:"unset"
++                ['&::before']: {
++                  content: "unset"
 +                }
 +              }
 +            }
@@ -141,7 +141,7 @@ index de7b68f..6576296 100644
 -              objectFit: 'contain',
 +              borderRadius: '8px',
 +              objectFit: 'cover',
-+              marginRight:'10px'
++              marginRight: '10px'
              }}
              sizes={actionCardImageSizes[size]}
            />
@@ -149,58 +149,58 @@ index de7b68f..6576296 100644
                mt: 1,
                gap: '10px',
                justifyContent: 'start',
-+              flexDirection:{xs:'column', md:'unset'}
++              flexDirection: { xs: 'column', md: 'unset' }
              }}
            >
 -            {readOnly ? quantity : <UpdateItemQuantity uid={uid} quantity={quantity} />}
 -            {' ⨉ '}
-+            {readOnly ? quantity : <UpdateItemQuantity  sx={{
-+                    flexShrink: '0',
-+                    '& .MuiOutlinedInput-root': {
-+                      color: '#333',
-+                      borderRadius: '8px',
-+                      padding:'4px',
-+                    },
-+                    '& .MuiOutlinedInput-notchedOutline': {
-+                      borderColor: '#F6DBE0 ',
-+                    },
-+                    '&:hover .MuiOutlinedInput-notchedOutline': {
-+                      borderColor: '#F6DBE0 !important',
-+                    },
-+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-+                      borderColor: '#F6DBE0 !important',
-+                     },
-+                    '& .MuiButtonBase-root':{
-+                      color:'#333333',
-+                      fontsize: { xs: '15px', lg: '18px' },
-+                      fontWeight:500
-+                    },'& .MuiInputBase-input':{
-+                      color:'#333333',
-+                      fontWeight:'500',
-+                      fontsize: { xs: '15px', lg: '18px' }
++            {readOnly ? quantity : <UpdateItemQuantity sx={{
++              flexShrink: '0',
++              '& .MuiOutlinedInput-root': {
++                color: '#333',
++                borderRadius: '8px',
++                padding: '4px',
++              },
++              '& .MuiOutlinedInput-notchedOutline': {
++                borderColor: '#F6DBE0 ',
++              },
++              '&:hover .MuiOutlinedInput-notchedOutline': {
++                borderColor: '#F6DBE0 !important',
++              },
++              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
++                borderColor: '#F6DBE0 !important',
++              },
++              '& .MuiButtonBase-root': {
++                color: '#333333',
++                fontsize: { xs: '15px', lg: '18px' },
++                fontWeight: 500
++              }, '& .MuiInputBase-input': {
++                color: '#333333',
++                fontWeight: '500',
++                fontsize: { xs: '15px', lg: '18px' }
  
 -            <Money value={price} currency={prices?.price.currency} />
-+                    },  '& .MuiButtonBase-root svg': {
-+              fontSize: { xs: '15px', md: '20px', xl:'24px' },
-+            },
-+                    
-+                  }} uid={uid} quantity={quantity}    />}
++              }, '& .MuiButtonBase-root svg': {
++                fontSize: { xs: '15px', md: '20px', xl: '24px' },
++              },
++
++            }} uid={uid} quantity={quantity} />}
 +            {/*' ⨉ ' */}
 +
 +            {/* <Money sx={{color:'red'}} value={price} currency={prices?.price.currency} /> */}
-+              <Box sx={{
-+            ['& span']:{
-+              fontSize:{xs:'16px', lg:'20px'},
-+              lineHeight:"24px",
-+              fontWeight:"700",
-+              color:(theme:any)=>theme.palette.custom.dark,
-+              ['&:first-child']:{
-+                paddingRight:"6px"
++            <Box sx={{
++              ['& span']: {
++                fontSize: { xs: '16px', lg: '20px' },
++                lineHeight: "24px",
++                fontWeight: "700",
++                color: (theme: any) => theme.palette.custom.dark,
++                ['&:first-child']: {
++                  paddingRight: "6px"
++                }
 +              }
-+            }
-+          }}>
-+            <Money value={totalPrice} currency={prices?.price.currency}  />
-+          </Box>
++            }}>
++              <Money value={totalPrice} currency={prices?.price.currency} />
++            </Box>
            </Box>
 -          {hasOptions && !readOnly && (
 -            <Button
@@ -214,7 +214,7 @@ index de7b68f..6576296 100644
          </>
        }
 -      price={<Money {...(inclTaxes ? prices?.row_total_including_tax : prices?.row_total)} />}
-+     
++
        action={
 -        !readOnly && (
 -          <RemoveItemFromCart
@@ -223,74 +223,74 @@ index de7b68f..6576296 100644
 -          />
 -        )
 +        <>
-+        <Box sx={{
-+            display:"flex",
-+            flexDirection:"column",
-+            alignItems:"center",
-+            justifyContent:"space-between",
-+            height:"100%"
-+          }}>
 +          <Box sx={{
-+            display:"flex",
-+           flexDirection:{xs:'row', md:'column'},
-+            alignItems:{xs:'center',md:'flex-end'},
-+            justifyContent:"center",
-+            gap:'5px',
-+            width:{xs:'fit-content', md:'100%'}
++            display: "flex",
++            flexDirection: "column",
++            alignItems: "center",
++            justifyContent: "space-between",
++            height: "100%"
 +          }}>
-+            {//hasOptions && !readOnly && (
-+              <Button
-+                variant='inline'
-+                // color='secondary'
-+                sx={{
-+                  color:'#9D9D9D',
-+                  justifyContent:{xs:'end', md:'center'},
-+                  
-+                  '&:hover':{
-+                    backgroundColor:'transparent'
-+                  },
++            <Box sx={{
++              display: "flex",
++              flexDirection: { xs: 'row', md: 'column' },
++              alignItems: { xs: 'center', md: 'flex-end' },
++              justifyContent: "center",
++              gap: '5px',
++              width: { xs: 'fit-content', md: '100%' }
++            }}>
++              {//hasOptions && !readOnly && (
++                <Button
++                  variant='inline'
++                  // color='secondary'
++                  sx={{
++                    color: '#9D9D9D',
++                    justifyContent: { xs: 'end', md: 'center' },
 +
-+                  '&.MuiButtonBase-root svg':{
-+                    marginBlock:{xs:0, md:'15px 10px'},
-+                  }
-+                }}
-+                href={`/p/${cartItem?.product?.url_key}`}
-+              >
-+              <CiEdit size={"20px"} />
-+              </Button>
-+            //)
-+            }
++                    '&:hover': {
++                      backgroundColor: 'transparent'
++                    },
 +
-+            {
-+              !readOnly && (
-+                <RemoveItemFromCart 
-+                removeIcon={deleteIcon}
-+                sx={{
-+                  marginLeft:0,  color:'#9D9D9D !important', stroke:'#9D9D9D !important'
-+                }}
-+                  {...cartItem}
-+                  buttonProps={{ size: size === 'responsive' ? 'large' : size }}
-+                />
-+              )
-+            }
-+          </Box>
-+
-+          <Box sx={{
-+            ['& span']:{
-+              fontSize:{xs:'16px', lg:'20px'},
-+              lineHeight:"24px",
-+              fontWeight:"700",
-+              color:(theme:any)=>theme.palette.custom.dark,
-+              ['&:first-child']:{
-+                paddingRight:"6px"
++                    '&.MuiButtonBase-root svg': {
++                      marginBlock: { xs: 0, md: '15px 10px' },
++                    }
++                  }}
++                  href={`/p/${cartItem?.product?.url_key}`}
++                >
++                  <CiEdit size={"20px"} />
++                </Button>
++                //)
 +              }
-+            }
-+          }}>
++
++              {
++                !readOnly && (
++                  <RemoveItemFromCart
++                    removeIcon={deleteIcon}
++                    sx={{
++                      marginLeft: 0, color: '#9D9D9D !important', stroke: '#9D9D9D !important'
++                    }}
++                    {...cartItem}
++                    buttonProps={{ size: size === 'responsive' ? 'large' : size }}
++                  />
++                )
++              }
++            </Box>
++
++            <Box sx={{
++              ['& span']: {
++                fontSize: { xs: '16px', lg: '20px' },
++                lineHeight: "24px",
++                fontWeight: "700",
++                color: (theme: any) => theme.palette.custom.dark,
++                ['&:first-child']: {
++                  paddingRight: "6px"
++                }
++              }
++            }}>
 +              <Money value={totalPrice} currency={prices?.price.currency} />
++            </Box>
 +          </Box>
-+        </Box>
 +        </>
-+        
++
        }
        size={size}
        after={filterNonNullableKeys(errors).map((error) => (
@@ -419,10 +419,10 @@ index f53eda0..d687879 100644
          error={!!formState.errors.quantity}
 diff --git a/node_modules/@graphcommerce/magento-cart-items/hooks/useRemoveItemFromCart.interceptor.ts b/node_modules/@graphcommerce/magento-cart-items/hooks/useRemoveItemFromCart.interceptor.ts
 new file mode 100644
-index 0000000..feceb93
+index 0000000..a5fa2d3
 --- /dev/null
 +++ b/node_modules/@graphcommerce/magento-cart-items/hooks/useRemoveItemFromCart.interceptor.ts
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,59 @@
 +/* hash:475616464 */
 +/* eslint-disable */
 +/* This file is automatically generated for @graphcommerce/magento-cart-items/hooks/useRemoveItemFromCart */
@@ -462,13 +462,6 @@ index 0000000..feceb93
 +}
 +
 +/** SOURCE_END */
-+
-+const logged: Set<string> = new Set()
-+const logOnce = (log: string, ...additional: unknown[]) => {
-+  if (logged.has(log)) return
-+  logged.add(log)
-+  console.warn(log, ...additional)
-+}
 +
 +const useRemoveItemFromCartGoogleDatalayerRemoveItemFromCartInterceptor: typeof useRemoveItemFromCartOriginal =
 +  (...args) => {

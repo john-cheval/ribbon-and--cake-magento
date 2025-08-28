@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..e5c5fa6 100644
+index 6ae6263..4aefd79 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 @@ -4,8 +4,18 @@ import { Button } from '@graphcommerce/next-ui'
@@ -22,7 +22,7 @@ index 6ae6263..e5c5fa6 100644
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,23 +31,48 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +29,42 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
@@ -34,7 +34,6 @@ index 6ae6263..e5c5fa6 100644
  
    if (!cartEnabled) return null
  
-+  
 +
    return (
 -    <Button
@@ -214,53 +213,17 @@ index 1b7a2ac..eb65af9 100644
            await crosssellsQuery.current
            const method = router.pathname.startsWith('/checkout/added')
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
-index 0fff1a5..f8c48c9 100644
+index 0fff1a5..652d07c 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
-@@ -5,6 +5,7 @@ import type { UseAddProductsToCartActionFragment } from './UseAddProductsToCartA
- import { toUserErrors } from './toUserErrors'
- import type { AddToCartItemSelector } from './useFormAddProductsToCart'
- import { useFormAddProductsToCart } from './useFormAddProductsToCart'
-+import { useRouter } from 'next/router'
+@@ -20,6 +20,7 @@ export type UseAddProductsToCartActionReturn = {
+   onClick: React.MouseEventHandler<HTMLButtonElement>
+   onMouseDown: React.MouseEventHandler<HTMLButtonElement>
+   showSuccess: boolean
++  isBuyNow?: boolean
+ }
  
- export type UseAddProductsToCartActionProps = AddToCartItemSelector & {
-   disabled?: boolean
-@@ -12,6 +13,7 @@ export type UseAddProductsToCartActionProps = AddToCartItemSelector & {
-   onClick?: React.MouseEventHandler<HTMLButtonElement>
-   sku?: string | null | undefined
-   product?: UseAddProductsToCartActionFragment
-+  isBuyNow?:boolean
- } & ({ sku: string | null | undefined } | { product: UseAddProductsToCartActionFragment })
- 
- export type UseAddProductsToCartActionReturn = {
-@@ -28,7 +30,7 @@ export function useAddProductsToCartAction(
-   const { setValue, getValues, control, error, data, submittedVariables } =
-     useFormAddProductsToCart()
-   const formState = useFormState({ control })
--  const { sku = props.product?.sku, product, index = 0, onClick: onClickIncoming, disabled } = props
-+  const { sku = props.product?.sku, product, index = 0, onClick: onClickIncoming, disabled,isBuyNow } = props
- 
-   const loading = formState.isSubmitting && getValues(`cartItems.${index}.sku`) === sku
- 
-@@ -39,9 +41,17 @@ export function useAddProductsToCartAction(
-   const submitSuccesful =
-     !formState.isSubmitting && formState.isSubmitSuccessful && !error?.message && !userErrors.length
- 
-+    const router = useRouter()
-+
-   useEffect(() => {
-     if (submitSuccesful && submittedVariables?.cartItems.find((item) => item.sku === sku)) {
--      setShowSuccess(true)
-+      if (isBuyNow) {
-+        router?.push("/checkout")
-+        console.log(isBuyNow,"==>isBuyNow");
-+        
-+      }else {
-+        setShowSuccess(true)
-+      }
-     }
-   }, [sku, submitSuccesful, submittedVariables?.cartItems])
- 
+ export function useAddProductsToCartAction(
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 index c61ffc0..ce11bee 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
@@ -471,7 +434,7 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..c329ba2 100644
+index cabc140..3fe7bca 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -496,7 +459,7 @@ index cabc140..c329ba2 100644
    const { control } = form
    const attrCode = attribute_code as keyof ProductAttributeFilterInput
    const name = `filters.${attrCode}` as const
-@@ -33,23 +34,87 @@ export function ProductFilterRangeSection(props: FilterProps) {
+@@ -33,23 +34,83 @@ export function ProductFilterRangeSection(props: FilterProps) {
          const from = value?.from ? Number(value?.from) : min
          const to = value?.to ? Number(value?.to) : max
  
@@ -549,10 +512,6 @@ index cabc140..c329ba2 100644
 +              '& .mui-style-1yfomfv-MuiSlider-root .MuiSlider-valueLabel': {
 +                color: (theme: any) => `${theme.palette.custom.dark} !important`,
 +              },
-+              '& .mui-style-j6qxfh-MuiSlider-root .MuiSlider-valueLabel ':{
-+                color: (theme: any) => `${theme.palette.custom.dark} !important`,
-+
-+              },
 +              ['& .MuiSlider-thumb']: {
 +                ['& .MuiSlider-valueLabelOpen span span:not-(:first-child)']: {
 +                  transform: 'translateX(10px) translateY(40%) scale(1)',
@@ -599,10 +558,10 @@ index cabc140..c329ba2 100644
          )
        }}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
-index 174d687..32692a1 100644
+index 174d687..3d26ebe 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
-@@ -119,23 +119,87 @@ export function ProductFiltersPro(props: FilterFormProviderProps) {
+@@ -119,6 +119,21 @@ export function ProductFiltersPro(props: FilterFormProviderProps) {
    const scrollMarginTop = useTransform(() => (isDesktop.get() ? 0 : theme.appShell.headerHeightSm))
    const scroll = useTransform(() => !autoSubmitMd || isDesktop.get())
  
@@ -621,87 +580,61 @@ index 174d687..32692a1 100644
 +  }
 +
 +
-+  // const submit = useEventCallback(
-+  //   form.handleSubmit(async (formValues) => {
-+  //     const path = productListLinkFromFilter({ ...formValues, currentPage: 1 })
-+  //     const path123 = modifyUrl(path, router.asPath);
-+  //     console.log('ProductFiltersPro submit--->', path)
-+  //     console.log('ProductFiltersPro submit--->', path123)
-+  //     if (router.asPath === path123 || router.asPath === path || path123?.incluces('/c/c')) return false
-+  //     console.log('ProductFiltersPro submit--->', path)
-+  //     const isSearch = router.asPath.startsWith('/search')
-+  //     const isFilter = (router.query.url ?? []).includes('q')
-+
-+  //     // console.log("path123::", path123)
-+  //     const next = async (shallow = false, replace: boolean = isSearch || isFilter) => {
-+  //       const opts = { shallow, scroll: scroll.get() }
-+  //       await (replace ? router.replace(path123, path123, opts) : router.push(path123, path123, opts))
-+  //     }
-+
-+  //     if (handleSubmit) return handleSubmit(formValues, next)
-+  //     return next()
-+  //   }),
-+  // )
-+
-+  useEffect(() => {
-+    if (!router.asPath?.includes('/c')) {
-+      form.setValue('url', router.asPath)
-+    }
-+
-+  }, [router.asPath])
-+  // When the component mounts, we want to set the global filter form
-+
    const submit = useEventCallback(
      form.handleSubmit(async (formValues) => {
--      const path = productListLinkFromFilter({ ...formValues, currentPage: 1 })
--      if (router.asPath === path) return false
-+      // Generate path from form values
-+      const path = productListLinkFromFilter({ ...formValues, currentPage: 1 });
+       const path = productListLinkFromFilter({ ...formValues, currentPage: 1 })
+@@ -137,6 +152,51 @@ export function ProductFiltersPro(props: FilterFormProviderProps) {
+     }),
+   )
+ 
++  // useEffect(() => {
++  //   if (!router.asPath?.includes('/c')) {
++  //     form.setValue('url', router.asPath)
++  //   }
 +
-+      // Modify the path based on the router's current path
-+      const modifyPath = modifyUrl(path, router.asPath);
-+      if (
-+        router.asPath === modifyPath ||
-+        router.asPath === path ||
-+        modifyPath.includes('/c/c/')
-+      ) {
-+        return false;
-+      }
- 
--      const isSearch = router.asPath.startsWith('/search')
--      const isFilter = (router.query.url ?? []).includes('q')
-+      // Check if the current path is a search or filter page
-+      const isSearch = router.asPath.startsWith('/search');
-+      const isFilter = (router.query.url ?? []).includes('q');
- 
--      const next = async (shallow = false, replace: boolean = isSearch || isFilter) => {
--        const opts = { shallow, scroll: scroll.get() }
--        await (replace ? router.replace(path, path, opts) : router.push(path, path, opts))
--      }
-+      // Function to handle routing (with optional shallow routing)
-+      const next = async (shallow = false, replace = isSearch || isFilter) => {
-+        const opts = { shallow, scroll: scroll.get() };
-+        // Perform either replace or push routing
-+        await (replace
-+          ? router.replace(modifyPath, modifyPath, opts)
-+          : router.push(modifyPath, modifyPath, opts));
-+      };
++  // }, [router.asPath])
++  // When the component mounts, we want to set the global filter form
 +
-+      // If there's a custom handleSubmit, call it with formValues and next as a callback
-+      if (handleSubmit) return handleSubmit(formValues, next);
++  // const submit = useEventCallback(
++  //   form.handleSubmit(async (formValues) => {
++  //     // Generate path from form values
++  //     const path = productListLinkFromFilter({ ...formValues, currentPage: 1 });
 +
-+      // Otherwise, just call next directly
-+      return next();
-+    })
-+  );
- 
--      if (handleSubmit) return handleSubmit(formValues, next)
--      return next()
--    }),
--  )
- 
++  //     // Modify the path based on the router's current path
++  //     const modifyPath = modifyUrl(path, router.asPath);
++  //     if (
++  //       router.asPath === modifyPath ||
++  //       router.asPath === path ||
++  //       modifyPath.includes('/c/c/')
++  //     ) {
++  //       return false;
++  //     }
++
++  //     // Check if the current path is a search or filter page
++  //     const isSearch = router.asPath.startsWith('/search');
++  //     const isFilter = (router.query.url ?? []).includes('q');
++
++  //     // Function to handle routing (with optional shallow routing)
++  //     const next = async (shallow = false, replace = isSearch || isFilter) => {
++  //       const opts = { shallow, scroll: scroll.get() };
++  //       // Perform either replace or push routing
++  //       await (replace
++  //         ? router.replace(modifyPath, modifyPath, opts)
++  //         : router.push(modifyPath, modifyPath, opts));
++  //     };
++
++  //     // If there's a custom handleSubmit, call it with formValues and next as a callback
++  //     if (handleSubmit) return handleSubmit(formValues, next);
++
++  //     // Otherwise, just call next directly
++  //     return next();
++  //   })
++  // );
++
++
    const filterFormContext = useMemo(() => {
      const ctx: ProductFiltersProContext = {
+       form,
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
 index 918ce2e..4308043 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
@@ -724,7 +657,7 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..146725c 100644
+index 5643683..dcfdacc 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 @@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
@@ -773,7 +706,7 @@ index 5643683..146725c 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +64,142 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,127 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
@@ -785,13 +718,7 @@ index 5643683..146725c 100644
 +           minHeight:'80% !important', width:'100%',
 +          borderRadius:'0 0 0 0 !important',
 +           top:'unset',
-+           height:'80%',
 +           overflowY: 'visible',
-+           scrollbarWidth: 'none',
-+                  msOverflowStyle: 'none',
-+                  '&::-webkit-scrollbar': {
-+                    display: 'none',
-+                  },
 +           overflowX:'hidden',
 +           '& .LayoutHeader-root':{
 +            '& .LayoutHeaderContent-bg':{
@@ -809,20 +736,13 @@ index 5643683..146725c 100644
 +                stroke:(theme:any)=>theme.palette.custom.main,
 +                fontSize:{xs:'28px', md:'30px'}
 +              }
-+            },
-+            '& .LayoutHeaderContent-right .MuiButtonBase-root':{
-+              position:'absolute',
-+              left:'13px',
-+              top:'20px',
-+             
 +            }
 +           },
 +           '& .OverlayPanelActions-content':{
 +           // paddingTop:'30px'
 +           flex: '1 1 auto',
-+           minHeight: 0,                
++           minHeight: 0,                 // <- important for flex scroll areas
 +           overflowY: 'auto',
-+           overflowX:'hidden',
 +           WebkitOverflowScrolling: 'touch',
 +           paddingBottom: '30px',
 +           },
@@ -836,7 +756,6 @@ index 5643683..146725c 100644
 +              border:(theme:any)=>`1px solid ${theme.palette.custom.heading}`
 +            }
 +           }
-+           
 +          }
 +      } }}
        {...rest}
@@ -871,9 +790,8 @@ index 5643683..146725c 100644
 +                    sx={{
 +                      '& .MuiCollapse-root':{
 +                        '& .MuiAccordionDetails-root .ActionCardLayout-root':{
-+                          display:'grid',
-+                          //flexWrap:'wrap',
-+                          gridTemplateColumns:'repeat(2,1fr)'
++                          display:'flex',
++                          flexWrap:'wrap',
 +                         
 +                        }
 +                      }
@@ -924,7 +842,7 @@ index 5643683..146725c 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..eec94b7 100644
+index 80912c1..6d139f3 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,162 @@ import {
@@ -1014,7 +932,7 @@ index 80912c1..eec94b7 100644
 +          ...(Array.isArray(sx) ? sx : [sx]),
 +        ]}
 +        defaultExpanded={expandeds}
-+        expanded={expandeds}
++        perentExpanded={expandeds}
 +        onChange={handleAccordionToggle}
 +        summary={<Box sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -1030,11 +948,11 @@ index 80912c1..eec94b7 100644
 +          {categoryTitle}</Box>}
 +        right={
 +          <Box onClick={handleAccordionToggle} sx={{
-+            position:'relative',
-+            top:'10px',
-+            '& svg':{
-+                  stroke:(theme:any)=>theme.palette.custom.wishlistColor
-+                }
++            position: 'relative',
++            top: '10px',
++            '& svg': {
++              stroke: (theme: any) => theme.palette.custom.wishlistColor
++            }
 +          }}>
 +            <IconSvg
 +              src={expandeds ? iconCloseAccordion : iconOpenAccordion}
@@ -1042,7 +960,7 @@ index 80912c1..eec94b7 100644
 +              sx={{
 +                width: '20px',
 +                height: '20px',
-+                
++
 +              }}
 +            />
 +          </Box>
@@ -1100,7 +1018,7 @@ index 80912c1..eec94b7 100644
 +                  size='responsive'
 +                  title={
 +                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: (theme: any) => theme.palette.custom.dark, }}>
-+                      <Box sx={{ marginRight: 1, fontSize: { xs: '15px',  md: '16px' }}}>
++                      <Box sx={{ marginRight: 1, fontSize: { xs: '15px', md: '16px' } }}>
 +                        {isBack ? (
 +                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
 +                            <IconSvg src={iconChevronLeft} size='medium' />
@@ -1274,10 +1192,10 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..51499d9 100644
+index b64ae6d..6b91c69 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,15 +5,21 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,23 +5,33 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
@@ -1296,14 +1214,17 @@ index b64ae6d..51499d9 100644
 +  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
-+  const { options, showReset, selected, selectedLabel, } = useProductFiltersProSort(props)
-+
++  const { options, showReset, selected, selectedLabel, handleChange, expanded } = useProductFiltersProSort(props)
  
-   if ((options.length ?? 0) <= 1) return null
+-  if ((options.length ?? 0) <= 1) return null
  
-@@ -21,7 +27,9 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
++  if ((options.length ?? 0) <= 1) return null
++  console.log(selected, "==>selected")
+   return (
      <ActionCardAccordion
        sx={sx}
++      perentExpanded={expanded}
++      onChange={handleChange}
        defaultExpanded={selected}
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
@@ -1312,7 +1233,7 @@ index b64ae6d..51499d9 100644
        details={
          <ActionCardListForm
            control={form.control}
-@@ -30,24 +38,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +40,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
@@ -1409,22 +1330,50 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..6df7696 100644
+index d3b392c..660217e 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -19,9 +19,8 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+@@ -3,13 +3,14 @@ import { useQuery } from '@graphcommerce/graphql'
+ import { StoreConfigDocument } from '@graphcommerce/magento-store'
+ import { filterNonNullableKeys } from '@graphcommerce/next-ui'
+ import { i18n } from '@lingui/core'
+-import { useMemo } from 'react'
++import { useEffect, useMemo, useState } from 'react'
+ import type { CategoryDefaultFragment } from '../ProductListItems/CategoryDefault.gql'
+ import type { ProductFilterParams } from '../ProductListItems/filterTypes'
+ import type { ProductListSortFragment } from '../ProductListSort'
+ import { useProductFiltersPro } from './ProductFiltersPro'
+ import type { ProductListActionSortProps } from './ProductFiltersProSortChip'
+ import { ProductFiltersProSortDirectionArrow } from './ProductFiltersProSortDirectionArrow'
++import { useRouter } from 'next/router'
+ 
+ const exclude = ['relevance', 'position']
+ 
+@@ -19,10 +20,11 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
  
  export function useProductFiltersProSort(props: ProductListActionSortProps) {
    const { sort_fields, category } = props
 -
 -  const { params, form } = useProductFiltersPro()
 -  const { control, setValue } = form
+-
 +  const { params, submit, form } = useProductFiltersPro()
 +  const { control, setValue, getValues } = form
- 
++  const router = useRouter()
++  const [openSort, setOpenSort] = useState(false)
++  const [expanded, setSetExpanded] = useState(false)
    const sortFields = useMemo(
      () =>
-@@ -53,15 +52,20 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+       filterNonNullableKeys(sort_fields?.options).map((o) =>
+@@ -48,31 +50,56 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+     Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
+   const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
+ 
++  useEffect(() => {
++    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
++  }, [])
+   const options = useMemo(
+     () =>
        sortFields
          .filter((o) => availableSortBy.includes(o.value))
          .map((option) => {
@@ -1436,18 +1385,26 @@ index d3b392c..6df7696 100644
              ...option,
              value,
              title: option.label,
+-            ...(showSort && {
+-              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
+-              price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
+-            }),
 +            onClick: (e, va) => {
-+              console.log(getValues('url'))
++              setOpenSort(false)
++              console.log(getValues("url"), "=>dede")
 +              setValue('sort', va)
 +              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
++              if (!router.asPath.includes("/c/")) {
++                setValue('url', router.asPath)
++              }
++              setSetExpanded(false)
 +              submit()
 +            },
-             ...(showSort && {
--              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
-               price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
-             }),
++            // ...(showSort && {
++            //   price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
++            // }),
            }
-@@ -69,10 +73,16 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+         }),
      [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
    )
  
@@ -1457,12 +1414,19 @@ index d3b392c..6df7696 100644
 +    return selectedOption ? selectedOption.label : defaultOption?.label
 +  }, [options, params.sort, defaultSortBy])
 +
++  const handleChange = (isExpanded: boolean) => {
++    setSetExpanded(isExpanded);
++  };
++
    return {
++    expanded,
      options,
-     selected,
+-    selected,
++    selected: openSort,
      showReset,
 -    selectedLabel: options.find((option) => option.value === params.sort)?.label,
 +    selectedLabel: selectedLabel,
++    handleChange
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
@@ -1556,7 +1520,7 @@ index d1ae621..f84eede 100644
              display: 'block',
            },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..5760042 100644
+index 9dc2505..f473d5b 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,18 +1,23 @@
@@ -1632,8 +1596,8 @@ index 9dc2505..5760042 100644
 +          // maxWidth: '100%',
            gridArea: 'title',
 +          fontSize:{ xs: '15px',md: '16px' },
-+          // maxWidth: { xs: '131px', md: '250px' },
-+          minHeight:{xs:'auto', md:'50px'},
++          maxWidth: { xs: '131px', md: '250px' },
++          minHeight:{xs:'70px', md:'50px'},
          }}
          className={classes.title}
        >
@@ -1692,6 +1656,18 @@ index ddf15be..e5a0bd4 100644
 +    }
      ...ProductListItem
    }
+ }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
+index 464c244..59e1d4d 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
+@@ -64,6 +64,7 @@ export async function productListApplyCategoryDefaults(
+   if (!newParams.filters.category_uid?.in?.[0]) {
+     newParams.filters.category_uid = { eq: (await category)?.uid }
+   }
++  console.log(newParams,"==>newParams");
+ 
+   return newParams
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
 index 1d42a06..c70ff79 100644
@@ -1825,3 +1801,25 @@ index 002f6d1..b1dd83e 100644
        sx={[
          {
            '& > p:first-of-type': { marginTop: 0 },
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
+index 290e572..0c536fd 100644
+--- a/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
++++ b/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
+@@ -123,7 +123,7 @@ export function useProductList<
+       )
+ 
+       const shallowNow =
+-        JSON.stringify(vars.filters?.category_uid) === JSON.stringify(params?.filters.category_uid)
++        JSON.stringify(vars?.filters?.category_uid) === JSON.stringify(params?.filters?.category_uid)
+       await prefetchProductList(
+         vars,
+         categoryDefaultsToProductListFilters(vars),
+@@ -136,7 +136,7 @@ export function useProductList<
+ 
+   return {
+     ...props,
+-    filters: filters.data.filters,
++    filters: filters?.data?.filters,
+     ...result.data,
+     params,
+     mask: result.mask,

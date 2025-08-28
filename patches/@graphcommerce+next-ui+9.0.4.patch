@@ -92,15 +92,16 @@ index f94c113..2e770e3 100644
                <Box
                  className={classes.title}
 diff --git a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-index 323c7e3..3fb9b2b 100644
+index 323c7e3..6b522ae 100644
 --- a/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
 +++ b/node_modules/@graphcommerce/next-ui/ActionCard/ActionCardAccordion.tsx
-@@ -1,22 +1,36 @@
+@@ -1,22 +1,43 @@
  import type { SxProps, Theme } from '@mui/material'
 -import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 +import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
  import type { ReactNode } from 'react'
- import { useState } from 'react'
+-import { useState } from 'react'
++import { use, useEffect, useState } from 'react'
  import { IconSvg } from '../IconSvg'
  import { iconChevronDown } from '../icons'
 +import { StaticImport } from '@graphcommerce/image'
@@ -113,37 +114,44 @@ index 323c7e3..3fb9b2b 100644
 +  right?: ReactNode
    sx?: SxProps<Theme>
    defaultExpanded?: boolean
-+  accordionIcon?: string | StaticImport  
-+  openAccordionIcon?: string | StaticImport 
++  accordionIcon?: string | StaticImport
++  openAccordionIcon?: string | StaticImport
 +  closeAccordionIcon?: string | StaticImport
-+  expanded?: boolean               
-+  onChange?: (expanded: boolean) => void 
++  perentExpanded?: boolean
++  onChange?: (expanded: boolean) => void
  }
  
  export function ActionCardAccordion(props: ActionCardAccordionProps) {
 -  const { summary, details, right, defaultExpanded = true, sx } = props
-+  const { summary, details, right, defaultExpanded = true, sx,openAccordionIcon ,closeAccordionIcon, expanded: expandedProp,         
-+    onChange,} = props
++  const { summary, details, right, defaultExpanded = true, sx, openAccordionIcon, closeAccordionIcon, perentExpanded,
++    onChange, } = props
    const [expanded, setExpanded] = useState(defaultExpanded)
 -  const handleChange = () => setExpanded(!expanded)
 +  const handleChange = () => {
 +    setExpanded(!expanded)
-+    if(onChange){
-+      onChange(!expandedProp)
++    if (onChange) {
++      onChange(!expanded)
 +    }
 +  }
++
++  useEffect(() => {
++    if (perentExpanded !== undefined && perentExpanded === false) {
++      setExpanded(perentExpanded)
++    }
++  }, [perentExpanded])
++
 +
  
    return (
      <Accordion
-@@ -31,28 +45,43 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
+@@ -31,15 +52,17 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
            '&.Mui-expanded': { my: 0 },
            '::before': { display: 'none' },
            border: 'none',
 -          borderBottom: `1px solid ${theme.palette.divider}`,
 -          '&:not(.Mui-expanded)': { borderBottom: `1px solid ${theme.palette.divider}` },
-+          borderBottom:(theme:any)=> `1px solid ${theme.palette.custom.borderSecondary}`,
-+          '&:not(.Mui-expanded)': { borderBottom:(theme:any)=> `1px solid ${theme.palette.custom.borderSecondary}` },
++          borderBottom: (theme: any) => `1px solid ${theme.palette.custom.borderSecondary}`,
++          '&:not(.Mui-expanded)': { borderBottom: (theme: any) => `1px solid ${theme.palette.custom.borderSecondary}` },
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
@@ -151,46 +159,32 @@ index 323c7e3..3fb9b2b 100644
        <AccordionSummary
          onClick={(e) => e.preventDefault()}
 -        expandIcon={<IconSvg src={iconChevronDown} />}
--        sx={{
--          px: 0,
--          typography: 'subtitle1',
--          minHeight: 54,
--          '& .MuiAccordionSummary-content': {
--            display: 'flex',
--            justifyContent: 'space-between',
--            alignItems: 'center',
--            my: 0,
--          },
--        }}
-+        expandIcon={(openAccordionIcon && closeAccordionIcon)&&<IconSvg src={expanded ? closeAccordionIcon : openAccordionIcon} sx={(theme) => ({
-+              width: '30px',
-+            })} size='xl' />}
-+            sx={{
-+              px: 0,
-+              typography: 'subtitle1',
-+              minHeight: 54,
-+              '& .MuiAccordionSummary-content': {
-+                display: 'flex',
-+                justifyContent: 'space-between',
-+                alignItems: 'center',
-+                my: 0,
-+              },
-+              ['& .MuiAccordionSummary-expandIconWrapper']:{
-+                transform:"unset !important",
-+                ['& svg']:{
-+                  stroke:"unset !important",
-+                }
-+              }    
-+            }}
++        expandIcon={(openAccordionIcon && closeAccordionIcon) && <IconSvg src={expanded ? closeAccordionIcon : openAccordionIcon} sx={(theme) => ({
++          width: '30px',
++        })} size='xl' />}
+         sx={{
+           px: 0,
+           typography: 'subtitle1',
+@@ -50,9 +73,22 @@ export function ActionCardAccordion(props: ActionCardAccordionProps) {
+             alignItems: 'center',
+             my: 0,
+           },
++          ['& .MuiAccordionSummary-expandIconWrapper']: {
++            transform: "unset !important",
++            ['& svg']: {
++              stroke: "unset !important",
++            }
++          }
+         }}
        >
 -        <div>{summary}</div>
 +        <Typography component='p' sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
-+          fontWeight:400,
-+          color:'#000',
-+          fontSize: {xs:'15px', md:'20px'},
++          fontWeight: 400,
++          color: '#000',
++          fontSize: { xs: '15px', md: '20px' },
 +          lineHeight: '120%',
-+          marginBottom:theme => theme.spacings.xxs,
++          marginBottom: theme => theme.spacings.xxs,
 +        }}>{summary}</Typography>
          {right}
        </AccordionSummary>
@@ -823,10 +817,10 @@ index 41c917c..f58a516 100644
              className={classes.left}
              sx={(theme) => ({
 diff --git a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx b/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
-index 30fc40b..68e06ae 100644
+index 30fc40b..5d190eb 100644
 --- a/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
 +++ b/node_modules/@graphcommerce/next-ui/LayoutDefault/components/LayoutDefault.tsx
-@@ -4,7 +4,7 @@ import { Box, SxProps, Theme } from '@mui/material'
+@@ -4,9 +4,13 @@ import { Box, SxProps, Theme } from '@mui/material'
  import { useScroll, useTransform } from 'framer-motion'
  import { Container } from '../../Container/Container'
  import { LayoutProvider } from '../../Layout/components/LayoutProvider'
@@ -834,23 +828,56 @@ index 30fc40b..68e06ae 100644
 +// import { SkipLink } from '../../SkipLink/SkipLink'
  import { extendableComponent } from '../../Styles'
  import { useFabSize } from '../../Theme'
++import { useCustomerSession } from '@graphcommerce/magento-customer'
++import { useApolloClient } from '@apollo/client'
++import { useEffect } from 'react'
++import { signOut } from '@graphcommerce/magento-customer/components/SignOutForm/signOut'
  
-@@ -68,7 +68,7 @@ export function LayoutDefault(props: LayoutDefaultProps) {
+ export type LayoutDefaultProps = {
+   className?: string
+@@ -51,6 +55,26 @@ export function LayoutDefault(props: LayoutDefaultProps) {
+   const classes = withState({ noSticky })
+   const fabIconSize = useFabSize('responsive')
+ 
++  const client = useApolloClient()
++  const { loggedIn, createdAt, customer_access_token_lifetime } = useCustomerSession()
++
++  useEffect(() => {
++    if (loggedIn && createdAt && customer_access_token_lifetime) {
++      const checkSession = () => {
++        const loginTime = new Date(createdAt).getTime()
++        const expiryTime = loginTime + customer_access_token_lifetime * 60 * 60 * 1000
++
++        if (Date.now() > expiryTime) {
++          signOut(client)
++        }
++      }
++
++      const interval = setInterval(checkSession, 60 * 1000)
++
++      return () => clearInterval(interval)
++    }
++  }, [loggedIn, createdAt, customer_access_token_lifetime])
++
+   return (
+     <Box
+       className={`${classes.root} ${className ?? ''}`}
+@@ -68,7 +92,7 @@ export function LayoutDefault(props: LayoutDefaultProps) {
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
      >
 -      <SkipLink />
-+     {/* <SkipLink /> */} 
++      {/* <SkipLink /> */}
        <LayoutProvider scroll={scrollYOffset}>
          {beforeHeader}
          <Container
-@@ -83,6 +83,9 @@ export function LayoutDefault(props: LayoutDefaultProps) {
+@@ -83,6 +107,9 @@ export function LayoutDefault(props: LayoutDefaultProps) {
              justifyContent: 'center',
              height: theme.appShell.headerHeightSm,
              pointerEvents: 'none',
 +            position: 'sticky',
-+                top: 0,
-+                background:"#FFFFFF",
++            top: 0,
++            background: "#FFFFFF",
              '& > *': {
                pointerEvents: 'all',
              },
@@ -996,10 +1023,10 @@ index bfb8656..a802323 100644
  ]
 diff --git a/node_modules/@graphcommerce/next-ui/icons.interceptor.ts b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
 new file mode 100644
-index 0000000..414f989
+index 0000000..136f87c
 --- /dev/null
 +++ b/node_modules/@graphcommerce/next-ui/icons.interceptor.ts
-@@ -0,0 +1,109 @@
+@@ -0,0 +1,102 @@
 +/* hash:1527960493 */
 +/* eslint-disable */
 +/* This file is automatically generated for @graphcommerce/next-ui/icons */
@@ -1069,13 +1096,6 @@ index 0000000..414f989
 +export { default as iconInfo } from './icons/info.svg'
 +
 +/** SOURCE_END */
-+
-+const logged: Set<string> = new Set()
-+const logOnce = (log: string, ...additional: unknown[]) => {
-+  if (logged.has(log)) return
-+  logged.add(log)
-+  console.warn(log, ...additional)
-+}
 +
 +/**
 + * Here you see the 'interceptor' that is applying all the configured plugins.

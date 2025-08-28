@@ -27,7 +27,7 @@ index bbf68aa..c92f143 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
-index 2df7a90..39ff445 100644
+index 2df7a90..480adc4 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 @@ -27,18 +27,19 @@ import { ShippingMethodFormDocument } from './ShippingMethodForm.gql'
@@ -85,7 +85,7 @@ index 2df7a90..39ff445 100644
  
    const renderItems = [...items]
    if (renderItems.length === 0) {
-@@ -101,20 +115,31 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -101,20 +115,33 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
      })
    }
  
@@ -109,13 +109,14 @@ index 2df7a90..39ff445 100644
 -      if (carrierMethod !== firstCarrierMethod) {
 -        // THEN set the shipping method to the only one available.
 -        setValue('carrierMethod', firstCarrierMethod, { shouldValidate: true })
--      }
-+    if (isPickup && shippingAddress?.pickup_location_code) {
-+      setValue('carrierMethod', "instore", { shouldValidate: true })
-+      submit()
-+    } else {
-+      setValue('carrierMethod', availableMethods?.[0]?.carrier_code, { shouldValidate: true })
-+      submit()
++    if (shippingAddress) {
++      if (isPickup && shippingAddress?.pickup_location_code) {
++        setValue('carrierMethod', "instore", { shouldValidate: true })
++        submit()
++      } else {
++        setValue('carrierMethod', availableMethods?.[0]?.carrier_code, { shouldValidate: true })
++        submit()
+       }
      }
 -  }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
 +  }, [shippingAddress])
@@ -127,7 +128,7 @@ index 2df7a90..39ff445 100644
        <FormAutoSubmit
          control={control}
          submit={submit}
-@@ -132,16 +157,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -132,16 +159,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
            name='carrierMethod'
            size='large'
            color='secondary'

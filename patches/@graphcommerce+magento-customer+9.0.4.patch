@@ -494,7 +494,7 @@ index 93fd266..6012393 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
-index 7bebe6d..a7845fc 100644
+index 7bebe6d..9f03e20 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressCountryRegion.tsx
 @@ -4,9 +4,12 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -511,7 +511,18 @@ index 7bebe6d..a7845fc 100644
  
  /** @public */
  export function useAddressCountryRegion<
-@@ -46,8 +49,13 @@ export function AddressCountryRegion<
+@@ -29,6 +32,10 @@ export function useAddressCountryRegion<
+     [countries],
+   )
+ 
++  useEffect(() => {
++    form.setValue("countryCode" as any, countryList?.[0]?.two_letter_abbreviation as any)
++  }, [])
++
+   const regionList = useMemo(
+     () =>
+       filterNonNullableKeys(
+@@ -46,8 +53,13 @@ export function AddressCountryRegion<
    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
  >(props: AddressFieldsOptions<TFieldValues, TName>) {
    const form = useAddressCountryRegion<TFieldValues, TName>(props)
@@ -527,7 +538,7 @@ index 7bebe6d..a7845fc 100644
    if (loading) {
      return (
        <FormRow>
-@@ -58,40 +66,158 @@ export function AddressCountryRegion<
+@@ -58,40 +70,158 @@ export function AddressCountryRegion<
            name={name.countryCode}
            showValid
            InputProps={{ readOnly }}
@@ -567,7 +578,6 @@ index 7bebe6d..a7845fc 100644
 +    <>
 +      <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -617,9 +627,11 @@ index 7bebe6d..a7845fc 100644
 +                  }
 +                }
 +              }
-+            }, 
++            },
 +            // autoWidth: true
-+            fullWidth:true
++            fullWidth: true,
++            value: countryList?.[0]?.two_letter_abbreviation,
++            defaultValue: countryList?.[0]?.two_letter_abbreviation,
 +          }}
            variant='outlined'
 -          label={<Trans id='Region' />}
@@ -641,7 +653,6 @@ index 7bebe6d..a7845fc 100644
 +
 +      <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -709,10 +720,10 @@ index 7bebe6d..a7845fc 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-index 400ed2c..7635188 100644
+index 400ed2c..7abe436 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressFields.tsx
-@@ -25,12 +25,24 @@ export function AddressFields<
+@@ -25,12 +25,23 @@ export function AddressFields<
        <FormRow>
          <AddressStreet {...props} />
          <AddressHousenumber {...props} />
@@ -722,7 +733,6 @@ index 400ed2c..7635188 100644
 -      <FormRow>
 +      {/* <FormRow sx={{
 +        '& .MuiInputLabel-root.MuiInputLabel-animated': {
-+          backgroundColor: 'white',
 +          padding: '0 6px',
 +        },
 +        '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -867,7 +877,7 @@ index 0be3575..0405ee2 100644
        >
          <Trans id='Successfully saved changes' />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-index de1222a..ee444ae 100644
+index de1222a..37333de 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 @@ -12,18 +12,97 @@ import {
@@ -1398,14 +1408,23 @@ index 3cba4b8..9daef9f 100644
 + 
 \ No newline at end of file
 diff --git a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
-index 24faf9f..7a76ca0 100644
+index 24faf9f..4c206d0 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/NameFields/NameFields.tsx
+@@ -43,7 +43,7 @@ export function NameFields(props: NameFieldProps) {
+             name='prefix'
+             label={<Trans id='Prefix' />}
+             showValid
+-            InputProps={{ readOnly }}
++            // InputProps={{ readOnly }}
+             options={prefixes.map((option) => ({ id: option, label: option }))}
+           />
+         </FormRow>
 @@ -59,6 +59,7 @@ export function NameFields(props: NameFieldProps) {
            InputProps={{ readOnly }}
            showValid
          />
-+        
++
          <TextFieldElement
            control={control}
            name='lastname'
@@ -2332,12 +2351,40 @@ index 505bd21..3484be2 100644
                  {!session.valid ? (
                    <Trans id='Sign in' />
                  ) : (
+diff --git a/node_modules/@graphcommerce/magento-customer/hooks/useCustomerSession.ts b/node_modules/@graphcommerce/magento-customer/hooks/useCustomerSession.ts
+index 12b00b5..1937112 100644
+--- a/node_modules/@graphcommerce/magento-customer/hooks/useCustomerSession.ts
++++ b/node_modules/@graphcommerce/magento-customer/hooks/useCustomerSession.ts
+@@ -2,6 +2,7 @@ import type { QueryResult } from '@graphcommerce/graphql'
+ import { useQuery } from '@graphcommerce/graphql'
+ import type { CustomerTokenQuery, CustomerTokenQueryVariables } from './CustomerToken.gql'
+ import { CustomerTokenDocument } from './CustomerToken.gql'
++import { StoreConfigDocument } from '@graphcommerce/magento-store'
+ 
+ export type UseCustomerSessionOptions = Record<string, unknown>
+ 
+@@ -12,12 +13,15 @@ export type UseCustomerSessionReturn = {
+ 
+ // eslint-disable-next-line @typescript-eslint/no-unused-vars
+ export function useCustomerSession(_: UseCustomerSessionOptions = {}) {
++  const storeConfig = useQuery(StoreConfigDocument)
+   const query = useQuery(CustomerTokenDocument)
+   const tokenData = query.data?.customerToken
++  const customer_access_token_lifetime = storeConfig.data?.storeConfig?.customer_access_token_lifetime
+ 
+   return {
+     ...tokenData,
+     loggedIn: Boolean(tokenData?.token),
+     query,
++    customer_access_token_lifetime
+   }
+ }
 diff --git a/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts b/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts
 new file mode 100644
-index 0000000..466fdc6
+index 0000000..69d1f51
 --- /dev/null
 +++ b/node_modules/@graphcommerce/magento-customer/hooks/useSignInForm.interceptor.ts
-@@ -0,0 +1,76 @@
+@@ -0,0 +1,69 @@
 +/* hash:717073135 */
 +/* eslint-disable */
 +/* This file is automatically generated for @graphcommerce/magento-customer/hooks/useSignInForm */
@@ -2392,13 +2439,6 @@ index 0000000..466fdc6
 +}
 +
 +/** SOURCE_END */
-+
-+const logged: Set<string> = new Set()
-+const logOnce = (log: string, ...additional: unknown[]) => {
-+  if (logged.has(log)) return
-+  logged.add(log)
-+  console.warn(log, ...additional)
-+}
 +
 +const useSignInFormuseSignInFormMergeCartInterceptor: typeof useSignInFormOriginal = (...args) => {
 +  return useSignInFormuseSignInFormMergeCart(useSignInFormOriginal, ...args)

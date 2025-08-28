@@ -42,7 +42,7 @@ export default function DeliveryDate({ slotList }) {
   })
 
   const { required, error, handleSubmit } = form
-  const submit = handleSubmit(() => {})
+  const submit = handleSubmit(() => { })
 
   const uniqueDates = [...new Set(slotList?.slots?.map((slot) => slot.date))] as string[]
   const sortDates = uniqueDates?.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
@@ -52,6 +52,19 @@ export default function DeliveryDate({ slotList }) {
     label: dateString,
     value: dateString,
   }))
+
+  const today = dayjs().format('YYYY-MM-DD')
+  const now = dayjs()
+
+  const disabledSlots = (slot) => {
+    // Extract slot start time
+    const [startTime] = slot?.slot?.split('-')
+    const start = dayjs(`${slot?.date} ${startTime}`, 'YYYY-MM-DD h:mm A')
+
+    // Disable if today and slot time is already past
+    return slot?.date === today && start?.isBefore(now) ? true : false
+  }
+
   return (
     <Form
       noValidate
@@ -67,7 +80,6 @@ export default function DeliveryDate({ slotList }) {
             lineHeight: '158%',
           },
           '& .MuiInputLabel-root.MuiInputLabel-animated': {
-            backgroundColor: 'white',
             padding: '0 6px',
           },
           '& .MuiOutlinedInput-root .MuiSelect-icon': {
@@ -104,14 +116,14 @@ export default function DeliveryDate({ slotList }) {
             border: (theme) => `1px solid ${theme.palette.custom.border}`,
           },
           '& .mui-style-1orawlc-MuiPickersInputBase-root-MuiPickersOutlinedInput-root.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline ':
-            {
-              borderWidth: '1px',
-              borderColor: (theme) => theme.palette.custom.border,
-            },
+          {
+            borderWidth: '1px',
+            borderColor: (theme) => theme.palette.custom.border,
+          },
           '& .mui-style-1orawlc-MuiPickersInputBase-root-MuiPickersOutlinedInput-root:hover .MuiPickersOutlinedInput-notchedOutline':
-            {
-              borderColor: (theme) => theme.palette.custom.border,
-            },
+          {
+            borderColor: (theme) => theme.palette.custom.border,
+          },
           '& .MuiInputAdornment-root .MuiSvgIcon-root': {
             fill: (theme) => theme.palette.custom.wishlistColor,
           },
@@ -229,9 +241,9 @@ export default function DeliveryDate({ slotList }) {
               fill: (theme) => theme.palette.custom.wishlistColor,
             },
             '& .mui-style-1d3z3hw-MuiOutlinedInput-notchedOutline, .mui-style-ioqfy8-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline  ':
-              {
-                borderColor: (theme) => theme.palette.custom.border,
-              },
+            {
+              borderColor: (theme) => theme.palette.custom.border,
+            },
             '& .MuiSelect-select': {
               color: (theme) => theme.palette.custom.main,
             },
@@ -275,6 +287,7 @@ export default function DeliveryDate({ slotList }) {
           options={slotTime?.map((slot) => ({
             id: slot?.slot,
             label: slot.slot,
+            disabled: disabledSlots(slot)
           }))}
           onChange={(value) => {
             setTime(value as any)

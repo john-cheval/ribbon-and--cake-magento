@@ -1139,3 +1139,8 @@ msgstr "{totalResults} resultaten"
 
 msgid "{total_count} products"
 msgstr "{total_count} producten"
+
+
+#. js-lingui-generated-id
+msgid "Add"
+msgstr "Add"

@@ -1107,6 +1107,10 @@ msgid "Message"
 msgstr "Mensaje"
 
 #. js-lingui-generated-id
+msgid "Add"
+msgstr "Add"
+
+#. js-lingui-generated-id
 msgid "Some items in your cart contain errors, please update or remove them, then try again."
 msgstr "Algunos artículos de su carrito contienen errores, actualícelos o elimínelos y vuelva a intentarlo."
 

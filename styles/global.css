@@ -472,6 +472,7 @@
   margin-top: 0;
   padding-top: 14px;
   border-top: 1px solid rgba(199, 202, 205, 0.42);
+  text-align: center;
 }
 .about-responsive-heading {
   margin-bottom: 10px;
@@ -505,15 +506,11 @@
   position: relative;
 }
 .clients {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   align-items: center;
-  justify-content: center;
-  column-gap: 20px;
-  overflow-x: auto;
-  white-space: wrap;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  justify-content: flex-start;
+  justify-items: center;
 }
 .clients::-webkit-scrollbar {
   display: none;
@@ -790,6 +787,12 @@ ol {
   .left-svg {
     top: 40%;
   }
+  .clients {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+  }
 
   .customize-title {
     font-size: 17px;
@@ -850,6 +853,7 @@ ol {
     margin-top: 10px;
     padding-top: 0;
     border-top: none;
+    text-align: left;
   }
 
   .container-wrapper {
@@ -1262,6 +1266,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 8px;
+  height: 46px;
 }
 .footer-social a img {
   width: 20px;
@@ -1878,4 +1883,8 @@ input[type='number'] {
 }
 .Mui-disabled {
   color: #f6dbe0;
+}
+
+.send-button.is-disabled {
+  cursor: not-allowed;
 }

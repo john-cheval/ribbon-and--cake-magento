@@ -1,6 +1,12 @@
 'use client'
 
-import { Box, styled, Typography } from '@mui/material'
+import {
+  useCartEnabled,
+  useCartQuery,
+  useCartShouldLoginToContinue,
+} from '@graphcommerce/magento-cart'
+import { CartFabDocument } from '@graphcommerce/magento-cart/components/CartFab/CartFab.gql'
+import { Badge, Box, styled, Typography } from '@mui/material'
 import { AnimatePresence } from 'framer-motion'
 // import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
@@ -25,6 +31,7 @@ const moreMenu = [
   { id: 7, title: 'About', link: '/about' },
   { id: 8, title: 'Events', link: '/events' },
   { id: 9, title: 'Account', link: '/account' },
+  { id: 10, title: 'Contact Us', link: '/contact-us' },
 ]
 
 function MobileMenu({ ShopCategories }) {
@@ -44,6 +51,16 @@ function MobileMenu({ ShopCategories }) {
     setOpenDrawer(false)
   }
 
+  const cartEnabled = useCartEnabled()
+  const shouldLoginToContinue = useCartShouldLoginToContinue()
+  const cartQuery = useCartQuery(CartFabDocument, {
+    skip: shouldLoginToContinue,
+  })
+  if (!cartEnabled) return null
+
+  const totalQuantity = cartQuery.data?.cart?.total_quantity ?? 0
+
+  console.log(totalQuantity, 'thi is the totoal quantirtiy')
   return (
     <>
       <Link href='/' onClick={handleCloseAllOtherPopups}>
@@ -88,9 +105,26 @@ function MobileMenu({ ShopCategories }) {
               alignItems: 'center',
               cursor: 'pointer',
               color: router.asPath === '/cart' ? '#D23552' : '#441E14',
+              '& .MuiBadge-badge': {
+                backgroundColor: '#FF0000',
+                color: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                fontSize: '9px',
+                minWidth: '16px',
+                height: '16px',
+                right: '16px',
+                top: '1px',
+                left: '2px',
+              },
             }}
           >
-            <AiOutlineShopping size={20} />
+            <Badge badgeContent={totalQuantity}>
+              <AiOutlineShopping size={20} />
+            </Badge>
+
             <Typography sx={{ fontSize: { xs: '15px', md: '16px' } }}>Cart</Typography>
           </Box>
         </Box>

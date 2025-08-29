@@ -38,6 +38,7 @@ import { CircularProgress, Container, Dialog, Typography } from '@mui/material'
 import type { LayoutMinimalProps } from '../../components'
 import { LayoutDocument, LayoutMinimal } from '../../components'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
+import { useEffect, useState } from 'react'
 
 type GetPageStaticProps = GetStaticProps<LayoutMinimalProps>
 
@@ -45,8 +46,16 @@ function PaymentPage() {
   const billingPage = useCartQuery(BillingPageDocument, { fetchPolicy: 'cache-and-network' })
   const [{ locked }] = useCartLock()
 
+  const [selected_payment_method, set_selected_payment_method] = useState("")
+
   const cartExists =
     typeof billingPage.data?.cart !== 'undefined' && (billingPage.data.cart?.items?.length ?? 0) > 0
+
+  useEffect(() => {
+    if (billingPage?.data?.cart?.selected_payment_method?.code) {
+      set_selected_payment_method(billingPage?.data?.cart?.selected_payment_method?.code || "")
+    }
+  }, [billingPage?.data?.cart?.selected_payment_method?.code])
 
   return (
     <ComposedForm>
@@ -61,6 +70,22 @@ function PaymentPage() {
         }
       >
         {billingPage.error && <ApolloCartErrorFullPage error={billingPage.error} />}
+
+        {selected_payment_method === "ccavenue" && !cartExists && !billingPage.error && <FullPageMessage
+          disableMargin
+          icon={<CircularProgress />}
+          title={<Trans id='Processing your payment' />}
+          sx={{
+            height: "80vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Trans id='We’re processing your payment, this will take a few seconds.' />
+        </FullPageMessage>}
+
         {!billingPage.error && !cartExists && <EmptyCart disableMargin />}
         {cartExists && !billingPage.error && (
           <>
@@ -81,26 +106,26 @@ function PaymentPage() {
                   },
                 },
               }}
-              // switchPoint={0}
-              // primary={
-              //   <PaymentMethodButton
-              //     type='submit'
-              //     color='secondary'
-              //     button={{
-              //       variant: 'pill',
-              //       size: 'medium',
-              //       endIcon: <IconSvg src={iconChevronRight} size='small' />,
-              //     }}
-              //     display='inline'
-              //   >
-              //     <Trans id='Pay' />
-              //   </PaymentMethodButton>
-              // }
-              // divider={
-              //   <Container maxWidth='md'>
-              //     <Stepper steps={3} currentStep={3} />
-              //   </Container>
-              // }
+            // switchPoint={0}
+            // primary={
+            //   <PaymentMethodButton
+            //     type='submit'
+            //     color='secondary'
+            //     button={{
+            //       variant: 'pill',
+            //       size: 'medium',
+            //       endIcon: <IconSvg src={iconChevronRight} size='small' />,
+            //     }}
+            //     display='inline'
+            //   >
+            //     <Trans id='Pay' />
+            //   </PaymentMethodButton>
+            // }
+            // divider={
+            //   <Container maxWidth='md'>
+            //     <Stepper steps={3} currentStep={3} />
+            //   </Container>
+            // }
             >
               {/*  <LayoutTitle size='small' icon={iconId}>
                 <Trans id='Payment' />
@@ -112,12 +137,12 @@ function PaymentPage() {
               sx={{
                 '& .ActionCardLayout-root': {
                   '& .mui-style-1brfnwd-MuiButtonBase-root.variantOutlined.layoutList:first-of-type,     .mui-style-1brfnwd-MuiButtonBase-root.variantOutlined.layoutList:last-of-type':
-                    {
-                      borderTopRightRadius: '4px',
-                      borderTopLeftRadius: '4px',
-                      boxShadow: 'none',
-                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                    },
+                  {
+                    borderTopRightRadius: '4px',
+                    borderTopLeftRadius: '4px',
+                    boxShadow: 'none',
+                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
+                  },
                   '& .ActionCard-rootInner': {
                     '& .ActionCard-image': {
                       display: 'none',

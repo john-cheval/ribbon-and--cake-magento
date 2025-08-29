@@ -1,9 +1,10 @@
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
-index 1834408..bdf9866 100644
+index 1834408..a2b3a44 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/ActionCardListForm.tsx
-@@ -1,12 +1,18 @@
+@@ -1,12 +1,21 @@
 +import { CheckboxElement } from '@graphcommerce/ecommerce-ui/components/FormComponents/CheckboxElement'
++import { useProductFiltersPro } from '@graphcommerce/magento-product'
  import type { ActionCardListProps, ActionCardProps } from '@graphcommerce/next-ui'
  import { ActionCardList } from '@graphcommerce/next-ui'
  import type { ControllerProps, FieldValues } from '@graphcommerce/react-hook-form'
@@ -16,14 +17,16 @@ index 1834408..bdf9866 100644
  
  export type ActionCardItemBase = Pick<ActionCardProps, 'value'>
  
-+export type  actionCadListFormProps = {
-+  isFilter?:boolean
++export type actionCadListFormProps = {
++  isFilter?: boolean
++  isSort?: boolean
++  selectedLabel?: any
 +}
 +
  export type ActionCardRequireOptionSelection = { requireOptionSelection?: boolean }
  
  export type ActionCardItemRenderProps<T> = ActionCardProps & {
-@@ -18,9 +24,9 @@ export type ActionCardListFormProps<A, F extends FieldValues = FieldValues> = Om
+@@ -18,9 +27,9 @@ export type ActionCardListFormProps<A, F extends FieldValues = FieldValues> = Om
    'value' | 'error' | 'onChange' | 'children'
  > &
    Omit<ControllerProps<F>, 'render'> & {
@@ -35,16 +38,38 @@ index 1834408..bdf9866 100644
  
  /** @public */
  export function ActionCardListForm<
-@@ -40,6 +46,7 @@ export function ActionCardListForm<
+@@ -40,22 +49,37 @@ export function ActionCardListForm<
      disabled,
      shouldUnregister,
      requireOptionSelection,
 +    isFilter,
++    isSort = false,
++    selectedLabel = '',
      ...other
    } = props
    const RenderItem = render as React.FC<ActionCardItemRenderProps<ActionCardItemBase>>
-@@ -53,9 +60,13 @@ export function ActionCardListForm<
-     [multiple],
++  // const { params } = useProductFiltersPro()
+ 
+   const onSelect = useCallback(
+-    (itemValue: unknown, selectValues: unknown) =>
+-      multiple
+-        ? Array.isArray(selectValues) &&
+-          selectValues.some((selectValue) => selectValue === itemValue)
+-        : selectValues === itemValue,
+-    [multiple],
++    (itemValue: any, selectValues: unknown) => {
++      if (isSort) {
++        return itemValue?.code === selectedLabel?.sort && itemValue?.dir === selectedLabel?.dir
++      } else {
++        return (
++          multiple
++            ? Array.isArray(selectValues) &&
++            selectValues.some((selectValue) => selectValue === itemValue)
++            : selectValues === itemValue
++        )
++      }
++    },
++    [multiple, selectedLabel],
    )
  
 +  // const inputRef = useRef(null);
@@ -52,13 +77,13 @@ index 1834408..bdf9866 100644
 +
    const {
 -    field: { onChange, value, ref },
-+    field: { onChange, value, ref,...field },
++    field: { onChange, value, ref, ...field },
      fieldState,
-+    fieldState:{invalid, error},
++    fieldState: { invalid, error },
      formState,
    } = useController({
      ...props,
-@@ -75,6 +86,8 @@ export function ActionCardListForm<
+@@ -75,6 +99,8 @@ export function ActionCardListForm<
      [onChange, requireOptionSelection],
    )
  
@@ -67,7 +92,7 @@ index 1834408..bdf9866 100644
    return (
      <ActionCardList
        {...other}
-@@ -86,6 +99,30 @@ export function ActionCardListForm<
+@@ -86,13 +112,38 @@ export function ActionCardListForm<
        error={formState.isSubmitted && !!fieldState.error}
        errorMessage={fieldState.error?.message}
      >
@@ -93,22 +118,20 @@ index 1834408..bdf9866 100644
 +      
 +    /> 
 +      )) */}
-+   
-+      
++
++
        {items.map((item) => (
          <RenderItem
            {...item}
-@@ -93,8 +130,9 @@ export function ActionCardListForm<
+           key={`${item.value}`}
            value={item.value}
-           selected={onSelect(item.value, value)}
+-          selected={onSelect(item.value, value)}
++          selected={onSelect(isSort ? item : item.value, value)}
            onReset={handleReset}
 +          control={control}
          />
--      ))}
-+      )) }
+       ))}
      </ActionCardList>
-   )
- }
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/CheckboxElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/CheckboxElement.tsx
 index d6afcc5..d396279 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/CheckboxElement.tsx

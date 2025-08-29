@@ -1263,7 +1263,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..91a469d 100644
+index b64ae6d..d5a4675 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,23 +5,32 @@ import type { SxProps, Theme } from '@mui/material'
@@ -1277,12 +1277,12 @@ index b64ae6d..91a469d 100644
    sx?: SxProps<Theme>
 +  openAccordionIcon?: string | StaticImport
 +  closeAccordionIcon?: string | StaticImport
-+
++  menu?: any
  }
  
  export function ProductFiltersProSortSection(props: ProductFiltersProSortSectionProps) {
 -  const { sx } = props
-+  const { sx, openAccordionIcon, closeAccordionIcon } = props
++  const { sx, openAccordionIcon, closeAccordionIcon, menu } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
 +  const { options, showReset, selected, selectedLabel, handleChange, expanded, params } = useProductFiltersProSort(props)
@@ -1401,33 +1401,77 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..fccc0a8 100644
+index d3b392c..3b6d459 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -3,13 +3,14 @@ import { useQuery } from '@graphcommerce/graphql'
+@@ -3,26 +3,68 @@ import { useQuery } from '@graphcommerce/graphql'
  import { StoreConfigDocument } from '@graphcommerce/magento-store'
  import { filterNonNullableKeys } from '@graphcommerce/next-ui'
  import { i18n } from '@lingui/core'
 -import { useMemo } from 'react'
-+import { useEffect, useMemo, useState } from 'react'
++import { use, useEffect, useMemo, useState } from 'react'
  import type { CategoryDefaultFragment } from '../ProductListItems/CategoryDefault.gql'
- import type { ProductFilterParams } from '../ProductListItems/filterTypes'
+-import type { ProductFilterParams } from '../ProductListItems/filterTypes'
++import { isFilterTypeRange, type ProductFilterParams } from '../ProductListItems/filterTypes'
  import type { ProductListSortFragment } from '../ProductListSort'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { ProductListActionSortProps } from './ProductFiltersProSortChip'
  import { ProductFiltersProSortDirectionArrow } from './ProductFiltersProSortDirectionArrow'
 +import { useRouter } from 'next/router'
++import { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
  
  const exclude = ['relevance', 'position']
  
-@@ -19,10 +20,11 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+-  category?: CategoryDefaultFragment
++  category?: CategoryDefaultFragment,
++  menu?: any
+ }
  
- export function useProductFiltersProSort(props: ProductListActionSortProps) {
-   const { sort_fields, category } = props
--
+-export function useProductFiltersProSort(props: ProductListActionSortProps) {
+-  const { sort_fields, category } = props
++type CategoryTree = {
++  __typename: string
++  uid: string
++  id: number
++  include_in_menu: number
++  name: string
++  url_path: string
++  level: number
++  is_anchor: number
++  children: CategoryTree[]
++}
++
++function getCategoryByPath(input: string, categories: CategoryTree[]): CategoryTree | null {
++  // 1. Normalize input
++  let targetPath = input
++  const cIndex = input.indexOf('/c/')
++  const qIndex = input.indexOf('/q/')
++  if (cIndex !== -1 && qIndex !== -1 && qIndex > cIndex) {
++    targetPath = input.substring(cIndex + 3, qIndex)
++  }
++
++  targetPath = targetPath.replace(/^\/+/, '')
+ 
 -  const { params, form } = useProductFiltersPro()
 -  const { control, setValue } = form
--
++  // 2. Recursive search function
++  function search(list: CategoryTree[]): CategoryTree | null {
++    for (const category of list) {
++      if (category.url_path === targetPath) return category
++      if (category.children.length > 0) {
++        const found = search(category.children)
++        if (found) return found
++      }
++    }
++    return null
++  }
++
++  return search(categories)
++}
+ 
++export function useProductFiltersProSort(props: ProductListActionSortProps) {
++  const { sort_fields, category, menu } = props
 +  const { params, submit, form } = useProductFiltersPro()
 +  const { control, setValue, getValues } = form
 +  const router = useRouter()
@@ -1436,7 +1480,7 @@ index d3b392c..fccc0a8 100644
    const sortFields = useMemo(
      () =>
        filterNonNullableKeys(sort_fields?.options).map((o) =>
-@@ -48,31 +50,132 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+@@ -48,31 +90,148 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
      Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
    const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
  
@@ -1447,10 +1491,7 @@ index d3b392c..fccc0a8 100644
 -        .map((option) => {
 -          const value = option.value === defaultSortBy ? null : option.value
 -          const showSort = formSort === value && !exclude.includes(option.value)
-+  useEffect(() => {
-+    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
-+  }, [])
- 
+-
 -          return {
 -            ...option,
 -            value,
@@ -1459,6 +1500,18 @@ index d3b392c..fccc0a8 100644
 -              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
 -              price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
 -            }),
++  useEffect(() => {
++    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
++  }, [])
++
++  const pathMenu = useMemo(() => {
++    if (menu && router && router.asPath) {
++      const categoryData = getCategoryByPath(router.asPath, menu)
++      return categoryData
++    }
++    return null
++  }, [menu, router.asPath])
++
 +  const options = useMemo(() => {
 +    return sortFields
 +      .filter((o) => o.value !== 'position' && availableSortBy.includes(o.value))
@@ -1524,8 +1577,16 @@ index d3b392c..fccc0a8 100644
 +          setOpenSort(false)
 +          setValue('sort', option?.code)
 +          setValue('dir', option?.dir === 'DESC' ? 'DESC' : null)
-+          if (!router.asPath.includes('/c/')) {
-+            setValue('url', router.asPath)
++          if (pathMenu) {
++            setValue('url', pathMenu.url_path)
++            // setValue('filters.category_id', pathMenu.uid)
++
++            const attrCode = pathMenu.uid as keyof ProductAttributeFilterInput
++            const name = `filters.${attrCode}` as const
++
++            // const param = params.filters?.[attrCode]
++            // if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
++            setValue("filters.category_uid", { eq: pathMenu.uid })
            }
 -        }),
 -    [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
@@ -1534,7 +1595,7 @@ index d3b392c..fccc0a8 100644
 +          submit()
 +        },
 +      }))
-+  }, [sortFields, availableSortBy, setValue, formSort, formDirection, router.asPath])
++  }, [sortFields, availableSortBy, setValue, formSort, formDirection, router.asPath, pathMenu])
 +  // const options = useMemo(
 +  //   () =>
 +  //     sortFields

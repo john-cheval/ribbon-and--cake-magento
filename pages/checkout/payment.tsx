@@ -86,7 +86,7 @@ function PaymentPage() {
           <Trans id='We’re processing your payment, this will take a few seconds.' />
         </FullPageMessage>}
 
-        {!billingPage.error && !cartExists && <EmptyCart disableMargin />}
+        {selected_payment_method !== "ccavenue" && !billingPage.error && !cartExists && <EmptyCart disableMargin />}
         {cartExists && !billingPage.error && (
           <>
             <LayoutHeader

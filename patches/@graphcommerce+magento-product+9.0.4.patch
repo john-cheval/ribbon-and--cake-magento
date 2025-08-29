@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..16d7b42 100644
+index 6ae6263..e5e8b03 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 @@ -1,11 +1,21 @@
@@ -24,7 +24,7 @@ index 6ae6263..16d7b42 100644
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,23 +31,64 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +31,63 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
@@ -88,13 +88,12 @@ index 6ae6263..16d7b42 100644
 +           {loading ? (
 +            <CircularProgress color='inherit' size={24} />
 +          ) : (
-+            // CORRECTED LOGIC: Render children if they exist, otherwise use the default text
 +            children ? (
 +              children
 +            ) : isAdson ? (
 +              <Trans> Add </Trans>
 +            ) : (
-+              <Trans>Add To Cart</Trans>
++              <Trans>Add to Cart</Trans>
 +            )
 +          )}
 +        </Button>
@@ -314,7 +313,7 @@ index a1ec789..b384c62 100644
        ))}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..90771f4 100644
+index fb82adb..9ad67b7 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -326,7 +325,7 @@ index fb82adb..90771f4 100644
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
    onChange: (...event: any[]) => void
    sx?: SxProps<Theme>
-@@ -31,18 +31,21 @@ export function PriceSlider(props: PriceSliderProps) {
+@@ -31,28 +31,43 @@ export function PriceSlider(props: PriceSliderProps) {
  
    const [min, max] = getMinMaxFromOptions(options)
  
@@ -346,14 +345,37 @@ index fb82adb..90771f4 100644
        sx={[
          (theme) => ({
 -          pt: theme.spacings.md,
-+          pt: theme.spacings.sm,
-           pb: theme.spacings.xs,
+-          pb: theme.spacings.xs,
 -          px: theme.spacings.xxs,
++          pt: theme.spacings.sm,
++           pb: theme.spacings.xs,
++          position:'relative',
++          top:'-20px'
 +          // px: theme.spacings.xxs,
          }),
          ...(Array.isArray(sx) ? sx : [sx]),
        ]}
-@@ -68,7 +71,10 @@ export function PriceSlider(props: PriceSliderProps) {
+       className={classes.container}
+     >
++      <Box className='priceSliderRange' 
++      sx={{ 
++        display: 'flex',
++        justifyContent: 'space-between',
++        transform: 'translateX(0px) translateY(210%) scale(1)' 
++        }}>
++    <Money value={from} sx={{ fontWeight: 400, fontSize: { xs: '15px', md: '16px' }, color:'#000' }} />
++    <Money value={to} sx={{ fontWeight: 400, fontSize: { xs: '15px', md: '16px', color:'#000' } }} />
++  </Box>
+       <Slider
+         min={min}
+         max={max}
+         size='large'
+         aria-labelledby='range-slider'
++        
+         value={[from, to]}
+         onChange={useEventCallback((_e, sliderValues) => {
+           if (!Array.isArray(sliderValues)) throw Error('not a range')
+@@ -68,15 +83,45 @@ export function PriceSlider(props: PriceSliderProps) {
            if (!value && !newVal) return
  
            // All values are the same, no need to update
@@ -365,7 +387,9 @@ index fb82adb..90771f4 100644
  
            // The value has changed, rerender
            onChange(newVal)
-@@ -77,6 +83,33 @@ export function PriceSlider(props: PriceSliderProps) {
+         })}
+-        valueLabelDisplay='on'
++        valueLabelDisplay='off'
          valueLabelFormat={renderMoney}
          className={classes.slider}
          step={1}
@@ -461,7 +485,7 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..3fe7bca 100644
+index cabc140..16ea4dd 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -564,7 +588,7 @@ index cabc140..3fe7bca 100644
 +
 +              '& .PriceSlider-container': {
 +                paddingTop: 0,
-+                paddingBottom: '30px',
++                paddingBottom: {xs:'5px', md:'30px'},
 +                //borderBottom:'0 !important'
 +              },
 +

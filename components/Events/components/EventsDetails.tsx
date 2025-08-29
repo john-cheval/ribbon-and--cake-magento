@@ -16,6 +16,7 @@ function EventsDetails({ list }) {
     : list
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRef = useRef<HTMLDivElement | null>(null)
+  const isInitialRender = useRef(true)
 
   useEffect(() => {
     const index = list.findIndex((item) => item?.name === selectedCategory)
@@ -29,6 +30,11 @@ function EventsDetails({ list }) {
   }, [selectedCategory, list])
 
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false
+      return
+    }
+
     if (contentRef.current) {
       contentRef.current.scrollIntoView({
         behavior: 'smooth',

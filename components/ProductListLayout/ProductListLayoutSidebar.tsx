@@ -14,7 +14,7 @@ import {
 } from '@graphcommerce/magento-product'
 import { Container, MediaQuery, memoDeep, StickyBelowHeader } from '@graphcommerce/next-ui'
 import { useApolloClient } from '@apollo/client'
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { iconArrowDropDown, iconArrowDropDownUp, iconFilterProduct } from '../../plugins/icons'
@@ -34,7 +34,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     handleSubmit,
     category,
     title,
-    menu,
     menuList,
     conf,
     isSearch = false,
@@ -46,11 +45,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   const configuration = useLayoutConfiguration(true)
 
-  const [sortValue, setSortValue] = useState('Latest')
-  const handleSortChange = (event: SelectChangeEvent) => {
-    setSortValue(event.target.value as string)
-  }
-
   const [scroll, setScroll] = useState<boolean>(false)
   useEffect(() => {
     const handleScroll = () => {
@@ -58,8 +52,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     }
 
     window.addEventListener('scroll', handleScroll)
-
-    // return window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Scroll Pagination
@@ -84,17 +76,24 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       ),
     })
 
-    setAllPageItems([...allPageItems, ...(pageProducts.data.products?.items ?? [])])
+    setAllPageItems((prev) => [
+      ...prev,
+      ...(pageProducts.data.products?.items ?? []),
+    ])
     setIsLoading(false)
   }
 
   useEffect(() => {
     if (products?.items) {
-      setAllPageItems(products?.items)
+      console.log(products?.page_info?.current_page, "==>products?.page_info?.current_page")
+      if (products?.page_info?.current_page === 1) {
+        setAllPageItems(products.items)
+      }
       setCurrentPage(products?.page_info?.current_page || 1)
       setTotalPage(products?.page_info?.total_pages || 1)
+      setIsLoading(false)
     }
-  }, [products?.items])
+  }, [products?.items, products?.page_info?.current_page])
 
   useEffect(() => {
     const observer = new IntersectionObserver(async ([entry]) => {
@@ -116,6 +115,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleAccordionChange = (categoryName: string) => {
     setExpanded(expanded === categoryName ? false : categoryName)
   }
+
+  console.log(products?.items, allPageItems, "==>allPageItems");
 
   const productLength = total_count ?? 0
   return (

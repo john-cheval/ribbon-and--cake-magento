@@ -79,6 +79,7 @@ function ProductPage(props: Props) {
   const client = useApolloClient()
   const [isLoading, setIsLoading] = useState(false)
   const [relatedProducts, setRelatedProducts] = useState<any>([])
+  const [isBuyNow, setIsBuyNow] = useState<boolean>(false)
 
   const product = mergeDeep(
     products?.items?.[0],
@@ -250,6 +251,7 @@ function ProductPage(props: Props) {
             },
           },
         }}
+        isBuyNow={isBuyNow}
       >
         <ProductPageJsonLd
           product={product}
@@ -495,6 +497,7 @@ function ProductPage(props: Props) {
             >
               <AddProductsToCartButton
                 // fullWidth
+                onClick={() => setIsBuyNow(false)}
                 product={product}
                 sx={{
                   backgroundColor: '#FFE09D',
@@ -591,7 +594,7 @@ function ProductPage(props: Props) {
                     //   router?.push('/checkout')
                     // }}
 
-                    isBuyNow={true}
+                    onClick={() => setIsBuyNow(true)}
                   >
                     Buy Now
                   </AddProductsToCartButton>

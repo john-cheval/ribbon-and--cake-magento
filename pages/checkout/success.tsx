@@ -40,6 +40,8 @@ type Props = Record<string, unknown>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props>
 
 function OrderSuccessPage({ formData }) {
+  const router = useRouter()
+
   const hasCartId = !!useRouter().query.cart_id
 
   const orderNumber = useRouter()?.query?.order_number || formData?.orderNo
@@ -54,6 +56,16 @@ function OrderSuccessPage({ formData }) {
             ...formData,
           },
         })
+
+        if (data?.ccavanueComplete?.order_id) {
+          router.replace({
+            pathname: router.pathname,
+            query: {
+              cart_id: router?.query?.cart_id,
+              order_number: formData?.orderNo,
+            },
+          })
+        }
       }
     }
 

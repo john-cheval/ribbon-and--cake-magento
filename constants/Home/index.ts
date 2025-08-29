@@ -28,7 +28,7 @@ export const footerData = [
       {
         id: 5,
         link: 'Baking Classes',
-        href: '/baking-classes',
+        href: '/courses',
       },
       {
         id: 6,

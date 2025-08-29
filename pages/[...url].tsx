@@ -63,28 +63,6 @@ function CategoryPage(props: CategoryProps) {
   const isShop = false
 
   const productsLength = products?.total_count ?? 0
-  if (!productsLength) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '50vh',
-        }}
-      >
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontSize: { xs: '15px', lg: '20px' },
-            color: (theme) => theme.palette.custom.main,
-          }}
-        >
-          No Products Found For this Category
-        </Typography>
-      </Box>
-    )
-  }
 
   const contexProps = {
     ...productList,

@@ -121,7 +121,7 @@ function EventsDetails({ list }) {
       <Box
         ref={contentRef}
         sx={{
-          scrollMarginTop: '100px',
+          scrollMarginTop: { xs: '150px', lg: '100px' },
           gridColumn: { xs: 'span 12', lg: 'span 8' },
         }}
       >

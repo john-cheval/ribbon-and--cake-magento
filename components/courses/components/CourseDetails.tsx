@@ -17,6 +17,7 @@ function CourseDetail({ categories, coursesList }) {
   const [hasMore, setHasMore] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const contentRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -65,6 +66,15 @@ function CourseDetail({ categories, coursesList }) {
       })
     }
   }, [selectedCategory, categories])
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, [selectedCategory])
   return (
     <Box
       component='section'
@@ -168,9 +178,11 @@ function CourseDetail({ categories, coursesList }) {
 
       {/* Card  Goes Here */}
       <Box
+        ref={contentRef}
         sx={{
           gridColumn: { xs: 'auto', md: 'span 8' },
           paddingTop: { xs: '20px', lg: '18px' },
+          scrollMarginTop: { xs: '150px', lg: '100px' },
         }}
       >
         <Typography

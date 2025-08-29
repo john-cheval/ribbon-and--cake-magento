@@ -44,9 +44,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   if (!params || !products?.items || !filterTypes) return null
   const { total_count, sort_fields, page_info } = products
 
-  console.log(products,"==>products");
-  
-
   const configuration = useLayoutConfiguration(true)
 
   const [sortValue, setSortValue] = useState('Latest')
@@ -93,8 +90,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   useEffect(() => {
     if (products?.items) {
-      console.log(products?.items,products?.page_info?.current_page,"==>productsitems");
-      
       setAllPageItems(products?.items)
       setCurrentPage(products?.page_info?.current_page || 1)
       setTotalPage(products?.page_info?.total_pages || 1)
@@ -121,8 +116,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleAccordionChange = (categoryName: string) => {
     setExpanded(expanded === categoryName ? false : categoryName)
   }
-console.log(products?.items,allPageItems,"==>allPageItems");
 
+  const productLength = total_count ?? 0
   return (
     <ProductFiltersPro
       params={params}
@@ -155,85 +150,106 @@ console.log(products?.items,allPageItems,"==>allPageItems");
           paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >
-        <Box
-          sx={{
-            gridArea: 'items',
-            marginTop: {
-              xs: isSearch ? '30px' : 0,
-              md: isSearch ? '50px' : 0,
-              lg: isSearch ? '60px' : 0,
-            },
-            '& .ProductListItemsBase-root': {
-              gap: { xs: '20px', md: '20px' },
-              gridTemplateColumns: {
-                xs: 'repeat(2, 1fr)',
-                sm: isSearch ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
-                md: isSearch ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
-                lg: isSearch ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)',
-                xl: isSearch ? 'repeat(5, 1fr)' : 'repeat(4, 1fr)',
-              },
-              '& .ProductListItem-topLeft': {
-                gridArea: 'unset',
-              },
-
-              '& .ProductListItem-titleContainer .MuiButtonBase-root': {
-                width: '40px',
-                height: '40px',
-              },
-            },
-            '& .ProductListItem-imageContainer .ProductListItem-topRight .MuiButtonBase-root': {
-              padding: { xs: '8px', xl: '9px' },
-              transition: 'all 0.4s ease-in-out',
-              '& svg.ProductWishlistChipBase-wishlistIconActive': {
-                fontSize: '18px',
-              },
-              '&:hover ': {
-                '& svg': {
-                  fill: (theme) => theme.palette.custom.wishlistColor,
-                },
-              },
-            },
-            '& .ProductListItem-titleContainer': {
-              rowGap: { xs: '2px', md: '0' },
-              '& .ProductListItem-title': {
-                color: (theme) => theme.palette.custom.dark,
-                //  minHeight: '50px',
-                fontSize: { xs: '15px', md: '16px' },
-                lineHeight: '158%',
-              },
-              '& .MuiButtonBase-root': {
-                width: '45px',
-                height: '45px',
-
-                '& svg': {
-                  fontSize: { xs: '25px', md: '28px' },
-                  left: { xs: '5px', md: '7px' },
-                  top: '4px',
-                },
-              },
-            },
-          }}
-        >
-          {products.items.length <= 0 ? (
-            <ProductFiltersProNoResults search={params.search} />
-          ) : (
-            <ProductListItems
-              {...products}
-              items={allPageItems}
-              loadingEager={6}
-              title={(params.search ? `Search ${params.search}` : title) ?? ''}
-              columns={configuration.columns}
-              sx={{}}
-            />
-          )}
+        {productLength > 0 ? (
           <Box
-            ref={loaderRef}
-            //sx={{ height: 80, width: '100%', background: 'red' }}
-            component='div'
+            sx={{
+              gridArea: 'items',
+              marginTop: {
+                xs: isSearch ? '30px' : 0,
+                md: isSearch ? '50px' : 0,
+                lg: isSearch ? '60px' : 0,
+              },
+              '& .ProductListItemsBase-root': {
+                gap: { xs: '20px', md: '20px' },
+                gridTemplateColumns: {
+                  xs: 'repeat(2, 1fr)',
+                  sm: isSearch ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
+                  md: isSearch ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
+                  lg: isSearch ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)',
+                  xl: isSearch ? 'repeat(5, 1fr)' : 'repeat(4, 1fr)',
+                },
+                '& .ProductListItem-topLeft': {
+                  gridArea: 'unset',
+                },
+
+                '& .ProductListItem-titleContainer .MuiButtonBase-root': {
+                  width: '40px',
+                  height: '40px',
+                },
+              },
+              '& .ProductListItem-imageContainer .ProductListItem-topRight .MuiButtonBase-root': {
+                padding: { xs: '8px', xl: '9px' },
+                transition: 'all 0.4s ease-in-out',
+                '& svg.ProductWishlistChipBase-wishlistIconActive': {
+                  fontSize: '18px',
+                },
+                '&:hover ': {
+                  '& svg': {
+                    fill: (theme) => theme.palette.custom.wishlistColor,
+                  },
+                },
+              },
+              '& .ProductListItem-titleContainer': {
+                rowGap: { xs: '2px', md: '0' },
+                '& .ProductListItem-title': {
+                  color: (theme) => theme.palette.custom.dark,
+                  //  minHeight: '50px',
+                  fontSize: { xs: '15px', md: '16px' },
+                  lineHeight: '158%',
+                },
+                '& .MuiButtonBase-root': {
+                  width: '45px',
+                  height: '45px',
+
+                  '& svg': {
+                    fontSize: { xs: '25px', md: '28px' },
+                    left: { xs: '5px', md: '7px' },
+                    top: '4px',
+                  },
+                },
+              },
+            }}
           >
-            {isLoading && <Loading />}
+            {products.items.length <= 0 ? (
+              <ProductFiltersProNoResults search={params.search} />
+            ) : (
+              <ProductListItems
+                {...products}
+                items={allPageItems}
+                loadingEager={6}
+                title={(params.search ? `Search ${params.search}` : title) ?? ''}
+                columns={configuration.columns}
+                sx={{}}
+              />
+            )}
+            <Box
+              ref={loaderRef}
+              //sx={{ height: 80, width: '100%', background: 'red' }}
+              component='div'
+            >
+              {isLoading && <Loading />}
+            </Box>
           </Box>
-        </Box>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '50vh',
+            }}
+          >
+            <Typography
+              sx={{
+                textAlign: 'center',
+                fontSize: { xs: '15px', lg: '20px' },
+                color: (theme) => theme.palette.custom.main,
+              }}
+            >
+              No Products Found For this Category
+            </Typography>
+          </Box>
+        )}
 
         {!isShopPage && (
           <>
@@ -286,7 +302,9 @@ console.log(products?.items,allPageItems,"==>allPageItems");
                         justifyContent: 'space-between',
                         overflow: 'visible',
 
-                        '& > button': {
+                        '& > button:nth-child(1)': {
+                          position: 'relative',
+                          top: '2px',
                           // width: '50%',
                         },
                         '& > .MuiButtonBase-root': {
@@ -492,8 +510,8 @@ console.log(products?.items,allPageItems,"==>allPageItems");
                             //   width: '100%',
                             // },
                           }}
-                        // isDropdown={true}
-                        // isButton={true}
+                          // isDropdown={true}
+                          // isButton={true}
                         />
                       </ProductFiltersPro>
                     )}

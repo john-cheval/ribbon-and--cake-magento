@@ -34,7 +34,7 @@ function CoursesPage(props: CoursePropsType) {
         canonical='/courses'
       />
 
-      <InnerTop title={'courses'} isFilter={false} />
+      <InnerTop title={'Baking Classes'} isFilter={false} />
 
       <Courses
         coursesCategory={courseCategoryData}

@@ -1,5 +1,5 @@
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..02dd496 100644
+index 6ae6263..16d7b42 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 @@ -1,11 +1,21 @@
@@ -24,7 +24,7 @@ index 6ae6263..02dd496 100644
    Pick<
      ButtonProps<'button'>,
      | 'variant'
-@@ -21,23 +31,57 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
+@@ -21,23 +31,64 @@ export type AddProductsToCartButtonProps = UseAddProductsToCartActionProps &
    >
  
  export function AddProductsToCartButton(props: AddProductsToCartButtonProps) {
@@ -85,10 +85,17 @@ index 6ae6263..02dd496 100644
 +          {...action}
 +          disabled={disabled || loading}
 +        >
-+          {loading ? (
++           {loading ? (
 +            <CircularProgress color='inherit' size={24} />
 +          ) : (
-+            children || <Typography component='span'>{isAdson ? 'Add' : 'Add to Cart'}</Typography>
++            // CORRECTED LOGIC: Render children if they exist, otherwise use the default text
++            children ? (
++              children
++            ) : isAdson ? (
++              <Trans> Add </Trans>
++            ) : (
++              <Trans>Add To Cart</Trans>
++            )
 +          )}
 +        </Button>
 +      )}

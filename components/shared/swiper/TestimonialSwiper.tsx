@@ -45,6 +45,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
     }
   }
 
+  const spreadeData = [...(data || []), ...(data || [])]
   if (!data) return
   return (
     <Box component='div' sx={{ position: 'relative' }} className='swiper_testi'>
@@ -75,7 +76,7 @@ export function TestimonialSwiper({ data }: TestimonialsPropsType) {
         centeredSlides
         className='swiper-prop-testi'
       >
-        {data?.map((item, index) => (
+        {spreadeData?.map((item, index) => (
           <SwiperSlide key={item?.post_id || index}>
             <Box
               sx={{

@@ -23,7 +23,9 @@ function Clients({ clientsData }: ClientPropsType) {
       >
         Corporate clients
       </Typography>
-      {clientsData && <div dangerouslySetInnerHTML={{ __html: clientsData }} />}
+      {clientsData && (
+        <div className='container-wrapper' dangerouslySetInnerHTML={{ __html: clientsData }} />
+      )}
     </Box>
   )
 }

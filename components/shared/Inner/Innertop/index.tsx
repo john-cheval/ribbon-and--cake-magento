@@ -154,20 +154,22 @@ export function InnerTop(props: InnerTopProps) {
                       alignItems: 'center',
                     }}
                   >
-                    <Image
-                      src={rightArrow}
-                      width={18}
-                      height={18}
-                      sizes='100vw'
-                      sx={{
-                        width: '18px',
-                        height: 'auto',
-                        verticalAlign: 'middle',
-                        flexShrink: 0,
-                      }}
-                    />
+                    {index !== 0 && (
+                      <Image
+                        src={rightArrow}
+                        width={18}
+                        height={18}
+                        sizes='100vw'
+                        sx={{
+                          width: '18px',
+                          height: 'auto',
+                          verticalAlign: 'middle',
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
 
-                    {index === 0 ? (
+                    {index === 0 ? null : index === 1 ? (
                       <Link href={linkPath} passHref>
                         <Typography
                           component='p'
@@ -175,7 +177,6 @@ export function InnerTop(props: InnerTopProps) {
                             color: (theme: any) => theme.palette.custom.tertiary,
                             fontWeight: 400,
                             fontSize: { xs: '15px', md: '16px' },
-                            textDecoration: 'none',
                           }}
                         >
                           {formattedLink}
@@ -205,7 +206,7 @@ export function InnerTop(props: InnerTopProps) {
           </Typography>
         )}
 
-        {isFilters && (
+        {/*isFilters && (
           <Box
             sx={{
               display: 'flex',
@@ -230,7 +231,7 @@ export function InnerTop(props: InnerTopProps) {
               }}
             />
           </Box>
-        )}
+        )*/}
 
         {isFilter && (
           <Box
@@ -244,12 +245,20 @@ export function InnerTop(props: InnerTopProps) {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                columnGap: '40px',
+                columnGap: { xs: '20px', sm: '30px', md: '40px' },
                 justifyContent: { xs: 'space-between', md: 'start' },
                 width: { xs: '100%', md: 'fit-content' },
               }}
             >
-              <Typography component='h2' variant='h2' sx={{}}>
+              <Typography
+                component='h2'
+                variant='h2'
+                sx={{
+                  whiteSpace: 'nowrap',
+                  // overflow: 'hidden',
+                  //  textOverflow: 'ellipsis',
+                }}
+              >
                 {title}
               </Typography>
 
@@ -333,8 +342,8 @@ export function InnerTop(props: InnerTopProps) {
                           marginLeft: '5px',
                         },
                       }}
-                    // isDropdown={true}
-                    // isButton={true}
+                      // isDropdown={true}
+                      // isButton={true}
                     />
                   </ProductFiltersPro>
                 )}

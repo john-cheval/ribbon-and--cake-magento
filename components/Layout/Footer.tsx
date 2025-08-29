@@ -1,6 +1,9 @@
+import { MessageSnackbar } from '@graphcommerce/next-ui'
 import { useMutation, useQuery } from '@apollo/client'
-import { Box } from '@mui/material'
+import { Trans } from '@lingui/react'
+import { Box, Typography } from '@mui/material'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -8,6 +11,7 @@ import { AlekseonFormDocument } from '../../graphql/aleskonForm.gql'
 import { UpdateAlekseonFormDocument } from '../../graphql/UpdateAleskonForm.gql'
 
 export function Footer({ footerContent }) {
+  const router = useRouter()
   const [updateAlekseonForm, { data, loading: isSubmitting, error }] = useMutation(
     UpdateAlekseonFormDocument,
   )
@@ -27,6 +31,9 @@ export function Footer({ footerContent }) {
   const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
+    if (!footerContent) {
+      return
+    }
     const summaries = document.querySelectorAll<HTMLDivElement>('.footer-accordion-summary')
 
     const handlers: Array<() => void> = []
@@ -46,20 +53,31 @@ export function Footer({ footerContent }) {
     return () => {
       handlers.forEach((remove) => remove())
     }
-  }, [footerContent])
+  }, [footerContent, router])
 
   useEffect(() => {
+    if (!footerContent) {
+      return
+    }
+
     const button = document.querySelector<HTMLButtonElement>('.send-button')
     const input = document.querySelector<HTMLInputElement>('#news-letter')
 
     if (!input || !button) return
     const validateEmail = (value: string) => {
-      return /\S+@\S+\.\S+/.test(value) && value.endsWith('@gmail.com')
+      // return /\S+@\S+\.\S+/.test(value) && value.endsWith('@gmail.com')
+      return /\S+@\S+\.\S+/.test(value)
     }
 
     const toggleButtonState = () => {
       const isValid = validateEmail(input.value)
       button.disabled = !isValid || isSubmitting
+
+      if (button.disabled) {
+        button.classList.add('is-disabled')
+      } else {
+        button.classList.remove('is-disabled')
+      }
     }
     const handler = async (event: MouseEvent) => {
       event.preventDefault()
@@ -75,7 +93,7 @@ export function Footer({ footerContent }) {
       }
 
       try {
-        await updateAlekseonForm({
+        const result = await updateAlekseonForm({
           variables: {
             input: {
               identifier: 'newsletter',
@@ -83,7 +101,7 @@ export function Footer({ footerContent }) {
             },
           },
         })
-        if (isSuccess) {
+        if (result.data?.updateAlekseonForm?.success) {
           input.value = ''
           button.disabled = true
         }
@@ -102,7 +120,7 @@ export function Footer({ footerContent }) {
       input.removeEventListener('input', toggleButtonState)
       button.removeEventListener('click', handler)
     }
-  }, [updateAlekseonForm, isSuccess, fieldIdentifier])
+  }, [updateAlekseonForm, isSuccess, fieldIdentifier, footerContent])
 
   return (
     <>
@@ -142,6 +160,34 @@ export function Footer({ footerContent }) {
           </Box>
         </Box>
       </Link>
+
+      {isSuccess && (
+        <MessageSnackbar
+          sx={{
+            '& .MuiSnackbarContent-message': {
+              '& svg': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '18px', lg: '25px' },
+              },
+              '& .MuiBox-root': {
+                color: (theme: any) => theme.palette.custom.main,
+                fontSize: { xs: '15px', md: '16px' },
+                textAlign: 'center',
+              },
+              '& .MuiButtonBase-root': {
+                width: { xs: '35px', xl: '40px' },
+                height: { xs: '35px', xl: '40px' },
+              },
+            },
+          }}
+          open={isSuccess}
+          sticky
+          variant='pill'
+          severity='success'
+        >
+          <Typography component='span'>Newsletter Subscribed </Typography>
+        </MessageSnackbar>
+      )}
     </>
   )
 }

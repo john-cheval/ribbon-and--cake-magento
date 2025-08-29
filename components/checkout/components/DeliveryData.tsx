@@ -25,6 +25,7 @@ export default function DeliveryDate({ slotList }) {
   const [date, setDate] = useState<string>('')
   const [time, setTime] = useState<string>('')
   const [slotTime, setSlotTime] = useState<SlotItem[]>([])
+  const [open, setOpen] = useState(false)
 
   const form = useFormGqlMutationCart(setDeliveryTimeDateDocument, {
     defaultValues: {
@@ -101,8 +102,15 @@ export default function DeliveryDate({ slotList }) {
           '& .MuiPickersInputBase-root': {
             // padding: 0
             border: '1px solid #F6DBE0',
-          },
+
+          }
         },
+        '& .MuiPickersInputBase-sectionContent': {
+          background: "transparent !important"
+        },
+        '& .MuiPickersInputBase-sectionContent::selection': {
+          background: "transparent !important",
+        }
       }}
       onSubmit={submit}
     >
@@ -133,19 +141,28 @@ export default function DeliveryDate({ slotList }) {
           '& .MuiPickersSectionList-root span': {
             color: (theme) => theme.palette.custom.main,
           },
+
         }}
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['DatePicker']}>
+          <DemoContainer components={['DatePicker']} sx={{
+            '& .MuiPickersOutlinedInput-notchedOutline': {
+              borderColor: '#D5B1B8 !important',
+              borderWidth: '1px !important'
+            },
+          }}>
             <DatePicker
+              open={open}
+              onClose={() => setOpen(false)}
               label={<Trans id='Delivery Date' />}
-              //  control={form.control}
+              format="DD/MM/YYYY"
               name={'date' as any}
               slotProps={{
                 textField: {
                   fullWidth: true,
                   variant: 'outlined',
                   sx: {
+                    cursor: '!important',
                     '& .MuiInputLabel-root': {
                       color: (theme) => theme.palette.custom.main,
                       fontSize: { xs: '15px', md: '16px' },
@@ -165,7 +182,19 @@ export default function DeliveryDate({ slotList }) {
                     },
                     '& input': {
                       color: (theme) => theme.palette.custom.main,
+                      cursor: 'pointer !important',
                     },
+
+                    '& .MuiPickersInputBase-sectionsContainer': {
+                      cursor: 'pointer !important',
+                    }
+                  },
+                  inputProps: {
+                    readOnly: true,
+                    tabIndex: -1,
+                  },
+                  onClick: () => {
+                    setOpen(true)
                   },
                 },
                 popper: {
@@ -198,6 +227,11 @@ export default function DeliveryDate({ slotList }) {
                     },
                   },
                 },
+                openPickerButton: {
+                  onClick: () => {
+                    setOpen(true)
+                  },
+                }
               }}
               onChange={(value) => {
                 // setDate(value as any);
@@ -212,9 +246,9 @@ export default function DeliveryDate({ slotList }) {
 
                 setDate(onlyDate)
 
-                const filteredSlots = slotList?.slots?.filter((s) =>
-                  dayjs(s.date).isSame(onlyDate, 'day'),
-                )
+                const filteredSlots = slotList?.slots?.filter(
+                  (s) => dayjs(s.date).isSame(onlyDate, 'day') && !disabledSlots(s)
+                ) || []
 
                 setSlotTime(filteredSlots)
 
@@ -223,6 +257,13 @@ export default function DeliveryDate({ slotList }) {
               // defaultValue={dayjs(slotList?.start_date)}
               minDate={dayjs()}
               maxDate={dayjs(slotList?.start_date).add(slotList?.maxdays || 1, 'day')}
+              shouldDisableDate={(day) => {
+                const onlyDate = dayjs(day).format('YYYY-MM-DD')
+                const availableSlots = slotList?.slots?.filter(
+                  (s) => dayjs(s.date).isSame(onlyDate, 'day') && !disabledSlots(s)
+                )
+                return availableSlots.length === 0
+              }}
             />
           </DemoContainer>
         </LocalizationProvider>
@@ -247,6 +288,21 @@ export default function DeliveryDate({ slotList }) {
             '& .MuiSelect-select': {
               color: (theme) => theme.palette.custom.main,
             },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#D5B1B8 !important',
+              borderWidth: '1px !important',
+            },
+            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#D5B1B8 !important',
+              borderWidth: '1px !important',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#D5B1B8 !important',
+              borderWidth: '1px !important',
+            },
+
+
+
           }}
           SelectProps={{
             MenuProps: {

@@ -429,7 +429,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                     paramss={params}
                   />
 
-                  <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                  <Box sx={{ display: { xs: 'block', md: 'none' }, flexGrow: 1, flexShrink: 0 }}>
                     {props.params && props.products?.items && props.filterTypes && (
                       <ProductFiltersPro
                         params={props.params}
@@ -545,6 +545,12 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                   '&::-webkit-scrollbar': {
                     display: 'none',
                   },
+                  '& .mui-style-h8pyxy-MuiPaper-root-MuiAccordion-root': {
+                    '& .MuiCollapse-vertical': {
+                      position: 'relative',
+                      top: '-5px',
+                    },
+                  },
                 }}
               >
                 {!isSearch && (
@@ -614,7 +620,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                         fontWeight: 500,
                         lineHeight: '120%',
                         color: (theme: any) => theme.palette.custom.dark,
-                        paddingTop: isSearch ? '0px' : '30px',
+                        paddingTop: isSearch ? '0px' : '20px',
                         paddingBottom: '15px',
                         borderBottom: (theme) =>
                           `1px solid ${theme.palette.custom.borderSecondary}`,

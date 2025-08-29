@@ -1654,6 +1654,17 @@ ol {
   width: 20px;
   display: inline-block;
 }
+.priceSliderRange span span:first-child {
+  background: url(../components/Assets/aed.svg) 0px no-repeat;
+  background-size: 18px auto;
+  color: transparent !important;
+  width: 20px;
+  display: inline-block;
+}
+.priceSliderRange span span:nth-child(4),
+.priceSliderRange span span:nth-child(5) {
+  display: none;
+}
 .MuiLoadingButton-loadingIndicatorCenter {
   color: '#D5B1B8 !important';
 }

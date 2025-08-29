@@ -18,6 +18,7 @@ function CourseDetail({ categories, coursesList }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRef = useRef<HTMLDivElement | null>(null)
+  const isInitialRender = useRef(true)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,6 +69,11 @@ function CourseDetail({ categories, coursesList }) {
   }, [selectedCategory, categories])
 
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false
+      return
+    }
+
     if (contentRef.current) {
       contentRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -75,6 +81,7 @@ function CourseDetail({ categories, coursesList }) {
       })
     }
   }, [selectedCategory])
+
   return (
     <Box
       component='section'
@@ -84,7 +91,6 @@ function CourseDetail({ categories, coursesList }) {
           md: '25px',
           lg: '55px',
         },
-        // paddingTop: '18px',
         marginBottom: '30px',
         display: 'grid',
         gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
@@ -142,14 +148,11 @@ function CourseDetail({ categories, coursesList }) {
           marginTop: { xs: '14px' },
           overflowX: 'auto',
           whiteSpace: 'nowrap',
-          // width: '330px',
           paddingBottom: '4px',
           '&::-webkit-scrollbar': {
             display: 'none',
           },
-
           scrollbarWidth: 'none',
-
           '-ms-overflow-style': 'none',
         }}
       >
@@ -176,7 +179,7 @@ function CourseDetail({ categories, coursesList }) {
         ))}
       </Box>
 
-      {/* Card  Goes Here */}
+      {/* Card Goes Here */}
       <Box
         ref={contentRef}
         sx={{
@@ -205,7 +208,6 @@ function CourseDetail({ categories, coursesList }) {
               xs: '1fr',
               sm: 'repeat(2, 1fr)',
               lg: 'repeat(3, 1fr)',
-              // xl: 'repeat(4, 1fr)',
             },
             columnGap: { xs: '0', sm: '10px', lg: '17px', xl: '20px' },
             rowGap: { xs: '10px', md: '8px', lg: '15px' },

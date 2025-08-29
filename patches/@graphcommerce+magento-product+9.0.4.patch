@@ -209,47 +209,67 @@ index 2050980..41e2af9 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
-index 1b7a2ac..eb65af9 100644
+index 1b7a2ac..da185c9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
-@@ -35,6 +35,8 @@ export type AddProductsToCartFormProps = {
+@@ -35,6 +35,9 @@ export type AddProductsToCartFormProps = {
     * @deprecated use snackbarProps.disableSuccessSnackbar instead
     */
    disableSuccessSnackbar?: boolean
-+    onSuccess?: () => void;
-+  
++  onSuccess?: () => void;
++  isBuyNow?: boolean
++
  } & UseFormGraphQlOptions<AddProductsToCartMutation, AddProductsToCartFields>
  
  const name = 'AddProductsToCartForm'
-@@ -60,6 +62,7 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+@@ -60,6 +63,8 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
      errorSnackbar,
      successSnackbar,
      snackbarProps,
 +    onSuccess,
++    isBuyNow,
      ...formProps
    } = props
    const router = useRouter()
-@@ -128,6 +131,8 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+@@ -128,15 +133,21 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
  
          if (toUserErrors(result.data).length || result.errors?.length || !redirect) return
  
 +        onSuccess?.();
 +
          if (redirect === 'added') {
-           await crosssellsQuery.current
-           const method = router.pathname.startsWith('/checkout/added')
-diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
-index 0fff1a5..652d07c 100644
---- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
-+++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
-@@ -20,6 +20,7 @@ export type UseAddProductsToCartActionReturn = {
-   onClick: React.MouseEventHandler<HTMLButtonElement>
-   onMouseDown: React.MouseEventHandler<HTMLButtonElement>
-   showSuccess: boolean
-+  isBuyNow?: boolean
- }
+-          await crosssellsQuery.current
+-          const method = router.pathname.startsWith('/checkout/added')
+-            ? router.replace
+-            : router.push
+-          await method({
+-            pathname: '/checkout/added',
+-            query: { sku: variables.cartItems.map((i) => i.sku) },
+-          })
++          if (isBuyNow) {
++            await router.push({ pathname: '/checkout' })
++          } else {
++            await crosssellsQuery.current
++            const method = router.pathname.startsWith('/checkout/added')
++              ? router.replace
++              : router.push
++            await method({
++              pathname: '/checkout/added',
++              query: { sku: variables.cartItems.map((i) => i.sku) },
++            })
++          }
+         } else {
+           await router.push({ pathname: redirect })
+         }
+@@ -144,7 +155,7 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+     },
+   )
  
- export function useAddProductsToCartAction(
+-  const submit = form.handleSubmit(() => {})
++  const submit = form.handleSubmit(() => { })
+ 
+   return (
+     <AddProductsToCartContext.Provider
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 index c61ffc0..ce11bee 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
@@ -1243,10 +1263,10 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..6b91c69 100644
+index b64ae6d..91a469d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,23 +5,33 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,23 +5,32 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
@@ -1265,12 +1285,10 @@ index b64ae6d..6b91c69 100644
 +  const { sx, openAccordionIcon, closeAccordionIcon } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
-+  const { options, showReset, selected, selectedLabel, handleChange, expanded } = useProductFiltersProSort(props)
++  const { options, showReset, selected, selectedLabel, handleChange, expanded, params } = useProductFiltersProSort(props)
  
--  if ((options.length ?? 0) <= 1) return null
+   if ((options.length ?? 0) <= 1) return null
  
-+  if ((options.length ?? 0) <= 1) return null
-+  console.log(selected, "==>selected")
    return (
      <ActionCardAccordion
        sx={sx}
@@ -1280,17 +1298,19 @@ index b64ae6d..6b91c69 100644
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-+      summary={<Trans id={`Sort by: ${selectedLabel}`} values={{ selectedLabel }} />}
++      summary={<Trans id={`Sort by: ${selectedLabel}`} values={{ selectedLabel: selectedLabel ? selectedLabel : options?.[0]?.label }} />}
        details={
          <ActionCardListForm
            control={form.control}
-@@ -30,24 +40,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +39,28 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
 -          items={options}
 +          items={options || []}
 +          isFilter={true}
++          isSort={true}
++          selectedLabel={params}
          />
        }
 -      right={
@@ -1381,7 +1401,7 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..660217e 100644
+index d3b392c..fccc0a8 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 @@ -3,13 +3,14 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -1416,59 +1436,147 @@ index d3b392c..660217e 100644
    const sortFields = useMemo(
      () =>
        filterNonNullableKeys(sort_fields?.options).map((o) =>
-@@ -48,31 +50,56 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+@@ -48,31 +50,132 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
      Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
    const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
  
+-  const options = useMemo(
+-    () =>
+-      sortFields
+-        .filter((o) => availableSortBy.includes(o.value))
+-        .map((option) => {
+-          const value = option.value === defaultSortBy ? null : option.value
+-          const showSort = formSort === value && !exclude.includes(option.value)
 +  useEffect(() => {
 +    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
 +  }, [])
-   const options = useMemo(
-     () =>
-       sortFields
-         .filter((o) => availableSortBy.includes(o.value))
-         .map((option) => {
--          const value = option.value === defaultSortBy ? null : option.value
-+          const value = option.value === defaultSortBy ? option.value : option.value
-           const showSort = formSort === value && !exclude.includes(option.value)
  
-           return {
-             ...option,
-             value,
-             title: option.label,
+-          return {
+-            ...option,
+-            value,
+-            title: option.label,
 -            ...(showSort && {
 -              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
 -              price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
 -            }),
-+            onClick: (e, va) => {
-+              setOpenSort(false)
-+              console.log(getValues("url"), "=>dede")
-+              setValue('sort', va)
-+              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
-+              if (!router.asPath.includes("/c/")) {
-+                setValue('url', router.asPath)
-+              }
-+              setSetExpanded(false)
-+              submit()
++  const options = useMemo(() => {
++    return sortFields
++      .filter((o) => o.value !== 'position' && availableSortBy.includes(o.value))
++      .flatMap((o) => {
++        if (o.value === 'price') {
++          return [
++            {
++              ...o,
++              label: 'Price: Low to High',
++              value: 'Price: Low to High',
++              dir: 'ASC',
++              code: o.value,
 +            },
-+            // ...(showSort && {
-+            //   price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
-+            // }),
++            {
++              ...o,
++              label: 'Price: High to Low',
++              value: 'Price: High to Low',
++              dir: 'DESC',
++              code: o.value,
++            },
++          ]
++        }
++        if (o.value === 'name') {
++          return [
++            {
++              ...o,
++              label: 'Name: A–Z',
++              value: 'Name: A–Z',
++              dir: 'ASC',
++              code: o.value,
++            },
++            {
++              ...o,
++              label: 'Name: Z–A',
++              value: 'Name: Z–A',
++              dir: 'DESC',
++              code: o.value,
++            },
++          ]
++        }
++
++        return [
++          {
++            ...o,
++            label: `${o.label} ASC`,
++            value: `${o.label} ASC`,
++            dir: 'ASC',
++            code: o.value,
++          },
++          {
++            ...o,
++            label: `${o.label} DESC`,
++            value: `${o.label} DESC`,
++            dir: 'DESC',
++            code: o.value,
++          },
++        ]
++      })
++      .map((option: any) => ({
++        ...option,
++        title: option.label,
++        onClick: (e, value) => {
++          setOpenSort(false)
++          setValue('sort', option?.code)
++          setValue('dir', option?.dir === 'DESC' ? 'DESC' : null)
++          if (!router.asPath.includes('/c/')) {
++            setValue('url', router.asPath)
            }
-         }),
-     [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
-   )
- 
+-        }),
+-    [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
+-  )
++          setSetExpanded(false)
++          submit()
++        },
++      }))
++  }, [sortFields, availableSortBy, setValue, formSort, formDirection, router.asPath])
++  // const options = useMemo(
++  //   () =>
++  //     sortFields
++  //       .filter((o) => availableSortBy.includes(o.value))
++  //       .map((option) => {
++  //         const value = option.value === defaultSortBy ? option.value : option.value
++  //         const showSort = formSort === value && !exclude.includes(option.value)
++
++  //         return {
++  //           ...option,
++  //           value,
++  //           title: option.label,
++  //           onClick: (e, va) => {
++  //             setOpenSort(false)
++  //             console.log(getValues("url"), "=>dede")
++  //             setValue('sort', va)
++  //             setValue('dir', formDirection === 'DESC' ? null : 'DESC')
++  //             if (!router.asPath.includes("/c/")) {
++  //               setValue('url', router.asPath)
++  //             }
++  //             setSetExpanded(false)
++  //             submit()
++  //           },
++  //           // ...(showSort && {
++  //           //   price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
++  //           // }),
++  //         }
++  //       }),
++  //   [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
++  // )
++
 +  const selectedLabel = useMemo(() => {
-+    const selectedOption = options.find((option) => option.value === params.sort)
-+    const defaultOption = options.find((option) => option.value === defaultSortBy)
++    const selectedOption = options.find((option) => (option.code === params.sort && option.dir === params.dir))
++    const defaultOption = options.find((option) => (option.code === defaultSortBy && option.dir === "ASC"))
++
 +    return selectedOption ? selectedOption.label : defaultOption?.label
 +  }, [options, params.sort, defaultSortBy])
 +
 +  const handleChange = (isExpanded: boolean) => {
 +    setSetExpanded(isExpanded);
 +  };
-+
+ 
    return {
 +    expanded,
      options,
@@ -1477,7 +1585,8 @@ index d3b392c..660217e 100644
      showReset,
 -    selectedLabel: options.find((option) => option.value === params.sort)?.label,
 +    selectedLabel: selectedLabel,
-+    handleChange
++    handleChange,
++    params
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
@@ -1708,6 +1817,19 @@ index ddf15be..e5a0bd4 100644
      ...ProductListItem
    }
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
+index 711b3ff..9b9e377 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
+@@ -83,7 +83,7 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
+   }
+ 
+   const classes = withState({ size })
+-
++  console.log(items, "==>items")
+   return (
+     <AddProductsToCartForm>
+       <Box
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 index 464c244..59e1d4d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts

@@ -85,7 +85,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
 
   useEffect(() => {
     if (products?.items) {
-      console.log(products?.page_info?.current_page, "==>products?.page_info?.current_page")
       if (products?.page_info?.current_page === 1) {
         setAllPageItems(products.items)
       }
@@ -115,8 +114,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   const handleAccordionChange = (categoryName: string) => {
     setExpanded(expanded === categoryName ? false : categoryName)
   }
-
-  console.log(products?.items, allPageItems, "==>allPageItems");
 
   const productLength = total_count ?? 0
   return (
@@ -511,8 +508,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             //   width: '100%',
                             // },
                           }}
-                          // isDropdown={true}
-                          // isButton={true}
+                        // isDropdown={true}
+                        // isButton={true}
                         />
                       </ProductFiltersPro>
                     )}

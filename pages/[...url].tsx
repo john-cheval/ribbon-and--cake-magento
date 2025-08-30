@@ -188,6 +188,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
         (await conf).data,
         category,
       ),
+      fetchPolicy: "network-only",
     })
     : undefined
 

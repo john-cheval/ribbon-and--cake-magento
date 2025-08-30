@@ -55,7 +55,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }, [])
 
   // Scroll Pagination
-  const [allPageItems, setAllPageItems] = useState<any[]>([])
+  // const [allPageItems, setAllPageItems] = useState<any[]>([])
+  const [allPageItemsData, setAllPageItemsData] = useState<{ [page: number]: any[] }>({})
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPage, setTotalPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -70,23 +71,32 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     const pageProducts = await client.query({
       query: ProductListDocument,
       variables: await productListApplyCategoryDefaults(
-        { ...params, currentPage: pageNumber },
+        {
+          ...params,
+          sort: !params?.sort || Object.keys(params.sort).length === 0 ? { name: 'ASC' } : { ...params?.sort },
+          currentPage: pageNumber
+        },
         conf,
         category,
       ),
     })
 
-    setAllPageItems((prev) => [
+    // setAllPageItems((prev) => [
+    //   ...prev,
+    //   ...(pageProducts.data.products?.items ?? []),
+    // ])
+    setAllPageItemsData((prev: any) => ({
       ...prev,
-      ...(pageProducts.data.products?.items ?? []),
-    ])
+      [pageNumber]: pageProducts.data.products?.items
+    }))
     setIsLoading(false)
   }
 
   useEffect(() => {
     if (products?.items) {
       if (products?.page_info?.current_page === 1) {
-        setAllPageItems(products.items)
+        // setAllPageItems(products.items)
+        setAllPageItemsData({ [products?.page_info?.current_page]: products.items })
       }
       setCurrentPage(products?.page_info?.current_page || 1)
       setTotalPage(products?.page_info?.total_pages || 1)
@@ -116,6 +126,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }
 
   const productLength = total_count ?? 0
+  console.log(allPageItemsData, "==>allPageItemsData")
   return (
     <ProductFiltersPro
       params={params}
@@ -128,12 +139,21 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       <Container
         maxWidth={false}
         sx={(theme) => ({
+          [theme.breakpoints.up('xs')]: {
+            gridTemplateColumns: '1fr',
+          },
+          ['@media (max-width: 1199px) and (min-width: 769px)']: {
+            gridTemplateColumns: '250px 1fr',
+          },
+          [theme.breakpoints.up('lg')]: {
+            gridTemplateColumns: 'minmax(280px, 350px) 1fr',
+          },
           display: isSearch ? 'block' : 'grid',
           alignItems: 'start',
           rowGap: isShopPage ? '0' : { xs: 0, md: theme.spacings.md },
           columnGap: isShopPage ? '0' : { xs: '30px', md: '50px', lg: '60px' },
           mb: theme.spacings.xl,
-          pt: isShopPage ? '0' : { xs: '20px', md: '20px', lg: '30px' },
+          // pt: isShopPage ? '0' : { xs: '20px', md: '20px', lg: '30px' },
           // gridTemplate: {
           //   xs: '"title" "horizontalFilters"  "items" ',
           //   md: `
@@ -212,14 +232,18 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             {products.items.length <= 0 ? (
               <ProductFiltersProNoResults search={params.search} />
             ) : (
-              <ProductListItems
-                {...products}
-                items={allPageItems}
-                loadingEager={6}
-                title={(params.search ? `Search ${params.search}` : title) ?? ''}
-                columns={configuration.columns}
-                sx={{}}
-              />
+              <>
+                {Object.entries(allPageItemsData)?.map(([page, items]) => (
+                  <ProductListItems
+                    key={page}
+                    {...products}
+                    items={items}
+                    loadingEager={6}
+                    title={(params.search ? `Search ${params.search}` : title) ?? ''}
+                    columns={configuration.columns}
+                  />
+                ))}
+              </>
             )}
             <Box
               ref={loaderRef}

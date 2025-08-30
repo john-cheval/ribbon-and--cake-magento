@@ -1902,7 +1902,7 @@ index ddf15be..e5a0bd4 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
-index 711b3ff..9b9e377 100644
+index 711b3ff..7da8552 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
 @@ -83,7 +83,7 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
@@ -1914,6 +1914,23 @@ index 711b3ff..9b9e377 100644
    return (
      <AddProductsToCartForm>
        <Box
+@@ -97,14 +97,14 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
+               gridTemplateColumns: `repeat(${column.count}, 1fr)`,
+             },
+           })),
+-          { display: 'grid' },
++          { display: 'grid', paddingTop: "20px" },
+           ...(Array.isArray(sx) ? sx : [sx]),
+         ]}
+       >
+         {items?.map((item, idx) =>
+           item ? (
+             <LazyHydrate
+-              key={item.uid ?? ''}
++              key={item.uid}
+               hydrated={loadingEager > idx ? true : undefined}
+               height={responsiveVal(250, 500)}
+             >
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 index 464c244..59e1d4d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts

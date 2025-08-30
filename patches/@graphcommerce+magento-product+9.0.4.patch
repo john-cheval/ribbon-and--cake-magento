@@ -1401,10 +1401,10 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..3b6d459 100644
+index d3b392c..dc7e50c 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -3,26 +3,68 @@ import { useQuery } from '@graphcommerce/graphql'
+@@ -3,26 +3,86 @@ import { useQuery } from '@graphcommerce/graphql'
  import { StoreConfigDocument } from '@graphcommerce/magento-store'
  import { filterNonNullableKeys } from '@graphcommerce/next-ui'
  import { i18n } from '@lingui/core'
@@ -1442,20 +1442,39 @@ index d3b392c..3b6d459 100644
 +  children: CategoryTree[]
 +}
 +
-+function getCategoryByPath(input: string, categories: CategoryTree[]): CategoryTree | null {
-+  // 1. Normalize input
++function getCategoryAndParams(
++  input: string,
++  categories: CategoryTree[]
++): { category: CategoryTree | null; params: Record<string, string> } {
 +  let targetPath = input
++  let params: Record<string, string> = {}
++
 +  const cIndex = input.indexOf('/c/')
 +  const qIndex = input.indexOf('/q/')
++
++  // --- Extract category path
 +  if (cIndex !== -1 && qIndex !== -1 && qIndex > cIndex) {
-+    targetPath = input.substring(cIndex + 3, qIndex)
++    targetPath = input.substring(cIndex + 3, qIndex) // between /c/ and /q/
 +  }
 +
++  // remove leading slash
 +  targetPath = targetPath.replace(/^\/+/, '')
  
 -  const { params, form } = useProductFiltersPro()
 -  const { control, setValue } = form
-+  // 2. Recursive search function
++  // --- Extract params if /q/ exists
++  if (qIndex !== -1) {
++    const afterQ = input.substring(qIndex + 3)
++    const parts = afterQ.split('/').filter(Boolean)
+ 
++    for (let i = 0; i < parts.length; i += 2) {
++      const key = parts[i]
++      const value = parts[i + 1] ?? ''
++      params[key] = value
++    }
++  }
++
++  // --- Recursive search for category
 +  function search(list: CategoryTree[]): CategoryTree | null {
 +    for (const category of list) {
 +      if (category.url_path === targetPath) return category
@@ -1467,9 +1486,8 @@ index d3b392c..3b6d459 100644
 +    return null
 +  }
 +
-+  return search(categories)
++  return { category: search(categories), params }
 +}
- 
 +export function useProductFiltersProSort(props: ProductListActionSortProps) {
 +  const { sort_fields, category, menu } = props
 +  const { params, submit, form } = useProductFiltersPro()
@@ -1480,7 +1498,7 @@ index d3b392c..3b6d459 100644
    const sortFields = useMemo(
      () =>
        filterNonNullableKeys(sort_fields?.options).map((o) =>
-@@ -48,31 +90,148 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+@@ -48,31 +108,153 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
      Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
    const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
  
@@ -1506,7 +1524,7 @@ index d3b392c..3b6d459 100644
 +
 +  const pathMenu = useMemo(() => {
 +    if (menu && router && router.asPath) {
-+      const categoryData = getCategoryByPath(router.asPath, menu)
++      const categoryData = getCategoryAndParams(router.asPath, menu)
 +      return categoryData
 +    }
 +    return null
@@ -1574,23 +1592,28 @@ index d3b392c..3b6d459 100644
 +        ...option,
 +        title: option.label,
 +        onClick: (e, value) => {
-+          setOpenSort(false)
-+          setValue('sort', option?.code)
-+          setValue('dir', option?.dir === 'DESC' ? 'DESC' : null)
-+          if (pathMenu) {
-+            setValue('url', pathMenu.url_path)
++
++          if (pathMenu?.category) {
++            setValue('url', pathMenu?.category?.url_path)
 +            // setValue('filters.category_id', pathMenu.uid)
 +
-+            const attrCode = pathMenu.uid as keyof ProductAttributeFilterInput
-+            const name = `filters.${attrCode}` as const
-+
++            Object.entries(pathMenu?.params ?? {}).forEach(([key, val]) => {
++              if (key === 'price') {
++                const [min, max] = (val as string).split('-')
++                setValue('filters.price', { from: min, to: max })
++              }
++            })
 +            // const param = params.filters?.[attrCode]
 +            // if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
-+            setValue("filters.category_uid", { eq: pathMenu.uid })
++            setValue("filters.category_uid", { eq: pathMenu?.category.uid })
            }
 -        }),
 -    [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
 -  )
++          setOpenSort(false)
++          setValue('sort', option?.code)
++          setValue('dir', option?.dir === 'DESC' ? 'DESC' : null)
++
 +          setSetExpanded(false)
 +          submit()
 +        },

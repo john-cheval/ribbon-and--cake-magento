@@ -140,18 +140,19 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
           rowGap: isShopPage ? '0' : { xs: 0, md: theme.spacings.md },
           columnGap: isShopPage ? '0' : { xs: '30px', md: '50px', lg: '60px' },
           mb: theme.spacings.xl,
-          gridTemplate: {
-            xs: '"title" "horizontalFilters"  "items" ',
-            md: `
-             "sidebar count"      auto
-             "sidebar items"      auto
-             /${configuration.sidebarWidth}   auto
-             `,
-          },
-          // gridTemplateAreas: {
-          //   xs: isShopPage ? 'items' : "'sidebar' 'horizontalFilters' 'items'",
-          //   md: isShopPage ? 'items' : "'sidebar items'",
+          pt: isShopPage ? '0' : { xs: '20px', md: '20px', lg: '30px' },
+          // gridTemplate: {
+          //   xs: '"title" "horizontalFilters"  "items" ',
+          //   md: `
+          //    "sidebar count"      auto
+          //    "sidebar items"      auto
+          //    /${configuration.sidebarWidth}   auto
+          //    `,
           // },
+          gridTemplateAreas: {
+            xs: isShopPage ? 'items' : "'sidebar' 'horizontalFilters' 'items'",
+            md: isShopPage ? 'items' : "'sidebar items'",
+          },
           paddingInline: { xs: '18px', md: '25px', lg: '55px' },
         })}
       >

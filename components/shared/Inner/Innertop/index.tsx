@@ -25,6 +25,7 @@ type InnerTopBaseProps = {
   responsiveTitle?: string
   isShopPage?: boolean
   isFilters?: boolean
+  menu?: any
 }
 type InnerTopWithFiltersProps = InnerTopBaseProps &
   ProductListLayoutProps & {

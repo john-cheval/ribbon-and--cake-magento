@@ -85,7 +85,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     //   ...prev,
     //   ...(pageProducts.data.products?.items ?? []),
     // ])
-    setAllPageItemsData((prev) => ({
+    setAllPageItemsData((prev: any) => ({
       ...prev,
       [pageNumber]: pageProducts.data.products?.items
     }))

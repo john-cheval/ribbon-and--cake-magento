@@ -209,67 +209,47 @@ index 2050980..41e2af9 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
-index 1b7a2ac..da185c9 100644
+index 1b7a2ac..eb65af9 100644
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
-@@ -35,6 +35,9 @@ export type AddProductsToCartFormProps = {
+@@ -35,6 +35,8 @@ export type AddProductsToCartFormProps = {
     * @deprecated use snackbarProps.disableSuccessSnackbar instead
     */
    disableSuccessSnackbar?: boolean
-+  onSuccess?: () => void;
-+  isBuyNow?: boolean
-+
++    onSuccess?: () => void;
++  
  } & UseFormGraphQlOptions<AddProductsToCartMutation, AddProductsToCartFields>
  
  const name = 'AddProductsToCartForm'
-@@ -60,6 +63,8 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+@@ -60,6 +62,7 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
      errorSnackbar,
      successSnackbar,
      snackbarProps,
 +    onSuccess,
-+    isBuyNow,
      ...formProps
    } = props
    const router = useRouter()
-@@ -128,15 +133,21 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
+@@ -128,6 +131,8 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
  
          if (toUserErrors(result.data).length || result.errors?.length || !redirect) return
  
 +        onSuccess?.();
 +
          if (redirect === 'added') {
--          await crosssellsQuery.current
--          const method = router.pathname.startsWith('/checkout/added')
--            ? router.replace
--            : router.push
--          await method({
--            pathname: '/checkout/added',
--            query: { sku: variables.cartItems.map((i) => i.sku) },
--          })
-+          if (isBuyNow) {
-+            await router.push({ pathname: '/checkout' })
-+          } else {
-+            await crosssellsQuery.current
-+            const method = router.pathname.startsWith('/checkout/added')
-+              ? router.replace
-+              : router.push
-+            await method({
-+              pathname: '/checkout/added',
-+              query: { sku: variables.cartItems.map((i) => i.sku) },
-+            })
-+          }
-         } else {
-           await router.push({ pathname: redirect })
-         }
-@@ -144,7 +155,7 @@ export function AddProductsToCartForm(props: AddProductsToCartFormProps) {
-     },
-   )
+           await crosssellsQuery.current
+           const method = router.pathname.startsWith('/checkout/added')
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
+index 0fff1a5..652d07c 100644
+--- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
++++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
+@@ -20,6 +20,7 @@ export type UseAddProductsToCartActionReturn = {
+   onClick: React.MouseEventHandler<HTMLButtonElement>
+   onMouseDown: React.MouseEventHandler<HTMLButtonElement>
+   showSuccess: boolean
++  isBuyNow?: boolean
+ }
  
--  const submit = form.handleSubmit(() => {})
-+  const submit = form.handleSubmit(() => { })
- 
-   return (
-     <AddProductsToCartContext.Provider
+ export function useAddProductsToCartAction(
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 index c61ffc0..ce11bee 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
@@ -728,7 +708,7 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..dcfdacc 100644
+index 5643683..89f9b09 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 @@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
@@ -777,7 +757,7 @@ index 5643683..dcfdacc 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +64,127 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,134 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
@@ -789,7 +769,7 @@ index 5643683..dcfdacc 100644
 +           minHeight:'80% !important', width:'100%',
 +          borderRadius:'0 0 0 0 !important',
 +           top:'unset',
-+           overflowY: 'visible',
++           overflowY: 'auto',
 +           overflowX:'hidden',
 +           '& .LayoutHeader-root':{
 +            '& .LayoutHeaderContent-bg':{
@@ -799,21 +779,28 @@ index 5643683..dcfdacc 100644
 +            '& .LayoutHeaderContent-center .MuiTypography-root':{
 +              display:'none'
 +            },
-+            '& .LayoutHeaderContent-left .MuiButtonBase-root':{
++            '& .LayoutHeaderContent-right  .MuiButtonBase-root':{
 +              position:'absolute',
-+              right:0,
++              left:'13px',
++              top:'20px',
++              
++            },
++            '& .LayoutHeaderContent-left  .MuiButtonBase-root':{
++              position:'absolute',
++              right:'13px',
 +              top:'5px',
 +              '& svg':{
 +                stroke:(theme:any)=>theme.palette.custom.main,
-+                fontSize:{xs:'28px', md:'30px'}
++                fontSize:{xs:'25px',sm:'28px', md:'30px'}
 +              }
 +            }
 +           },
 +           '& .OverlayPanelActions-content':{
 +           // paddingTop:'30px'
 +           flex: '1 1 auto',
-+           minHeight: 0,                 // <- important for flex scroll areas
++           minHeight: 0,               
 +           overflowY: 'auto',
++           overflowX:'hidden',
 +           WebkitOverflowScrolling: 'touch',
 +           paddingBottom: '30px',
 +           },
@@ -1266,7 +1253,7 @@ diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFilte
 index b64ae6d..d5a4675 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-@@ -5,23 +5,32 @@ import type { SxProps, Theme } from '@mui/material'
+@@ -5,23 +5,33 @@ import type { SxProps, Theme } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { UseProductFiltersProSortProps } from './useProductFiltersProSort'
  import { useProductFiltersProSort } from './useProductFiltersProSort'
@@ -1285,10 +1272,12 @@ index b64ae6d..d5a4675 100644
 +  const { sx, openAccordionIcon, closeAccordionIcon, menu } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
-+  const { options, showReset, selected, selectedLabel, handleChange, expanded, params } = useProductFiltersProSort(props)
++  const { options, showReset, selected, selectedLabel, handleChange, expanded } = useProductFiltersProSort(props)
  
-   if ((options.length ?? 0) <= 1) return null
+-  if ((options.length ?? 0) <= 1) return null
  
++  if ((options.length ?? 0) <= 1) return null
++  console.log(selected, "==>selected")
    return (
      <ActionCardAccordion
        sx={sx}
@@ -1298,19 +1287,17 @@ index b64ae6d..d5a4675 100644
 -      summary={<Trans id='Sort By' />}
 +      openAccordionIcon={openAccordionIcon}
 +      closeAccordionIcon={closeAccordionIcon}
-+      summary={<Trans id={`Sort by: ${selectedLabel}`} values={{ selectedLabel: selectedLabel ? selectedLabel : options?.[0]?.label }} />}
++      summary={<Trans id={`Sort by: ${selectedLabel}`} values={{ selectedLabel }} />}
        details={
          <ActionCardListForm
            control={form.control}
-@@ -30,24 +39,28 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
+@@ -30,24 +40,26 @@ export function ProductFiltersProSortSection(props: ProductFiltersProSortSection
            variant='default'
            size='responsive'
            render={ActionCard}
 -          items={options}
 +          items={options || []}
 +          isFilter={true}
-+          isSort={true}
-+          selectedLabel={params}
          />
        }
 -      right={
@@ -1651,16 +1638,15 @@ index d3b392c..dc7e50c 100644
 +  // )
 +
 +  const selectedLabel = useMemo(() => {
-+    const selectedOption = options.find((option) => (option.code === params.sort && option.dir === params.dir))
-+    const defaultOption = options.find((option) => (option.code === defaultSortBy && option.dir === "ASC"))
-+
++    const selectedOption = options.find((option) => option.value === params.sort)
++    const defaultOption = options.find((option) => option.value === defaultSortBy)
 +    return selectedOption ? selectedOption.label : defaultOption?.label
 +  }, [options, params.sort, defaultSortBy])
 +
 +  const handleChange = (isExpanded: boolean) => {
 +    setSetExpanded(isExpanded);
 +  };
- 
++
    return {
 +    expanded,
      options,
@@ -1669,8 +1655,7 @@ index d3b392c..dc7e50c 100644
      showReset,
 -    selectedLabel: options.find((option) => option.value === params.sort)?.label,
 +    selectedLabel: selectedLabel,
-+    handleChange,
-+    params
++    handleChange
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx

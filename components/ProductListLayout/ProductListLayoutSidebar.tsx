@@ -73,8 +73,11 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       variables: await productListApplyCategoryDefaults(
         {
           ...params,
-          sort: !params?.sort || Object.keys(params.sort).length === 0 ? { name: 'ASC' } : { ...params?.sort },
-          currentPage: pageNumber
+          sort:
+            !params?.sort || Object.keys(params.sort).length === 0
+              ? { name: 'ASC' }
+              : { ...params?.sort },
+          currentPage: pageNumber,
         },
         conf,
         category,
@@ -87,7 +90,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
     // ])
     setAllPageItemsData((prev: any) => ({
       ...prev,
-      [pageNumber]: pageProducts.data.products?.items
+      [pageNumber]: pageProducts.data.products?.items,
     }))
     setIsLoading(false)
   }
@@ -126,7 +129,6 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }
 
   const productLength = total_count ?? 0
-  console.log(allPageItemsData, "==>allPageItemsData")
   return (
     <ProductFiltersPro
       params={params}
@@ -533,8 +535,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             //   width: '100%',
                             // },
                           }}
-                        // isDropdown={true}
-                        // isButton={true}
+                          // isDropdown={true}
+                          // isButton={true}
                         />
                       </ProductFiltersPro>
                     )}

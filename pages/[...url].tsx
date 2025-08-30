@@ -96,6 +96,7 @@ function CategoryPage(props: CategoryProps) {
             id={category.uid}
             category={category}
             isShopPage={isShop}
+            menu={menu?.items[0]?.children}
           />
         )}
         {isCategory && !isLanding && (
@@ -172,22 +173,23 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
 
   const filters = hasCategory
     ? staticClient.query({
-        query: ProductFiltersDocument,
-        variables: categoryDefaultsToProductListFilters(
-          await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
-        ),
-      })
+      query: ProductFiltersDocument,
+      variables: categoryDefaultsToProductListFilters(
+        await productListApplyCategoryDefaults(productListParams, (await conf).data, category),
+      ),
+    })
     : undefined
 
   const products = hasCategory
     ? staticClient.query({
-        query: ProductListDocument,
-        variables: await productListApplyCategoryDefaults(
-          productListParams,
-          (await conf).data,
-          category,
-        ),
-      })
+      query: ProductListDocument,
+      variables: await productListApplyCategoryDefaults(
+        productListParams,
+        (await conf).data,
+        category,
+      ),
+      fetchPolicy: "network-only",
+    })
     : undefined
 
   if (!hasCategory) return redirectOrNotFound(staticClient, conf, params, locale)

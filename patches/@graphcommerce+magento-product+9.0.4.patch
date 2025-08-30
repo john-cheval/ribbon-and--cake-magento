@@ -1250,7 +1250,7 @@ index 3e95496..ebb6c77 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..6b91c69 100644
+index b64ae6d..d5a4675 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,23 +5,33 @@ import type { SxProps, Theme } from '@mui/material'
@@ -1264,12 +1264,12 @@ index b64ae6d..6b91c69 100644
    sx?: SxProps<Theme>
 +  openAccordionIcon?: string | StaticImport
 +  closeAccordionIcon?: string | StaticImport
-+
++  menu?: any
  }
  
  export function ProductFiltersProSortSection(props: ProductFiltersProSortSectionProps) {
 -  const { sx } = props
-+  const { sx, openAccordionIcon, closeAccordionIcon } = props
++  const { sx, openAccordionIcon, closeAccordionIcon, menu } = props
    const { form } = useProductFiltersPro()
 -  const { options, showReset, selected } = useProductFiltersProSort(props)
 +  const { options, showReset, selected, selectedLabel, handleChange, expanded } = useProductFiltersProSort(props)
@@ -1388,33 +1388,95 @@ index 195b807..c3a3f86 100644
        },
        { keepSubmitCount: true, keepIsValid: true },
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..660217e 100644
+index d3b392c..dc7e50c 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-@@ -3,13 +3,14 @@ import { useQuery } from '@graphcommerce/graphql'
+@@ -3,26 +3,86 @@ import { useQuery } from '@graphcommerce/graphql'
  import { StoreConfigDocument } from '@graphcommerce/magento-store'
  import { filterNonNullableKeys } from '@graphcommerce/next-ui'
  import { i18n } from '@lingui/core'
 -import { useMemo } from 'react'
-+import { useEffect, useMemo, useState } from 'react'
++import { use, useEffect, useMemo, useState } from 'react'
  import type { CategoryDefaultFragment } from '../ProductListItems/CategoryDefault.gql'
- import type { ProductFilterParams } from '../ProductListItems/filterTypes'
+-import type { ProductFilterParams } from '../ProductListItems/filterTypes'
++import { isFilterTypeRange, type ProductFilterParams } from '../ProductListItems/filterTypes'
  import type { ProductListSortFragment } from '../ProductListSort'
  import { useProductFiltersPro } from './ProductFiltersPro'
  import type { ProductListActionSortProps } from './ProductFiltersProSortChip'
  import { ProductFiltersProSortDirectionArrow } from './ProductFiltersProSortDirectionArrow'
 +import { useRouter } from 'next/router'
++import { ProductAttributeFilterInput } from '@graphcommerce/graphql-mesh'
  
  const exclude = ['relevance', 'position']
  
-@@ -19,10 +20,11 @@ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+ export type UseProductFiltersProSortProps = ProductListSortFragment & {
+-  category?: CategoryDefaultFragment
++  category?: CategoryDefaultFragment,
++  menu?: any
+ }
  
- export function useProductFiltersProSort(props: ProductListActionSortProps) {
-   const { sort_fields, category } = props
--
+-export function useProductFiltersProSort(props: ProductListActionSortProps) {
+-  const { sort_fields, category } = props
++type CategoryTree = {
++  __typename: string
++  uid: string
++  id: number
++  include_in_menu: number
++  name: string
++  url_path: string
++  level: number
++  is_anchor: number
++  children: CategoryTree[]
++}
++
++function getCategoryAndParams(
++  input: string,
++  categories: CategoryTree[]
++): { category: CategoryTree | null; params: Record<string, string> } {
++  let targetPath = input
++  let params: Record<string, string> = {}
++
++  const cIndex = input.indexOf('/c/')
++  const qIndex = input.indexOf('/q/')
++
++  // --- Extract category path
++  if (cIndex !== -1 && qIndex !== -1 && qIndex > cIndex) {
++    targetPath = input.substring(cIndex + 3, qIndex) // between /c/ and /q/
++  }
++
++  // remove leading slash
++  targetPath = targetPath.replace(/^\/+/, '')
+ 
 -  const { params, form } = useProductFiltersPro()
 -  const { control, setValue } = form
--
++  // --- Extract params if /q/ exists
++  if (qIndex !== -1) {
++    const afterQ = input.substring(qIndex + 3)
++    const parts = afterQ.split('/').filter(Boolean)
+ 
++    for (let i = 0; i < parts.length; i += 2) {
++      const key = parts[i]
++      const value = parts[i + 1] ?? ''
++      params[key] = value
++    }
++  }
++
++  // --- Recursive search for category
++  function search(list: CategoryTree[]): CategoryTree | null {
++    for (const category of list) {
++      if (category.url_path === targetPath) return category
++      if (category.children.length > 0) {
++        const found = search(category.children)
++        if (found) return found
++      }
++    }
++    return null
++  }
++
++  return { category: search(categories), params }
++}
++export function useProductFiltersProSort(props: ProductListActionSortProps) {
++  const { sort_fields, category, menu } = props
 +  const { params, submit, form } = useProductFiltersPro()
 +  const { control, setValue, getValues } = form
 +  const router = useRouter()
@@ -1423,49 +1485,158 @@ index d3b392c..660217e 100644
    const sortFields = useMemo(
      () =>
        filterNonNullableKeys(sort_fields?.options).map((o) =>
-@@ -48,31 +50,56 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
+@@ -48,31 +108,153 @@ export function useProductFiltersProSort(props: ProductListActionSortProps) {
      Boolean(formSort !== defaultSortBy || formDirection === 'DESC')
    const selected = Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC'))
  
-+  useEffect(() => {
-+    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
-+  }, [])
-   const options = useMemo(
-     () =>
-       sortFields
-         .filter((o) => availableSortBy.includes(o.value))
-         .map((option) => {
+-  const options = useMemo(
+-    () =>
+-      sortFields
+-        .filter((o) => availableSortBy.includes(o.value))
+-        .map((option) => {
 -          const value = option.value === defaultSortBy ? null : option.value
-+          const value = option.value === defaultSortBy ? option.value : option.value
-           const showSort = formSort === value && !exclude.includes(option.value)
- 
-           return {
-             ...option,
-             value,
-             title: option.label,
+-          const showSort = formSort === value && !exclude.includes(option.value)
+-
+-          return {
+-            ...option,
+-            value,
+-            title: option.label,
 -            ...(showSort && {
 -              onClick: () => setValue('dir', formDirection === 'DESC' ? null : 'DESC'),
 -              price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
 -            }),
-+            onClick: (e, va) => {
-+              setOpenSort(false)
-+              console.log(getValues("url"), "=>dede")
-+              setValue('sort', va)
-+              setValue('dir', formDirection === 'DESC' ? null : 'DESC')
-+              if (!router.asPath.includes("/c/")) {
-+                setValue('url', router.asPath)
-+              }
-+              setSetExpanded(false)
-+              submit()
++  useEffect(() => {
++    setOpenSort(Boolean(params.sort && (params.sort !== defaultSortBy || params.dir === 'DESC')))
++  }, [])
++
++  const pathMenu = useMemo(() => {
++    if (menu && router && router.asPath) {
++      const categoryData = getCategoryAndParams(router.asPath, menu)
++      return categoryData
++    }
++    return null
++  }, [menu, router.asPath])
++
++  const options = useMemo(() => {
++    return sortFields
++      .filter((o) => o.value !== 'position' && availableSortBy.includes(o.value))
++      .flatMap((o) => {
++        if (o.value === 'price') {
++          return [
++            {
++              ...o,
++              label: 'Price: Low to High',
++              value: 'Price: Low to High',
++              dir: 'ASC',
++              code: o.value,
 +            },
-+            // ...(showSort && {
-+            //   price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
-+            // }),
++            {
++              ...o,
++              label: 'Price: High to Low',
++              value: 'Price: High to Low',
++              dir: 'DESC',
++              code: o.value,
++            },
++          ]
++        }
++        if (o.value === 'name') {
++          return [
++            {
++              ...o,
++              label: 'Name: A–Z',
++              value: 'Name: A–Z',
++              dir: 'ASC',
++              code: o.value,
++            },
++            {
++              ...o,
++              label: 'Name: Z–A',
++              value: 'Name: Z–A',
++              dir: 'DESC',
++              code: o.value,
++            },
++          ]
++        }
++
++        return [
++          {
++            ...o,
++            label: `${o.label} ASC`,
++            value: `${o.label} ASC`,
++            dir: 'ASC',
++            code: o.value,
++          },
++          {
++            ...o,
++            label: `${o.label} DESC`,
++            value: `${o.label} DESC`,
++            dir: 'DESC',
++            code: o.value,
++          },
++        ]
++      })
++      .map((option: any) => ({
++        ...option,
++        title: option.label,
++        onClick: (e, value) => {
++
++          if (pathMenu?.category) {
++            setValue('url', pathMenu?.category?.url_path)
++            // setValue('filters.category_id', pathMenu.uid)
++
++            Object.entries(pathMenu?.params ?? {}).forEach(([key, val]) => {
++              if (key === 'price') {
++                const [min, max] = (val as string).split('-')
++                setValue('filters.price', { from: min, to: max })
++              }
++            })
++            // const param = params.filters?.[attrCode]
++            // if (param && !isFilterTypeRange(param)) throw new Error('Invalid filter type')
++            setValue("filters.category_uid", { eq: pathMenu?.category.uid })
            }
-         }),
-     [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
-   )
- 
+-        }),
+-    [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
+-  )
++          setOpenSort(false)
++          setValue('sort', option?.code)
++          setValue('dir', option?.dir === 'DESC' ? 'DESC' : null)
++
++          setSetExpanded(false)
++          submit()
++        },
++      }))
++  }, [sortFields, availableSortBy, setValue, formSort, formDirection, router.asPath, pathMenu])
++  // const options = useMemo(
++  //   () =>
++  //     sortFields
++  //       .filter((o) => availableSortBy.includes(o.value))
++  //       .map((option) => {
++  //         const value = option.value === defaultSortBy ? option.value : option.value
++  //         const showSort = formSort === value && !exclude.includes(option.value)
++
++  //         return {
++  //           ...option,
++  //           value,
++  //           title: option.label,
++  //           onClick: (e, va) => {
++  //             setOpenSort(false)
++  //             console.log(getValues("url"), "=>dede")
++  //             setValue('sort', va)
++  //             setValue('dir', formDirection === 'DESC' ? null : 'DESC')
++  //             if (!router.asPath.includes("/c/")) {
++  //               setValue('url', router.asPath)
++  //             }
++  //             setSetExpanded(false)
++  //             submit()
++  //           },
++  //           // ...(showSort && {
++  //           //   price: <ProductFiltersProSortDirectionArrow sortDirection={formDirection} />,
++  //           // }),
++  //         }
++  //       }),
++  //   [sortFields, availableSortBy, defaultSortBy, formSort, formDirection, setValue],
++  // )
++
 +  const selectedLabel = useMemo(() => {
 +    const selectedOption = options.find((option) => option.value === params.sort)
 +    const defaultOption = options.find((option) => option.value === defaultSortBy)
@@ -1715,6 +1886,36 @@ index ddf15be..e5a0bd4 100644
      ...ProductListItem
    }
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
+index 711b3ff..7da8552 100644
+--- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
++++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
+@@ -83,7 +83,7 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
+   }
+ 
+   const classes = withState({ size })
+-
++  console.log(items, "==>items")
+   return (
+     <AddProductsToCartForm>
+       <Box
+@@ -97,14 +97,14 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
+               gridTemplateColumns: `repeat(${column.count}, 1fr)`,
+             },
+           })),
+-          { display: 'grid' },
++          { display: 'grid', paddingTop: "20px" },
+           ...(Array.isArray(sx) ? sx : [sx]),
+         ]}
+       >
+         {items?.map((item, idx) =>
+           item ? (
+             <LazyHydrate
+-              key={item.uid ?? ''}
++              key={item.uid}
+               hydrated={loadingEager > idx ? true : undefined}
+               height={responsiveVal(250, 500)}
+             >
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 index 464c244..59e1d4d 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts

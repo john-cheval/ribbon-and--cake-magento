@@ -55,7 +55,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }, [])
 
   // Scroll Pagination
-  const [allPageItems, setAllPageItems] = useState<any[]>([])
+  // const [allPageItems, setAllPageItems] = useState<any[]>([])
+  const [allPageItemsData, setAllPageItemsData] = useState<{ [page: number]: any[] }>({})
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPage, setTotalPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -76,17 +77,22 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
       ),
     })
 
-    setAllPageItems((prev) => [
+    // setAllPageItems((prev) => [
+    //   ...prev,
+    //   ...(pageProducts.data.products?.items ?? []),
+    // ])
+    setAllPageItemsData((prev) => ({
       ...prev,
-      ...(pageProducts.data.products?.items ?? []),
-    ])
+      [pageNumber]: pageProducts.data.products?.items
+    }))
     setIsLoading(false)
   }
 
   useEffect(() => {
     if (products?.items) {
       if (products?.page_info?.current_page === 1) {
-        setAllPageItems(products.items)
+        // setAllPageItems(products.items)
+        setAllPageItemsData({ [products?.page_info?.current_page]: products.items })
       }
       setCurrentPage(products?.page_info?.current_page || 1)
       setTotalPage(products?.page_info?.total_pages || 1)
@@ -116,6 +122,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }
 
   const productLength = total_count ?? 0
+  console.log(allPageItemsData, "==>allPageItemsData")
   return (
     <ProductFiltersPro
       params={params}
@@ -211,14 +218,18 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
             {products.items.length <= 0 ? (
               <ProductFiltersProNoResults search={params.search} />
             ) : (
-              <ProductListItems
-                {...products}
-                items={allPageItems}
-                loadingEager={6}
-                title={(params.search ? `Search ${params.search}` : title) ?? ''}
-                columns={configuration.columns}
-                sx={{}}
-              />
+              <>
+                {Object.entries(allPageItemsData)?.map(([page, items]) => (
+                  <ProductListItems
+                    key={page}
+                    {...products}
+                    items={items}
+                    loadingEager={6}
+                    title={(params.search ? `Search ${params.search}` : title) ?? ''}
+                    columns={configuration.columns}
+                  />
+                ))}
+              </>
             )}
             <Box
               ref={loaderRef}

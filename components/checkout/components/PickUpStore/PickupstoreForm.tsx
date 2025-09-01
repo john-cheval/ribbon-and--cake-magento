@@ -38,8 +38,8 @@ function PickupStoreForm({ storeData }) {
   const submit = handleSubmit(() => { })
 
   const method_form = useFormGqlMutationCart(ShippingMethodFormDocument, {
-    onBeforeSubmit: (variables) => {
-      const [carrier, method] = (variables.carrierMethod ?? '').split('-')
+    onBeforeSubmit: (variables: any) => {
+      const [carrier, method] = (variables?.carrierMethod ?? '').split('-')
 
       return { ...variables, carrier, method: "pickup" }
     }

@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..c4d5a7d 100644
+index a128fe9..b30f433 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -22,24 +22,26 @@ index a128fe9..c4d5a7d 100644
    FormAutoSubmit,
    FormPersist,
    TelephoneElement,
-@@ -24,7 +25,7 @@ import {
+@@ -24,14 +25,16 @@ import {
  import { CountryRegionsDocument, StoreConfigDocument } from '@graphcommerce/magento-store'
  import { Form, FormRow } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
 -import type { SxProps, Theme } from '@mui/material'
+-import React from 'react'
 +import { Box, Typography, type SxProps, type Theme } from '@mui/material'
- import React from 'react'
++import React, { useEffect } from 'react'
  import { isCartAddressACustomerAddress } from '../../utils/findCustomerAddressFromCartAddress'
  import { isSameAddress } from '../../utils/isSameAddress'
-@@ -32,6 +33,7 @@ import { GetAddressesDocument } from './GetAddresses.gql'
+ import { GetAddressesDocument } from './GetAddresses.gql'
  import { SetBillingAddressDocument } from './SetBillingAddress.gql'
  import { SetShippingAddressDocument } from './SetShippingAddress.gql'
  import { SetShippingBillingAddressDocument } from './SetShippingBillingAddress.gql'
 +import { EmailForm } from '@graphcommerce/magento-cart-email'
++import { ShippingMethodFormDocument } from '@graphcommerce/magento-cart-shipping-method'
  
  export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
    /**
-@@ -39,10 +41,12 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
+@@ -39,10 +42,12 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
     */
    ignoreCache?: boolean
    sx?: SxProps<Theme>
@@ -48,12 +50,12 @@ index a128fe9..c4d5a7d 100644
  
  export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props) => {
 -  const { step, sx } = props
-+  const { step, sx, isPickup } = props
++  const { step, sx, isPickup = false } = props
 +
    const { data: cartQuery } = useCartQuery(GetAddressesDocument)
    const { data: config } = useQuery(StoreConfigDocument)
    const countryQuery = useQuery(CountryRegionsDocument, { fetchPolicy: 'cache-and-network' })
-@@ -86,24 +90,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -86,24 +91,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
      defaultValues: isCartAddressACustomerAddress(customerQuery?.customer?.addresses, currentAddress)
        ? { saveInAddressBook: true, isCompany: false }
        : {
@@ -96,7 +98,7 @@ index a128fe9..c4d5a7d 100644
      skipUnchanged: true,
      onBeforeSubmit: (variables) => {
        const regionId = countries
-@@ -114,7 +118,6 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -114,7 +119,6 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
          variables.company = ''
          variables.vatId = ''
        }
@@ -104,16 +106,79 @@ index a128fe9..c4d5a7d 100644
        return {
          ...variables,
          telephone: variables.telephone || '000 - 000 0000',
-@@ -125,7 +128,7 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -124,32 +128,148 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+       }
      },
    })
-   const { handleSubmit, required, error } = form
+-  const { handleSubmit, required, error } = form
 -  const submit = handleSubmit(() => {})
++  const { handleSubmit, required, error, data } = form
 +  const submit = handleSubmit(() => { })
  
    useFormCompose({ form, step, submit, key: 'ShippingAddressForm' })
  
-@@ -134,22 +137,78 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
++
++  const method_form = useFormGqlMutationCart(ShippingMethodFormDocument, {
++    onBeforeSubmit: (variables: any) => {
++      const [carrier, method] = (variables?.carrierMethod ?? '').split('-')
++
++      if (carrier === "instore") {
++        return { ...variables, carrier, method: "pickup" }
++      }
++
++      if (carrier === "cityrate") {
++        return { ...variables, carrier, method: "cityrate" }
++      }
++
++      if (carrier === "flatrate") {
++        return { ...variables, carrier, method: "flatrate" }
++      }
++
++      return { ...variables, carrier, method }
++    }
++  })
++
++  const { handleSubmit: handleSubmitMethod, setValue } = method_form
++  const methodSubmit = handleSubmitMethod(() => { })
++
++  const setShippingMethod = (code, method) => {
++    setValue(code, method, { shouldValidate: true })
++    methodSubmit()
++  }
++
++  useEffect(() => {
++    if (data?.setShippingAddressesOnCart?.cart && form?.formState?.isSubmitSuccessful && !form?.formState?.isSubmitting && form?.formState?.isSubmitted) {
++      const shippingAddress = data?.setShippingAddressesOnCart?.cart?.shipping_addresses?.[0]
++      const availableMethods = (shippingAddress?.available_shipping_methods ?? [])
++
++      let selectedMethod
++
++      if (availableMethods?.length) {
++        if (isPickup) {
++          selectedMethod = availableMethods?.find(
++            (m: any) => (m?.carrier_code === 'instore' && m?.method_code === 'pickup') || (m?.carrier_code === "cityrate" && m?.method_code === "cityrate") || availableMethods?.[0],
++          )
++        } else {
++          const deliveryMethods = availableMethods?.filter(
++            (m: any) => !(m?.carrier_code === 'instore' && m?.method_code === 'pickup'),
++          )
++
++          if (deliveryMethods?.length) {
++            selectedMethod = deliveryMethods?.find(
++              (m: any) => m?.carrier_code === "cityrate" && m?.method_code === "cityrate",
++            ) || deliveryMethods?.[0]
++          }
++        }
++
++        if (selectedMethod) {
++          setShippingMethod("carrierMethod", selectedMethod?.carrier_code)
++        }
++      }
++    }
++  }, [isPickup, form?.formState?.isSubmitSuccessful, form?.formState?.isSubmitting, form?.formState?.isSubmitted])
++
+   return (
+     <Form onSubmit={submit} noValidate sx={sx}>
        <FormAutoSubmit
          submit={submit}
          control={form.control}

@@ -5,9 +5,11 @@ import { FormAutoSubmit } from '@graphcommerce/react-hook-form'
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { SetPickupLocationOnCartDocument } from '../../../../graphql/CreatePickupStore.gql'
+import { useEffect } from 'react'
+import { ShippingMethodFormDocument } from '@graphcommerce/magento-cart-shipping-method'
 
 function PickupStoreForm({ storeData }) {
-  const availableMethods = useCartQuery(GetShippingMethodsDocument, { fetchPolicy: 'cache-only' })
+  const availableMethods = useCartQuery(GetShippingMethodsDocument, { fetchPolicy: 'cache-and-network' })
 
   const shippingAddress = availableMethods.data?.cart?.shipping_addresses?.[0]
 
@@ -26,13 +28,49 @@ function PickupStoreForm({ storeData }) {
           street: ['_'],
           telephone: shippingAddress?.telephone ?? billingAddress?.telephone ?? '_',
           postcode: '_',
+          region: shippingAddress?.region?.code ?? billingAddress?.region?.code ?? '_',
         },
       }
     },
   })
 
-  const { control, required, handleSubmit } = form
-  const submit = handleSubmit(() => {})
+  const { data, control, required, handleSubmit } = form
+  const submit = handleSubmit(() => { })
+
+  const method_form = useFormGqlMutationCart(ShippingMethodFormDocument, {
+    onBeforeSubmit: (variables: any) => {
+      const [carrier, method] = (variables?.carrierMethod ?? '').split('-')
+
+      return { ...variables, carrier, method: "pickup" }
+    }
+  })
+
+  const { handleSubmit: handleSubmitMethod, setValue } = method_form
+  const methodSubmit = handleSubmitMethod(() => { })
+
+  const setShippingMethod = (code, method) => {
+    setValue(code, method, { shouldValidate: true })
+    methodSubmit()
+  }
+
+  useEffect(() => {
+    if (data?.setShippingAddressesOnCart?.cart && form?.formState?.isSubmitSuccessful && !form?.formState?.isSubmitting && form?.formState?.isSubmitted) {
+      const shippingAddress = data?.setShippingAddressesOnCart?.cart?.shipping_addresses?.[0]
+      const availableMethods = (shippingAddress?.available_shipping_methods ?? [])
+
+      let selectedMethod
+
+      if (availableMethods?.length) {
+        selectedMethod = availableMethods?.find(
+          (m: any) => (m?.carrier_code === 'instore' && m?.method_code === 'pickup') || (m?.carrier_code === "cityrate" && m?.method_code === "cityrate") || availableMethods?.[0],
+        )
+
+        if (selectedMethod) {
+          setShippingMethod("carrierMethod", selectedMethod?.carrier_code)
+        }
+      }
+    }
+  }, [form?.formState?.isSubmitSuccessful, form?.formState?.isSubmitting, form?.formState?.isSubmitted])
 
   return (
     <Form
@@ -137,9 +175,9 @@ function PickupStoreForm({ storeData }) {
                           },
                           // Reverted to a working selector for the background change
                           '&  .MuiRadio-root.Mui-checked + .MuiStack-root .MuiFormControlLabel-label .MuiBox-root':
-                            {
-                              backgroundColor: (theme) => theme.palette.custom.border,
-                            },
+                          {
+                            backgroundColor: (theme) => theme.palette.custom.border,
+                          },
                           '& .MuiFormControlLabel-asterisk': {
                             display: 'none',
                           },

@@ -147,13 +147,13 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                 <ComposedForm>
                   <Box>
                     <>
-                      {!shippingPage.data?.cart?.is_virtual && (
+                      {/* {!shippingPage.data?.cart?.is_virtual && (
                         <ShippingMethodForm
                           step={4}
                           sx={(theme) => ({ mt: theme.spacings.lg })}
                         //  isPickup={value === 1}
                         />
-                      )}
+                      )} */}
 
                       <ComposedSubmit
                         onSubmitSuccessful={() => router.push('/checkout/payment')}

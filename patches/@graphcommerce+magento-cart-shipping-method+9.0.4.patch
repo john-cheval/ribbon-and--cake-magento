@@ -1,8 +1,8 @@
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.graphql b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.graphql
-index bbf68aa..c92f143 100644
+index bbf68aa..10958c8 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.graphql
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/GetShippingMethods.graphql
-@@ -1,6 +1,23 @@
+@@ -1,6 +1,31 @@
  query GetShippingMethods($cartId: String!) {
    cart(cart_id: $cartId) {
      id
@@ -11,6 +11,10 @@ index bbf68aa..c92f143 100644
 +      lastname
 +      country{
 +        code
++      }
++      region {
++        code
++        region_id
 +      }
 +      telephone
 +      pickup_location_code
@@ -21,16 +25,20 @@ index bbf68aa..c92f143 100644
 +      country{
 +        code
 +      }
++      region {
++        code
++        region_id
++      }
 +      telephone
 +    }
      ...AvailableShippingMethods
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
-index 2df7a90..480adc4 100644
+index 2df7a90..57267c7 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
-@@ -27,18 +27,19 @@ import { ShippingMethodFormDocument } from './ShippingMethodForm.gql'
+@@ -27,40 +27,41 @@ import { ShippingMethodFormDocument } from './ShippingMethodForm.gql'
  
  export type ShippingMethodFormProps = Pick<UseFormComposeOptions, 'step'> & {
    sx?: SxProps<Theme>
@@ -54,7 +62,46 @@ index 2df7a90..480adc4 100644
    const { data: cartQuery } = useCartQuery(GetShippingMethodsDocument)
  
    const shippingAddress = cartQuery?.cart?.shipping_addresses?.[0]
-@@ -75,15 +76,28 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+   const availableMethods = (shippingAddress?.available_shipping_methods ?? []).filter(notEmpty)
+ 
+-  const items = useMemo(
+-    () =>
+-      availableMethods
+-        // Move disabled items to the bottom
+-        .sort((a) => (a.available ? -1 : 1))
+-        .filter((m) => {
+-          if (m.carrier_code === 'freeshipping') return m.available === true
+-          return m.method_code
+-        })
+-        .map((method) => ({
+-          ...method,
+-          disabled: !method?.available,
+-          value: `${method?.carrier_code}-${method?.method_code ?? ''}`,
+-          method_title: method?.method_title || '',
+-        })),
+-    [availableMethods],
+-  )
++  // const items = useMemo(
++  //   () =>
++  //     availableMethods
++  //       // Move disabled items to the bottom
++  //       .sort((a) => (a.available ? -1 : 1))
++  //       .filter((m) => {
++  //         if (m.carrier_code === 'freeshipping') return m.available === true
++  //         return m.method_code
++  //       })
++  //       .map((method) => ({
++  //         ...method,
++  //         disabled: !method?.available,
++  //         value: `${method?.carrier_code}-${method?.method_code ?? ''}`,
++  //         method_title: method?.method_title || '',
++  //       })),
++  //   [availableMethods],
++  // )
+ 
+   // Override with the currently selected method if there is one.
+   const selectedMethod = cartQuery?.cart?.shipping_addresses?.[0]?.selected_shipping_method
+@@ -75,46 +76,73 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
      defaultValues: { carrierMethod },
      onBeforeSubmit: (variables) => {
        const [carrier, method] = (variables.carrierMethod ?? '').split('-')
@@ -78,18 +125,46 @@ index 2df7a90..480adc4 100644
  
    const { handleSubmit, control, error, setValue } = form
 -  const submit = handleSubmit(() => {})
-+  const submit = handleSubmit(() => { })
- 
+-
 -  useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
-+  // useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
- 
-   const renderItems = [...items]
-   if (renderItems.length === 0) {
-@@ -101,20 +115,33 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
-     })
-   }
- 
+-
+-  const renderItems = [...items]
+-  if (renderItems.length === 0) {
+-    renderItems.push({
+-      disabled: true,
+-      value: '',
+-      available: false,
+-      carrier_code: '',
+-      carrier_title: i18n._(
+-        /* i18n */ 'Please fill out an address to be able to select a shipping method',
+-      ),
+-      method_title: '',
+-      price_incl_tax: {},
+-      price_excl_tax: {},
+-    })
+-  }
+-
 -  const firstCarrierMethod = items.length === 1 ? items[0].value : undefined
++  const submit = handleSubmit(() => { })
++
++  // useFormCompose({ form, step, submit, key: 'ShippingMethodForm' })
++
++  // const renderItems = [...items]
++  // if (renderItems.length === 0) {
++  //   renderItems.push({
++  //     disabled: true,
++  //     value: '',
++  //     available: false,
++  //     carrier_code: '',
++  //     carrier_title: i18n._(
++  //       /* i18n */ 'Please fill out an address to be able to select a shipping method',
++  //     ),
++  //     method_title: '',
++  //     price_incl_tax: {},
++  //     price_excl_tax: {},
++  //   })
++  // }
++
 +  // const firstCarrierMethod = items.length === 1 ? items[0].value : undefined
 +  // useEffect(() => {
 +  //   //  If there is a shipping address AND there is only one shipping method
@@ -119,7 +194,8 @@ index 2df7a90..480adc4 100644
        }
      }
 -  }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
-+  }, [shippingAddress])
++    console.log(isPickup, shippingAddress, "==>isPickup")
++  }, [shippingAddress, isPickup])
  
    return (
 -    <FormProvider {...form}>
@@ -128,7 +204,7 @@ index 2df7a90..480adc4 100644
        <FormAutoSubmit
          control={control}
          submit={submit}
-@@ -132,16 +159,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -132,16 +160,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
            name='carrierMethod'
            size='large'
            color='secondary'

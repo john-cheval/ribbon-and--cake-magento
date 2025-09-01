@@ -316,7 +316,7 @@ function ShippingPage(props: ShippingPageProps) {
                               step={2}
                               sx={(theme) => ({ mt: theme.spacings.lg })}
                             >
-                              <ShippingAddressForm step={3} />
+                              <ShippingAddressForm step={3} isPickup={value === 1} />
                             </CustomerAddressForm>
                           ) : (
                             <>
@@ -381,6 +381,7 @@ function ShippingPage(props: ShippingPageProps) {
                                   },
                                 }}
                                 step={3}
+                                isPickup={value === 1}
                               />
                             </>
                           )}
@@ -402,7 +403,7 @@ function ShippingPage(props: ShippingPageProps) {
                               step={2}
                               sx={(theme) => ({ mt: theme.spacings.lg })}
                             >
-                              <ShippingAddressForm step={3} />
+                              <ShippingAddressForm step={3} isPickup={value === 1} />
                             </CustomerAddressForm>
                           ) : (
                             <>
@@ -509,13 +510,13 @@ function ShippingPage(props: ShippingPageProps) {
                     <ComposedForm>
                       <Box>
                         <>
-                          {!shippingPage.data?.cart?.is_virtual && (
+                          {/* {!shippingPage.data?.cart?.is_virtual && (
                             <ShippingMethodForm
                               step={4}
                               sx={(theme) => ({ mt: theme.spacings.lg })}
                               isPickup={value === 1}
                             />
-                          )}
+                          )} */}
 
                           <ComposedSubmit
                             onSubmitSuccessful={() => router.push('/checkout/payment')}
@@ -626,13 +627,13 @@ function ShippingPage(props: ShippingPageProps) {
                 <ComposedForm>
                   <Box>
                     <>
-                      {!shippingPage.data?.cart?.is_virtual && (
+                      {/* {!shippingPage.data?.cart?.is_virtual && (
                         <ShippingMethodForm
                           step={4}
                           sx={(theme) => ({ mt: theme.spacings.lg })}
                           isPickup={value === 1}
                         />
-                      )}
+                      )} */}
 
                       <ComposedSubmit
                         onSubmitSuccessful={() => router.push('/checkout/payment')}

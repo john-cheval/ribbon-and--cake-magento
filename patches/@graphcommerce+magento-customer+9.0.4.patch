@@ -881,7 +881,7 @@ index 0be3575..0405ee2 100644
        >
          <Trans id='Successfully saved changes' />
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
-index de1222a..4e6af7a 100644
+index de1222a..65bb50b 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/ChangePasswordForm/ChangePasswordForm.tsx
 @@ -12,18 +12,94 @@ import {
@@ -925,7 +925,7 @@ index de1222a..4e6af7a 100644
 +
 +      // Check if current password and new password are the same
 +      if (currentPassword === newPassword) {
-+        const errorMsg = t`New password cannot be the same as the current password.`
++        const errorMsg = `New password cannot be the same as the current password.`
 +        setValidationError(errorMsg)
 +        setShowValidationError(true)
 +        form.setError('newPassword', { 
@@ -936,7 +936,7 @@ index de1222a..4e6af7a 100644
 +
 +      // Check if new password and confirm password match
 +      if (newPassword !== confirmPassword) {
-+        const errorMsg = t`New password and confirm password do not match.`
++        const errorMsg = `New password and confirm password do not match.`
 +        setValidationError(errorMsg)
 +        setShowValidationError(true)
 +        form.setError('confirmPassword', { 
@@ -948,7 +948,7 @@ index de1222a..4e6af7a 100644
 +      // Validate password strength
 +      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/
 +      if (!passwordRegex.test(newPassword)) {
-+        const errorMsg = t`Password must be at least 8 characters long and contain at least one letter and one number`
++        const errorMsg = `Password must be at least 8 characters long and contain at least one letter and one number`
 +        setValidationError(errorMsg)
 +        setShowValidationError(true)
 +        form.setError('newPassword', { 

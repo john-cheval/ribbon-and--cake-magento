@@ -201,10 +201,14 @@ index bc137f5..b9f6d66 100644
          </ChildComponent>
        ))}
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
-index dc4fb00..ef8da17 100644
+index dc4fb00..6beb038 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
 +++ b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TelephoneElement.tsx
-@@ -14,7 +14,7 @@ export function TelephoneElement<TFieldValues extends FieldValues>(
+@@ -11,13 +11,15 @@ export function TelephoneElement<TFieldValues extends FieldValues>(
+   props: TelephoneElementProps<TFieldValues>,
+ ): JSX.Element {
+   const { rules, ...rest } = props
++
    return (
      <TextFieldElement
        type='text'
@@ -213,6 +217,10 @@ index dc4fb00..ef8da17 100644
        autoComplete='tel'
        rules={{
          pattern: { value: phonePattern, message: t`Invalid phone number` },
++        maxLength: { value: 15, message: t`Invalid phone number` },
+         ...rules,
+       }}
+       {...rest}
 diff --git a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx b/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx
 index 934da1e..1bb0786 100644
 --- a/node_modules/@graphcommerce/ecommerce-ui/components/FormComponents/TextFieldElement.tsx

@@ -60,7 +60,6 @@ function MobileMenu({ ShopCategories }) {
 
   const totalQuantity = cartQuery.data?.cart?.total_quantity ?? 0
 
-  console.log(totalQuantity, 'thi is the totoal quantirtiy')
   return (
     <>
       <Link href='/' onClick={handleCloseAllOtherPopups}>

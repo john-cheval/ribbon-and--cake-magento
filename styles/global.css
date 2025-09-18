@@ -749,7 +749,7 @@ ol {
 }
 
 .coursesInner p {
-  margin-block: 15px 20px;
+  margin-block: 0px 15px;
 }
 .sms-page-contets {
   display: flex;
@@ -834,6 +834,9 @@ ol {
 @media (min-width: 769px) {
   .justin {
     margin-bottom: 17px;
+  }
+  .coursesInner p {
+    margin-block: 0px 20px;
   }
   .about-description {
     text-align: left;
@@ -989,9 +992,9 @@ ol {
     padding-bottom: 25px;
     margin-top: 0px;
   }
-  .coursesInner p {
+  /* .coursesInner p {
     margin-block: 25px 35px;
-  }
+  } */
   .sectionThreeWrapper {
     padding-top: 40px;
     column-gap: 15px;

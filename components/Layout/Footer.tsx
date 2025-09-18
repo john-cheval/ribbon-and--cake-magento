@@ -122,6 +122,8 @@ export function Footer({ footerContent }) {
     }
   }, [updateAlekseonForm, isSuccess, fieldIdentifier, footerContent])
 
+  console.log(footerContent, 'this is the footerContent')
+
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: footerContent }} />

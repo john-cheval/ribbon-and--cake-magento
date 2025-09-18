@@ -129,6 +129,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
   }
 
   const productLength = total_count ?? 0
+
   return (
     <ProductFiltersPro
       params={params}
@@ -535,8 +536,8 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                             //   width: '100%',
                             // },
                           }}
-                          // isDropdown={true}
-                          // isButton={true}
+                        // isDropdown={true}
+                        // isButton={true}
                         />
                       </ProductFiltersPro>
                     )}
@@ -662,6 +663,7 @@ export const ProductListLayoutSidebar = memoDeep((props: ProductListLayoutProps)
                               category={menu}
                               params={params}
                               hideBreadcrumbs
+                              urlPath={menu?.url_path}
                               categoryTitle={menu?.name}
                               expanded={expanded === menu?.name}
                               handleChange={() => handleAccordionChange(menu?.name)}

@@ -77,8 +77,11 @@ function EventsDetails({ list }) {
             title={item?.name}
             id={index}
             length={list?.length}
+            // onClick={() => {
+            //   setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+            // }}
             onClick={() => {
-              setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+              setSelectedCategory(item?.name) // Always set the category
             }}
           />
         ))}
@@ -116,8 +119,11 @@ function EventsDetails({ list }) {
               id={index}
               isSelected={selectedCategory === item?.name}
               length={list?.length}
+              // onClick={() => {
+              //   setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+              // }}
               onClick={() => {
-                setSelectedCategory((prev) => (prev === item?.name ? null : item?.name))
+                setSelectedCategory(item?.name) // Always set the category
               }}
             />
           </div>
@@ -140,7 +146,7 @@ function EventsDetails({ list }) {
           dangerouslySetInnerHTML={{ __html: filteredEvents?.[0]?.post_content }}
         />
 
-        <Box
+        {/* <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: { xs: 'repeat(1,1fr)', md: 'repeat(2,1fr)' },
@@ -171,7 +177,7 @@ function EventsDetails({ list }) {
               borderRadius: '8px',
             }}
           />
-        </Box>
+        </Box> */}
 
         <Divider
           sx={{

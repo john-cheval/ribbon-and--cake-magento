@@ -28,9 +28,9 @@ export function HomePage({
       <HomeBanner content={homeHeroData} productList={justInProductList} title={justinHeading} />
       <HomeStory title={storyTitle} cakesCategories={cakesCategory} />
       <HomeSectionThree content={homeImagination} />
+      <HomeOccasion title={occasionTitle} occasionCategories={occasionsCategory} />
       <HomeSectionFour content={homeCeleberate} products={statementProducts} />
       <HomeCta content={homeCta} />
-      <HomeOccasion title={occasionTitle} occasionCategories={occasionsCategory} />
       {CollectionSectionData && <div dangerouslySetInnerHTML={{ __html: CollectionSectionData }} />}
 
       <HomeJar title={miniBytesTitle} jarsAndMniBytesCategories={jarsAndMniBytesCategory} />

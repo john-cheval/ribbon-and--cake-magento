@@ -1,5 +1,25 @@
+diff --git a/node_modules/@graphcommerce/magento-product/Api/ProductListItem.graphql b/node_modules/@graphcommerce/magento-product/Api/ProductListItem.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/Api/ProductPageItem.graphql b/node_modules/@graphcommerce/magento-product/Api/ProductPageItem.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/CHANGELOG.md b/node_modules/@graphcommerce/magento-product/CHANGELOG.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/Config.graphqls b/node_modules/@graphcommerce/magento-product/Config.graphqls
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/README.md b/node_modules/@graphcommerce/magento-product/README.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCart.graphql b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCart.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
-index 6ae6263..e5e8b03 100644
+old mode 100644
+new mode 100755
+index 6ae6263..e5e8b03
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartButton.tsx
 @@ -1,11 +1,21 @@
@@ -101,8 +121,13 @@ index 6ae6263..e5e8b03 100644
 +    </>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartError.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartError.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
-index 2050980..41e2af9 100644
+old mode 100644
+new mode 100755
+index 2050980..41e2af9
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartFab.tsx
 @@ -2,18 +2,23 @@ import { useCartEnabled } from '@graphcommerce/magento-cart'
@@ -209,7 +234,9 @@ index 2050980..41e2af9 100644
    )
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
-index 1b7a2ac..da185c9 100644
+old mode 100644
+new mode 100755
+index 1b7a2ac..da185c9
 --- a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartForm.tsx
 @@ -35,6 +35,9 @@ export type AddProductsToCartFormProps = {
@@ -270,8 +297,61 @@ index 1b7a2ac..da185c9 100644
  
    return (
      <AddProductsToCartContext.Provider
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartQuantity.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartQuantity.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartSnackbar.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartSnackbar.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartSnackbarMessage.tsx b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/AddProductsToCartSnackbarMessage.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/UseAddProductsToCartAction.graphql b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/UseAddProductsToCartAction.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/findAddedItems.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/findAddedItems.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/index.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/toUserErrors.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/toUserErrors.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useAddProductsToCartAction.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useFormAddProductsToCart.ts b/node_modules/@graphcommerce/magento-product/components/AddProductsToCart/useFormAddProductsToCart.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/JsonLdProduct.graphql b/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/JsonLdProduct.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/JsonLdProductOffer.graphql b/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/JsonLdProductOffer.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/ProductPageJsonLd.tsx b/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/ProductPageJsonLd.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/index.ts b/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/jsonLdProduct.tsx b/node_modules/@graphcommerce/magento-product/components/JsonLdProduct/jsonLdProduct.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductAddToCart/ProductAddToCart.graphql b/node_modules/@graphcommerce/magento-product/components/ProductAddToCart/ProductAddToCart.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductAddToCart/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductAddToCart/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
-index c61ffc0..ce11bee 100644
+old mode 100644
+new mode 100755
+index c61ffc0..ce11bee
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableAreaOption.tsx
 @@ -36,13 +36,14 @@ export function CustomizableAreaOption(props: CustomizableAreaOptionProps) {
@@ -290,8 +370,55 @@ index c61ffc0..ce11bee 100644
          name={`cartItems.${index}.entered_options.${optionIndex}.value`}
          InputProps={{
            endAdornment:
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableCheckboxOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableCheckboxOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableCheckboxOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableCheckboxOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDateOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDateOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDateOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDateOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDropDownOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDropDownOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDropDownOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableDropDownOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFieldOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFieldOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFieldOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFieldOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFileOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableFileOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableMultipleOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableMultipleOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableMultipleOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableMultipleOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableRadioOption.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableRadioOption.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableRadioOption.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/CustomizableRadioOption.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.graphql b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
-index a1ec789..b384c62 100644
+old mode 100644
+new mode 100755
+index a1ec789..b384c62
 --- a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/ProductCustomizable.tsx
 @@ -10,6 +10,8 @@ import { CustomizableFieldOption } from './CustomizableFieldOption'
@@ -332,8 +459,16 @@ index a1ec789..b384c62 100644
          />
        ))}
      </>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/productCustomizableSelectors.ts b/node_modules/@graphcommerce/magento-product/components/ProductCustomizable/productCustomizableSelectors.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
-index fb82adb..9ad67b7 100644
+old mode 100644
+new mode 100755
+index fb82adb..9ad67b7
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/PriceSlider.tsx
 @@ -7,7 +7,7 @@ import { useCallback } from 'react'
@@ -444,7 +579,9 @@ index fb82adb..9ad67b7 100644
      </Box>
    )
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
-index 76eff68..739e239 100644
+old mode 100644
+new mode 100755
+index 76eff68..739e239
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualChip.tsx
 @@ -69,9 +69,9 @@ export function ProductFilterEqualChip(props: FilterProps) {
@@ -469,7 +606,9 @@ index 76eff68..739e239 100644
          )}
        </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
-index 421d5d4..2e70533 100644
+old mode 100644
+new mode 100755
+index 421d5d4..2e70533
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterEqualSection.tsx
 @@ -68,6 +68,7 @@ export function ProductFilterEqualSection(props: FilterProps) {
@@ -481,7 +620,9 @@ index 421d5d4..2e70533 100644
        }
        right={
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
-index 021469e..757b7ae 100644
+old mode 100644
+new mode 100755
+index 021469e..757b7ae
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeChip.tsx
 @@ -37,14 +37,16 @@ export function ProductFilterRangeChip(props: FilterProps) {
@@ -505,7 +646,9 @@ index 021469e..757b7ae 100644
              }
              onApply={submit}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
-index cabc140..16ea4dd 100644
+old mode 100644
+new mode 100755
+index cabc140..16ea4dd
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFilterRangeSection.tsx
 @@ -1,17 +1,18 @@
@@ -629,7 +772,9 @@ index cabc140..16ea4dd 100644
          )
        }}
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
-index 174d687..3d26ebe 100644
+old mode 100644
+new mode 100755
+index 174d687..3d26ebe
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersPro.tsx
 @@ -119,6 +119,21 @@ export function ProductFiltersPro(props: FilterFormProviderProps) {
@@ -707,7 +852,9 @@ index 174d687..3d26ebe 100644
      const ctx: ProductFiltersProContext = {
        form,
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
-index 918ce2e..4308043 100644
+old mode 100644
+new mode 100755
+index 918ce2e..4308043
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAggregations.tsx
 @@ -16,6 +16,7 @@ export type FilterRenderer = Record<AttributeFrontendInputEnum, React.FC<FilterP
@@ -728,7 +875,9 @@ index 918ce2e..4308043 100644
        )}
      </>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
-index 5643683..89f9b09 100644
+old mode 100644
+new mode 100755
+index 5643683..4161730
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersChip.tsx
 @@ -13,8 +13,18 @@ import { ProductFiltersProSortSection } from './ProductFiltersProSortSection'
@@ -742,9 +891,9 @@ index 5643683..89f9b09 100644
 +import Link from 'next/link'
  
 -export type ProductFiltersProAllFiltersChipProps = ProductFiltersProAggregationsProps &
-+export type Productfilterprops ={
-+  menus?:any
-+  paramss?:any
++export type Productfilterprops = {
++  menus?: any
++  paramss?: any
 +}
 +
 +export type ProductFiltersProAllFiltersChipProps = ProductFiltersProAggregationsProps & Productfilterprops &
@@ -756,7 +905,7 @@ index 5643683..89f9b09 100644
  
  export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFiltersChipProps) {
 -  const { sort_fields, total_count, renderer, category, ...rest } = props
-+  const { sort_fields, total_count, renderer, category,menus,paramss, ...rest } = props
++  const { sort_fields, total_count, renderer, category, menus, paramss, ...rest } = props
  
    const { submit, params, aggregations, appliedAggregations } = useProductFiltersPro()
    const { sort } = params
@@ -777,135 +926,138 @@ index 5643683..89f9b09 100644
        chipProps={{ variant: 'outlined' }}
        onApply={submit}
        onReset={hasFilters ? clearAll : undefined}
-@@ -48,20 +64,134 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
+@@ -48,20 +64,137 @@ export function ProductFiltersProAllFiltersChip(props: ProductFiltersProAllFilte
        selectedLabel={allFilters}
        selected={hasFilters}
        breakpoint={false}
 -      overlayProps={{ variantMd: 'right', widthMd: '500px' }}
-+      overlayProps={{ variantMd: 'right', widthMd: '500px', sx:{
-+        '& .LayoutOverlayBase-background':{
-+           bottom:'80px',
-+           position:'fixed',
-+           minHeight:'80% !important', width:'100%',
-+          borderRadius:'0 0 0 0 !important',
-+           top:'unset',
-+           overflowY: 'auto',
-+           overflowX:'hidden',
-+           '& .LayoutHeader-root':{
-+            '& .LayoutHeaderContent-bg':{
-+              boxShadow:'none',
-+              borderRadius:0,
++      overlayProps={{
++        variantMd: 'right', widthMd: '500px', sx: {
++          '& .LayoutOverlayBase-background': {
++            bottom: '80px',
++            position: 'fixed',
++            minHeight: '80% !important', width: '100%',
++            borderRadius: '0 0 0 0 !important',
++            top: 'unset',
++            overflowY: 'auto',
++            overflowX: 'hidden',
++            '& .LayoutHeader-root': {
++              '& .LayoutHeaderContent-bg': {
++                boxShadow: 'none',
++                borderRadius: 0,
++              },
++              '& .LayoutHeaderContent-center .MuiTypography-root': {
++                display: 'none'
++              },
++              '& .LayoutHeaderContent-right  .MuiButtonBase-root': {
++                position: 'absolute',
++                left: '13px',
++                top: '20px',
++
++              },
++              '& .LayoutHeaderContent-left  .MuiButtonBase-root': {
++                position: 'absolute',
++                right: '13px',
++                top: '5px',
++                '& svg': {
++                  stroke: (theme: any) => theme.palette.custom.main,
++                  fontSize: { xs: '25px', sm: '28px', md: '30px' }
++                }
++              }
 +            },
-+            '& .LayoutHeaderContent-center .MuiTypography-root':{
-+              display:'none'
++            '& .OverlayPanelActions-content': {
++              // paddingTop:'30px'
++              flex: '1 1 auto',
++              minHeight: 0,
++              overflowY: 'auto',
++              overflowX: 'hidden',
++              WebkitOverflowScrolling: 'touch',
++              paddingBottom: '30px',
 +            },
-+            '& .LayoutHeaderContent-right  .MuiButtonBase-root':{
-+              position:'absolute',
-+              left:'13px',
-+              top:'20px',
-+              
-+            },
-+            '& .LayoutHeaderContent-left  .MuiButtonBase-root':{
-+              position:'absolute',
-+              right:'13px',
-+              top:'5px',
-+              '& svg':{
-+                stroke:(theme:any)=>theme.palette.custom.main,
-+                fontSize:{xs:'25px',sm:'28px', md:'30px'}
++            '& .OverlayPanelActions-footer': {
++              flex: '0 0 auto',
++              '& .MuiButtonBase-root': {
++                backgroundColor: (theme: any) => theme.palette.custom.heading,
++                color: '#fff',
++                borderRadius: '4px',
++                boxShadow: 'none',
++                border: (theme: any) => `1px solid ${theme.palette.custom.heading}`
 +              }
 +            }
-+           },
-+           '& .OverlayPanelActions-content':{
-+           // paddingTop:'30px'
-+           flex: '1 1 auto',
-+           minHeight: 0,               
-+           overflowY: 'auto',
-+           overflowX:'hidden',
-+           WebkitOverflowScrolling: 'touch',
-+           paddingBottom: '30px',
-+           },
-+           '& .OverlayPanelActions-footer':{
-+            flex: '0 0 auto',
-+            '& .MuiButtonBase-root':{
-+              backgroundColor:(theme:any)=>theme.palette.custom.heading,
-+              color:'#fff',
-+              borderRadius:'4px',
-+              boxShadow:'none',
-+              border:(theme:any)=>`1px solid ${theme.palette.custom.heading}`
-+            }
-+           }
 +          }
-+      } }}
++        }
++      }}
        {...rest}
      >
        {() => (
 -        <>
 -          <ProductFiltersProSortSection
 +        < >
-+        <ProductFiltersProAggregations
++          <ProductFiltersProAggregations
 +            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
 +          />
 +
 +          <Typography
 +            sx={{
-+                fontSize: { xs: '18px', },
-+                fontWeight: 500,
-+                lineHeight: '120%',
-+                color: (theme: any) => theme.palette.custom.dark,
-+                paddingBlock:'15px',
-+                borderBottom: (theme:any) => `1px solid ${theme.palette.custom.borderSecondary}`,
-+                }}
-+                >
-+                  Categories
-+              </Typography>
++              fontSize: { xs: '18px', },
++              fontWeight: 500,
++              lineHeight: '120%',
++              color: (theme: any) => theme.palette.custom.dark,
++              paddingBlock: '15px',
++              borderBottom: (theme: any) => `1px solid ${theme.palette.custom.borderSecondary}`,
++            }}
++          >
++            Categories
++          </Typography>
 +
-+              {menus
-+              ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
-+              .map((menu, index) =>
-+                menu?.children?.length > 0 ? (
-+                  <Box key={index}>
-+                    <ProductFiltersProCategorySection
++          {menus
++            ?.filter((menu) => menu?.uid !== 'MTM=' && menu?.uid !== 'NDc=')
++            .map((menu, index) =>
++              menu?.children?.length > 0 ? (
++                <Box key={index}>
++                  <ProductFiltersProCategorySection
 +                    sx={{
-+                      '& .MuiCollapse-root':{
-+                        '& .MuiAccordionDetails-root .ActionCardLayout-root':{
-+                          display:'flex',
-+                          flexWrap:'wrap',
-+                         
++                      '& .MuiCollapse-root': {
++                        '& .MuiAccordionDetails-root .ActionCardLayout-root': {
++                          display: 'flex',
++                          flexWrap: 'wrap',
++
 +                        }
 +                      }
 +                    }}
-+                      filterIcons={iconFilterProduct}
-+                      category={menu}
-+                      params={paramss}
-+                      hideBreadcrumbs
-+                      categoryTitle={menu?.name}
-+                      expanded={expanded === menu?.name}
-+                      handleChange={() => handleAccordionChange(menu?.name)}
-+                    />
-+                  </Box>
-+                ) : (
-+                  <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
-+                    <Typography
-+                      sx={{
-+                        fontSize: { xs: '18px'},
-+                        fontWeight: 400,
-+                        lineHeight: '120%',
-+                        color: (theme: any) => theme.palette.custom.dark,
-+                        display: 'flex',
-+                        alignItems: 'center',
-+                        gap: '8px',
-+                        paddingBlock: '15px',
-+                        cursor: 'pointer',
-+                        borderBottom: (theme: any) =>
-+                          `1px solid ${theme.palette.custom.borderSecondary}`,
-+                      }}
-+                    >
-+                      {menu?.name}
-+                    </Typography>
-+                  </Link>
-+                ),
-+              )}
-+        {/*   <ProductFiltersProSortSection
++                    filterIcons={iconFilterProduct}
++                    category={menu}
++                    params={paramss}
++                    hideBreadcrumbs
++                    urlPath={menu?.url_path}
++                    categoryTitle={menu?.name}
++                    expanded={expanded === menu?.name}
++                    handleChange={() => handleAccordionChange(menu?.name)}
++                  />
++                </Box>
++              ) : (
++                <Link href={`/${menu?.url_path}`} legacyBehavior passHref>
++                  <Typography
++                    sx={{
++                      fontSize: { xs: '18px' },
++                      fontWeight: 400,
++                      lineHeight: '120%',
++                      color: (theme: any) => theme.palette.custom.dark,
++                      display: 'flex',
++                      alignItems: 'center',
++                      gap: '8px',
++                      paddingBlock: '15px',
++                      cursor: 'pointer',
++                      borderBottom: (theme: any) =>
++                        `1px solid ${theme.palette.custom.borderSecondary}`,
++                    }}
++                  >
++                    {menu?.name}
++                  </Typography>
++                </Link>
++              ),
++            )}
++          {/*   <ProductFiltersProSortSection
              sort_fields={sort_fields}
              total_count={total_count}
              category={category}
@@ -915,15 +1067,20 @@ index 5643683..89f9b09 100644
 -            renderer={{ ...productFiltersProSectionRenderer, ...renderer }}
 -          />
 +          <ProductFiltersProLimitSection /> */}
-+          
++
          </>
        )}
      </ChipOverlayOrPopper>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersSidebar.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProAllFiltersSidebar.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..6d139f3 100644
+old mode 100644
+new mode 100755
+index 80912c1..6411d79
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-@@ -10,99 +10,162 @@ import {
+@@ -10,99 +10,165 @@ import {
    iconChevronLeft,
    IconSvg,
    responsiveVal,
@@ -932,7 +1089,7 @@ index 80912c1..6d139f3 100644
  import { Trans } from '@lingui/react'
  import type { SxProps, Theme } from '@mui/material'
 -import { Box } from '@mui/material'
-+import { Box, } from '@mui/material'
++import { Box, Link, } from '@mui/material'
  import { useProductFiltersPro } from './ProductFiltersPro'
 +import { useProductFiltersProClearAllAction } from '@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction'
 +import { StaticImport } from '@graphcommerce/image'
@@ -950,11 +1107,12 @@ index 80912c1..6d139f3 100644
    onChange: (uid: CategoryTreeItem) => void | Promise<void>
 +  defaultExpandeds?: boolean
 +  expanded?: boolean
++  urlPath?: string
  } & Pick<ActionCardAccordionProps, 'defaultExpanded'>
  
  export function ProductFiltersProCategoryAccordion(props: ProductFiltersProCategoryAccordionProps) {
 -  const { hideTitle, sx, categoryTree, onChange, defaultExpanded } = props
-+  const { hideTitle, sx, categoryTree, onChange, handleChange, defaultExpanded, filterIcons, categoryTitle, expanded, defaultExpandeds = false } = props
++  const { hideTitle, sx, categoryTree, onChange, handleChange, defaultExpanded, filterIcons, categoryTitle, expanded, defaultExpandeds = false, urlPath } = props
    const { form } = useProductFiltersPro()
  
 +
@@ -969,6 +1127,7 @@ index 80912c1..6d139f3 100644
 +  const handleAccordionToggle = () => {
 +    setExpandeds(!expandeds)
 +  }
++  console.log(urlPath, 'thi si urlPath')
    return (
 -    <ActionCardAccordion
 -      sx={[
@@ -1012,7 +1171,7 @@ index 80912c1..6d139f3 100644
 +        defaultExpanded={expandeds}
 +        perentExpanded={expandeds}
 +        onChange={handleAccordionToggle}
-+        summary={<Box sx={{
++        summary={<Link href={urlPath} sx={{
 +          fontFamily: "'Bricolage Grotesque', sans-serif",
 +          fontSize: { xs: '18px', md: '20px' },
 +          fontWeight: 400,
@@ -1021,9 +1180,10 @@ index 80912c1..6d139f3 100644
 +          display: 'flex',
 +          alignItems: 'center',
 +          gap: '8px',
-+          paddingTop: '15px'
++          paddingTop: '15px',
++          textDecoration: 'none'
 +        }}>
-+          {categoryTitle}</Box>}
++          {categoryTitle}</Link>}
 +        right={
 +          <Box onClick={handleAccordionToggle} sx={{
 +            position: 'relative',
@@ -1155,8 +1315,13 @@ index 80912c1..6d139f3 100644
    )
  }
  
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProChips.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProChips.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
-index e238d8c..d5c83c5 100644
+old mode 100644
+new mode 100755
+index e238d8c..d5c83c5
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProClearAll.tsx
 @@ -7,15 +7,17 @@ import { useProductFilterProHasFiltersApplied } from './useProductFiltersProHasF
@@ -1196,8 +1361,16 @@ index e238d8c..d5c83c5 100644
      </Button>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLayoutSidebar.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLayoutSidebar.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitChip.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
-index 27fdd62..d3398c8 100644
+old mode 100644
+new mode 100755
+index 27fdd62..d3398c8
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProLimitSection.tsx
 @@ -48,23 +48,24 @@ export function ProductFiltersProLimitSection(props: ProductFiltersProLimitSecti
@@ -1240,8 +1413,13 @@ index 27fdd62..d3398c8 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProNoResults.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProNoResults.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
-index 3e95496..ebb6c77 100644
+old mode 100644
+new mode 100755
+index 3e95496..ebb6c77
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortChip.tsx
 @@ -30,11 +30,11 @@ export function ProductFiltersProSortChip(props: ProductListActionSortProps) {
@@ -1269,8 +1447,13 @@ index 3e95496..ebb6c77 100644
          />
        )}
      </ChipOverlayOrPopper>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortDirectionArrow.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortDirectionArrow.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
-index b64ae6d..d5a4675 100644
+old mode 100644
+new mode 100755
+index b64ae6d..d5a4675
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProSortSection.tsx
 @@ -5,23 +5,32 @@ import type { SxProps, Theme } from '@mui/material'
@@ -1354,8 +1537,19 @@ index b64ae6d..d5a4675 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/activeAggregations.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/activeAggregations.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/applyAggregationCount.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/applyAggregationCount.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/index.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
-index 195b807..c3a3f86 100644
+old mode 100644
+new mode 100755
+index 195b807..c3a3f86
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProClearAllAction.ts
 @@ -2,7 +2,7 @@ import { useCallback } from 'react'
@@ -1407,8 +1601,13 @@ index 195b807..c3a3f86 100644
          },
        },
        { keepSubmitCount: true, keepIsValid: true },
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProHasFiltersApplied.ts b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProHasFiltersApplied.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
-index d3b392c..dc7e50c 100644
+old mode 100644
+new mode 100755
+index d3b392c..dc7e50c
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/useProductFiltersProSort.tsx
 @@ -3,26 +3,86 @@ import { useQuery } from '@graphcommerce/graphql'
@@ -1680,8 +1879,16 @@ index d3b392c..dc7e50c 100644
 +    params
    }
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductList/ProductList.graphql b/node_modules/@graphcommerce/magento-product/components/ProductList/ProductList.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
-index 68f7cab..0b76b65 100644
+old mode 100644
+new mode 100755
+index 68f7cab..0b76b65
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListCount/ProductListCount.tsx
 @@ -22,33 +22,37 @@ export function ProductListCount(props: ProductCountProps) {
@@ -1731,8 +1938,37 @@ index 68f7cab..0b76b65 100644
      </Box>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterCheckboxType.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterCheckboxType.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterEqualType.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterEqualType.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterRangeType.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/FilterRangeType.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductFilters.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductFilters.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductListFilters.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductListFilters.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductListFilters.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/ProductListFilters.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFilters/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductListFilters/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListFiltersContainer/ProductListFiltersContainer.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListFiltersContainer/ProductListFiltersContainer.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductDiscountLabel.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductDiscountLabel.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
-index 0b9f236..7593709 100644
+old mode 100644
+new mode 100755
+index 0b9f236..7593709
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItem.tsx
 @@ -87,6 +87,7 @@ export function ProductListItemReal(props: ProductProps) {
@@ -1758,7 +1994,9 @@ index 0b9f236..7593709 100644
            >
              <ProductListPrice {...price_range.minimum_price} />
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
-index d1ae621..f84eede 100644
+old mode 100644
+new mode 100755
+index d1ae621..f84eede
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImage.tsx
 @@ -69,7 +69,7 @@ export function ProductListItemImage(props: ImageOrPlaceholderProps) {
@@ -1770,8 +2008,16 @@ index d1ae621..f84eede 100644
              aspectRatio: `${aspectRatio[0] / aspectRatio[1]}`,
              display: 'block',
            },
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImageContainer.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemImageContainer.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemLinkOrDiv.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemLinkOrDiv.tsx
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
-index 9dc2505..f473d5b 100644
+old mode 100644
+new mode 100755
+index 9dc2505..f473d5b
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItem/ProductListItemTitleAndPrice.tsx
 @@ -1,18 +1,23 @@
@@ -1892,8 +2138,16 @@ index 9dc2505..f473d5b 100644
      </Box>
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/CategoryDefault.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListItems/CategoryDefault.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductFilterTypes.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductFilterTypes.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
-index ddf15be..e5a0bd4 100644
+old mode 100644
+new mode 100755
+index ddf15be..e5a0bd4
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItems.graphql
 @@ -2,6 +2,11 @@ fragment ProductListItems on Products {
@@ -1909,7 +2163,9 @@ index ddf15be..e5a0bd4 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
-index 711b3ff..7da8552 100644
+old mode 100644
+new mode 100755
+index 711b3ff..7da8552
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
 @@ -83,7 +83,7 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
@@ -1938,8 +2194,22 @@ index 711b3ff..7da8552 100644
                hydrated={loadingEager > idx ? true : undefined}
                height={responsiveVal(250, 500)}
              >
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListParamsProvider.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListParamsProvider.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/filterTypes.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/filterTypes.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/filteredProductList.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/filteredProductList.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/getFilterTypes.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/getFilterTypes.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
-index 464c244..59e1d4d 100644
+old mode 100644
+new mode 100755
+index 464c244..59e1d4d
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 @@ -64,6 +64,7 @@ export async function productListApplyCategoryDefaults(
@@ -1950,8 +2220,25 @@ index 464c244..59e1d4d 100644
  
    return newParams
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/renderer.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/renderer.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListLink/ProductListLink.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListLink/ProductListLink.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPagination/ProductListPagination.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListPagination/ProductListPagination.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPagination/ProductListPagination.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListPagination/ProductListPagination.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
-index 1d42a06..c70ff79 100644
+old mode 100644
+new mode 100755
+index 1d42a06..c70ff79
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/ProductListPrice.tsx
 @@ -11,11 +11,12 @@ export const productListPrice = extendableComponent('ProductListPrice', [
@@ -1976,8 +2263,49 @@ index 1d42a06..c70ff79 100644
        >
          <Money {...final_price} />
        </PrivateQueryMask>
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListPrice/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductListPrice/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSort/ProductListSort.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListSort/ProductListSort.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSort/ProductListSort.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListSort/ProductListSort.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSort/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductListSort/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSearchSuggestion.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSearchSuggestion.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSuggestions.graphql b/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSuggestions.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSuggestions.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListSuggestions/ProductListSuggestions.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPage/ProductPageAddToCartRow.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPage/ProductPageAddToCartRow.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPage/ProductPageQueryFragment.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPage/ProductPageQueryFragment.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumb.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumb.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumb.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumb.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumbs.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/ProductPageBreadcrumbs.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductPageBreadcrumb/index.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
-index ec78221..6ac84d3 100644
+old mode 100644
+new mode 100755
+index ec78221..6ac84d3
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/ProductPageCategory.graphql
 @@ -1,5 +1,6 @@
@@ -1987,8 +2315,28 @@ index ec78221..6ac84d3 100644
      uid
      name
      url_path
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/productPageCategory.ts b/node_modules/@graphcommerce/magento-product/components/ProductPageCategory/productPageCategory.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ComplexTextValue.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ComplexTextValue.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ProductPageDescription.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ProductPageDescription.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ProductPageDescription.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageDescription/ProductPageDescription.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductImage.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductImage.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
-index e920423..eaac83f 100644
+old mode 100644
+new mode 100755
+index e920423..eaac83f
 --- a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductPageGallery.tsx
 @@ -1,18 +1,20 @@
@@ -2048,8 +2396,49 @@ index e920423..eaac83f 100644
      />
    )
  }
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductVideo.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageGallery/ProductVideo.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageMeta/ProductPageMeta.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageMeta/ProductPageMeta.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageMeta/ProductPageMeta.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageMeta/ProductPageMeta.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageName/ProductPageName.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPageName/ProductPageName.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageName/ProductPageName.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPageName/ProductPageName.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPageName/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductPageName/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePrice.graphql b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePrice.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePrice.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePrice.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePriceTiers.tsx b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/ProductPagePriceTiers.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/getProductTierPrice.ts b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/getProductTierPrice.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/index.ts b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/useCustomizableOptionPrice.ts b/node_modules/@graphcommerce/magento-product/components/ProductPagePrice/useCustomizableOptionPrice.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductRelated/RelatedProducts.graphql b/node_modules/@graphcommerce/magento-product/components/ProductRelated/RelatedProducts.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
-index ef066ad..2fb415e 100644
+old mode 100644
+new mode 100755
+index ef066ad..2fb415e
 --- a/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductScroller/ProductScroller.tsx
 @@ -42,7 +42,7 @@ export const ProductScroller = forwardRef<HTMLDivElement, ProductScrollerProps>(
@@ -2061,8 +2450,13 @@ index ef066ad..2fb415e 100644
                {title}
              </Typography>
            )}
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.graphql b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.graphql
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
-index 002f6d1..b1dd83e 100644
+old mode 100644
+new mode 100755
+index 002f6d1..b1dd83e
 --- a/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductShortDescription/ProductShortDescription.tsx
 @@ -14,14 +14,14 @@ export function ProductShortDescription(props: ProductShortDescriptionProps) {
@@ -2082,8 +2476,58 @@ index 002f6d1..b1dd83e 100644
        sx={[
          {
            '& > p:first-of-type': { marginTop: 0 },
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSidebarDelivery/ProductSidebarDelivery.tsx b/node_modules/@graphcommerce/magento-product/components/ProductSidebarDelivery/ProductSidebarDelivery.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecs.graphql b/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecs.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecs.tsx b/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecs.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsAggregations.tsx b/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsAggregations.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsCustomAttributes.tsx b/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsCustomAttributes.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsTypes.graphql b/node_modules/@graphcommerce/magento-product/components/ProductSpecs/ProductSpecsTypes.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/ProductStaticPaths.graphql b/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/ProductStaticPaths.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/getProductStaticPaths.ts b/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/getProductStaticPaths.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/getSitemapPaths.ts b/node_modules/@graphcommerce/magento-product/components/ProductStaticPaths/getSitemapPaths.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductUpsells/UpsellProducts.graphql b/node_modules/@graphcommerce/magento-product/components/ProductUpsells/UpsellProducts.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductWeight/ProductWeight.graphql b/node_modules/@graphcommerce/magento-product/components/ProductWeight/ProductWeight.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/ProductWeight/ProductWeight.tsx b/node_modules/@graphcommerce/magento-product/components/ProductWeight/ProductWeight.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/components/index.ts b/node_modules/@graphcommerce/magento-product/components/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/context/productListParamsContext.ts b/node_modules/@graphcommerce/magento-product/context/productListParamsContext.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/ProductLink.graphql b/node_modules/@graphcommerce/magento-product/hooks/ProductLink.graphql
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductLink.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductLink.ts
+old mode 100644
+new mode 100755
 diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
-index 290e572..0c536fd 100644
+old mode 100644
+new mode 100755
+index 290e572..0c536fd
 --- a/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
 +++ b/node_modules/@graphcommerce/magento-product/hooks/useProductList.ts
 @@ -123,7 +123,7 @@ export function useProductList<
@@ -2104,3 +2548,24 @@ index 290e572..0c536fd 100644
      ...result.data,
      params,
      mask: result.mask,
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductListLink.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductListLink.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductListLinkReplace.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductListLinkReplace.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/hooks/useProductListParamsContext.ts b/node_modules/@graphcommerce/magento-product/hooks/useProductListParamsContext.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/index.ts b/node_modules/@graphcommerce/magento-product/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/next-env.d.ts b/node_modules/@graphcommerce/magento-product/next-env.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/test/productURL.fixture.ts b/node_modules/@graphcommerce/magento-product/test/productURL.fixture.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/@graphcommerce/magento-product/tsconfig.json b/node_modules/@graphcommerce/magento-product/tsconfig.json
+old mode 100644
+new mode 100755

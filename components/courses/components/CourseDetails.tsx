@@ -53,8 +53,8 @@ function CourseDetail({ categories, coursesList }) {
 
   const filteredCourses = selectedCategory
     ? coursesList.filter((course) =>
-        course.categories?.items?.some((cat) => cat?.name === selectedCategory),
-      )
+      course.categories?.items?.some((cat) => cat?.name === selectedCategory),
+    )
     : coursesList
 
   useEffect(() => {
@@ -133,7 +133,8 @@ function CourseDetail({ categories, coursesList }) {
               length={categories?.length}
               onClick={() => {
                 const name = course?.name
-                setSelectedCategory((prev) => (prev === name ? null : name))
+                // setSelectedCategory((prev) => (prev === name ? null : name))
+                setSelectedCategory(name)
                 setVisibleCount(8)
               }}
             />
@@ -171,7 +172,9 @@ function CourseDetail({ categories, coursesList }) {
               length={categories?.length}
               onClick={() => {
                 const name = course?.name
-                setSelectedCategory((prev) => (prev === name ? null : name))
+                // setSelectedCategory((prev) => (prev === name ? null : name))
+                setSelectedCategory(name)
+
                 setVisibleCount(4)
               }}
             />

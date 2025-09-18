@@ -664,6 +664,9 @@
 .events-detail p {
   margin: 0;
 }
+.events-detail img {
+  display: inline-block;
+}
 .events-detail p {
   color: var(--color-custom-secondary);
   line-height: 174%;
@@ -707,6 +710,19 @@
   background-color: #f1a8b6;
   border-radius: 50%;
   display: inline-block;
+}
+.event-mage-wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  column-gap: 0;
+  row-gap: 10px;
+  margin-top: 10px;
+}
+.event-mage-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /*------ Courses ---------*/
@@ -1019,11 +1035,19 @@ ol {
   .mb-20 {
     margin-bottom: 20px;
   }
+  .event-mage-wrapper {
+    column-gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 15px;
+  }
 }
 
 /* lg breakpoint */
 
 @media (min-width: 1025px) {
+  .event-mage-wrapper {
+    column-gap: 20px;
+  }
   .banner-overlay-gradient {
     top: 79px;
   }
@@ -1323,6 +1347,7 @@ ol {
   max-height: 500px;
   transition: max-height 0.3s ease-in;
 }
+
 .footer-link a,
 .footer-phone-link {
   color: #2a110a;
@@ -1338,6 +1363,12 @@ ol {
 }
 .footer-link.last {
   padding-bottom: 5px !important;
+}
+.footer-accordion-details .footer-add {
+  display: flex;
+  align-items: center;
+  padding: 0 0 5px 0 !important;
+  column-gap: 5px;
 }
 
 .footer-address {
@@ -1508,6 +1539,11 @@ ol {
 .detail-wrapper .details {
   min-height: 100px;
 }
+.mobile {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
 .address,
 .mobile {
   color: #2a110a;
@@ -1516,6 +1552,10 @@ ol {
   line-height: 33px;
   max-width: 310px;
   margin: 0;
+}
+.phone-icon {
+  width: 18px;
+  height: auto;
 }
 .map {
   font-size: 16px;

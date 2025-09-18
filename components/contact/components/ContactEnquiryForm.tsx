@@ -49,9 +49,9 @@ const inputFieldSx: SxProps<Theme> = {
     borderWidth: '1px !important',
   },
   '& .mui-style-y9718c-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
-    {
-      borderColor: (theme: any) => `${theme.palette.custom.borderInput} !important`,
-    },
+  {
+    borderColor: (theme: any) => `${theme.palette.custom.borderInput} !important`,
+  },
 }
 
 function ContactEnquiryForm() {
@@ -114,7 +114,6 @@ function ContactEnquiryForm() {
   }, [formLoading, formFields, reset])
 
   const isSuccess = data?.updateAlekseonForm?.success
-  console.log(isSuccess, 'this is success message')
 
   useEffect(() => {
     if (isSuccess) {

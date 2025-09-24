@@ -155,6 +155,9 @@
   "prettier": "@graphcommerce/prettier-config-pwa",
   "eslintConfig": {
     "extends": "@graphcommerce/eslint-config-pwa",
+    "rules": {
+      "@typescript-eslint/no-explicit-any": "off"
+    },
     "parserOptions": {
       "project": "./tsconfig.json"
     }

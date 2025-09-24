@@ -1,4 +1,4 @@
-import { start } from 'repl'
+
 import { useCartEnabled } from '@graphcommerce/magento-cart'
 import {
   AddProductsToCartError,
@@ -7,9 +7,9 @@ import {
   ProductCustomizable,
   ProductListPrice,
   ProductPageAddToCartQuantityRow,
-  ProductPagePrice,
-  ProductPagePriceTiers,
-  ProductSidebarDelivery,
+  // ProductPagePrice,
+  // ProductPagePriceTiers,                                                         
+  // ProductSidebarDelivery,
   useFormAddProductsToCart,
 } from '@graphcommerce/magento-product'
 import { BundleProductOptions } from '@graphcommerce/magento-product-bundle'
@@ -20,16 +20,20 @@ import {
 import { DownloadableProductOptions } from '@graphcommerce/magento-product-downloadable'
 import { GroupedProducts } from '@graphcommerce/magento-product-grouped'
 import { isTypename } from '@graphcommerce/next-ui'
-import { Box, Divider, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useWatch } from 'react-hook-form'
 import type { ProductPage2Query } from '../../graphql/ProductPage2.gql'
 import { fontSize } from '../theme'
+import { IoMdArrowForward } from 'react-icons/io';
+
+
 
 export type AddProductsToCartViewProps = AddToCartItemSelector & {
   product: NonNullable<NonNullable<NonNullable<ProductPage2Query['products']>['items']>[number]>
 }
 
 export function AddProductsToCartView(props: AddProductsToCartViewProps) {
+
   const { product, index = 0 } = props
   const cartEnabled = useCartEnabled()
   const { configured } = useConfigurableOptionsSelection({ url_key: product?.url_key, index })
@@ -44,7 +48,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
   const productConfiguredPrice =
     configured && 'configurable_product_options_selection' in configured
       ? (configured as { configurable_product_options_selection?: { variant?: any } })
-          .configurable_product_options_selection?.variant
+        .configurable_product_options_selection?.variant
       : undefined
 
   const productPrice = productConfiguredPrice ? productConfiguredPrice : product
@@ -61,13 +65,20 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
     },
     regular_price: productPrice.price_range.minimum_price.regular_price
       ? {
-          ...productPrice.price_range.minimum_price.regular_price,
-          value:
-            (productPrice.price_range.minimum_price.regular_price.value || 0) *
-            (currentQuantity || 1),
-        }
+        ...productPrice.price_range.minimum_price.regular_price,
+        value:
+          (productPrice.price_range.minimum_price.regular_price.value || 0) *
+          (currentQuantity || 1),
+      }
       : undefined,
   }
+
+
+
+  const customizableProduct = product?.categories && product?.categories?.length > 0 && product?.categories?.some((item) => item?.id === 11)
+
+
+
 
   return (
     <>
@@ -109,6 +120,43 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
               </Typography>
             </AddProductsToCartError>
 
+            {customizableProduct && (
+              <Box sx={{
+                borderTop: '1px solid #c7cacd6b',
+                width: '100%',
+                marginTop: { xs: '10px' },
+                paddingTop: { xs: '25px' },
+              }}><Button
+                sx={{
+                  borderRadius: '8px',
+                  border: (theme) => `1px solid ${theme.palette.custom.main}`,
+                  background: theme => theme.palette.custom.border,
+                  fontSize: { xs: '16px', md: '18px' },
+                  color: theme => theme.palette.custom.smallHeading,
+                  fontWeight: 600,
+                  width: '100%',
+                  paddingBlock: { xs: '16px' },
+                  textAlign: 'center',
+                  marginBottom: '25px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  columnGap: '10px',
+                  transition: 'transform 0.3s ease-in-out',
+                  '& svg': {
+                    transform: 'translateX(0)',
+                    transition: 'transform 0.3s ease-in-out',
+                  },
+                  '&:hover': {
+                    background: theme => theme.palette.custom.border,
+                    '& svg': {
+                      transform: 'translateX(5px)',
+                    },
+                  },
+
+                }}>Contact us for your customised cake <IoMdArrowForward color='#1C1B1F' />
+                </Button> </Box>
+            )}
+
             {cartEnabled && (
               <Box
                 sx={{
@@ -147,9 +195,9 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                       borderColor: '#F6DBE0 ',
                     },
                     '& .mui-style-srbfbn-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
-                      {
-                        borderColor: '#F6DBE0 ',
-                      },
+                    {
+                      borderColor: '#F6DBE0 ',
+                    },
                   }}
                 />
               </Box>
@@ -171,9 +219,9 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                 fontWeight: 500,
               },
               '& .MuiFormControl-root .mui-style-1d3z3hw-MuiOutlinedInput-notchedOutline, .mui-style-9425fu-MuiOutlinedInput-notchedOutline':
-                {
-                  borderColor: (theme: any) => `${theme.palette.custom.border} !important`,
-                },
+              {
+                borderColor: (theme: any) => `${theme.palette.custom.border} !important`,
+              },
               '& .MuiInputBase-root': {
                 color: (theme: any) => theme.palette.custom.main,
               },
@@ -192,6 +240,8 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
           {/* cartEnabled && <ProductSidebarDelivery product={product} /> */}
         </>
       )}
+
+
     </>
   )
 }

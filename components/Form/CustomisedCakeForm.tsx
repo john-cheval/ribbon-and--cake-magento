@@ -201,7 +201,7 @@ function CustomisedCakeForm({ setIsOpen, product, uid }: Props) {
           bottom: 0,
           position: 'relative',
           marginTop: 'calc(200px * 0.5) !important',
-          paddingInline: { xs: '18px', md: '25px' },
+          // paddingInline: { xs: '18px', md: '25px' },
         }}
         initial={{ opacity: 0, y: '100%' }}
         animate={{ opacity: 1, y: 0 }}
@@ -235,90 +235,74 @@ function CustomisedCakeForm({ setIsOpen, product, uid }: Props) {
           >
             <IoClose />
           </Box>
-          <Typography variant='h2' sx={{
-            textAlign: 'center',
-            paddingTop: { md: '40px', xl: '100px' },
-          }}>Contact us</Typography>
 
-          <Box component='form'
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{
-              marginTop: { xs: '20px', lg: '40px' },
-              maxWidth: { xs: '600px', lg: '700px', xl: '900px' },
-              width: '100%',
-              marginInline: 'auto',
-            }}>
+          <Box sx={{
+            paddingBlock: { xs: '20px', md: '40px' },
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '100%',
+          }}>
+            <Typography variant='h2' sx={{
+              textAlign: 'center',
+            }}>Contact us</Typography>
 
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' } }}>
-              <Controller
-                name={formFields.find((f) => f?.frontend_label === 'Name')?.attribute_code || ''}
-                control={control}
-                rules={{ required: 'Name is Required' }}
-                render={({ field, fieldState }) => (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                    <TextField {...field} fullWidth label='Name' sx={inputFieldSx} />
-                    {fieldState.error && (
-                      <Typography variant='caption' color='error' >
-                        {fieldState.error.message}
-                      </Typography>
-                    )}
-                  </Box>
-                )}
-              />
+            <Box component='form'
+              onSubmit={handleSubmit(onSubmit)}
+              sx={{
+                marginTop: { xs: '20px', lg: '40px' },
+                maxWidth: { xs: '600px', lg: '700px', xl: '900px' },
+                width: '100%',
+                marginInline: 'auto',
+              }}>
 
-              <Controller
-                name={formFields.find((f) => f?.frontend_label === 'Phone')?.attribute_code || ''}
-                control={control}
-                rules={{
-                  required: 'Phone Number is Required',
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: 'Only numbers are allowed',
-                  },
-                  minLength: {
-                    value: 7,
-                    message: 'Phone number is too short',
-                  },
-                  maxLength: {
-                    value: 15,
-                    message: 'Phone number is too long',
-                  },
-                }}
-                render={({ field, fieldState }) => (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                    <TextField
-                      {...field}
-                      fullWidth
-                      label='Phone'
-                      sx={inputFieldSx}
-                      onChange={(e) => {
-                        field.onChange(e.target.value.replace(/\D/g, ''))
-                      }}
-                    />
-                    {fieldState.error && (
-                      <Typography variant='caption' color='error'>
-                        {fieldState.error.message}
-                      </Typography>
-                    )}
-                  </Box>
-                )}
-              />
-            </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' }, marginTop: { xs: '10px', md: '18px' } }}>
-              <Box sx={{ flex: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' } }}>
                 <Controller
-                  name={formFields.find((f) => f?.frontend_label === 'Email')?.attribute_code || ''}
+                  name={formFields.find((f) => f?.frontend_label === 'Name')?.attribute_code || ''}
+                  control={control}
+                  rules={{ required: 'Name is Required' }}
+                  render={({ field, fieldState }) => (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                      <TextField {...field} fullWidth label='Name' sx={inputFieldSx} />
+                      {fieldState.error && (
+                        <Typography variant='caption' color='error' >
+                          {fieldState.error.message}
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
+                />
+
+                <Controller
+                  name={formFields.find((f) => f?.frontend_label === 'Phone')?.attribute_code || ''}
                   control={control}
                   rules={{
+                    required: 'Phone Number is Required',
                     pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: 'Enter a valid email address',
+                      value: /^[0-9]*$/,
+                      message: 'Only numbers are allowed',
+                    },
+                    minLength: {
+                      value: 7,
+                      message: 'Phone number is too short',
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: 'Phone number is too long',
                     },
                   }}
                   render={({ field, fieldState }) => (
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                      <TextField {...field} fullWidth label='Email' sx={inputFieldSx} />
+                      <TextField
+                        {...field}
+                        fullWidth
+                        label='Phone'
+                        sx={inputFieldSx}
+                        onChange={(e) => {
+                          field.onChange(e.target.value.replace(/\D/g, ''))
+                        }}
+                      />
                       {fieldState.error && (
                         <Typography variant='caption' color='error'>
                           {fieldState.error.message}
@@ -328,187 +312,213 @@ function CustomisedCakeForm({ setIsOpen, product, uid }: Props) {
                   )}
                 />
               </Box>
-              <Box sx={{
-                flex: 1, '& .mui-style-18guw1f-FormRow-root': {
-                  paddingBottom: '0 !important',
-                },
-                '& .mui-style-djqexv-MuiStack-root': {
-                  paddingTop: '0 !important',
-                },
-              }}>
 
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' }, marginTop: { xs: '10px', md: '18px' } }}>
+                <Box sx={{ flex: 1 }}>
+                  <Controller
+                    name={formFields.find((f) => f?.frontend_label === 'Email')?.attribute_code || ''}
+                    control={control}
+                    rules={{
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Enter a valid email address',
+                      },
+                    }}
+                    render={({ field, fieldState }) => (
+                      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                        <TextField {...field} fullWidth label='Email' sx={inputFieldSx} />
+                        {fieldState.error && (
+                          <Typography variant='caption' color='error'>
+                            {fieldState.error.message}
+                          </Typography>
+                        )}
+                      </Box>
+                    )}
+                  />
+                </Box>
+                <Box sx={{
+                  flex: 1, '& .mui-style-18guw1f-FormRow-root': {
+                    paddingBottom: '0 !important',
+                  },
+                  '& .mui-style-djqexv-MuiStack-root': {
+                    paddingTop: '0 !important',
+                  },
+                }}>
+
+                  <Controller
+                    name={formFields.find((f) => f?.frontend_label === 'Event Date')?.attribute_code || ''}
+                    control={control}
+                    rules={{ required: 'Please select a delivery date.' }}
+                    render={({ field, fieldState }) => (
+                      <>
+                        <CustomizedCakeDate
+                          // Convert the string value from react-hook-form to a Dayjs object
+                          value={field.value ? dayjs(field.value) : null}
+                          // Convert the Dayjs value from DatePicker to a string for react-hook-form
+                          onChange={(date) => {
+                            field.onChange(date ? date.format('YYYY-MM-DD') : null);
+                          }}
+                        />
+                        {fieldState.error && (
+                          <Typography variant='caption' color='error'>
+                            {fieldState.error.message}
+                          </Typography>
+                        )}
+                      </>
+                    )}
+                  />
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' }, marginTop: { xs: '10px', md: '18px' } }}>
                 <Controller
-                  name={formFields.find((f) => f?.frontend_label === 'Event Date')?.attribute_code || ''}
+                  name={formFields.find((f) => f?.frontend_label === 'Message')?.attribute_code || ''}
                   control={control}
-                  rules={{ required: 'Please select a delivery date.' }}
-                  render={({ field, fieldState }) => (
-                    <>
-                      <CustomizedCakeDate
-                        // Convert the string value from react-hook-form to a Dayjs object
-                        value={field.value ? dayjs(field.value) : null}
-                        // Convert the Dayjs value from DatePicker to a string for react-hook-form
-                        onChange={(date) => {
-                          field.onChange(date ? date.format('YYYY-MM-DD') : null);
-                        }}
-                      />
-                      {fieldState.error && (
-                        <Typography variant='caption' color='error'>
-                          {fieldState.error.message}
-                        </Typography>
-                      )}
-                    </>
+                  render={({ field }) => (
+                    <TextField
+                      id='custom-textarea'
+                      label='Message'
+                      multiline
+                      rows={3}
+                      {...field}
+                      fullWidth
+                      variant='outlined'
+                      sx={{
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontSize: { xs: '15px', md: '16px' },
+                        borderRadius: '4px',
+                        '& .MuiOutlinedInput-root': {
+                          color: (theme: any) => theme.palette.custom.main,
+                          '& fieldset': {
+                            borderColor: (theme: any) => theme.palette.custom.borderInput,
+                            '& legend': {
+                              color: (theme: any) => theme.palette.custom.main,
+                            },
+                          },
+                          '&:hover fieldset': {
+                            borderColor: (theme: any) => theme.palette.custom.borderInput,
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: (theme: any) => theme.palette.custom.borderInput,
+                            borderWidth: '1px !important',
+                          },
+                          '& textarea': {
+                            padding: '10px',
+                            fontFamily: '"Bricolage Grotesque"',
+                          },
+                        },
+                        '& .mui-style-17dy96o-MuiFormLabel-root-MuiInputLabel-root ': {
+                          color: (theme: any) => theme.palette.custom.main,
+                        },
+                        '& .MuiFormLabel-root': {
+                          color: (theme: any) => theme.palette.custom.main,
+                        },
+                      }}
+                    />
                   )}
                 />
               </Box>
-            </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '10px', md: '18px' }, marginTop: { xs: '10px', md: '18px' } }}>
               <Controller
-                name={formFields.find((f) => f?.frontend_label === 'Message')?.attribute_code || ''}
+                name={formFields.find((f) => f?.frontend_label === 'Product Name')?.attribute_code || ''}
                 control={control}
                 render={({ field }) => (
-                  <TextField
-                    id='custom-textarea'
-                    label='Message'
-                    multiline
-                    rows={5}
-                    {...field}
-                    fullWidth
-                    variant='outlined'
-                    sx={{
-                      color: (theme: any) => theme.palette.custom.main,
-                      fontSize: { xs: '15px', md: '16px' },
-                      borderRadius: '4px',
-                      '& .MuiOutlinedInput-root': {
-                        color: (theme: any) => theme.palette.custom.main,
-                        '& fieldset': {
-                          borderColor: (theme: any) => theme.palette.custom.borderInput,
-                          '& legend': {
-                            color: (theme: any) => theme.palette.custom.main,
-                          },
-                        },
-                        '&:hover fieldset': {
-                          borderColor: (theme: any) => theme.palette.custom.borderInput,
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: (theme: any) => theme.palette.custom.borderInput,
-                          borderWidth: '1px !important',
-                        },
-                        '& textarea': {
-                          padding: '10px',
-                          fontFamily: '"Bricolage Grotesque"',
-                        },
-                      },
-                      '& .mui-style-17dy96o-MuiFormLabel-root-MuiInputLabel-root ': {
-                        color: (theme: any) => theme.palette.custom.main,
-                      },
-                      '& .MuiFormLabel-root': {
-                        color: (theme: any) => theme.palette.custom.main,
-                      },
-                    }}
-                  />
+                  <TextField {...field} type='hidden' sx={{ display: 'none' }} />
                 )}
               />
-            </Box>
 
-            <Controller
-              name={formFields.find((f) => f?.frontend_label === 'Product Name')?.attribute_code || ''}
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} type='hidden' sx={{ display: 'none' }} />
-              )}
-            />
-
-            <Controller
-              name={formFields.find((f) => f?.frontend_label === 'Product Uid')?.attribute_code || ''}
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} type='hidden' sx={{ display: 'none' }} />
-              )}
-            />
-
-            <Box sx={{ marginTop: { xs: '10px', md: '18px' }, display: 'flex', justifyContent: 'center' }}>
-              <ReCaptcha
-                siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
-                callback={handleToken}
-                ref={recaptchaRef}
+              <Controller
+                name={formFields.find((f) => f?.frontend_label === 'Product Uid')?.attribute_code || ''}
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} type='hidden' sx={{ display: 'none' }} />
+                )}
               />
-            </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: { xs: '10px', md: '18px' } }}>
-              <Button
-                type='submit'
-                disabled={!token || isSubmitting}
-                sx={{
-                  backgroundColor: (theme: any) => theme.palette.custom.main,
-                  color: (theme: any) => theme.palette.custom.border,
-                  fontSize: { xs: '15px', md: '18px' },
-                  fontWeight: 500,
-                  lineHeight: '158%',
-                  borderRadius: '4px',
-                  border: '1px solid #441e14',
-                  transition: 'all 0.3s ease',
-                  boxShadow: 'none !important',
-                  paddingBlock: { xs: '15px', md: '18px' },
-                  width: '100%',
-                  maxWidth: { xs: '100%', md: '500px' },
-                  '&:hover': {
-                    backgroundColor: (theme: any) => theme.palette.custom.border,
-                    color: (theme: any) => theme.palette.custom.main,
-                    border: (theme) => `1px solid ${theme.palette.custom.border}`,
-                    '& svg': {
-                      color: (theme: any) => theme.palette.custom.main,
-                    },
-                  },
-                  '&.Mui-disabled': {
+              <Box sx={{ marginTop: { xs: '10px', md: '18px' }, display: 'flex', justifyContent: 'center' }}>
+                <ReCaptcha
+                  siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+                  callback={handleToken}
+                  ref={recaptchaRef}
+                />
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: { xs: '10px', md: '18px' } }}>
+                <Button
+                  type='submit'
+                  disabled={!token || isSubmitting}
+                  sx={{
+                    backgroundColor: (theme: any) => theme.palette.custom.main,
                     color: (theme: any) => theme.palette.custom.border,
-                  },
-                }}
-              >
-                {isSubmitting ? (
-                  <CircularProgress
-                    size='20px'
-                    sx={{
+                    fontSize: { xs: '15px', md: '18px' },
+                    fontWeight: 500,
+                    lineHeight: '158%',
+                    borderRadius: '4px',
+                    border: '1px solid #441e14',
+                    transition: 'all 0.3s ease',
+                    boxShadow: 'none !important',
+                    paddingBlock: { xs: '15px', md: '18px' },
+                    width: '100%',
+                    maxWidth: { xs: '100%', md: '500px' },
+                    '&:hover': {
+                      backgroundColor: (theme: any) => theme.palette.custom.border,
+                      color: (theme: any) => theme.palette.custom.main,
+                      border: (theme) => `1px solid ${theme.palette.custom.border}`,
                       '& svg': {
-                        color: (theme: any) => theme.palette.custom.border,
+                        color: (theme: any) => theme.palette.custom.main,
                       },
-                    }}
-                  />
-                ) : (
-                  'Submit'
-                )}
-              </Button>
+                    },
+                    '&.Mui-disabled': {
+                      color: (theme: any) => theme.palette.custom.border,
+                    },
+                  }}
+                >
+                  {isSubmitting ? (
+                    <CircularProgress
+                      size='20px'
+                      sx={{
+                        '& svg': {
+                          color: (theme: any) => theme.palette.custom.border,
+                        },
+                      }}
+                    />
+                  ) : (
+                    'Submit'
+                  )}
+                </Button>
+              </Box>
+
+
+              {isSuccess && (
+                <MessageSnackbar
+                  sx={{
+                    '& .MuiSnackbarContent-message': {
+                      '& svg': {
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontSize: { xs: '18px', lg: '25px' },
+                      },
+                      '& .MuiBox-root': {
+                        color: (theme: any) => theme.palette.custom.main,
+                        fontSize: { xs: '15px', md: '16px' },
+                        textAlign: 'center',
+                      },
+                      '& .MuiButtonBase-root': {
+                        width: { xs: '35px', xl: '40px' },
+                        height: { xs: '35px', xl: '40px' },
+                      },
+                    },
+                  }}
+                  open={isSuccess}
+                  sticky
+                  variant='pill'
+                  severity='success'
+                >
+                  <Trans id='Form Submitted Successfully ' />
+                </MessageSnackbar>
+              )}
             </Box>
-
-
-            {isSuccess && (
-              <MessageSnackbar
-                sx={{
-                  '& .MuiSnackbarContent-message': {
-                    '& svg': {
-                      color: (theme: any) => theme.palette.custom.main,
-                      fontSize: { xs: '18px', lg: '25px' },
-                    },
-                    '& .MuiBox-root': {
-                      color: (theme: any) => theme.palette.custom.main,
-                      fontSize: { xs: '15px', md: '16px' },
-                      textAlign: 'center',
-                    },
-                    '& .MuiButtonBase-root': {
-                      width: { xs: '35px', xl: '40px' },
-                      height: { xs: '35px', xl: '40px' },
-                    },
-                  },
-                }}
-                open={isSuccess}
-                sticky
-                variant='pill'
-                severity='success'
-              >
-                <Trans id='Form Submitted Successfully ' />
-              </MessageSnackbar>
-            )}
           </Box>
+
         </Box>
       </MotionDiv>
     </MotionDiv >

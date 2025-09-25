@@ -461,7 +461,7 @@ function ProductPage(props: Props) {
                 />
               </div>
 
-              <AddProductsToCartView product={product} />
+              <AddProductsToCartView product={product} openForm={setOpenContactForm} />
             </Box>
             {/* Buttons */}
             <OverlayStickyBottom

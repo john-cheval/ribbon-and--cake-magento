@@ -30,11 +30,12 @@ import { IoMdArrowForward } from 'react-icons/io';
 
 export type AddProductsToCartViewProps = AddToCartItemSelector & {
   product: NonNullable<NonNullable<NonNullable<ProductPage2Query['products']>['items']>[number]>
+  openForm?: any
 }
 
 export function AddProductsToCartView(props: AddProductsToCartViewProps) {
 
-  const { product, index = 0 } = props
+  const { product, openForm, index = 0 } = props
   const cartEnabled = useCartEnabled()
   const { configured } = useConfigurableOptionsSelection({ url_key: product?.url_key, index })
 
@@ -127,6 +128,7 @@ export function AddProductsToCartView(props: AddProductsToCartViewProps) {
                 marginTop: { xs: '10px' },
                 paddingTop: { xs: '25px' },
               }}><Button
+                onClick={() => openForm(true)}
                 sx={{
                   borderRadius: '8px',
                   border: (theme) => `1px solid ${theme.palette.custom.main}`,

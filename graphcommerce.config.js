@@ -17,7 +17,7 @@ const config = {
   // magentoEndpoint: 'https://srv900162.hstgr.cloud/graphql',
   // magentoVersion: 247,
   magentoVersion: 248,
-  canonicalBaseUrl: 'https://graphcommerce.vercel.app',
+  canonicalBaseUrl: 'https://www.rnbcakes.com/',
   hygraphEndpoint: 'nokeys',
   storefront: [
     {

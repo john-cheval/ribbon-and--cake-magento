@@ -19,8 +19,8 @@ function CourseDetail({ categories, coursesList }) {
   const contentRef = useRef<HTMLDivElement | null>(null)
   const isInitialRender = useRef(true)
 
-  const filteredCategories = categories?.filter((cate) => cate.enabled !== 0)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(filteredCategories[0]?.name)
+  const filteredCategoriesMain = categories?.filter((cate) => cate.enabled !== 0)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(filteredCategoriesMain[0]?.name)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -126,13 +126,13 @@ function CourseDetail({ categories, coursesList }) {
             display: { xs: 'none', md: 'block' },
           }}
         >
-          {filteredCategories?.map((course, index) => (
+          {filteredCategoriesMain?.map((course, index) => (
             <EventsAndCoursesTile
               key={course?.category_id || index}
               title={course?.name}
               id={index}
               isSelected={selectedCategory === course?.name}
-              length={filteredCategories?.length}
+              length={filteredCategoriesMain?.length}
               onClick={() => {
                 const name = course?.name
                 // setSelectedCategory((prev) => (prev === name ? null : name))
@@ -159,7 +159,7 @@ function CourseDetail({ categories, coursesList }) {
           '-ms-overflow-style': 'none',
         }}
       >
-        {categories?.map((course, index) => (
+        {filteredCategoriesMain?.map((course, index) => (
           <div
             key={course?.post_id || index}
             ref={(el) => {
@@ -171,7 +171,7 @@ function CourseDetail({ categories, coursesList }) {
               title={course?.name}
               id={index}
               isSelected={selectedCategory === course?.name}
-              length={categories?.length}
+              length={filteredCategoriesMain?.length}
               onClick={() => {
                 const name = course?.name
                 // setSelectedCategory((prev) => (prev === name ? null : name))

@@ -15,10 +15,12 @@ function CourseDetail({ categories, coursesList }) {
   const [loading, setLoading] = useState(false)
   const observerRef = useRef<HTMLDivElement | null>(null)
   const [hasMore, setHasMore] = useState(true)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(categories[0]?.name)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRef = useRef<HTMLDivElement | null>(null)
   const isInitialRender = useRef(true)
+
+  const filteredCategories = categories?.filter((cate) => cate.enabled !== 0)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(filteredCategories[0]?.name)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -124,13 +126,13 @@ function CourseDetail({ categories, coursesList }) {
             display: { xs: 'none', md: 'block' },
           }}
         >
-          {categories?.map((course, index) => (
+          {filteredCategories?.map((course, index) => (
             <EventsAndCoursesTile
               key={course?.category_id || index}
               title={course?.name}
               id={index}
               isSelected={selectedCategory === course?.name}
-              length={categories?.length}
+              length={filteredCategories?.length}
               onClick={() => {
                 const name = course?.name
                 // setSelectedCategory((prev) => (prev === name ? null : name))

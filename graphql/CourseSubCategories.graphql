@@ -5,6 +5,7 @@ query GetSubCategories($parentId: String!) {
       url_key
       category_id
       parent_id
+      enabled
     }
   }
 }

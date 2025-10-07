@@ -134,10 +134,6 @@ function ProductPage(props: Props) {
 
   const matchedCartItem = cartItems?.find((cart) => cart?.product?.sku === product?.sku)
 
-
-
-
-
   return (
     <>
       <PrivateQueryMaskProvider mask={scopedQuery.mask}>
@@ -449,6 +445,7 @@ function ProductPage(props: Props) {
                     />
                   </Box>
                 </Box>
+                {/* {product?.short_description?.html && ( */}
                 <ProductShortDescription
                   sx={(theme) => ({
                     mb: theme.spacings.xs,
@@ -459,6 +456,8 @@ function ProductPage(props: Props) {
                   })}
                   product={product}
                 />
+                {/* )} */}
+
               </div>
 
               <AddProductsToCartView product={product} openForm={setOpenContactForm} />

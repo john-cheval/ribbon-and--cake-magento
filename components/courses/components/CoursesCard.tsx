@@ -31,7 +31,7 @@ function CourseCard(props) {
         <Image
           src={
             courseCardData?.image ||
-            'https://srv900162.hstgr.cloud/media/mageplaza/blog/post/r/e/rectangle_221.jpg'
+            'https://srv900162.hstgr.cloud/media/mageplaza/blog/post/p/l/placeholder.jpg'
           }
           alt={courseCardData?.name}
           width={200}

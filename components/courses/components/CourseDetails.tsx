@@ -83,7 +83,6 @@ function CourseDetail({ categories, coursesList }) {
       })
     }
   }, [selectedCategory])
-
   return (
     <Box
       component='section'

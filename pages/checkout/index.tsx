@@ -102,6 +102,7 @@ function ShippingPage(props: ShippingPageProps) {
   const cartItems = cartData?.cart?.items
 
   const [value, setValue] = useState(0)
+  const [deliverySlot, setDeliverySlot] = useState(false)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -497,7 +498,7 @@ function ShippingPage(props: ShippingPageProps) {
                       gap: '10px',
                     }}
                   >
-                    <DeliveryDate slotList={slotData} />
+                    <DeliveryDate slotList={slotData} deliverySlot={deliverySlot} setDeliverySlot={setDeliverySlot} />
                   </Box>
                 </Box>
                 <Box
@@ -544,7 +545,7 @@ function ShippingPage(props: ShippingPageProps) {
                                 >
                                   <ComposedSubmitButton
                                     {...renderProps}
-                                    disabled={selectedMethod?.carrier_code ? false : true}
+                                    disabled={(selectedMethod?.carrier_code && deliverySlot) ? false : true}
                                     size='large'
                                     id='next'
                                   >
@@ -580,7 +581,7 @@ function ShippingPage(props: ShippingPageProps) {
               alignSelf: { xs: 'unset', lg: 'start' },
             }}
           >
-            <OrderSummary orderData={cartData} error={error} IsItems={hasItems} />
+            <OrderSummary orderData={cartData} error={error} IsItems={hasItems} deliverySlot={deliverySlot} />
           </Box>
         </Box>
 
@@ -661,7 +662,7 @@ function ShippingPage(props: ShippingPageProps) {
                             >
                               <ComposedSubmitButton
                                 {...renderProps}
-                                disabled={selectedMethod?.carrier_code ? false : true}
+                                disabled={(selectedMethod?.carrier_code && deliverySlot) ? false : true}
                                 size='large'
                                 id='next'
                               >

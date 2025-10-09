@@ -498,7 +498,7 @@ function ShippingPage(props: ShippingPageProps) {
                       gap: '10px',
                     }}
                   >
-                    <DeliveryDate slotList={slotData} deliverySlot={deliverySlot} setDeliverySlot={setDeliverySlot} />
+                    <DeliveryDate shippingSelected={selectedMethod?.carrier_code} slotList={slotData} deliverySlot={deliverySlot} setDeliverySlot={setDeliverySlot} />
                   </Box>
                 </Box>
                 <Box

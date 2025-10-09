@@ -21,7 +21,7 @@ type SlotItem = {
   __typename: string
 }
 
-export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }) {
+export default function DeliveryDate({ shippingSelected, slotList, deliverySlot, setDeliverySlot }) {
   const [date, setDate] = useState<string>('')
   const [time, setTime] = useState<string>('')
   const [slotTime, setSlotTime] = useState<SlotItem[]>([])
@@ -67,8 +67,6 @@ export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }
   }
 
   useEffect(() => {
-    console.log(deliverySlot, date, time);
-
     if (!deliverySlot && date && time) {
       setDeliverySlot(true)
     }
@@ -155,8 +153,20 @@ export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker']} sx={{
             '& .MuiPickersOutlinedInput-notchedOutline': {
-              borderColor: '#D5B1B8',
-              borderWidth: '1px !important'
+              // borderColor: '#D5B1B8',
+              borderWidth: '1px !important',
+              ...((!date && shippingSelected) ? {
+                borderColor: "#f44336 !important"
+              } : {
+                borderColor: '#D5B1B8 !important',
+              })
+            },
+            '& .MuiInputLabel-root': {
+              ...((!date && shippingSelected) ? {
+                color: "#f44336"
+              }:{
+                color: "#441E14"
+              })
             },
           }}>
             <DatePicker
@@ -302,7 +312,7 @@ export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: '#D5B1B8 !important',
               borderWidth: '1px !important',
-              ...(!time && {
+              ...((!time && shippingSelected) && {
                 borderColor: "#f44336 !important"
               })
             },
@@ -316,7 +326,7 @@ export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }
             },
 
             '& .MuiInputLabel-root': {
-              ...(!time && {
+              ...((!time && shippingSelected) && {
                 color: "#f44336"
               })
             },

@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { setDeliveryTimeDateDocument } from '../../../graphql/SetDeliveryTime.gql'
 
 type SlotItem = {
@@ -21,7 +21,7 @@ type SlotItem = {
   __typename: string
 }
 
-export default function DeliveryDate({ slotList }) {
+export default function DeliveryDate({ slotList, deliverySlot, setDeliverySlot }) {
   const [date, setDate] = useState<string>('')
   const [time, setTime] = useState<string>('')
   const [slotTime, setSlotTime] = useState<SlotItem[]>([])
@@ -29,8 +29,8 @@ export default function DeliveryDate({ slotList }) {
 
   const form = useFormGqlMutationCart(setDeliveryTimeDateDocument, {
     defaultValues: {
-      date: '',
-      time: '',
+      date: date,
+      time: time,
     },
     skipUnchanged: true,
     onBeforeSubmit: (variables) => {
@@ -65,6 +65,14 @@ export default function DeliveryDate({ slotList }) {
     // Disable if today and slot time is already past
     return slot?.date === today && start?.isBefore(now) ? true : false
   }
+
+  useEffect(() => {
+    console.log(deliverySlot, date, time);
+
+    if (!deliverySlot && date && time) {
+      setDeliverySlot(true)
+    }
+  }, [date, time])
 
   return (
     <Form
@@ -110,7 +118,7 @@ export default function DeliveryDate({ slotList }) {
         },
         '& .MuiPickersInputBase-sectionContent::selection': {
           background: "transparent !important",
-        }
+        },
       }}
       onSubmit={submit}
     >
@@ -147,14 +155,14 @@ export default function DeliveryDate({ slotList }) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker']} sx={{
             '& .MuiPickersOutlinedInput-notchedOutline': {
-              borderColor: '#D5B1B8 !important',
+              borderColor: '#D5B1B8',
               borderWidth: '1px !important'
             },
           }}>
             <DatePicker
               open={open}
               onClose={() => setOpen(false)}
-              label={<Trans id='Delivery Date' />}
+              label={<Trans id='Delivery Date *' />}
               format="DD/MM/YYYY"
               name={'date' as any}
               slotProps={{
@@ -264,12 +272,15 @@ export default function DeliveryDate({ slotList }) {
                 )
                 return availableSlots.length === 0
               }}
+              value={dayjs(date)}
+              defaultValue={dayjs(date)}
             />
           </DemoContainer>
         </LocalizationProvider>
 
         <SelectElement
           control={form.control}
+          required={true}
           name={'time' as any}
           sx={{
             paddingTop: '8px',
@@ -291,16 +302,24 @@ export default function DeliveryDate({ slotList }) {
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: '#D5B1B8 !important',
               borderWidth: '1px !important',
+              ...(!time && {
+                borderColor: "#f44336 !important"
+              })
             },
             '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#D5B1B8 !important',
+              borderColor: '#D5B1B8',
               borderWidth: '1px !important',
             },
             '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#D5B1B8 !important',
+              borderColor: '#D5B1B8',
               borderWidth: '1px !important',
             },
 
+            '& .MuiInputLabel-root': {
+              ...(!time && {
+                color: "#f44336"
+              })
+            },
 
 
           }}
@@ -350,6 +369,8 @@ export default function DeliveryDate({ slotList }) {
             form.setValue('time', value as any, { shouldDirty: true })
           }}
           value={time}
+          defaultValue={time}
+          defaultChecked={true}
         />
       </FormRow>
     </Form>

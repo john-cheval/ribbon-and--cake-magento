@@ -20,9 +20,10 @@ export type OrderSummaryPropsType = {
   orderData?: CartPageQuery
   error?: any
   IsItems?: boolean
+  deliverySlot?: boolean
 }
 
-function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
+function OrderSummary({ orderData, error, IsItems, deliverySlot }: OrderSummaryPropsType) {
   const cartItems = orderData?.cart?.items
   const shippingPage = useCartQuery(ShippingPageDocument, { fetchPolicy: 'cache-and-network' })
   const router = useRouter()
@@ -179,7 +180,7 @@ function OrderSummary({ orderData, error, IsItems }: OrderSummaryPropsType) {
                                 },
                               }}
                             >
-                              <ComposedSubmitButton {...renderProps} disabled={selectedMethod?.carrier_code ? false : true} size='large' id='next'>
+                              <ComposedSubmitButton {...renderProps} disabled={(selectedMethod?.carrier_code && deliverySlot) ? false : true} size='large' id='next'>
                                 <Trans id='Proceed To Pay' />
                               </ComposedSubmitButton>
                             </FormActions>

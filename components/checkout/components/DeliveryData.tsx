@@ -32,7 +32,7 @@ export default function DeliveryDate({ shippingSelected, slotList, deliverySlot,
       date: date,
       time: time,
     },
-    skipUnchanged: true,
+    // skipUnchanged: true,
     onBeforeSubmit: (variables) => {
       return {
         ...variables,
@@ -166,7 +166,14 @@ export default function DeliveryDate({ shippingSelected, slotList, deliverySlot,
                 color: "#f44336"
               }:{
                 color: "#441E14"
-              })
+              }),
+              ['&.Mui-error']:{
+                ...((!date && shippingSelected) ? {
+                  color: "#f44336"
+                }:{
+                  color: "#441E14"
+                }),
+              }
             },
           }}>
             <DatePicker

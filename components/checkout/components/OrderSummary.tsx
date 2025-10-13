@@ -63,12 +63,25 @@ function OrderSummary({ orderData, error, IsItems, deliverySlot }: OrderSummaryP
             <Box
               sx={{
                 flexGrow: 1,
-                // height: '500px',
+                height: '430px',
                 overflowY: 'scroll',
                 overflowX: 'hidden',
                 pr: { xs: '5px', md: '10px' },
                 paddingBottom: '50px',
                 minHeight: '300px',
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                  borderRadius: 0,
+                  backgroundColor: '#ebebeb',
+                },
+                '&::-webkit-scrollbar-track': {
+                  backgroundColor: '#ebebeb', // fixed typo: baxkgroundColor → backgroundColor
+                  borderRadius: '0px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: (theme) => theme.palette.custom.main,
+                  borderRadius: '0px',
+                },
               }}
             >
               <Box
@@ -94,7 +107,8 @@ function OrderSummary({ orderData, error, IsItems, deliverySlot }: OrderSummaryP
 
             <OverlayStickyBottom
               sx={{
-                py: 0.1,
+                pt: 0.1,
+                pb: { xs: '10px', sm: '15px' },
                 px: { xs: '15px', sm: '20px' },
                 backgroundColor: (theme: any) => theme.palette.primary.contrastText,
                 zIndex: 9999,

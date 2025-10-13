@@ -1,25 +1,23 @@
 query AdsOnProducts($categoryId: String!) {
-  products(filter: { category_id: { eq: $categoryId } }) {
-    items {
+  categoryList(filters: { ids: { eq: $categoryId } }) {
+    uid
+    name
+    children {
       uid
-      sku
       name
       url_key
-      price_range {
-        minimum_price {
-          regular_price {
-            value
-            currency
+      image
+      products {
+        items {
+          uid
+          name
+          sku
+          url_key
+          small_image {
+            url
           }
         }
-      }
-      small_image {
-        url
-        label
-      }
-      categories {
-        name
-        uid
+        total_count
       }
     }
   }

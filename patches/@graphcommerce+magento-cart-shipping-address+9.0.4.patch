@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..c9c4d8b 100644
+index a128fe9..a737672 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -57,7 +57,7 @@ index a128fe9..c9c4d8b 100644
 -  const { step, sx } = props
 +  const { step, sx, isPickup = false } = props
 +
-+  const [telephone, setTelephone] = useState<string>("+971")
++  const [telephone, setTelephone] = useState<string>("")
 +  // console.log(telephone, '==> this is telephone')
 +
    const { data: cartQuery } = useCartQuery(GetAddressesDocument)
@@ -281,7 +281,7 @@ index a128fe9..c9c4d8b 100644
 +          }
 +        }}>
 +          <PhoneInput
-+            country={'UAE'}
++            country={'ae'}
 +            value={telephone}
 +            onChange={phone => { setTelephone(phone) }}
 +            isValid={(inputNumber, country: any, countries) => {

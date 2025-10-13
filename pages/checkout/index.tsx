@@ -2,7 +2,6 @@ import {
   ComposedForm,
   ComposedSubmit,
   ComposedSubmitButton,
-  ComposedSubmitLinkOrButton,
   WaitForQueries,
 } from '@graphcommerce/ecommerce-ui'
 import type { PageOptions } from '@graphcommerce/framer-next-pages'
@@ -11,23 +10,16 @@ import {
   ApolloCartErrorAlert,
   ApolloCartErrorFullPage,
   ApolloCartErrorSnackbar,
-  CartStartCheckout,
   CartTotals,
   EmptyCart,
   getCheckoutIsDisabled,
   useCartQuery,
 } from '@graphcommerce/magento-cart'
 import { CartPageDocument, ShippingPageDocument } from '@graphcommerce/magento-cart-checkout'
-import { EmailForm } from '@graphcommerce/magento-cart-email'
-import {
-  PaymentMethodActionCardListForm,
-  PaymentMethodContextProvider,
-} from '@graphcommerce/magento-cart-payment-method'
 import {
   CustomerAddressForm,
   ShippingAddressForm,
 } from '@graphcommerce/magento-cart-shipping-address'
-import { ShippingMethodForm } from '@graphcommerce/magento-cart-shipping-method'
 import {
   CustomerDocument,
   useCustomerQuery,
@@ -40,17 +32,11 @@ import type { GetStaticProps } from '@graphcommerce/next-ui'
 import {
   FormActions,
   FullPageMessage,
-  iconAddresses,
-  iconBox,
-  LayoutHeader,
-  LayoutTitle,
   OverlayStickyBottom,
-  Stepper,
 } from '@graphcommerce/next-ui'
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
-//import { TabPanel } from '@mui/lab'
-import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
+import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import type { LayoutNavigationProps } from '../../components'
@@ -73,6 +59,7 @@ export type adsOnProps = {
   addonProductsData?: AdsOnProductsQuery[]
   prickupstoreData?: GetStorePickupQuery[]
   slotData?: GetTimeSlotsByZipcodeQuery
+
 }
 type Props = Record<string, unknown>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props>
@@ -109,6 +96,7 @@ function ShippingPage(props: ShippingPageProps) {
   }
   const selectedMethod = shippingPage?.data?.cart?.shipping_addresses?.[0]?.selected_shipping_method
 
+
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>
       <PageMeta title={i18n._(/* i18n */ 'Shipping')} metaRobots={['noindex']} />
@@ -124,7 +112,7 @@ function ShippingPage(props: ShippingPageProps) {
           </FullPageMessage>
         }
       >
-        <InnerTop title={'Checkout'} isFilter={false} mainTitle='Your shopping cart' />
+        <InnerTop title='Checkout' isFilter={false} mainTitle='Your shopping cart' />
         <Box
           component='section'
           sx={{
@@ -213,9 +201,9 @@ function ShippingPage(props: ShippingPageProps) {
             </Box>
 
             {/* Add On */}
-            {addonProductsData && addonProductsData?.length > 0 && (
+            {addonProductsData && addonProductsData?.[0]?.children?.length > 0 && (
               <Box sx={{ marginTop: session.loggedIn ? 0 : { xs: '30px', md: '35px' } }}>
-                <AdsOnProduct adsOnData={addonProductsData} />
+                <AdsOnProduct adsOnData={addonProductsData?.[0]?.children} />
               </Box>
             )}
 
@@ -586,7 +574,7 @@ function ShippingPage(props: ShippingPageProps) {
         </Box>
 
         {shippingPage.error && <ApolloCartErrorFullPage error={shippingPage.error} />}
-        {/*!shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
+        {/* !shippingPage.error && !cartExists && <EmptyCart disableMargin />*/}
 
         {hasItems && (
           <Box
@@ -725,12 +713,14 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     },
   })
 
+
+
   return {
     props: {
       ...(await layout).data,
       up: { href: '/cart', title: i18n._(/* i18n */ 'Cart') },
       slotData: (await GetDeliverySlotData).data.getTimeSlots?.slotData,
-      addonProductsData: (await addonProducts).data?.products?.items || [],
+      addonProductsData: (await addonProducts).data?.categoryList || [],
       prickupstoreData: (await getPickupstore).data.pickupLocations?.items || [],
       apolloState: await conf.then(() => client.cache.extract()),
     },

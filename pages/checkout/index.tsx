@@ -56,7 +56,7 @@ import { GetStorePickupDocument, GetStorePickupQuery } from '../../graphql/Store
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 
 export type adsOnProps = {
-  addonProductsData?: AdsOnProductsQuery[]
+  addonProductsData?: any
   prickupstoreData?: GetStorePickupQuery[]
   slotData?: GetTimeSlotsByZipcodeQuery
 
@@ -96,6 +96,7 @@ function ShippingPage(props: ShippingPageProps) {
   }
   const selectedMethod = shippingPage?.data?.cart?.shipping_addresses?.[0]?.selected_shipping_method
 
+  // console.log(addonProductsData, '==> addonProductsData')
 
   return (
     <Box sx={{ backgroundColor: '#f6f6f6' }}>

@@ -2298,10 +2298,12 @@ __metadata:
     framer-motion: "npm:11.15.0"
     graphql: "npm:^16.10.0"
     html-entities: "npm:^2.6.0"
+    libphonenumber-js: "npm:^1.12.24"
     next: "npm:15.1.0"
     next-sitemap: "npm:4.2.3"
     prettier: "npm:^3"
     react: "npm:^18.3.1"
+    react-country-phone-input: "npm:^1.0.2"
     react-dom: "npm:^18.3.1"
     react-hook-form: "npm:^7.54.1"
     react-icons: "npm:^5.5.0"
@@ -7570,6 +7572,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.2.6":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: 10c0/afff4f77e62cea2d79c39962980bf316bacb0d7c49e13a21adaadb9221e1c6b9d3cdb829d8bb1b23c406f4e740507f37e1dcf506f7e3b7113d17c5bab787aa69
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -11037,6 +11046,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"libphonenumber-js@npm:^1.12.24":
+  version: 1.12.24
+  resolution: "libphonenumber-js@npm:1.12.24"
+  checksum: 10c0/e31cf01e3d3b9025428fb208dcb0a76668d0125638700fe1befdc1df3cc068ea05742260f43ccc54805ded6410b8e6ce1ef80bd6eba9fbe7c76ec930b61373d4
+  languageName: node
+  linkType: hard
+
 "lie@npm:3.1.1":
   version: 3.1.1
   resolution: "lie@npm:3.1.1"
@@ -11129,6 +11145,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.debounce@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "lodash.debounce@npm:4.0.8"
+  checksum: 10c0/762998a63e095412b6099b8290903e0a8ddcb353ac6e2e0f2d7e7d03abd4275fe3c689d88960eb90b0dde4f177554d51a690f22a343932ecbc50a5d111849987
+  languageName: node
+  linkType: hard
+
 "lodash.get@npm:4.4.2, lodash.get@npm:^4.4.2":
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
@@ -11178,10 +11201,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.reduce@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "lodash.reduce@npm:4.6.0"
+  checksum: 10c0/5d2dab823523a1a7f81eb5f4c1edcc03aab55504b1299a2385737389644ba6d2ad219169dfc5c16632a67a345d925ef6a5e8816b4e18a36f94ed66f8e7740b36
+  languageName: node
+  linkType: hard
+
 "lodash.sortby@npm:^4.7.0":
   version: 4.7.0
   resolution: "lodash.sortby@npm:4.7.0"
   checksum: 10c0/fc48fb54ff7669f33bb32997cab9460757ee99fafaf72400b261c3e10fde21538e47d8cfcbe6a25a31bcb5b7b727c27d52626386fc2de24eb059a6d64a89cdf5
+  languageName: node
+  linkType: hard
+
+"lodash.startswith@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "lodash.startswith@npm:4.2.1"
+  checksum: 10c0/831ae1866700d59df2fdb5ac0aecd5f9cd85616adaa3b4e21b4e48b598ae58d0150bd4d2f4835685013a3d5ba900589724af2a08c0d5653a6ac342bb62befcd4
   languageName: node
   linkType: hard
 
@@ -12773,6 +12810,23 @@ __metadata:
   dependencies:
     safe-buffer: "npm:^5.1.0"
   checksum: 10c0/50395efda7a8c94f5dffab564f9ff89736064d32addf0cc7e8bf5e4166f09f8ded7a0849ca6c2d2a59478f7d90f78f20d8048bca3cdf8be09d8e8a10790388f3
+  languageName: node
+  linkType: hard
+
+"react-country-phone-input@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "react-country-phone-input@npm:1.0.2"
+  dependencies:
+    classnames: "npm:^2.2.6"
+    lodash.debounce: "npm:^4.0.8"
+    lodash.memoize: "npm:^4.1.2"
+    lodash.reduce: "npm:^4.6.0"
+    lodash.startswith: "npm:^4.2.1"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
+    react-dom: ^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
+  checksum: 10c0/81c946f77e8aefef046156121e1b641c2b0e568409de90705975702631f5bc904eacfce94e83e02d4b9cec5b84ebfb44662ad7c4eb1ec36c363ec6e5e451fd01
   languageName: node
   linkType: hard
 

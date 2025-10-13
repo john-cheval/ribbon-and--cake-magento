@@ -11,7 +11,7 @@ index 6f4add4..f5be44e 100644
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..b30f433 100644
+index a128fe9..f534be9 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -22,14 +22,14 @@ index a128fe9..b30f433 100644
    FormAutoSubmit,
    FormPersist,
    TelephoneElement,
-@@ -24,14 +25,16 @@ import {
+@@ -24,14 +25,21 @@ import {
  import { CountryRegionsDocument, StoreConfigDocument } from '@graphcommerce/magento-store'
  import { Form, FormRow } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
 -import type { SxProps, Theme } from '@mui/material'
 -import React from 'react'
 +import { Box, Typography, type SxProps, type Theme } from '@mui/material'
-+import React, { useEffect } from 'react'
++import React, { useEffect, useState } from 'react'
  import { isCartAddressACustomerAddress } from '../../utils/findCustomerAddressFromCartAddress'
  import { isSameAddress } from '../../utils/isSameAddress'
  import { GetAddressesDocument } from './GetAddresses.gql'
@@ -38,10 +38,15 @@ index a128fe9..b30f433 100644
  import { SetShippingBillingAddressDocument } from './SetShippingBillingAddress.gql'
 +import { EmailForm } from '@graphcommerce/magento-cart-email'
 +import { ShippingMethodFormDocument } from '@graphcommerce/magento-cart-shipping-method'
++import PhoneInput from 'react-country-phone-input'
++import 'react-country-phone-input/lib/style.css'
++import { parsePhoneNumberFromString } from 'libphonenumber-js';
++
++
  
  export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
    /**
-@@ -39,10 +42,12 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
+@@ -39,10 +47,14 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
     */
    ignoreCache?: boolean
    sx?: SxProps<Theme>
@@ -52,10 +57,12 @@ index a128fe9..b30f433 100644
 -  const { step, sx } = props
 +  const { step, sx, isPickup = false } = props
 +
++  const [telephone, setTelephone] = useState<string>("")
++
    const { data: cartQuery } = useCartQuery(GetAddressesDocument)
    const { data: config } = useQuery(StoreConfigDocument)
    const countryQuery = useQuery(CountryRegionsDocument, { fetchPolicy: 'cache-and-network' })
-@@ -86,24 +91,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -86,24 +98,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
      defaultValues: isCartAddressACustomerAddress(customerQuery?.customer?.addresses, currentAddress)
        ? { saveInAddressBook: true, isCompany: false }
        : {
@@ -98,15 +105,19 @@ index a128fe9..b30f433 100644
      skipUnchanged: true,
      onBeforeSubmit: (variables) => {
        const regionId = countries
-@@ -114,7 +119,6 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -114,42 +126,218 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
          variables.company = ''
          variables.vatId = ''
        }
 -
        return {
          ...variables,
-         telephone: variables.telephone || '000 - 000 0000',
-@@ -124,32 +128,148 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+-        telephone: variables.telephone || '000 - 000 0000',
++        telephone: variables.telephone,
++        postcode: '-',
+         region: regionId ? variables.region : '',
+         regionId,
+         addition: variables.addition ?? '',
        }
      },
    })
@@ -183,7 +194,7 @@ index a128fe9..b30f433 100644
          submit={submit}
          control={form.control}
 -        name={['postcode', 'countryCode', 'regionId']}
-+        name={['postcode', 'countryCode', 'regionId', 'city']}
++        name={['firstname', 'lastname', 'telephone', 'street', 'houseNumber', 'postcode', 'countryCode', 'regionId', 'city']}
        />
  
        <CompanyFields form={form} />
@@ -236,14 +247,74 @@ index a128fe9..b30f433 100644
 +        <FormRow sx={{
 +          paddingTop: 0,
 +          paddingBottom: 0,
++          ['.react-tel-input']: {
++            ['input']: {
++              width: "100% !important",
++              height: "100% !important",
++              borderRadius: "4px !important",
++              border: '1px solid #F6DBE0 !important',
++              backgroundColor: "transparent !important",
++              ['&.invalid-number']: {
++                borderColor: '#f44336 !important'
++              }
++            },
++            ['.flag-dropdown']: {
++              border: '1px solid #F6DBE0 !important',
++              ['&.invalid-number']: {
++                borderColor: '#f44336 !important'
++              }
++            },
++            ['.selected-flag']: {
++              borderRadius: "4px 0px 0px 4px"
++            },
++            ['.special-label']: {
++              display: "unset !important",
++              left: "18px !important",
++              color: "#441e14",
++              fontSize: "12px",
++              lineHeight: '158%',
++              fontWeight: "400",
++              fontFamily: "'Bricolage Grotesque',sans-serif",
++              zIndex: 3
++            }
++          }
 +        }}>
-+          <TelephoneElement
++          <PhoneInput
++            country={'UAE'}
++            value={telephone}
++            onChange={phone => { setTelephone(phone) }}
++            isValid={(inputNumber, country: any, countries) => {
++              // console.log(`+${inputNumber}`?.length, country, country?.format?.replaceAll(" ", "")?.replaceAll("-", "")?.length);
++
++              const fullNumber = inputNumber.startsWith('+') ? inputNumber : `+${inputNumber}`;
++
++              const phoneNumber = parsePhoneNumberFromString(fullNumber, country.iso2);
++              if (!phoneNumber || !phoneNumber.isValid()) {
++                return false;
++              }
++
++              const digitsOnly = fullNumber.replace(/\D/g, '');
++              if (/^0+$/.test(digitsOnly)) return false;
++
++              form.setValue("telephone", fullNumber);
++              return true;
++            }}
++            inputProps={{
++              name: 'telephone',
++              required: true,
++              variant: 'outlined',
++              label: "phone"
++            }}
++            enableLongNumbers={true}
++            autoFormat={false}
++          />
++          {/* <TelephoneElement
 +            control={form.control}
 +            name='telephone'
 +            variant='outlined'
 +            required={required.telephone}
 +            showValid
-+          />
++          /> */}
 +        </FormRow>
        </FormRow>
 +

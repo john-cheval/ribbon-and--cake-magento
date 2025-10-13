@@ -228,7 +228,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                     quantity={matchedCartItem.quantity}
                                   />
                                 ) : item.__typename === 'SimpleProduct' ? (
-                                  <AddProductsToCartForm key={item.uid}>
+                                  <AddProductsToCartForm isAdson={true} redirect={false} key={item.uid}>
                                     <AddProductsToCartButton
                                       isAdson={true}
                                       sx={{

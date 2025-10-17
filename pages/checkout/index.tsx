@@ -305,6 +305,7 @@ function ShippingPage(props: ShippingPageProps) {
                             <CustomerAddressForm
                               step={2}
                               sx={(theme) => ({ mt: theme.spacings.lg })}
+                              isPickup={value === 1}
                             >
                               <ShippingAddressForm step={3} isPickup={value === 1} />
                             </CustomerAddressForm>

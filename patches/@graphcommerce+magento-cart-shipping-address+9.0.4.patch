@@ -1,8 +1,26 @@
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
-index 6f4add4..f5be44e 100644
+index 6f4add4..050dfe2 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
-@@ -44,7 +44,6 @@ export function CustomerAddressForm(props: CustomerAddressListProps) {
+@@ -29,14 +29,16 @@ import type {
+   SetCustomerShippingBillingAddressOnCartMutationVariables,
+ } from './SetCustomerShippingBillingAddressOnCart.gql'
+ import { SetCustomerShippingBillingAddressOnCartDocument } from './SetCustomerShippingBillingAddressOnCart.gql'
++import { ShippingMethodFormDocument } from '@graphcommerce/magento-cart-shipping-method'
+ 
+ export type CustomerAddressListProps = Pick<UseFormComposeOptions, 'step'> & {
+   children?: React.ReactNode
+   sx?: SxProps<Theme>
++  isPickup?: boolean | undefined
+ }
+ 
+ export function CustomerAddressForm(props: CustomerAddressListProps) {
+-  const { step, children, sx } = props
++  const { step, children, sx, isPickup = false } = props
+ 
+   const customer = useQuery(CustomerDocument)
+   const cartQuery = useCartQuery(GetAddressesDocument)
+@@ -44,7 +46,6 @@ export function CustomerAddressForm(props: CustomerAddressListProps) {
    const isVirtual = cart?.is_virtual ?? false
  
    const customerAddresses = filterNonNullableKeys(customer.data?.customer?.addresses, ['id'])
@@ -10,6 +28,88 @@ index 6f4add4..f5be44e 100644
    const cartShipping = cart?.shipping_addresses?.[0]
    const cartShippingId =
      findCustomerAddressFromCartAddress(customerAddresses, cartShipping)?.id || null
+@@ -115,7 +116,7 @@ export function CustomerAddressForm(props: CustomerAddressListProps) {
+     },
+   })
+ 
+-  const { handleSubmit, error, control, setValue, watch } = form
++  const { handleSubmit, error, control, setValue, watch, data } = form
+   const formAddressId = watch('customer_address_id')
+ 
+   useEffect(() => {
+@@ -139,11 +140,71 @@ export function CustomerAddressForm(props: CustomerAddressListProps) {
+     setValue,
+   ])
+ 
+-  const submit = handleSubmit(() => {})
++  const submit = handleSubmit(() => { })
+ 
+   // We want to persist the form because we can't send the 'new address' state to the server, but we do want to keep this selection.
+   useFormCompose({ form, step, submit, key: 'CustomerAddressForm' })
+ 
++  const method_form = useFormGqlMutationCart(ShippingMethodFormDocument, {
++    onBeforeSubmit: (variables: any) => {
++      const [carrier, method] = (variables?.carrierMethod ?? '').split('-')
++
++      if (carrier === "instore") {
++        return { ...variables, carrier, method: "pickup" }
++      }
++
++      if (carrier === "cityrate") {
++        return { ...variables, carrier, method: "cityrate" }
++      }
++
++      if (carrier === "flatrate") {
++        return { ...variables, carrier, method: "flatrate" }
++      }
++
++      return { ...variables, carrier, method }
++    }
++  })
++
++  const { handleSubmit: handleSubmitMethod, setValue: methodSetValue } = method_form
++  const methodSubmit = handleSubmitMethod(() => { })
++
++  const setShippingMethod = (code, method) => {
++    methodSetValue(code, method, { shouldValidate: true })
++    methodSubmit()
++  }
++
++  useEffect(() => {
++    if (data?.setShippingAddressesOnCart?.cart && form?.formState?.isSubmitSuccessful && !form?.formState?.isSubmitting && form?.formState?.isSubmitted) {
++      const shippingAddress = data?.setShippingAddressesOnCart?.cart?.shipping_addresses?.[0]
++      const availableMethods = (shippingAddress?.available_shipping_methods ?? [])
++
++      let selectedMethod
++
++      if (availableMethods?.length) {
++        if (isPickup) {
++          selectedMethod = availableMethods?.find(
++            (m: any) => (m?.carrier_code === 'instore' && m?.method_code === 'pickup') || (m?.carrier_code === "cityrate" && m?.method_code === "cityrate") || availableMethods?.[0],
++          )
++        } else {
++          const deliveryMethods = availableMethods?.filter(
++            (m: any) => !(m?.carrier_code === 'instore' && m?.method_code === 'pickup'),
++          )
++
++          if (deliveryMethods?.length) {
++            selectedMethod = deliveryMethods?.find(
++              (m: any) => m?.carrier_code === "cityrate" && m?.method_code === "cityrate",
++            ) || deliveryMethods?.[0]
++          }
++        }
++
++        if (selectedMethod) {
++          setShippingMethod("carrierMethod", selectedMethod?.carrier_code)
++        }
++      }
++    }
++  }, [isPickup, form?.formState?.isSubmitSuccessful, form?.formState?.isSubmitting, form?.formState?.isSubmitted])
++
++
+   if (customer.loading || customerAddresses.length === 0) return <>{children}</>
+ 
+   return (
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 index a128fe9..a737672 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx

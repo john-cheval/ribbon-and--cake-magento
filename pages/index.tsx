@@ -24,7 +24,6 @@ export type CmsPageRouteProps = LayoutNavigationProps & CmsBlocksProps & StoryPr
 
 function CmsPage(props: CmsPageRouteProps) {
   const { cmsBlocks, justInProducts, menu, statementCakesProducts } = props
-
   const homesHeroData = cmsBlocks.find((block) => block.identifier === 'slider')
   const justInHome = cmsBlocks.find((block) => block.identifier === 'just-in-home')
   const homeStoryData = cmsBlocks.find((block) => block.identifier === 'home-story-title')
@@ -44,7 +43,6 @@ function CmsPage(props: CmsPageRouteProps) {
   const decodedHomeCta = decodeHtmlEntities(homeCtaData?.content)
   const decodedHomeCeleberations = decodeHtmlEntities(homeCeleberationsData?.content)
   const decodedHomeImagination = decodeHtmlEntities(homeImaginationData?.content)
-
   return (
     <>
       <PageMeta
@@ -105,6 +103,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
         'home-cta',
         'home-imagination',
         'home-celeberation',
+        'just-in-home-categoryid',
       ],
     },
   })
@@ -114,16 +113,16 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
-  const JustInQuery = await staticClient.query({
-    query: ProductListDocument,
-    variables: {
-      pageSize: 10,
-      currentPage: 1,
-      filters: {
-        category_id: { eq: '3' },
-      },
-    },
-  })
+  // const JustInQuery = await staticClient.query({
+  //   query: ProductListDocument,
+  //   variables: {
+  //     pageSize: 10,
+  //     currentPage: 1,
+  //     filters: {
+  //       category_id: { eq: '3' },
+  //     },
+  //   },
+  // })
 
   const statementCakesQuery = await staticClient.query({
     query: ProductListDocument,
@@ -139,10 +138,24 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   // const result = await cmsPageQuery
   // const cmsPage = result.data.cmsPage
   const cmsBlocks = (await cmsPageBlocksQuery)?.data.cmsBlocks?.items
-  const justInProducts = (await JustInQuery).data?.products?.items
+  // const justInProducts = (await JustInQuery).data?.products?.items
   const statementCakesProducts = (await statementCakesQuery).data.products?.items
   const layoutData = (await layout)?.data
+  const justInHomecategory = cmsBlocks?.find((block) => block.identifier === 'just-in-home-categoryid')
 
+  const idCategory = justInHomecategory?.title ? justInHomecategory?.title : '3'
+
+  const JustInQuery = await staticClient.query({
+    query: ProductListDocument,
+    variables: {
+      pageSize: 10,
+      currentPage: 1,
+      filters: {
+        category_id: { eq: idCategory },
+      },
+    },
+  })
+  const justInProducts = (await JustInQuery).data?.products?.items
   return {
     props: {
       // cmsPage: cmsPage,

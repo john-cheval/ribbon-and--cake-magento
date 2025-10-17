@@ -141,7 +141,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   // const justInProducts = (await JustInQuery).data?.products?.items
   const statementCakesProducts = (await statementCakesQuery).data.products?.items
   const layoutData = (await layout)?.data
-  const justInHomecategory = cmsBlocks?.find((block) => block.identifier === 'just-in-home-categoryid')
+  const justInHomecategory = cmsBlocks?.find((block) => block?.identifier === 'just-in-home-categoryid')
 
   const idCategory = justInHomecategory?.title ? justInHomecategory?.title : '3'
 

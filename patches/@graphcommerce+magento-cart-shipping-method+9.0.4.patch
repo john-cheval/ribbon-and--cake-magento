@@ -35,7 +35,7 @@ index bbf68aa..10958c8 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
-index 2df7a90..57267c7 100644
+index 2df7a90..7eb852a 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-method/components/ShippingMethodForm/ShippingMethodForm.tsx
 @@ -27,40 +27,41 @@ import { ShippingMethodFormDocument } from './ShippingMethodForm.gql'
@@ -101,11 +101,10 @@ index 2df7a90..57267c7 100644
  
    // Override with the currently selected method if there is one.
    const selectedMethod = cartQuery?.cart?.shipping_addresses?.[0]?.selected_shipping_method
-@@ -75,46 +76,73 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -75,46 +76,71 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
      defaultValues: { carrierMethod },
      onBeforeSubmit: (variables) => {
        const [carrier, method] = (variables.carrierMethod ?? '').split('-')
-+      console.log(carrier, method, "==>carrier")
 +      if (carrier === "instore") {
 +        return onBeforeSubmit({ ...variables, carrier, method: "pickup" })
 +      }
@@ -194,7 +193,6 @@ index 2df7a90..57267c7 100644
        }
      }
 -  }, [shippingAddress, firstCarrierMethod, carrierMethod, setValue])
-+    console.log(isPickup, shippingAddress, "==>isPickup")
 +  }, [shippingAddress, isPickup])
  
    return (
@@ -204,7 +202,7 @@ index 2df7a90..57267c7 100644
        <FormAutoSubmit
          control={control}
          submit={submit}
-@@ -132,16 +160,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
+@@ -132,16 +158,18 @@ export function ShippingMethodForm(props: ShippingMethodFormProps) {
            name='carrierMethod'
            size='large'
            color='secondary'

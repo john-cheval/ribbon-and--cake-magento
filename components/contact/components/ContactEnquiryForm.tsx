@@ -13,7 +13,7 @@ interface RecaptchaRefType {
   resetCaptcha: () => void
 }
 
-const inputFieldSx: SxProps<Theme> = {
+export const inputFieldSx: SxProps<Theme> = {
   borderRadius: '4px',
   color: (theme: any) => theme.palette.custom.main,
   height: 'fit-content',

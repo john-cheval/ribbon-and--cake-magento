@@ -7,14 +7,24 @@ query AlekseonForm($identifier: String!) {
         frontend_label
         frontend_input
         is_required
+        sort_order
+        input_block_type
+        input_visibility
         attribute_code
         options {
           option_id
+          option_code
+          sort_order
           label
         }
       }
       widget_setting {
+        frontend_form_description
         submit_button_label
+        form_submit_success_title
+        form_submit_success_message
+        recaptcha_type
+        enable_multiple_steps
       }
     }
   }

@@ -115,10 +115,24 @@ function ClassForm({ formValue }: ClassFormProps) {
                 // required={field?.is_required}
                 variant="outlined"
                 type={field?.frontend_input}
-                label={field?.frontend_label === "Date of Birth" ? "" : label}
+                label={label}
+                FormHelperTextProps={{
+                    "aria-placeholder": "odheuhdiuhi"
+                }}
                 sx={{
                     gridColumn: isFullWidth ? "1 / -1" : "auto",
                     width: "100%",
+                    ...(field?.frontend_label === "Date of Birth" && {
+                        ['& input']: {
+                            color: "white",
+                            ['&::filled']: {
+                                color: "white"
+                            }
+                        },
+                        ['.MuiInputLabel-shrink + .MuiOutlinedInput-root input']: {
+                            color: "#441e14"
+                        }
+                    })
                 }}
             />
         );

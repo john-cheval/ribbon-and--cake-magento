@@ -40,7 +40,8 @@ export type CategoryProps = CategoryPageQuery &
   layoutProps &
   ProductListQuery &
   ProductFiltersQuery & { filterTypes?: FilterTypes; params?: ProductListParams } & {
-    apolloState?: any
+    apolloState?: any;
+    conf?: any;
   }
 export type CategoryRoute = { url: string[] }
 export type layoutProps = { layoutData?: any; menu?: any }
@@ -49,7 +50,7 @@ type GetPageStaticPaths = GetStaticPaths<CategoryRoute>
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CategoryProps, CategoryRoute>
 
 function CategoryPage(props: CategoryProps) {
-  const { categories, menu, apolloState, ...rest } = props
+  const { categories, menu, apolloState, conf, ...rest } = props
   const productList = useProductList({
     ...rest,
     category: categories?.items?.[0],
@@ -110,7 +111,7 @@ function CategoryPage(props: CategoryProps) {
                   id={category.uid}
                   category={category}
                   menuList={menu?.items[0]?.children}
-                  conf={apolloState}
+                  conf={conf}
                   isShopPage={isShop}
                 />
               )}
@@ -224,6 +225,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       params: productListParams,
       apolloState: await conf.then(() => client.cache.extract()),
       up,
+      conf: (await conf).data
     },
     revalidate: 60 * 20,
   }

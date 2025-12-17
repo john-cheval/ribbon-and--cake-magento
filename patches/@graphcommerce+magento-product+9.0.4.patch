@@ -966,7 +966,7 @@ index 5643683..4161730 100644
        )}
      </ChipOverlayOrPopper>
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
-index 80912c1..6411d79 100644
+index 80912c1..54708aa 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductFiltersPro/ProductFiltersProCategorySection.tsx
 @@ -10,99 +10,165 @@ import {
@@ -1011,12 +1011,11 @@ index 80912c1..6411d79 100644
 +
    const name = 'filters.category_uid.in'
    const currentFilter = useWatch({ control: form.control, name })
--
 +  const clearAll = useProductFiltersProClearAllAction()
 +  const handleAccordionToggle = () => {
 +    setExpandeds(!expandeds)
 +  }
-+  console.log(urlPath, 'thi si urlPath')
+ 
    return (
 -    <ActionCardAccordion
 -      sx={[
@@ -1958,18 +1957,9 @@ index ddf15be..e5a0bd4 100644
    }
  }
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
-index 711b3ff..7da8552 100644
+index 711b3ff..cb2e04e 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/ProductListItemsBase.tsx
-@@ -83,7 +83,7 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
-   }
- 
-   const classes = withState({ size })
--
-+  console.log(items, "==>items")
-   return (
-     <AddProductsToCartForm>
-       <Box
 @@ -97,14 +97,14 @@ export function ProductListItemsBase(props: ProductItemsGridProps) {
                gridTemplateColumns: `repeat(${column.count}, 1fr)`,
              },
@@ -1988,14 +1978,14 @@ index 711b3ff..7da8552 100644
                height={responsiveVal(250, 500)}
              >
 diff --git a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
-index 464c244..59e1d4d 100644
+index 464c244..c2bfc34 100644
 --- a/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 +++ b/node_modules/@graphcommerce/magento-product/components/ProductListItems/productListApplyCategoryDefaults.ts
 @@ -64,6 +64,7 @@ export async function productListApplyCategoryDefaults(
    if (!newParams.filters.category_uid?.in?.[0]) {
      newParams.filters.category_uid = { eq: (await category)?.uid }
    }
-+  console.log(newParams,"==>newParams");
++  console.log(newParams?.pageSize,newParams?.currentPage,"==>newParams");
  
    return newParams
  }

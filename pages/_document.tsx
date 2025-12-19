@@ -17,6 +17,7 @@ class Document extends NextDocument<EmotionCacheProps & LinguiDocumentProps> {
     return (
       <Html lang={normalizeLocale(this.props.locale)}>
         <Head>
+          <meta name="google-site-verification" content="wWmlpcXRKIVUbwmQQwjvvLzYrUt5znCycyk6afwgP7A" />
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
           <link

@@ -5,6 +5,11 @@ sources:
         endpoint: '{graphCommerce.magentoEndpoint}'
         useGETForQueries: true
         batch: false
+
+        schemaHeaders:
+          Store: default
+          Content-Type: application/json
+          
         operationHeaders:
           Store: '{context.headers.store}'
           Authorization: '{context.headers.authorization}'

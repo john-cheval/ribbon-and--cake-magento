@@ -111,7 +111,7 @@ index 6f4add4..050dfe2 100644
  
    return (
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..a737672 100644
+index a128fe9..a52bab2 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -122,7 +122,7 @@ index a128fe9..a737672 100644
    FormAutoSubmit,
    FormPersist,
    TelephoneElement,
-@@ -24,14 +25,21 @@ import {
+@@ -24,14 +25,34 @@ import {
  import { CountryRegionsDocument, StoreConfigDocument } from '@graphcommerce/magento-store'
  import { Form, FormRow } from '@graphcommerce/next-ui'
  import { Trans } from '@lingui/macro'
@@ -140,13 +140,26 @@ index a128fe9..a737672 100644
 +import { ShippingMethodFormDocument } from '@graphcommerce/magento-cart-shipping-method'
 +import PhoneInput from 'react-country-phone-input'
 +import 'react-country-phone-input/lib/style.css'
-+import { parsePhoneNumberFromString } from 'libphonenumber-js';
++import { parsePhoneNumberFromString, type CountryCode } from 'libphonenumber-js';
 +
++const validatePhoneNumber = (value?: string, countryCode?: string) => {
++  if (!value) return false
 +
++  const fullNumber = value.startsWith('+') ? value : `+${value}`
++  const parsedCountryCode = countryCode?.toUpperCase() as CountryCode | undefined
++  const phoneNumber = parsePhoneNumberFromString(fullNumber, parsedCountryCode)
++
++  if (!phoneNumber || !phoneNumber.isValid()) return false
++
++  const digitsOnly = fullNumber.replace(/\D/g, '')
++  if (/^0+$/.test(digitsOnly)) return false
++
++  return true
++}
  
  export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
    /**
-@@ -39,10 +47,15 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
+@@ -39,10 +60,12 @@ export type ShippingAddressFormProps = Pick<UseFormComposeOptions, 'step'> & {
     */
    ignoreCache?: boolean
    sx?: SxProps<Theme>
@@ -157,13 +170,22 @@ index a128fe9..a737672 100644
 -  const { step, sx } = props
 +  const { step, sx, isPickup = false } = props
 +
-+  const [telephone, setTelephone] = useState<string>("")
-+  // console.log(telephone, '==> this is telephone')
-+
    const { data: cartQuery } = useCartQuery(GetAddressesDocument)
    const { data: config } = useQuery(StoreConfigDocument)
    const countryQuery = useQuery(CountryRegionsDocument, { fetchPolicy: 'cache-and-network' })
-@@ -86,24 +99,24 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -82,28 +105,36 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+     Mutation = SetBillingAddressDocument
+   }
+ 
++  const defaultTelephone =
++    currentAddress?.telephone !== '000 - 000 0000'
++      ? currentAddress?.telephone ?? ''
++      : ''
++  const [telephone, setTelephone] = useState<string>(defaultTelephone)
++
+   const form = useFormGqlMutationCart(Mutation, {
++    mode: 'onChange',
++    reValidateMode: 'onChange',
      defaultValues: isCartAddressACustomerAddress(customerQuery?.customer?.addresses, currentAddress)
        ? { saveInAddressBook: true, isCompany: false }
        : {
@@ -206,7 +228,7 @@ index a128fe9..a737672 100644
      skipUnchanged: true,
      onBeforeSubmit: (variables) => {
        const regionId = countries
-@@ -114,42 +127,218 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -114,42 +145,273 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
          variables.company = ''
          variables.vatId = ''
        }
@@ -224,8 +246,66 @@ index a128fe9..a737672 100644
    })
 -  const { handleSubmit, required, error } = form
 -  const submit = handleSubmit(() => {})
-+  const { handleSubmit, required, error, data } = form
-+  const submit = handleSubmit(() => { })
++  const {
++    handleSubmit,
++    required,
++    error,
++    data,
++    setError,
++    clearErrors,
++    trigger,
++    setValue,
++    getValues,
++    formState,
++  } = form
++
++  useEffect(() => {
++    setTelephone(defaultTelephone)
++  }, [defaultTelephone])
++
++  const updateTelephone = (value: string, countryCode?: string) => {
++    const formattedValue = value.startsWith('+') ? value : `+${value}`
++    const hasValue = value.trim().length > 0
++
++    setTelephone(value)
++    setValue('telephone', hasValue ? formattedValue : '', {
++      shouldDirty: true,
++      shouldTouch: true,
++      shouldValidate: true,
++    })
++
++    if (!hasValue) {
++      setError('telephone', { type: 'required', message: 'Phone number is required' })
++      return
++    }
++
++    if (!validatePhoneNumber(formattedValue, countryCode)) {
++      setError('telephone', { type: 'validate', message: 'Please enter a valid phone number' })
++      return
++    }
++
++    clearErrors('telephone')
++    trigger('telephone')
++  }
++
++  const submit = async (event?: React.BaseSyntheticEvent) => {
++    const currentTelephone = getValues('telephone') || telephone
++    const currentCountryCode = getValues('countryCode')?.toLowerCase()
++
++    const isTelephoneValid = validatePhoneNumber(currentTelephone, currentCountryCode)
++
++    if (!isTelephoneValid) {
++      setError('telephone', {
++        type: currentTelephone ? 'validate' : 'required',
++        message: currentTelephone ? 'Please enter a valid phone number' : 'Phone number is required',
++      })
++      await trigger('telephone')
++      return
++    }
++
++    clearErrors('telephone')
++    return handleSubmit(() => { })(event)
++  }
  
    useFormCompose({ form, step, submit, key: 'ShippingAddressForm' })
  
@@ -250,11 +330,11 @@ index a128fe9..a737672 100644
 +    }
 +  })
 +
-+  const { handleSubmit: handleSubmitMethod, setValue } = method_form
++  const { handleSubmit: handleSubmitMethod, setValue: setMethodValue } = method_form
 +  const methodSubmit = handleSubmitMethod(() => { })
 +
-+  const setShippingMethod = (code, method) => {
-+    setValue(code, method, { shouldValidate: true })
++  const setShippingMethod = (code: any, method: any) => {
++    setMethodValue(code, method, { shouldValidate: true })
 +    methodSubmit()
 +  }
 +
@@ -313,14 +393,14 @@ index a128fe9..a737672 100644
 +          step={1}
 +          sx={{
 +            '& .MuiInputLabel-formControl': {
-+              color: (theme) => theme.palette.custom.main,
++              color: (theme: any) => theme.palette.custom.main,
 +              //    marginBottom:'clamp(10px, (9.14px + 0.27vw), 16px)',
 +              fontSize: { xs: '15px', md: '16px' },
 +              lineHeight: '158%',
 +              fontWeight: 400,
 +
 +              '&.Mui-focused': {
-+                color: (theme) => theme.palette.custom.main,
++                color: (theme: any) => theme.palette.custom.main,
 +              },
 +              '& .MuiFormLabel-asterisk': {
 +                display: 'none',
@@ -328,14 +408,14 @@ index a128fe9..a737672 100644
 +            },
 +
 +            '& .MuiOutlinedInput-root': {
-+              border: (theme) => `1px solid ${theme.palette.custom.border}`,
++              border: (theme: any) => `1px solid ${theme.palette.custom.border}`,
 +              borderRadius: '4px',
 +
 +              '&:hover': {
-+                border: (theme) => `1px solid ${theme.palette.custom.main}`,
++                border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
 +              },
 +              '&.Mui-focused': {
-+                border: (theme) => `1px solid ${theme.palette.custom.main}`,
++                border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
 +              },
 +
 +              '& .MuiOutlinedInput-notchedOutline': {
@@ -383,22 +463,11 @@ index a128fe9..a737672 100644
 +          <PhoneInput
 +            country={'ae'}
 +            value={telephone}
-+            onChange={phone => { setTelephone(phone) }}
-+            isValid={(inputNumber, country: any, countries) => {
-+              // console.log(`+${inputNumber}`?.length, country, country?.format?.replaceAll(" ", "")?.replaceAll("-", "")?.length);
-+
-+              const fullNumber = inputNumber.startsWith('+') ? inputNumber : `+${inputNumber}`;
-+
-+              const phoneNumber = parsePhoneNumberFromString(fullNumber, country.iso2);
-+              if (!phoneNumber || !phoneNumber.isValid()) {
-+                return false;
-+              }
-+
-+              const digitsOnly = fullNumber.replace(/\D/g, '');
-+              if (/^0+$/.test(digitsOnly)) return false;
-+
-+              form.setValue("telephone", fullNumber);
-+              return true;
++            onChange={(phone, country: any) => {
++              updateTelephone(phone, country?.iso2)
++            }}
++            isValid={(inputNumber, country: any) => {
++              return validatePhoneNumber(inputNumber, country?.iso2)
 +            }}
 +            inputProps={{
 +              name: 'telephone',
@@ -409,6 +478,14 @@ index a128fe9..a737672 100644
 +            enableLongNumbers={true}
 +            autoFormat={false}
 +          />
++          {formState.errors.telephone?.message && (
++            <Typography
++              variant='caption'
++              sx={{ color: 'error.main', display: 'block', mt: 0.5, ml: 1.75 }}
++            >
++              {String(formState.errors.telephone.message)}
++            </Typography>
++          )}
 +          {/* <TelephoneElement
 +            control={form.control}
 +            name='telephone'
@@ -421,7 +498,7 @@ index a128fe9..a737672 100644
 +
 +      <Box>
 +        <Typography sx={{
-+          color: (theme) => theme.palette.custom.dark,
++          color: (theme: any) => theme.palette.custom.dark,
 +          fontSize: { xs: '16px', md: '20px' },
 +          marginTop: '15px',
 +          marginBottom: { xs: '10px', md: '15px' },

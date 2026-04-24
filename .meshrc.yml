@@ -2,7 +2,7 @@ sources:
   - name: m2
     handler:
       graphql:
-        endpoint: '{graphCommerce.magentoEndpoint}'
+        endpoint: 'https://srv900162.hstgr.cloud/graphql'
         useGETForQueries: true
         batch: false
           

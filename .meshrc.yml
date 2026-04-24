@@ -7,7 +7,6 @@ sources:
         batch: false
           
         operationHeaders:
-          Store: 'default'
           Authorization: '{context.headers?.authorization}'
           X-ReCaptcha: "{context.headers['x-recaptcha']}"
           Preview-Version: "{context.headers['preview-version']}"

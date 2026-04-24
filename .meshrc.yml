@@ -5,14 +5,10 @@ sources:
         endpoint: '{graphCommerce.magentoEndpoint}'
         useGETForQueries: true
         batch: false
-
-        schemaHeaders:
-          Store: default
-          Content-Type: application/json
           
         operationHeaders:
           Store: 'default'
-          Authorization: '{context.headers.authorization}'
+          Authorization: '{context.headers?.authorization}'
           X-ReCaptcha: "{context.headers['x-recaptcha']}"
           Preview-Version: "{context.headers['preview-version']}"
           Content-Currency: "{context.headers['content-currency']}"

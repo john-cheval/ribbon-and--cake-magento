@@ -754,6 +754,24 @@ index 400ed2c..7abe436 100644
        {!countryFirst && <AddressCountryRegion {...props} />}
      </>
    )
+diff --git a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressHouseNumber.tsx b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressHouseNumber.tsx
+index ac7a57a..dd312cb 100644
+--- a/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressHouseNumber.tsx
++++ b/node_modules/@graphcommerce/magento-customer/components/AddressFields/AddressHouseNumber.tsx
+@@ -10,12 +10,11 @@ export function AddressHousenumber<
+   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+ >(props: AddressFieldsOptions<TFieldValues, TName>) {
+   const form = useAddressFieldsForm<TFieldValues, TName>(props)
+-  const { control, name, readOnly, required } = form
++  const { control, name, readOnly } = form
+   return (
+     <TextFieldElement
+       control={control}
+       name={name.houseNumber}
+-      required={required[name.houseNumber]}
+       rules={{
+         pattern: {
+           value: houseNumberPattern,
 diff --git a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx b/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx
 index fe2fe28..906ac8d 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/ApolloCustomerError/ApolloCustomerErrorFullPage.tsx

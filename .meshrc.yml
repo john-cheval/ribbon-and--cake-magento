@@ -11,7 +11,7 @@ sources:
           Content-Type: application/json
           
         operationHeaders:
-          Store: '{context.headers.store}'
+          Store: 'default'
           Authorization: '{context.headers.authorization}'
           X-ReCaptcha: "{context.headers['x-recaptcha']}"
           Preview-Version: "{context.headers['preview-version']}"

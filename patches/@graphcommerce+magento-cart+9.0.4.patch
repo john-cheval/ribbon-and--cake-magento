@@ -119,7 +119,7 @@ index 0d3023f..53aaeb0 100644
            </Box>
          )}
 diff --git a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
-index 11b4847..251f6cb 100644
+index 11b4847..ea54097 100644
 --- a/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 +++ b/node_modules/@graphcommerce/magento-cart/components/CartTotals/CartTotals.tsx
 @@ -2,7 +2,7 @@ import { Money } from '@graphcommerce/magento-store'
@@ -131,7 +131,24 @@ index 11b4847..251f6cb 100644
  import { useCartQuery, useDisplayInclTax } from '../../hooks'
  import { GetCartTotalsDocument } from './GetCartTotals.gql'
  
-@@ -85,10 +85,22 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -47,11 +47,11 @@ export function CartTotals(props: CartTotalsProps) {
+     import.meta.graphCommerce.magentoVersion >= 246
+       ? shippingMethod
+       : shipping_addresses?.[0]?.available_shipping_methods?.find(
+-          (avail) =>
+-            (shippingMethod?.amount?.value ?? 0) > 0 &&
+-            avail?.carrier_code === shippingMethod?.carrier_code &&
+-            avail?.method_code === shippingMethod?.method_code,
+-        )
++        (avail) =>
++          (shippingMethod?.amount?.value ?? 0) > 0 &&
++          avail?.carrier_code === shippingMethod?.carrier_code &&
++          avail?.method_code === shippingMethod?.method_code,
++      )
+ 
+   return (
+     <Box
+@@ -85,10 +85,23 @@ export function CartTotals(props: CartTotalsProps) {
            key='subtotal'
            sx={{ display: 'flex', justifyContent: 'space-between' }}
          >
@@ -146,91 +163,111 @@ index 11b4847..251f6cb 100644
 +            <Trans id='Items Total' />
            </Box>
 -          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
-+          <Box className={classes.money} sx={{ whiteSpace: 'nowrap',
-+            '& span span':{
-+               color: (theme: any) => theme.palette.custom.smallHeading,
-+               fontWeight: 600,
-+               fontSize: { xs: '15px', md: '16px' },
-+               textTransform: 'capitalize',
++          <Box className={classes.money} sx={{
++            whiteSpace: 'nowrap',
++            '& span span': {
++              color: (theme: any) => theme.palette.custom.smallHeading,
++              fontWeight: 600,
++              fontSize: { xs: '15px', md: '16px' },
++              textTransform: 'capitalize',
 +            }
-+           }}>
++          }}>
              <Money {...(inclTax ? prices.subtotal_including_tax : prices.subtotal_excluding_tax)} />
            </Box>
          </Box>
-@@ -108,10 +120,32 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -98,9 +111,9 @@ export function CartTotals(props: CartTotalsProps) {
+         const value = inclTax
+           ? (discount?.amount.value ?? 0) * -1
+           : (discount?.amount.value ?? 0) *
+-            ((prices.subtotal_excluding_tax?.value ?? 1) /
+-              (prices.subtotal_including_tax?.value ?? 1)) *
+-            -1
++          ((prices.subtotal_excluding_tax?.value ?? 1) /
++            (prices.subtotal_including_tax?.value ?? 1)) *
++          -1
+ 
+         return (
+           <Box
+@@ -108,10 +121,34 @@ export function CartTotals(props: CartTotalsProps) {
              sx={{
                display: 'flex',
                justifyContent: 'space-between',
-+              alignItems:'center'
++              alignItems: 'center'
              }}
            >
 -            <Box>{discount?.label}</Box>
 -            <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
 +            <Box>
 +              <Typography sx={{
-+            color: (theme: any) => theme.palette.custom.smallHeading,
-+            fontSize: { xs: '15px', md: '16px' },
-+            fontWeight: 400,
-+            lineHeight: 'normal',
-+          }}>
++                color: (theme: any) => theme.palette.custom.smallHeading,
++                fontSize: { xs: '15px', md: '16px' },
++                fontWeight: 400,
++                lineHeight: 'normal',
++              }}>
 +                Discount
 +              </Typography>
 +              <Typography sx={{
-+                fontSize:{xs:'15px', md:'15px'},
-+                color:'#9d9d9d',
-+                marginTop:'2px'
++                fontSize: { xs: '15px', md: '15px' },
++                color: '#9d9d9d',
++                marginTop: '2px'
 +              }}>
-+              {discount?.label && `(${discount.label})`}
++                {discount?.label && `(${discount.label})`}
 +              </Typography>
 +            </Box>
-+            <Box  className={`${classes.money} discount`} sx={{ whiteSpace: 'nowrap','& span span':{
-+               color: (theme: any) => theme.palette.custom.smallHeading,
-+               fontWeight: 600,
-+               fontSize: { xs: '15px', md: '16px' },
-+               textTransform: 'capitalize',
-+            } }}>
++            <Box className={`${classes.money} discount`} sx={{
++              whiteSpace: 'nowrap', '& span span': {
++                color: (theme: any) => theme.palette.custom.smallHeading,
++                fontWeight: 600,
++                fontSize: { xs: '15px', md: '16px' },
++                textTransform: 'capitalize',
++              }
++            }}>
                {discount?.amount && <Money {...discount.amount} value={value} />}
              </Box>
            </Box>
-@@ -154,6 +188,8 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -154,6 +191,8 @@ export function CartTotals(props: CartTotalsProps) {
            </Box>
          ))}
  
-+       
++
 +
        {additionalSubtotals}
  
        <Box key='divider'>
-@@ -170,10 +206,22 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -170,10 +209,24 @@ export function CartTotals(props: CartTotalsProps) {
              color: theme.palette.primary.main,
            })}
          >
 -          <Box>
 +          <Box sx={{
-+              color: (theme: any) => theme.palette.custom.smallHeading,
-+              fontSize: { xs: '16px', md: '20px' },
-+              fontWeight: 700,
-+              lineHeight: 'normal',
-+              textTransform: 'capitalize',
++            color: (theme: any) => theme.palette.custom.smallHeading,
++            fontSize: { xs: '16px', md: '20px' },
++            fontWeight: 700,
++            lineHeight: 'normal',
++            textTransform: 'capitalize',
 +          }}>
              <Trans id='Grand total' />
            </Box>
 -          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' }}>
-+          <Box className={classes.money} sx={{ whiteSpace: 'nowrap' , 
-+          '& span span': {
-+           color: (theme: any) => theme.palette.custom.smallHeading,
-+           fontWeight: 700,
-+           fontSize: { xs: '16px', md: '20px' },
-+           textTransform: 'capitalize',
-+                      },}}>
++          <Box className={classes.money} sx={{
++            whiteSpace: 'nowrap',
++            '& span span': {
++              color: (theme: any) => theme.palette.custom.smallHeading,
++              fontWeight: 700,
++              fontSize: { xs: '16px', md: '20px' },
++              textTransform: 'capitalize',
++            },
++          }}>
              <Money {...prices.grand_total} />
            </Box>
          </Box>
-@@ -201,6 +249,7 @@ export function CartTotals(props: CartTotalsProps) {
+@@ -201,6 +254,9 @@ export function CartTotals(props: CartTotalsProps) {
          ))}
  
        {additionalTotals}
-+      <Typography sx={{color:'#8f8f8f', fontSize:'16px'}}>Proceed to checkout and add location to see shipping charges</Typography>
++      {shippingMethod ? null : (
++        <Typography sx={{ color: '#8f8f8f', fontSize: '16px' }}>Proceed to checkout and add location to see shipping charges</Typography>
++      )}
      </Box>
    )
  }

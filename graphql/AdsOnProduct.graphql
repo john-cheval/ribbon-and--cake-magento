@@ -16,6 +16,14 @@ query AdsOnProducts($categoryId: String!) {
           small_image {
             url
           }
+          price_range {
+            minimum_price {
+              regular_price {
+                value
+                currency
+              }
+            }
+          }
         }
         total_count
       }

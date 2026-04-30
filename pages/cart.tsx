@@ -142,15 +142,27 @@ function CartPage() {
                   },
                   '& .ActionCard-details ': {
                     display: 'grid',
-                    gridTemplateColumns: 'auto auto',
+                    gridTemplateColumns: { xs: 'auto', md: 'auto auto' },
                     color: (theme: any) => theme.palette.custom.smallHeading,
+                    flexDirection: { xs: 'column' },
                     fontSize: { xs: '15px', md: '16px' },
                     fontWeight: 'normal',
                     colummGap: '2px',
                     marginTop: '5px',
                   },
                   '& .ActionCard-action': {
+                    paddingRight: { xs: '0px' },
                     marginBottom: 0,
+                    ['.MuiBox-root']: {
+                      flexDirection: { xs: 'column' },
+                      alignItems: { xs: 'center', md: 'flex-end' },
+                      justifyContent: { xs: 'flex-start', md: 'space-between' },
+                      gap: { xs: '16px', md: '10px' },
+                      ['form .MuiButtonBase-root']: {
+                        justifyContent: { xs: 'flex-end', md: 'center' },
+                        marginLeft: { xs: '0px', md: '-6px' }
+                      }
+                    }
                   },
                   '& .ActionCard-end .ActionCard-action .edit-actions': {
                     display: 'flex',
@@ -301,6 +313,8 @@ function CartPage() {
         ) : (
           <EmptyCart
             sx={{
+              alignItems: { xs: 'start', md: 'center' },
+              paddingTop: { xs: '40px', md: '0px' },
               minHeight: '100vh',
               margin: 'auto',
               display: 'flex',
@@ -357,6 +371,9 @@ const pageOptions: PageOptions<LayoutOverlayProps> = {
       '& .LayoutHeaderContent-left .MuiButtonBase-root .MuiButton-icon  svg': {
         display: 'none',
       },
+      ['.LayoutHeaderContent-left']: {
+        display: { xs: 'nonde', md: "grid" },
+      }
     },
   },
 }

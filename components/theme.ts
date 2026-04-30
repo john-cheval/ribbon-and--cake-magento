@@ -94,29 +94,30 @@ const darkPalette: ThemePaletteOptions = {
   primary: {
     main: '#441E14',
     contrastText: '#ffffff',
-    dark: '#441E14',
+    dark: '#000000',
+    // link: '#2A110A',
   },
   secondary: {
-    main: '#441E14',
-    light: '#b0bec5',
-    contrastText: '#000000',
+    main: '#006bff',
+    light: '#d1e4ff',
+    contrastText: '#ffffff',
   },
   background: {
-    default: '#121212',
-    paper: '#fff',
+    default: '#F9F9FA',
+    paper: '#ffffff',
     image: '#ffffff',
   },
-  divider: '#ffffff30',
+  divider: '#00000015',
   success: {
-    main: '#01D26A',
+    main: '#01d26a',
   },
   action: {
-    hoverOpacity: 0.16,
+    hoverOpacity: 0.12,
   },
   text: {
-    primary: '#ffffff',
-    secondary: '#ffffff80',
-    disabled: '#ffffff30',
+    primary: '#0F0F10',
+    secondary: '#03031755',
+    disabled: '#03031735',
   },
 }
 

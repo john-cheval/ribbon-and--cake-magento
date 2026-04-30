@@ -752,7 +752,7 @@ msgid "Shipping method"
 msgstr "Metodo di spedizione"
 
 msgid "Sign in"
-msgstr "Accedi"
+msgstr "Login"
 
 msgid "Sign in or create an account!"
 msgstr "Accedi o crea un account!"
@@ -839,7 +839,7 @@ msgid "The payment is refused, please try again or select a different payment me
 msgstr "Il pagamento è stato rifiutato, riprova o seleziona un metodo di pagamento differente."
 
 msgid "There is a maximum of ‘{maxLength}’ characters"
-msgstr "È consentito un massimo di caratteri \"{maxLength}\"."
+msgstr "Maximum caratteri {maxLength}."
 
 msgid "This field is invalid"
 msgstr "Questo campo non è valido"

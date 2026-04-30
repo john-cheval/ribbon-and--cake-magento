@@ -111,7 +111,7 @@ index 6f4add4..050dfe2 100644
  
    return (
 diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
-index a128fe9..a52bab2 100644
+index a128fe9..a82900b 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/ShippingAddressForm/ShippingAddressForm.tsx
 @@ -1,6 +1,7 @@
@@ -431,7 +431,7 @@ index a128fe9..a52bab2 100644
 +          ['.react-tel-input']: {
 +            ['input']: {
 +              width: "100% !important",
-+              height: "100% !important",
++              height: { xs: "56px !important", sm: "100% !important" },
 +              borderRadius: "4px !important",
 +              border: '1px solid #F6DBE0 !important',
 +              backgroundColor: "transparent !important",

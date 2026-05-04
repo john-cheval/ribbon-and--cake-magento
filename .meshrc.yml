@@ -7,7 +7,7 @@ sources:
         batch: false
           
         operationHeaders:
-          Authorization: '{context.headers?.authorization}'
+          Authorization: '{context.headers.authorization}'
           X-ReCaptcha: "{context.headers['x-recaptcha']}"
           Preview-Version: "{context.headers['preview-version']}"
           Content-Currency: "{context.headers['content-currency']}"

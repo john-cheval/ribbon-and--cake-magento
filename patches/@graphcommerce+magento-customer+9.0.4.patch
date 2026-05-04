@@ -1900,30 +1900,25 @@ index 9a27189..c8fe6c7 100644
 +import { Box, CircularProgress, FormControl, Link } from '@mui/material'
  import { useSignInForm } from '../../hooks/useSignInForm'
  import { ApolloCustomerErrorAlert } from '../ApolloCustomerError/ApolloCustomerErrorAlert'
-+import { useState } from 'react'
  
  export type SignInFormProps = {
    email?: string
-@@ -18,6 +19,8 @@ export type SignInFormProps = {
+@@ -18,6 +19,6 @@ export type SignInFormProps = {
  
  export function SignInForm(props: SignInFormProps) {
    const { email, sx, setError, clearErrors } = props
-+  const [password, setpassword] = useState<string>("")
-+  const [hasTyped, setHasTyped] = useState(false);
  
    const form = useSignInForm({
      email,
-@@ -29,7 +32,8 @@ export function SignInForm(props: SignInFormProps) {
+@@ -29,7 +32,7 @@ export function SignInForm(props: SignInFormProps) {
        }
        // eslint-disable-next-line @typescript-eslint/no-use-before-define
        clearErrors()
--      return variables
-+      setHasTyped(false);
-+      return { ...variables, password }
+       return variables
      },
    })
  
-@@ -37,14 +41,22 @@ export function SignInForm(props: SignInFormProps) {
+@@ -37,14 +41,18 @@ export function SignInForm(props: SignInFormProps) {
    const [remainingError, authError] = graphqlErrorByCategory({
      category: 'graphql-authentication',
      error,
@@ -1937,12 +1932,8 @@ index 9a27189..c8fe6c7 100644
      <Box component='form' onSubmit={submitHandler} noValidate sx={sx}>
        <FormRow sx={{ gridTemplateColumns: 'none' }}>
          <PasswordElement
-+          onChange={(e) => {
-+            setHasTyped(true);
-+            setpassword(e.target.value)
-+            if (error) {
-+              form.clearErrors()
-+            }
++          onChange={() => {
++            if (error) form.clearErrors()
 +          }}
            variant='outlined'
            error={!!formState.errors.password || !!authError}
@@ -1952,7 +1943,7 @@ index 9a27189..c8fe6c7 100644
            required={required.password}
            disabled={formState.isSubmitting}
 -          helperText={!!formState.errors.password || authError?.message}
-+          helperText={formState.errors.password?.message || (hasTyped ? null : authError?.message)}
++          helperText={formState.errors.password?.message || authError?.message}
            InputProps={{
              endAdornment: (
 -              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap' }}>
@@ -1960,13 +1951,12 @@ index 9a27189..c8fe6c7 100644
                  <Trans id='Forgot password?' />
                </Link>
              ),
-@@ -74,10 +86,34 @@ export function SignInForm(props: SignInFormProps) {
+@@ -74,10 +86,33 @@ export function SignInForm(props: SignInFormProps) {
              type='submit'
              loading={formState.isSubmitting}
              color='primary'
 -            variant='pill'
 +            // variant='pill'
-+            disabled={formState.isSubmitting || !formState.isValid}
              size='large'
 +            sx={{
 +              backgroundColor: (theme: any) => theme.palette.custom.main,

@@ -2529,3 +2529,49 @@ index 0000000..466fdc6
 + * @see {useSignInFormuseSignInFormMergeCart} for source of applied plugin
 + */
 +export const useSignInForm = useSignInFormuseSignInFormMergeCartInterceptor
+diff --git a/node_modules/@graphcommerce/magento-customer/typePolicies.ts b/node_modules/@graphcommerce/magento-customer/typePolicies.ts
+index 1234567..abcdef0 100644
+--- a/node_modules/@graphcommerce/magento-customer/typePolicies.ts
++++ b/node_modules/@graphcommerce/magento-customer/typePolicies.ts
+@@ -6,26 +6,37 @@ import { CustomerTokenDocument } from './hooks/CustomerToken.gql'
+ const generateCustomerToken: FieldPolicy<Mutation['generateCustomerToken']> = {
+   keyArgs: () => '',
+   merge(_existing, incoming, options) {
+-    if (!options.isReference(incoming)) return incoming
++    // Support both normalized cache references and plain objects (e.g. when
++    // CustomerToken has no keyFields and Apollo returns a plain object).
++    const token = options.isReference(incoming)
++      ? (options.readField('token', incoming) as string | undefined)
++      : (incoming as { token?: string } | null)?.token
+ 
+-    options.cache.writeQuery({
++    if (!token) return incoming
++
++    options.cache.writeQuery({
+       query: CustomerTokenDocument,
+       broadcast: true,
+       data: {
+         customerToken: {
+           __typename: 'CustomerToken',
+-          token: options.readField('token', incoming) as string,
++          token,
+           createdAt: new Date().toUTCString(),
+           valid: true,
+           xMagentoCacheId: null,
+         },
+       },
+     })
+ 
+     return incoming
+   },
+ }
+ 
+ export const customerTypePolicies: StrictTypedTypePolicies = {
+-  Mutation: { fields: { generateCustomerToken } },
++  Query: {
++    fields: {
++      customerToken: { merge: (existing, incoming) => incoming ?? existing },
++    },
++  },
++  Mutation: { fields: { generateCustomerToken } },
+ }

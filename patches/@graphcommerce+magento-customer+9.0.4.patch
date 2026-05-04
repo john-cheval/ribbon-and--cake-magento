@@ -1935,10 +1935,10 @@ index 9a27189..c8fe6c7 100644
            variant='outlined'
            error={!!formState.errors.password || !!authError}
            control={control}
-@@ -55,10 +57,10 @@ export function SignInForm(props: SignInFormProps) {
+@@ -55,10 +57,9 @@ export function SignInForm(props: SignInFormProps) {
            id='current-password'
            required={required.password}
-           disabled={formState.isSubmitting}
+-          disabled={formState.isSubmitting}
 -          helperText={!!formState.errors.password || authError?.message}
 +          helperText={formState.errors.password?.message || authError?.message}
            InputProps={{
@@ -1948,7 +1948,7 @@ index 9a27189..c8fe6c7 100644
                  <Trans id='Forgot password?' />
                </Link>
              ),
-@@ -74,10 +76,34 @@ export function SignInForm(props: SignInFormProps) {
+@@ -74,10 +75,34 @@ export function SignInForm(props: SignInFormProps) {
              type='submit'
              loading={formState.isSubmitting}
              color='primary'

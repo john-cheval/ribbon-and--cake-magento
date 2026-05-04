@@ -843,7 +843,7 @@ index 30fc40b..5d190eb 100644
 +  const { loggedIn, createdAt, customer_access_token_lifetime } = useCustomerSession()
 +
 +  useEffect(() => {
-+    if (loggedIn && createdAt && customer_access_token_lifetime) {
++    if (loggedIn && createdAt && customer_access_token_lifetime && customer_access_token_lifetime > 0) {
 +      const checkSession = () => {
 +        const loginTime = new Date(createdAt).getTime()
 +        const expiryTime = loginTime + customer_access_token_lifetime * 60 * 60 * 1000

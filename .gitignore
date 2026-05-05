@@ -32,8 +32,6 @@ yarn-error.log*
 .mesh
 *.tsbuildinfo
 
-# temp file from schema generation (the clean magento-schema.json is committed)
-magento-schema-raw.json
 
 code.txt
 Step 1:.md

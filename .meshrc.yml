@@ -3,12 +3,14 @@ sources:
     handler:
       graphql:
         endpoint: 'https://srv900162.hstgr.cloud/graphql'
+        # Static schema file committed to git — build never introspects the live
+        # Magento endpoint. Run `yarn generate-schema` locally whenever the
+        # Magento schema changes (module installs, upgrades) then commit the file.
+        source: './magento-schema.json'
         useGETForQueries: true
         batch: false
         retry: 3
         timeout: 30000
-        schemaHeaders:
-          Store: 'default'
         operationHeaders:
           Store: 'default'
           Authorization: '{context.headers.authorization}'

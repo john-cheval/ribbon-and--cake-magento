@@ -1,4 +1,4 @@
-diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
+﻿diff --git a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
 index 6f4add4..050dfe2 100644
 --- a/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
 +++ b/node_modules/@graphcommerce/magento-cart-shipping-address/components/CustomerAddressForm/CustomerAddressForm.tsx
@@ -228,7 +228,7 @@ index a128fe9..a82900b 100644
      skipUnchanged: true,
      onBeforeSubmit: (variables) => {
        const regionId = countries
-@@ -114,42 +145,273 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
+@@ -114,42 +145,298 @@ export const ShippingAddressForm = React.memo<ShippingAddressFormProps>((props)
          variables.company = ''
          variables.vatId = ''
        }
@@ -429,33 +429,58 @@ index a128fe9..a82900b 100644
 +          paddingTop: 0,
 +          paddingBottom: 0,
 +          ['.react-tel-input']: {
++            width: '100%',
 +            ['input']: {
 +              width: "100% !important",
-+              height: { xs: "56px !important", sm: "100% !important" },
++              height: "56px !important",
 +              borderRadius: "4px !important",
-+              border: '1px solid #F6DBE0 !important',
++              border: '1px solid #D5B1B8 !important',
 +              backgroundColor: "transparent !important",
++              color: '#441E14 !important',
++              fontSize: '16px !important',
++              fontFamily: 'inherit !important',
++              paddingLeft: '58px !important',
++              boxSizing: 'border-box !important',
++              outline: 'none !important',
++              boxShadow: 'none !important',
++              ['&:hover']: {
++                borderColor: '#441e14 !important',
++              },
++              ['&:focus']: {
++                borderColor: '#441e14 !important',
++              },
 +              ['&.invalid-number']: {
 +                borderColor: '#f44336 !important'
 +              }
 +            },
 +            ['.flag-dropdown']: {
-+              border: '1px solid #F6DBE0 !important',
-+              ['&.invalid-number']: {
-+                borderColor: '#f44336 !important'
-+              }
++              border: '1px solid #D5B1B8 !important',
++              borderRight: 'none !important',
++              borderRadius: '4px 0 0 4px !important',
++              backgroundColor: 'transparent !important',
++            },
++            ['.flag-dropdown:hover, .flag-dropdown.open']: {
++              borderColor: '#441e14 !important',
++              backgroundColor: 'transparent !important',
 +            },
 +            ['.selected-flag']: {
-+              borderRadius: "4px 0px 0px 4px"
++              borderRadius: "4px 0px 0px 4px",
++              backgroundColor: 'transparent !important',
++              ['&:hover, &:focus']: {
++                backgroundColor: 'transparent !important',
++              },
 +            },
 +            ['.special-label']: {
-+              display: "unset !important",
-+              left: "18px !important",
-+              color: "#441e14",
-+              fontSize: "12px",
-+              lineHeight: '158%',
-+              fontWeight: "400",
-+              fontFamily: "'Bricolage Grotesque',sans-serif",
++              display: "block !important",
++              top: '-9px !important',
++              left: "14px !important",
++              backgroundColor: '#fff !important',
++              padding: '0 4px !important',
++              color: "#441e14 !important",
++              fontSize: "12px !important",
++              lineHeight: '1.4 !important',
++              fontWeight: "400 !important",
++              fontFamily: 'inherit !important',
 +              zIndex: 3
 +            }
 +          }

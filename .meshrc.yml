@@ -5,7 +5,10 @@ sources:
         endpoint: 'https://srv900162.hstgr.cloud/graphql'
         useGETForQueries: true
         batch: false
-          
+        retry: 3
+        timeout: 30000
+        schemaHeaders:
+          Store: 'default'
         operationHeaders:
           Store: 'default'
           Authorization: '{context.headers.authorization}'

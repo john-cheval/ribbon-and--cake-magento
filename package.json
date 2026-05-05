@@ -13,6 +13,7 @@
     "dev": "concurrently -k -n codegen,next 'gc-gql-codegen -w' 'next dev' -c 'magenta,cyan'",
     "codegen": "graphcommerce codegen && gc-mesh build && gc-gql-codegen",
     "build": "graphcommerce codegen && gc-mesh build && gc-gql-codegen && next build",
+    "generate-schema": "node scripts/generate-schema.mjs",
     "start": "next start",
     "tsc:lint": "tsc --noEmit -p .",
     "tsc:perf": "NODE_OPTIONS=--max_old_space_size=10000 tsc --noEmit --generateTrace tsctrace --incremental false && npx @typescript/analyze-trace tsctrace",

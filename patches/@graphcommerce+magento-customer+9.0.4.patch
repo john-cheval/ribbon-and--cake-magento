@@ -1889,7 +1889,7 @@ index 2079ebf..13bb1e3 100644
          <Trans>Reorder</Trans>
        </LinkOrButton>
 diff --git a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
-index 9a27189..6a7c0ff 100644
+index 9a27189..c8fe6c7 100644
 --- a/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 +++ b/node_modules/@graphcommerce/magento-customer/components/SignInForm/SignInForm.tsx
 @@ -5,9 +5,10 @@ import { Button, FormActions, FormRow } from '@graphcommerce/next-ui'
@@ -1904,43 +1904,41 @@ index 9a27189..6a7c0ff 100644
  
  export type SignInFormProps = {
    email?: string
-@@ -17,7 +18,9 @@ export type SignInFormProps = {
- }
+@@ -18,6 +19,8 @@ export type SignInFormProps = {
  
  export function SignInForm(props: SignInFormProps) {
--  const { email, sx, setError, clearErrors } = props
-+const { email, sx, setError, clearErrors } = props
-+const [password,setpassword] = useState<string>("")
-+const [hasTyped, setHasTyped] = useState(false);
+   const { email, sx, setError, clearErrors } = props
++  const [password, setpassword] = useState<string>("")
++  const [hasTyped, setHasTyped] = useState(false);
  
    const form = useSignInForm({
      email,
-@@ -29,7 +32,8 @@ export function SignInForm(props: SignInFormProps) {
+@@ -29,7 +32,7 @@ export function SignInForm(props: SignInFormProps) {
        }
        // eslint-disable-next-line @typescript-eslint/no-use-before-define
        clearErrors()
--      return variables
-+       setHasTyped(false);
-+      return {...variables,password}
+       return variables
      },
    })
  
-@@ -37,6 +41,7 @@ export function SignInForm(props: SignInFormProps) {
+@@ -37,14 +41,22 @@ export function SignInForm(props: SignInFormProps) {
    const [remainingError, authError] = graphqlErrorByCategory({
      category: 'graphql-authentication',
      error,
-+     mask: 'No user found. Please sign up if you’re new here.',
++    mask: 'No user found. Please sign up if you’re new here.',
    })
  
-   const submitHandler = handleSubmit(() => {})
-@@ -45,6 +50,13 @@ export function SignInForm(props: SignInFormProps) {
+-  const submitHandler = handleSubmit(() => {})
++  const submitHandler = handleSubmit(() => { })
+ 
+   return (
      <Box component='form' onSubmit={submitHandler} noValidate sx={sx}>
        <FormRow sx={{ gridTemplateColumns: 'none' }}>
          <PasswordElement
-+          onChange={(e)=>{
-+             setHasTyped(true);
++          onChange={(e) => {
++            setHasTyped(true);
 +            setpassword(e.target.value)
-+             if (error) {
++            if (error) {
 +              form.clearErrors()
 +            }
 +          }}
@@ -1952,11 +1950,11 @@ index 9a27189..6a7c0ff 100644
            required={required.password}
            disabled={formState.isSubmitting}
 -          helperText={!!formState.errors.password || authError?.message}
-+          helperText={formState.errors.password?.message || (hasTyped ? null : authError?.message)}
++          helperText={formState.errors.password?.message || authError?.message}
            InputProps={{
              endAdornment: (
 -              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap' }}>
-+              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap', color:(theme:any)=>theme.palette.custom.main }}>
++              <Link href='/account/forgot-password' underline='hover' sx={{ whiteSpace: 'nowrap', color: (theme: any) => theme.palette.custom.main }}>
                  <Trans id='Forgot password?' />
                </Link>
              ),
@@ -1966,34 +1964,34 @@ index 9a27189..6a7c0ff 100644
              color='primary'
 -            variant='pill'
 +            // variant='pill'
-+            disabled={formState.isSubmitting || !formState.isValid}
++            disabled={formState.isSubmitting}
              size='large'
 +            sx={{
-+            backgroundColor:(theme:any)=>theme.palette.custom.main,
-+            color:(theme:any)=>theme.palette.custom.border,
-+            paddingBlock:{xs:'15px', sm:'18px'},
-+            borderRadius:'4px',
-+            width:'100%',
-+            minWidth:{xs:'250px', sm:'400px'},
-+            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
-+            transition:'all 0.4s ease-in-out',
-+            '&:hover':{
-+              backgroundColor:'transparent',
-+              color:(theme:any)=>theme.palette.custom.main,
-+            border: (theme:any) => `1px solid ${theme.palette.custom.main}`,
-+            },
-+           '&:disabled':{
-+              cursor:'not-allowed',
-+              color:(theme:any)=>`${theme.palette.custom.border} !important`,
-+            }
-+          }}
++              backgroundColor: (theme: any) => theme.palette.custom.main,
++              color: (theme: any) => theme.palette.custom.border,
++              paddingBlock: { xs: '15px', sm: '18px' },
++              borderRadius: '4px',
++              width: '100%',
++              minWidth: { xs: '250px', sm: '400px' },
++              border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
++              transition: 'all 0.4s ease-in-out',
++              '&:hover': {
++                backgroundColor: 'transparent',
++                color: (theme: any) => theme.palette.custom.main,
++                border: (theme: any) => `1px solid ${theme.palette.custom.main}`,
++              },
++              '&:disabled': {
++                cursor: 'not-allowed',
++                color: (theme: any) => `${theme.palette.custom.border} !important`,
++              }
++            }}
            >
 -            <Trans id='Sign in' />
-+           {formState.isSubmitting ? (
-+            <CircularProgress size="30px"  sx={{
-+             color:'#d4d4d4'
-+            }}/>
-+                     ):<Trans id='Create Account' />}
++            {formState.isSubmitting ? (
++              <CircularProgress size="30px" sx={{
++                color: '#d4d4d4'
++              }} />
++            ) : <Trans id='Sign in' />}
            </Button>
          </FormControl>
        </FormActions>
@@ -2531,3 +2529,49 @@ index 0000000..466fdc6
 + * @see {useSignInFormuseSignInFormMergeCart} for source of applied plugin
 + */
 +export const useSignInForm = useSignInFormuseSignInFormMergeCartInterceptor
+diff --git a/node_modules/@graphcommerce/magento-customer/typePolicies.ts b/node_modules/@graphcommerce/magento-customer/typePolicies.ts
+index 1234567..abcdef0 100644
+--- a/node_modules/@graphcommerce/magento-customer/typePolicies.ts
++++ b/node_modules/@graphcommerce/magento-customer/typePolicies.ts
+@@ -6,26 +6,37 @@ import { CustomerTokenDocument } from './hooks/CustomerToken.gql'
+ const generateCustomerToken: FieldPolicy<Mutation['generateCustomerToken']> = {
+   keyArgs: () => '',
+   merge(_existing, incoming, options) {
+-    if (!options.isReference(incoming)) return incoming
++    // Support both normalized cache references and plain objects (e.g. when
++    // CustomerToken has no keyFields and Apollo returns a plain object).
++    const token = options.isReference(incoming)
++      ? (options.readField('token', incoming) as string | undefined)
++      : (incoming as { token?: string } | null)?.token
+ 
+-    options.cache.writeQuery({
++    if (!token) return incoming
++
++    options.cache.writeQuery({
+       query: CustomerTokenDocument,
+       broadcast: true,
+       data: {
+         customerToken: {
+           __typename: 'CustomerToken',
+-          token: options.readField('token', incoming) as string,
++          token,
+           createdAt: new Date().toUTCString(),
+           valid: true,
+           xMagentoCacheId: null,
+         },
+       },
+     })
+ 
+     return incoming
+   },
+ }
+ 
+ export const customerTypePolicies: StrictTypedTypePolicies = {
+-  Mutation: { fields: { generateCustomerToken } },
++  Query: {
++    fields: {
++      customerToken: { merge: (existing, incoming) => incoming ?? existing },
++    },
++  },
++  Mutation: { fields: { generateCustomerToken } },
+ }

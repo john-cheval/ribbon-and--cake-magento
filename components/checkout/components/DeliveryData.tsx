@@ -259,17 +259,10 @@ export default function DeliveryDate({ shippingSelected, slotList, deliverySlot,
                 }
               }}
               onChange={(value) => {
-                // setDate(value as any);
-
-                // const filteredSlots = slotList?.slots?.filter((s) =>
-                //   dayjs(s.date).isSame(value, 'day')
-                // );
-
-                // setSlotTime(filteredSlots);
-                // form.setValue("date", value as any, { shouldDirty: true });
                 const onlyDate = dayjs(value).format('YYYY-MM-DD')
 
                 setDate(onlyDate)
+                setOpen(false)
 
                 const filteredSlots = slotList?.slots?.filter(
                   (s) => dayjs(s.date).isSame(onlyDate, 'day') && !disabledSlots(s)
@@ -287,10 +280,10 @@ export default function DeliveryDate({ shippingSelected, slotList, deliverySlot,
                 const availableSlots = slotList?.slots?.filter(
                   (s) => dayjs(s.date).isSame(onlyDate, 'day') && !disabledSlots(s)
                 )
-                return availableSlots.length === 0
+                return !availableSlots || availableSlots.length === 0
               }}
-              value={dayjs(date)}
-              defaultValue={dayjs(date)}
+              value={date ? dayjs(date) : null}
+              defaultValue={null}
             />
           </DemoContainer>
         </LocalizationProvider>

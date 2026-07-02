@@ -37,6 +37,7 @@ import {
 import { i18n } from '@lingui/core'
 import { Trans } from '@lingui/react'
 import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material'
+import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import type { LayoutNavigationProps } from '../../components'
@@ -90,6 +91,12 @@ function ShippingPage(props: ShippingPageProps) {
 
   const [value, setValue] = useState(0)
   const [deliverySlot, setDeliverySlot] = useState(false)
+
+  const { data: liveSlotData } = useQuery(GetTimeSlotsByZipcodeDocument, {
+    variables: { zipcode: 12345 },
+    fetchPolicy: 'network-only',
+  })
+  const effectiveSlotData = liveSlotData?.getTimeSlots?.slotData ?? slotData
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -488,7 +495,7 @@ function ShippingPage(props: ShippingPageProps) {
                       gap: '10px',
                     }}
                   >
-                    <DeliveryDate shippingSelected={selectedMethod?.carrier_code} slotList={slotData} deliverySlot={deliverySlot} setDeliverySlot={setDeliverySlot} />
+                    <DeliveryDate shippingSelected={selectedMethod?.carrier_code} slotList={effectiveSlotData} deliverySlot={deliverySlot} setDeliverySlot={setDeliverySlot} />
                   </Box>
                 </Box>
                 <Box

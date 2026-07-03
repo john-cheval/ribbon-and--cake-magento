@@ -10,7 +10,7 @@ function CartTop({ item }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
       <Box>
-        <Link href={`/p/${item?.product?.url_key}`} passHref legacyBehavior>
+        <Link href={`/products/${item?.product?.url_key}`} passHref legacyBehavior>
           <Typography
             sx={{
               color: '#000',

@@ -204,7 +204,7 @@ index 2050980..41e2af9 100644
 +      <IoArrowForwardSharp />
 +    )}
 +      </Box></Button>
-+    ):url ? <Link href={`/p/${url}`}>
++    ):url ? <Link href={`/products/${url}`}>
 +      <Fab
 +      type='submit'
 +      {...rest}

@@ -250,7 +250,7 @@ function AdsOnProduct(props: AdsOnProductType) {
                                     />
                                   </AddProductsToCartForm>
                                 ) : (
-                                  <Link href={`/p/${item.url_key}`}>
+                                  <Link href={`/products/${item.url_key}`}>
                                     <Button
                                       sx={{
                                         display: 'inline-block',

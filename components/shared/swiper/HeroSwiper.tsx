@@ -59,7 +59,7 @@ export function HeroSwiper({ products }) {
           {products?.map((item, index) => (
             <SwiperSlide key={item?.id || index}>
               <Link
-                href={`/p/${item?.url_key}`}
+                href={`/products/${item?.url_key}`}
                 passHref
                 legacyBehavior
                 style={{
@@ -165,7 +165,7 @@ export function HeroSwiper({ products }) {
                       {item?.__typename === 'SimpleProduct' ? (
                         <AddProductsToCartFab sku={item?.sku} isButton={true} />
                       ) : (
-                        <Link href={`/p/${item?.url_key}`} passHref legacyBehavior>
+                        <Link href={`/products/${item?.url_key}`} passHref legacyBehavior>
                           <Button
                             type='submit'
                             sx={{

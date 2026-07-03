@@ -30,8 +30,8 @@ import { Trans } from '@lingui/react'
 import { CircularProgress, Typography } from '@mui/material'
 import type { LayoutNavigationProps } from '../../../components'
 import { AddProductsToCartView } from '../../../components'
-import type { Props } from '../../p/[url]'
-import { getStaticProps } from '../../p/[url]'
+import type { Props } from '../../products/[url]'
+import { getStaticProps } from '../../products/[url]'
 
 type RouteProps = { url: string }
 type GetSSP = GetServerSideProps<LayoutNavigationProps, Props, RouteProps>

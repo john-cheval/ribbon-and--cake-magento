@@ -253,7 +253,7 @@ index de7b68f..12bd53a 100644
 +                      marginBlock: { xs: 0, md: '15px 10px' },
 +                    }
 +                  }}
-+                  href={`/p/${cartItem?.product?.url_key}`}
++                  href={`/products/${cartItem?.product?.url_key}`}
 +                >
 +                  <CiEdit size={"20px"} />
 +                </Button>

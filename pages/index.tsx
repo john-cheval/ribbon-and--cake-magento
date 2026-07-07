@@ -46,8 +46,8 @@ function CmsPage(props: CmsPageRouteProps) {
   return (
     <>
       <PageMeta
-        title='Ribbon and Balloons'
-        metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
+        title='Cakes &amp; Custom Desserts | Dubai Online Bakery'
+        metaDescription='Order handcrafted cakes, vegan &amp; gluten-free treats, brownies and personalized desserts in Dubai. Celebrate birthdays, weddings &amp; special moments with RNB Cakes!'
         // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
         canonical='/'
       />

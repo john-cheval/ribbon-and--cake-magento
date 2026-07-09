@@ -14,6 +14,15 @@ const withPWA = withSerwistInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/p/:url*',
+        destination: '/products/:url*',
+        permanent: true,
+      },
+    ]
+  },
   onDemandEntries: {
     maxInactiveAge: 1000 * 60 * 10,
     pagesBufferLength: 10,

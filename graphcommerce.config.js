@@ -35,6 +35,7 @@ const config = {
     //   // permissions: { cart: 'DISABLED', checkout: 'DISABLED', customerAccount: 'DISABLED' },
     // },
   ],
+  productRoute: '/products/',
   recentlyViewedProducts: { enabled: true },
   productFiltersPro: true,
   productFiltersLayout: 'SIDEBAR',

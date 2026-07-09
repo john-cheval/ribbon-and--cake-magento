@@ -96,7 +96,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     border: '1px solid #F6DBE0',
                   },
                 }}
-                href={`/events`}
+                href={`/decor-celebration`}
               >
                 Corporate & Events
               </DesktopNavItem>
@@ -112,7 +112,7 @@ export function LayoutNavigation(props: LayoutNavigationProps) {
                     border: '1px solid #F6DBE0',
                   },
                 }}
-                href={`/courses`}
+                href={`/baking-classes`}
               >
                 Baking Classes
               </DesktopNavItem>

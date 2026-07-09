@@ -7,12 +7,12 @@ export const moreMenu = [
   {
     id: 2,
     title: 'Events',
-    link: '/events',
+    link: '/decor-celebration',
   },
   {
     id: 3,
     title: 'Courses',
-    link: '/courses',
+    link: '/baking-classes',
   },
   {
     id: 4,

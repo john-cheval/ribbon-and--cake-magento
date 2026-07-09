@@ -33,7 +33,7 @@ function CoursesInnerPage(props) {
         title='Courses | Ribbon and Balloons'
         metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
         // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
-        canonical='/courses'
+        canonical='/baking-classes'
       />
 
       <InnerTop title={''} isFilter={false} />

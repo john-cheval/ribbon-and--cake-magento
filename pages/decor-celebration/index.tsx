@@ -22,7 +22,7 @@ function EventsPage(props: CmsBlocksProps) {
         title='Corporate & Events | Ribbon and Balloons'
         metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
         // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
-        canonical='/Corporate & events'
+        canonical='/decor-celebration'
       />
 
       <InnerTop title={'Corporate & events'} isFilter={false} />

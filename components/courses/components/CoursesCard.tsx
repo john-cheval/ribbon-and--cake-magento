@@ -97,7 +97,7 @@ function CourseCard(props) {
           </Typography>
         )}
 
-        <Link href={`/courses/baking-classes/${courseCardData?.url_key}`} passHref legacyBehavior>
+        <Link href={`/baking-classes/baking-classes/${courseCardData?.url_key}`} passHref legacyBehavior>
           <CardActions
             sx={{
               backgroundColor: (theme: any) => theme.palette.custom.heading,

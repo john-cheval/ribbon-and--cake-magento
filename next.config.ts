@@ -21,6 +21,21 @@ const nextConfig: NextConfig = {
         destination: '/products/:url*',
         permanent: true,
       },
+      {
+        source: '/courses',
+        destination: '/baking-classes',
+        permanent: true,
+      },
+      {
+        source: '/courses/:url*',
+        destination: '/baking-classes/:url*',
+        permanent: true,
+      },
+      {
+        source: '/events',
+        destination: '/decor-celebration',
+        permanent: true,
+      },
     ]
   },
   onDemandEntries: {

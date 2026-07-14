@@ -6,7 +6,6 @@ import {
 import type { GetServerSideProps } from 'next'
 import { graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 import { SitemapBlogPostsDocument } from '../../graphql/SitemapBlogPosts.gql'
-import type { SitemapField } from '@graphcommerce/next-ui'
 
 const excludes: string[] = []
 
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     paths = []
   }
 
-  const fields: SitemapField[] = paths.map((path) => ({
+  const fields = paths.map((path) => ({
     loc: path,
     changefreq: 'weekly' as const,
     priority: 0.6,

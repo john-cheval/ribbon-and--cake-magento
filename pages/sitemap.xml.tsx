@@ -37,7 +37,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res, locale }) =>
     locale: storefront.locale,
   }
 
-  const locs = subSitemaps.map((route) => canonicalize(canonicalizeOptions, route))
+  const locs = subSitemaps
+    .map((route) => canonicalize(canonicalizeOptions, route))
+    .filter((loc): loc is string => typeof loc === 'string')
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8')
   res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400')

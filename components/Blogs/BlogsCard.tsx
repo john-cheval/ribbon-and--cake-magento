@@ -1,7 +1,6 @@
 import { Card, CardContent, CardMedia, Link, Typography } from "@mui/material";
 import { Image } from "@graphcommerce/image";
 import { saxoGrammaticus } from "../../lib/fonts";
-import { truncateByChars } from "../../utils/truncate";
 
 export function BlogsCard(props: any) {
     const blog = props?.blog;
@@ -58,9 +57,13 @@ export function BlogsCard(props: any) {
                             color: (theme: any) => theme.palette.custom.secondary,
                             fontSize: { xs: '15px', md: '16px' },
                             lineHeight: '170%',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
                         }}
                     >
-                        {truncateByChars(blog?.short_description, 200)}
+                        {blog?.short_description}
                     </Typography>
                 )}
 

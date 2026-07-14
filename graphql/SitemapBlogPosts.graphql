@@ -1,0 +1,13 @@
+query SitemapBlogPosts($pageSize: Int, $currentPage: Int) {
+  mpBlogPosts(
+    action: "get_post_list"
+    categoryId: 0
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      url_key
+      created_at
+    }
+  }
+}

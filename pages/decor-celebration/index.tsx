@@ -3,43 +3,52 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
-import Events from '../../components/Events'
-import { InnerTop } from '../../components/shared/Inner/Innertop'
-import { MpBlogPostsDocument, MpBlogPostsQuery } from '../../graphql/BlogsByCatergoryId.gql'
-import { cmsMultipleBlocksDocument } from '../../graphql/CmsMultipleBlocks.gql'
+import DecorCelebration from '../../components/DecorCelebration'
+import { cmsPageDocument } from '../../graphql/CmsPage.gql'
+import { fetchMagentoCmsPage, type DecorCmsPage } from '../../lib/decorCelebrationCms'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
 import { decodeHtmlEntities } from '../../utils/htmlUtils'
 
-type GetPageStaticProps = GetStaticProps<LayoutNavigationProps>
-export type CmsBlocksProps = { cmsBlocks?: any; eventsData?: MpBlogPostsQuery }
-function EventsPage(props: CmsBlocksProps) {
-  const { cmsBlocks, eventsData } = props
-  const eventsTop = cmsBlocks.find((block) => block.identifier === 'events-top')
-  const decodedEventsTop = decodeHtmlEntities(eventsTop?.content)
+type DecorCelebrationPageProps = LayoutNavigationProps & {
+  cmsPage?: DecorCmsPage | null
+  cmsContent: string
+}
+
+type GetPageStaticProps = GetStaticProps<DecorCelebrationPageProps>
+
+const fallbackContent =
+  '<div class="decor-celebration-pagebuilder"><section class="decor-hero"><div class="decor-hero__inner"><div class="decor-hero__copy"><span class="decor-hero__eyebrow">New service - Dubai, UAE</span><h1 class="decor-hero__title"><span>Balloon Decoration</span><span>for Birthdays and</span><span>Celebrations in Dubai.</span></h1><p class="decor-hero__text">We design and install custom balloon setups for birthdays, baby showers, home parties, hospital celebrations and corporate events across Dubai.</p></div></div></section></div>'
+
+function DecorCelebrationPage(props: DecorCelebrationPageProps) {
+  const { cmsPage, cmsContent } = props
+
   return (
     <>
       <PageMeta
-        title='Corporate & Events | Ribbon and Balloons'
-        metaDescription='Custom cakes, handcrafted desserts — made for your moment.'
-        // metaRobots={page?.metaRobots.toLowerCase().split('_') as MetaRobots[] | undefined}
+        title={
+          cmsPage?.meta_title ??
+          cmsPage?.title ??
+          'Balloon Decoration for Birthdays and Celebrations in Dubai | Ribbons & Balloons'
+        }
+        metaDescription={
+          cmsPage?.meta_description ??
+          'Luxury balloon decoration, birthday party setups, baby shower decor, and corporate event balloon services in Dubai.'
+        }
         canonical='/decor-celebration'
       />
 
-      <InnerTop title={'Corporate & events'} isFilter={false} />
-
-      <Events eventsTopContent={decodedEventsTop} eventsList={eventsData} />
+      <DecorCelebration content={cmsContent} />
     </>
   )
 }
 
-EventsPage.pageOptions = {
+DecorCelebrationPage.pageOptions = {
   Layout: LayoutNavigation,
 } as PageOptions
 
-export default EventsPage
+export default DecorCelebrationPage
 
 export const getStaticProps: GetPageStaticProps = async (context) => {
-  const { params, locale } = context
   const client = graphqlSharedClient(context)
   const conf = client.query({ query: StoreConfigDocument })
 
@@ -50,31 +59,24 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
     fetchPolicy: cacheFirst(staticClient),
   })
 
-  const cmsBlocksQuery = staticClient.query({
-    query: cmsMultipleBlocksDocument,
-    variables: {
-      blockIdentifiers: ['events-top'],
-    },
-  })
-
-  const eventsQuery = staticClient.query({
-    query: MpBlogPostsDocument,
-    variables: {
-      action: 'get_post_by_categoryId',
-      categoryId: 5,
-      pageSize: 50,
-      currentPage: 1,
-    },
-  })
-
-  const cmsBlocks = (await cmsBlocksQuery)?.data?.cmsBlocks?.items
-  const eventsData = (await eventsQuery)?.data?.mpBlogPosts?.items
+  const localCmsPage = await fetchMagentoCmsPage('decor-celebration')
+  const cmsPage =
+    localCmsPage ??
+    (await staticClient
+      .query({
+        query: cmsPageDocument,
+        variables: { urlKey: 'decor-celebration' },
+        fetchPolicy: 'network-only',
+      })
+      .then((result) => result.data.cmsPage as DecorCmsPage | null)
+      .catch(() => null))
+  const cmsContent = decodeHtmlEntities(cmsPage?.content ?? fallbackContent)
 
   return {
     props: {
       ...(await layout).data,
-      cmsBlocks,
-      eventsData,
+      cmsPage,
+      cmsContent,
       apolloState: await conf.then(() => client.cache.extract()),
     },
     revalidate: 60 * 20,

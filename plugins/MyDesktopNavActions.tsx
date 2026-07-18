@@ -33,8 +33,4 @@ export const DesktopNavActions = styled('div')<MyDesktopNavActionsProps>(({ them
     gridAutoFlow: 'column',
     columnGap: '10px',
   },
-
-  [theme.breakpoints.down(1279)]: {
-    display: 'none',
-  },
 }))

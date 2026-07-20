@@ -41,13 +41,7 @@ function getMagentoEndpoint(request: NextApiRequest) {
   }
 
   const requestHost = String(request.headers.host || '').split(':')[0]
-  const isLocalRequest =
-    requestHost === 'rnbcake.local' || requestHost === 'localhost' || requestHost === '127.0.0.1'
-
-  if (isLocalRequest) {
-    return { url: new URL('http://127.0.0.1/graphql'), vhost: 'rnbmage.local' }
-  }
-
+  
   return { url: new URL('https://srv900162.hstgr.cloud/graphql'), vhost: '' }
 }
 

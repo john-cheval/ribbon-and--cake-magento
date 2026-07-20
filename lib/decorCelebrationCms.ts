@@ -24,8 +24,8 @@ function getMagentoGraphqlEndpoint() {
 
   if (configuredUrl) return new URL(configuredUrl)
 
-  const protocol = process.env.DECOR_CELEBRATION_MAGENTO_PROTOCOL ?? 'http'
-  const hostname = process.env.DECOR_CELEBRATION_MAGENTO_HOSTNAME ?? '192.168.0.107'
+  const protocol = process.env.DECOR_CELEBRATION_MAGENTO_PROTOCOL ?? 'https'
+  const hostname = process.env.DECOR_CELEBRATION_MAGENTO_HOSTNAME ?? 'srv900162.hstgr.cloud'
   const path = process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_PATH ?? '/graphql'
 
   return new URL(`${protocol}://${hostname}${path}`)
@@ -47,7 +47,7 @@ export async function fetchMagentoCmsPage(
   const endpoint = getMagentoGraphqlEndpoint()
   const vhost =
     process.env.DECOR_CELEBRATION_MAGENTO_VHOST ??
-    (process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL ? '' : 'rnbmage.local')
+    (process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL ? '' : 'srv900162.hstgr.cloud')
   const timeoutMs = options.timeoutMs ?? 5000
   const query = `query DecorCmsPage($identifier: String) {
     cmsPage(identifier: $identifier) {

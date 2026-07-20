@@ -770,6 +770,10 @@
   margin: 0;
 }
 
+.cmsContent :global(.decor-custom-form-mount) {
+  display: contents;
+}
+
 .cmsContent :global(.decor-form-field) {
   position: absolute;
   display: block;
@@ -827,6 +831,39 @@
   opacity: 1;
 }
 
+.cmsContent :global(.decor-form-field input[type='date']) {
+  color: #441e14;
+}
+
+.cmsContent :global(.decor-date-input--empty::-webkit-datetime-edit) {
+  color: transparent;
+}
+
+.cmsContent :global(.decor-date-placeholder) {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  color: #441e14;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  pointer-events: none;
+}
+
+.cmsContent :global(.decor-date-input--empty:focus + .decor-date-placeholder) {
+  opacity: 0;
+}
+
+.cmsContent :global(.decor-form-field input[type='date']::-webkit-calendar-picker-indicator) {
+  position: absolute;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  opacity: 0;
+}
+
 .cmsContent :global(.decor-form-field--event::after) {
   content: '';
   position: absolute;
@@ -876,6 +913,33 @@
   line-height: 19px;
   text-align: center;
   cursor: pointer;
+}
+
+.cmsContent :global(.decor-quote-submit:disabled) {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.cmsContent :global(.decor-form-status) {
+  position: absolute;
+  left: 0;
+  top: 211px;
+  width: 100%;
+  margin: 0;
+  color: #441e14;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+}
+
+.cmsContent :global(.decor-form-status--error) {
+  color: #a12f2f;
+}
+
+.cmsContent :global(.decor-quote-form--has-status .decor-quote-features) {
+  top: 249px;
 }
 
 .cmsContent :global(.decor-quote-features) {
@@ -1040,6 +1104,7 @@
   overflow: hidden;
   border-radius: 8px;
   background: #f8f8f8;
+  cursor: zoom-in;
 }
 
 .cmsContent :global(.decor-work-card img) {
@@ -1048,6 +1113,17 @@
   height: 210px;
   object-fit: cover;
   object-position: center;
+  transition: transform 240ms ease;
+}
+
+.cmsContent :global(.decor-work-card:hover img),
+.cmsContent :global(.decor-work-card:focus-visible img) {
+  transform: scale(1.025);
+}
+
+.cmsContent :global(.decor-work-card:focus-visible) {
+  outline: 2px solid #9b7c38;
+  outline-offset: 3px;
 }
 
 .cmsContent :global(.decor-work-card--overlay::after) {
@@ -1069,6 +1145,207 @@
   line-height: 158%;
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 4vw, 56px);
+  background: rgba(22, 10, 7, 0.92);
+  backdrop-filter: blur(5px);
+  animation: decorLightboxFade 180ms ease-out;
+}
+
+.lightboxDialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1180px, 100%);
+  max-height: calc(100vh - 36px);
+  outline: none;
+}
+
+.lightboxImageWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  max-height: calc(100vh - 138px);
+}
+
+.lightboxImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100vh - 138px);
+  border-radius: 12px;
+  object-fit: contain;
+  image-rendering: auto;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
+.lightboxClose,
+.lightboxArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 50%;
+  background: rgba(34, 15, 11, 0.7);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.lightboxClose:hover,
+.lightboxArrow:hover,
+.lightboxClose:focus-visible,
+.lightboxArrow:focus-visible {
+  border-color: #fff;
+  background: #441e14;
+  outline: none;
+}
+
+.lightboxClose:focus-visible,
+.lightboxArrow:focus-visible {
+  box-shadow: 0 0 0 3px rgba(246, 219, 224, 0.5);
+}
+
+.lightboxClose svg,
+.lightboxArrow svg {
+  width: 24px;
+  height: 24px;
+}
+
+.lightboxClose {
+  position: absolute;
+  right: 0;
+  top: -8px;
+  z-index: 3;
+  transform: translateY(-100%);
+}
+
+.lightboxArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+}
+
+.lightboxArrow:hover,
+.lightboxArrow:focus-visible {
+  transform: translateY(-50%) scale(1.04);
+}
+
+.lightboxArrowPrevious {
+  left: 18px;
+}
+
+.lightboxArrowNext {
+  right: 18px;
+}
+
+.lightboxMeta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  max-width: 920px;
+  margin: 16px auto 0;
+  color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+.lightboxCaption,
+.lightboxCounter {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.lightboxCounter {
+  flex: 0 0 auto;
+  color: #f6dbe0;
+}
+
+@keyframes decorLightboxFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .lightbox {
+    padding: 68px 14px 20px;
+  }
+
+  .lightboxDialog {
+    max-height: calc(100vh - 88px);
+  }
+
+  .lightboxImageWrap,
+  .lightboxImage {
+    max-height: calc(100vh - 178px);
+  }
+
+  .lightboxClose,
+  .lightboxArrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .lightboxClose {
+    right: 2px;
+    top: -12px;
+  }
+
+  .lightboxArrowPrevious {
+    left: 8px;
+  }
+
+  .lightboxArrowNext {
+    right: 8px;
+  }
+
+  .lightboxMeta {
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .lightboxCaption,
+  .lightboxCounter {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox {
+    animation: none;
+  }
+
+  .cmsContent :global(.decor-work-card img),
+  .lightboxClose,
+  .lightboxArrow {
+    transition: none;
+  }
 }
 
 .cmsContent :global(.decor-seo-section) {
@@ -1105,7 +1382,8 @@
   width: 139px;
   height: 210px;
   overflow: visible;
-  background: url('/images/decor-celebration-dev/decor-ampersand-logo.png') center / contain no-repeat;
+  background: url('/images/decor-celebration-dev/decor-ampersand-logo.png') center / contain
+    no-repeat;
   color: transparent;
   font-size: 0;
   line-height: 0;
@@ -1930,6 +2208,18 @@
     height: auto;
   }
 
+  .cmsContent :global(.decor-form-status) {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin: 10px 0 0;
+  }
+
+  .cmsContent :global(.decor-quote-form--has-status .decor-quote-features) {
+    top: auto;
+  }
+
   .cmsContent :global(.decor-form-field input),
   .cmsContent :global(.decor-form-field select) {
     width: 100%;
@@ -2264,6 +2554,18 @@
     top: auto;
     width: 100%;
     height: auto;
+  }
+
+  .cmsContent :global(.decor-form-status) {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin: 10px 0 0;
+  }
+
+  .cmsContent :global(.decor-quote-form--has-status .decor-quote-features) {
+    top: auto;
   }
 
   .cmsContent :global(.decor-form-field) {
@@ -2702,6 +3004,14 @@
 }
 
 @media (max-width: 560px) {
+  .cmsContent :global(.decor-quote-form) {
+    display: block;
+  }
+
+  .cmsContent :global(.decor-form-field) {
+    margin-bottom: 12px;
+  }
+
   .cmsContent :global(.decor-service-intro) {
     padding-top: 42px;
     padding-bottom: 98px;
@@ -2785,4 +3095,3 @@
     height: 54px;
   }
 }
-

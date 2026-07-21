@@ -1154,27 +1154,6 @@
   outline-offset: 3px;
 }
 
-.cmsContent :global(.decor-work-card--overlay::after) {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.cmsContent :global(.decor-work-view) {
-  position: absolute;
-  z-index: 1;
-  left: 124px;
-  top: 93px;
-  color: #fff;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 158%;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 .lightbox {
   position: fixed;
   inset: 0;

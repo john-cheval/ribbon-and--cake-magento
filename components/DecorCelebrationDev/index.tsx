@@ -30,10 +30,43 @@ export default function DecorCelebrationDev(props: DecorCelebrationDevProps) {
   const lightboxDialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const lastTriggerRef = useRef<HTMLElement | null>(null)
+  const workCarouselAnimatingRef = useRef(false)
   const [formMounts, setFormMounts] = useState<HTMLElement[]>([])
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([])
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null)
   const isLightboxOpen = activeImageIndex !== null
+
+  const normalizeWorkCarousel = () => {
+    const gallery = contentRef.current?.querySelector<HTMLElement>('.decor-work-gallery')
+    if (!gallery) return null
+
+    let track = gallery.querySelector<HTMLElement>('.decor-work-track')
+    if (!track) {
+      track = document.createElement('div')
+      track.className = 'decor-work-track'
+      const carouselTrack = track
+
+      Array.from(gallery.children).forEach((child) => {
+        if (child.classList.contains('decor-work-card')) carouselTrack.appendChild(child)
+      })
+
+      gallery.appendChild(track)
+    }
+
+    Array.from(
+      contentRef.current?.querySelectorAll<HTMLElement>('.decor-work-arrow') ?? [],
+    ).forEach((arrow, index) => {
+      if (!arrow.dataset.decorCarouselDirection) {
+        const label = arrow.getAttribute('aria-label')?.toLowerCase() ?? ''
+        arrow.dataset.decorCarouselDirection =
+          label.includes('previous') || index === 0 ? 'prev' : 'next'
+      }
+
+      if (!arrow.getAttribute('role')) arrow.setAttribute('role', 'button')
+    })
+
+    return track
+  }
 
   useEffect(() => {
     const mounts = Array.from(
@@ -41,12 +74,28 @@ export default function DecorCelebrationDev(props: DecorCelebrationDevProps) {
     )
     setFormMounts(mounts)
 
-    const images = Array.from(
-      contentRef.current?.querySelectorAll<HTMLImageElement>('.decor-work-card img') ?? [],
-    ).map((image) => ({
-      src: image.getAttribute('src') || image.currentSrc,
-      alt: image.getAttribute('alt') || 'Balloon decoration setup',
-    }))
+    normalizeWorkCarousel()
+
+    const cards = Array.from(
+      contentRef.current?.querySelectorAll<HTMLElement>('.decor-work-card') ?? [],
+    )
+
+    cards.forEach((card, index) => {
+      if (!card.dataset.decorGalleryIndex) card.dataset.decorGalleryIndex = String(index)
+    })
+
+    const images = cards
+      .map((card, fallbackIndex) => ({
+        index: Number(card.dataset.decorGalleryIndex ?? fallbackIndex),
+        image: card.querySelector<HTMLImageElement>('img'),
+      }))
+      .filter((entry): entry is { index: number; image: HTMLImageElement } => Boolean(entry.image))
+      .sort((a, b) => a.index - b.index)
+      .map(({ image }) => ({
+        src: image.getAttribute('src') || image.currentSrc,
+        alt: image.getAttribute('alt') || 'Balloon decoration setup',
+      }))
+
     setGalleryItems(images)
     setActiveImageIndex(null)
   }, [content])
@@ -106,15 +155,116 @@ export default function DecorCelebrationDev(props: DecorCelebrationDevProps) {
     window.requestAnimationFrame(() => lastTriggerRef.current?.focus())
   }
 
+  const moveWorkCarousel = (direction: -1 | 1) => {
+    const gallery = contentRef.current?.querySelector<HTMLElement>('.decor-work-gallery')
+    const track = gallery?.querySelector<HTMLElement>('.decor-work-track') ?? normalizeWorkCarousel()
+    if (!gallery || !track || workCarouselAnimatingRef.current) return
+
+    const cards = Array.from(track.querySelectorAll<HTMLElement>('.decor-work-card'))
+    const shiftCount = Math.min(2, cards.length)
+    if (shiftCount < 2) return
+
+    const firstCard = cards[0]
+    const trackStyles = window.getComputedStyle(track)
+    const columnGap =
+      Number.parseFloat(trackStyles.columnGap || trackStyles.gap || '0') ||
+      Number.parseFloat(trackStyles.gap || '0') ||
+      0
+    const slideDistance = firstCard.getBoundingClientRect().width + columnGap
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const transition = prefersReducedMotion
+      ? 'none'
+      : 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)'
+    let fallbackTimer: number | undefined
+
+    const unlockCarousel = () => {
+      workCarouselAnimatingRef.current = false
+    }
+
+    const resetTrack = () => {
+      if (fallbackTimer) window.clearTimeout(fallbackTimer)
+      track.removeEventListener('transitionend', finishNext)
+      track.removeEventListener('transitionend', finishPrevious)
+      track.style.transition = 'none'
+      track.style.transform = 'translate3d(0, 0, 0)'
+      window.requestAnimationFrame(() => {
+        track.style.transition = ''
+        unlockCarousel()
+      })
+    }
+
+    const finishNext = (event?: TransitionEvent) => {
+      if (event && event.target !== track) return
+      cards.slice(0, shiftCount).forEach((card) => track.appendChild(card))
+      resetTrack()
+    }
+
+    const finishPrevious = (event?: TransitionEvent) => {
+      if (event && event.target !== track) return
+      resetTrack()
+    }
+
+    workCarouselAnimatingRef.current = true
+
+    if (direction > 0) {
+      track.style.transition = transition
+      track.style.transform = `translate3d(-${slideDistance}px, 0, 0)`
+
+      if (prefersReducedMotion) {
+        finishNext()
+      } else {
+        track.addEventListener('transitionend', finishNext)
+        fallbackTimer = window.setTimeout(finishNext, 520)
+      }
+      return
+    }
+
+    cards
+      .slice(-shiftCount)
+      .reverse()
+      .forEach((card) => track.insertBefore(card, track.firstElementChild))
+
+    track.style.transition = 'none'
+    track.style.transform = `translate3d(-${slideDistance}px, 0, 0)`
+    void track.offsetHeight
+
+    window.requestAnimationFrame(() => {
+      track.style.transition = transition
+      track.style.transform = 'translate3d(0, 0, 0)'
+
+      if (prefersReducedMotion) {
+        finishPrevious()
+      } else {
+        track.addEventListener('transitionend', finishPrevious)
+        fallbackTimer = window.setTimeout(finishPrevious, 520)
+      }
+    })
+  }
+
   const handleContentClick = (event: MouseEvent<HTMLElement>) => {
     const target = event.target
     if (!(target instanceof Element)) return
 
+    const carouselArrow = target.closest<HTMLElement>('.decor-work-arrow')
+    if (
+      carouselArrow &&
+      contentRef.current?.contains(carouselArrow) &&
+      carouselArrow.closest('.decor-work-arrows')
+    ) {
+      event.preventDefault()
+      const label = carouselArrow.getAttribute('aria-label')?.toLowerCase() ?? ''
+      const direction =
+        carouselArrow.dataset.decorCarouselDirection === 'prev' || label.includes('previous')
+          ? -1
+          : 1
+      moveWorkCarousel(direction)
+      return
+    }
+
     const card = target.closest<HTMLElement>('.decor-work-card')
     if (!card || !contentRef.current?.contains(card)) return
 
-    const cards = Array.from(contentRef.current.querySelectorAll<HTMLElement>('.decor-work-card'))
-    const imageIndex = cards.indexOf(card)
+    const imageIndex = Number(card.dataset.decorGalleryIndex)
     if (imageIndex < 0 || !galleryItems[imageIndex]) return
 
     event.preventDefault()

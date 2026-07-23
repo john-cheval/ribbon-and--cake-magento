@@ -1,0 +1,264 @@
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-guide">
+  <h2>Baking Classes Dev CMS Editing Guide</h2>
+  <p><strong>Frontend styling is controlled in GraphCommerce CSS.</strong> In Magento, edit the labelled HTML Code block directly below each admin note. Keep class names and data markers unchanged unless frontend CSS is updated too.</p>
+  <ul>
+    <li>Each section has an admin label such as “01 Hero Banner” followed by one HTML Code block.</li>
+    <li>Links are marked with <code>data-cms-link</code>. Change the <code>href</code> on the same tag.</li>
+    <li>Images are normal HTML image tags. Replace only the image path and alt text values.</li>
+    <li>The booking form fields are managed under <strong>Content &gt; Elements &gt; Manage Custom Forms &gt; Baking Classes Dev Booking</strong>. Keep <code>data-baking-custom-form="baking-classes-dev-booking"</code> unchanged so GraphCommerce can mount it.</li>
+    <li>This page is independent from the existing live <code>/baking-classes</code> page.</li>
+  </ul>
+</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="hero">
+  <h3>01 Hero Banner</h3>
+  <p>Edit eyebrow, H1, tagline, intro paragraph, feature pills, hero image, and two CTA links.</p>
+  <ul><li>Primary CTA: data-cms-link=&quot;hero-primary&quot;</li><li>Secondary CTA: data-cms-link=&quot;hero-secondary&quot;</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="hero">&lt;!-- 01 Hero Banner: Edit eyebrow, H1, tagline, intro paragraph, feature pills, hero image, and two CTA links. Link markers: hero-primary, hero-secondary --&gt;
+&lt;section class="baking-dev-hero" aria-labelledby="baking-dev-hero-title"&gt;
+  &lt;div class="baking-dev-hero__media"&gt;&lt;img src="/images/baking-classes-dev/kids-baking-hero-original.jpg" alt="Kids baking class in Dubai with chef guidance" /&gt;&lt;/div&gt;
+  &lt;div class="baking-dev-hero__copy"&gt;
+    &lt;div class="baking-dev-hero__content"&gt;
+      &lt;span class="baking-dev-eyebrow"&gt;Dubai, UAE · Ages 5–15&lt;/span&gt;
+      &lt;h1 id="baking-dev-hero-title" class="baking-dev-hero__title"&gt;Kids' Baking Classes.&lt;/h1&gt;
+      &lt;p class="baking-dev-hero__tagline"&gt;Learn. Bake. Create. Smile.&lt;/p&gt;
+      &lt;p class="baking-dev-hero__text"&gt;Fun, hands-on baking classes for kids aged 5–15 in Dubai. From cupcakes to celebration cakes — we make baking a joyful, creative experience.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="baking-dev-hero__pills" aria-label="Class highlights"&gt;
+      &lt;span&gt;Small groups&lt;/span&gt;
+      &lt;span&gt;All ingredients included&lt;/span&gt;
+      &lt;span&gt;Take home your bakes&lt;/span&gt;
+      &lt;span&gt;Certificate of participation&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="baking-dev-hero__actions"&gt;
+      &lt;a class="baking-dev-button baking-dev-button--primary" data-cms-link="hero-primary" href="/contact-us"&gt;Book a Class&lt;/a&gt;
+      &lt;a class="baking-dev-button baking-dev-button--link" data-cms-link="hero-secondary" href="/baking-classes"&gt;See all classes&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="benefits">
+  <h3>02 Hero Bottom Info Bar</h3>
+  <p>Edit the short info labels displayed in the brown bar below the hero.</p>
+  <ul><li>No links in this section.</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="benefits">&lt;!-- 02 Hero Bottom Info Bar: Edit short info labels. --&gt;
+&lt;section class="baking-dev-hero-info" aria-label="Kids baking class quick details"&gt;
+  &lt;span&gt;Ages 5–15&lt;/span&gt;
+  &lt;i aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;span&gt;Small batch groups&lt;/span&gt;
+  &lt;i aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;span&gt;Step-by-step Guidance&lt;/span&gt;
+  &lt;i aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;span&gt;Safe &amp;amp; hygienic kitchen&lt;/span&gt;
+  &lt;i aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;span&gt;+971 52 8899029&lt;/span&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="classes">
+  <h3>03 Our Classes Section</h3>
+  <p>Edit the label, heading, description, decorative image, class images, age labels, class titles, descriptions, detail chips, and booking links.</p>
+  <ul><li>Card buttons: data-cms-link=&quot;class-card-01&quot; through data-cms-link=&quot;class-card-04&quot;</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="classes">&lt;!-- 03 Our Classes Section: Edit label, heading, description, decorative image, class cards, and card button links. Link markers: class-card-01, class-card-02, class-card-03, class-card-04 --&gt;
+&lt;section class="baking-dev-classes" aria-labelledby="baking-dev-classes-title"&gt;
+  &lt;img class="baking-dev-classes__decor" src="/images/baking-classes-dev/classes-cupcake-decor-original.png" alt="" aria-hidden="true" /&gt;
+  &lt;div class="baking-dev-classes__intro"&gt;
+    &lt;span class="baking-dev-small-label"&gt;Our classes&lt;/span&gt;
+    &lt;h2 id="baking-dev-classes-title" class="baking-dev-section-title"&gt;Find the right class for your child&lt;/h2&gt;
+    &lt;p class="baking-dev-section-text"&gt;Every class is hands-on, age-appropriate, and designed to build confidence in the kitchen. No experience needed — just a love of sweet things.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="baking-dev-class-grid"&gt;
+    &lt;article class="baking-dev-class-card"&gt;
+      &lt;div class="baking-dev-class-card__image"&gt;&lt;img src="/images/baking-classes-dev/class-cupcake-decorating-original.png" alt="Cupcake decorating class for kids" /&gt;&lt;span&gt;Ages 5–8&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="baking-dev-class-card__body"&gt;
+        &lt;h3&gt;Cupcake Decorating&lt;/h3&gt;
+        &lt;p&gt;Learn to bake and decorate fun, colourful cupcakes from scratch. Kids go home with a box of their own creations and a big smile.&lt;/p&gt;
+        &lt;div class="baking-dev-class-card__chips" aria-label="Cupcake Decorating class details"&gt;&lt;span class="baking-dev-chip baking-dev-chip--time"&gt;90 min&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--bowl"&gt;All ingredients&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--chef"&gt;Apron &amp;amp; hat&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--gift"&gt;Take-home box&lt;/span&gt;&lt;/div&gt;
+        &lt;a class="baking-dev-class-card__button" data-cms-link="class-card-01" href="/contact-us"&gt;Book This Class&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class="baking-dev-class-card"&gt;
+      &lt;div class="baking-dev-class-card__image"&gt;&lt;img src="/images/baking-classes-dev/class-cookies-brownies-original.png" alt="Cookies and brownies baking class" /&gt;&lt;span&gt;Ages 6–10&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="baking-dev-class-card__body"&gt;
+        &lt;h3&gt;Cookies &amp;amp; Brownies&lt;/h3&gt;
+        &lt;p&gt;Bake a full batch of chewy cookies and fudgy brownies from scratch. A favourite class — every session smells incredible.&lt;/p&gt;
+        &lt;div class="baking-dev-class-card__chips" aria-label="Cookies and Brownies class details"&gt;&lt;span class="baking-dev-chip baking-dev-chip--time"&gt;90 min&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--bowl"&gt;All ingredients&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--chef"&gt;Apron &amp;amp; hat&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--gift"&gt;Take-home box&lt;/span&gt;&lt;/div&gt;
+        &lt;a class="baking-dev-class-card__button" data-cms-link="class-card-02" href="/contact-us"&gt;Book This Class&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class="baking-dev-class-card"&gt;
+      &lt;div class="baking-dev-class-card__image"&gt;&lt;img src="/images/baking-classes-dev/class-cake-making-original.png" alt="Cake making class for kids" /&gt;&lt;span&gt;Ages 8–12&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="baking-dev-class-card__body"&gt;
+        &lt;h3&gt;Cake Making 101&lt;/h3&gt;
+        &lt;p&gt;Bake, layer, and frost a full-size celebration cake. Kids learn the basics of sponge, buttercream, and finishing techniques.&lt;/p&gt;
+        &lt;div class="baking-dev-class-card__chips" aria-label="Cake Making 101 class details"&gt;&lt;span class="baking-dev-chip baking-dev-chip--time"&gt;2 hours&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--bowl"&gt;All ingredients&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--chef"&gt;Apron &amp;amp; hat&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--gift"&gt;Take-home box&lt;/span&gt;&lt;/div&gt;
+        &lt;a class="baking-dev-class-card__button" data-cms-link="class-card-03" href="/contact-us"&gt;Book This Class&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class="baking-dev-class-card"&gt;
+      &lt;div class="baking-dev-class-card__image"&gt;&lt;img src="/images/baking-classes-dev/class-macarons-original.png" alt="Macarons and advanced baking class" /&gt;&lt;span&gt;Ages 10–15&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="baking-dev-class-card__body"&gt;
+        &lt;h3&gt;Macarons &amp;amp; Advanced Bakes&lt;/h3&gt;
+        &lt;p&gt;For the budding baker ready for a challenge. Macarons, choux, and advanced decorating techniques — proper pastry skills in a fun setting.&lt;/p&gt;
+        &lt;div class="baking-dev-class-card__chips" aria-label="Macarons and Advanced Bakes class details"&gt;&lt;span class="baking-dev-chip baking-dev-chip--time"&gt;2.5 hours&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--bowl"&gt;All ingredients&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--chef"&gt;Apron &amp;amp; hat&lt;/span&gt;&lt;span class="baking-dev-chip baking-dev-chip--gift"&gt;Take-home box&lt;/span&gt;&lt;/div&gt;
+        &lt;a class="baking-dev-class-card__button" data-cms-link="class-card-04" href="/contact-us"&gt;Book This Class&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="video">
+  <h3>04 Video Section</h3>
+  <p>Edit section label, heading, paragraph, CTA link, video image, and optional video/play link.</p>
+  <ul><li>CTA button: data-cms-link=&quot;video-cta&quot;</li><li>Video/play link: data-cms-link=&quot;video-play&quot;</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="video">&lt;!-- 04 Video Section: Edit label, heading, paragraph, CTA link, video image, and optional video/play link. Link markers: video-cta, video-play --&gt;
+&lt;section class="baking-dev-video-section" aria-labelledby="baking-dev-video-title"&gt;
+  &lt;img class="baking-dev-video-section__mark" src="/images/baking-classes-dev/video-ampersand-vector.png" alt="" aria-hidden="true" /&gt;
+  &lt;div class="baking-dev-video-section__copy"&gt;
+    &lt;span class="baking-dev-small-label"&gt;See it in action&lt;/span&gt;
+    &lt;h2 id="baking-dev-video-title" class="baking-dev-section-title"&gt;Watch the magic happen&lt;/h2&gt;
+    &lt;p&gt;There's nothing like seeing the look on a child's face when they frost their first cake. Our classes are joyful, hands-on, and safe — designed by bakers who love teaching kids.&lt;/p&gt;
+    &lt;a class="baking-dev-video-section__button" data-cms-link="video-cta" href="/contact-us"&gt;Book a Spot Now&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;a class="baking-dev-video-section__media" data-cms-link="video-play" href="#" aria-label="Play baking class video"&gt;
+    &lt;img src="/images/baking-classes-dev/confectioner-uniform-decorates-cake.jpg" alt="Confectioner in uniform decorating a cake" /&gt;
+    &lt;span class="baking-dev-video-section__play" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="parent-reviews">
+  <h3>05 Parent Reviews</h3>
+  <p>Edit section label, heading, intro text, decorative image, review text, source labels, star ratings, parent names, child/class details, and navigation labels.</p>
+  <ul><li>Review navigation is visual-only unless frontend carousel behavior is added later.</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="parent-reviews">&lt;!-- 05 Parent Reviews: Edit label, heading, intro text, decorative image, review cards, ratings, and parent details. --&gt;
+&lt;section class="baking-dev-parent-reviews" aria-labelledby="baking-dev-parent-reviews-title"&gt;
+  &lt;span class="baking-dev-parent-reviews__quote" aria-hidden="true"&gt;“&lt;/span&gt;
+  &lt;img class="baking-dev-parent-reviews__decor" src="/images/baking-classes-dev/parent-review-image-48.png" alt="" aria-hidden="true" /&gt;
+  &lt;div class="baking-dev-parent-reviews__intro"&gt;
+    &lt;span class="baking-dev-small-label"&gt;Parent reviews&lt;/span&gt;
+    &lt;h2 id="baking-dev-parent-reviews-title" class="baking-dev-section-title"&gt;What parents are saying&lt;/h2&gt;
+    &lt;p class="baking-dev-section-text"&gt;Replace these with real reviews from Google, Instagram, or WhatsApp messages from happy parents.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="baking-dev-parent-review-grid"&gt;
+    &lt;article class="baking-dev-parent-review-card"&gt;
+      &lt;span class="baking-dev-parent-review-card__source"&gt;Google ★&lt;/span&gt;
+      &lt;span class="baking-dev-parent-review-card__stars" aria-label="5 out of 5 stars"&gt;★★★★★&lt;/span&gt;
+      &lt;p&gt;"My daughter had the most amazing time. She came home so proud of her cupcakes and hasn't stopped talking about going back. The instructors were so patient and kind."&lt;/p&gt;
+      &lt;div class="baking-dev-parent-review-card__author"&gt;&lt;span class="baking-dev-parent-review-card__avatar"&gt;A&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Ayesha M.&lt;/strong&gt;&lt;small&gt;Mother of 7-year-old · Cupcake Decorating&lt;/small&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class="baking-dev-parent-review-card"&gt;
+      &lt;span class="baking-dev-parent-review-card__source"&gt;Google ★&lt;/span&gt;
+      &lt;span class="baking-dev-parent-review-card__stars" aria-label="5 out of 5 stars"&gt;★★★★★&lt;/span&gt;
+      &lt;p&gt;"Booked the birthday baking party for my son's 9th birthday — best decision ever. All the kids loved it, the setup was perfect, and they all went home with cakes they made themselves."&lt;/p&gt;
+      &lt;div class="baking-dev-parent-review-card__author"&gt;&lt;span class="baking-dev-parent-review-card__avatar"&gt;S&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Sara K.&lt;/strong&gt;&lt;small&gt;Mother of 9-year-old · Birthday Baking Party&lt;/small&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class="baking-dev-parent-review-card"&gt;
+      &lt;span class="baking-dev-parent-review-card__source"&gt;WhatsApp ★&lt;/span&gt;
+      &lt;span class="baking-dev-parent-review-card__stars" aria-label="5 out of 5 stars"&gt;★★★★★&lt;/span&gt;
+      &lt;p&gt;"We came for the cookies class in Jumeirah and my son was nervous at first. By pickup he was explaining every step and asking when he could come again."&lt;/p&gt;
+      &lt;div class="baking-dev-parent-review-card__author"&gt;&lt;span class="baking-dev-parent-review-card__avatar"&gt;N&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Nadia R.&lt;/strong&gt;&lt;small&gt;Mother of 8-year-old · Cookies &amp;amp; Brownies&lt;/small&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+  &lt;div class="baking-dev-parent-reviews__nav" aria-label="Parent review navigation"&gt;
+    &lt;button class="baking-dev-parent-reviews__nav-button baking-dev-parent-reviews__nav-button--prev" type="button" aria-label="Previous parent review"&gt;&lt;span&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="baking-dev-parent-reviews__nav-button baking-dev-parent-reviews__nav-button--next" type="button" aria-label="Next parent review"&gt;&lt;span&gt;&lt;/span&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="booking-form">
+  <h3>06 Booking Form</h3>
+  <p>Edit the left heading, helper text, contact details, and links in the next HTML Code block. Edit the actual input fields under Manage Custom Forms &gt; Baking Classes Dev Booking.</p>
+  <ul><li>Magento form marker: data-baking-custom-form=&quot;baking-classes-dev-booking&quot;</li><li>WhatsApp: data-cms-link=&quot;booking-whatsapp&quot;</li><li>Email: data-cms-link=&quot;booking-email&quot;</li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="booking-form">&lt;!-- 06 Booking Form: Edit the left heading, helper text, contact details, and links here. Edit actual input fields in Manage Custom Forms &gt; Baking Classes Dev Booking. Keep data-baking-custom-form="baking-classes-dev-booking" unchanged. --&gt;
+&lt;section class="baking-dev-booking-section" aria-labelledby="baking-dev-booking-title"&gt;
+  &lt;div class="baking-dev-booking-content"&gt;
+    &lt;h2 id="baking-dev-booking-title"&gt;Book your child's&lt;br /&gt;baking class.&lt;/h2&gt;
+    &lt;p class="baking-dev-booking-content__intro"&gt;Fill in the form and we'll get back to you within a few hours with available dates and pricing. No commitment required.&lt;/p&gt;
+    &lt;ul class="baking-dev-booking-info"&gt;
+      &lt;li&gt;&lt;span class="baking-dev-booking-info__icon baking-dev-booking-info__icon--location" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Dubai&lt;/strong&gt; — check enquiry form for location details&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span class="baking-dev-booking-info__icon baking-dev-booking-info__icon--groups" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Small groups&lt;/strong&gt; — limited spots per session&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span class="baking-dev-booking-info__icon baking-dev-booking-info__icon--cake" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Birthday baking parties&lt;/strong&gt; also available&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span class="baking-dev-booking-info__icon baking-dev-booking-info__icon--whatsapp" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;&lt;strong&gt;WhatsApp:&lt;/strong&gt; &lt;a data-cms-link="booking-whatsapp" href="https://api.whatsapp.com/send/?phone=971528899029&amp;amp;text&amp;amp;type=phone_number&amp;amp;app_absent=0" target="_blank" rel="noreferrer"&gt;+971 50 000 0000&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span class="baking-dev-booking-info__icon baking-dev-booking-info__icon--email" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;&lt;strong&gt;Email:&lt;/strong&gt; &lt;a data-cms-link="booking-email" href="mailto:info@rnbcakes.com"&gt;info@rnbcakes.com&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="baking-dev-booking-form-card"&gt;
+    &lt;div class="baking-dev-booking-form-card__intro"&gt;&lt;h3&gt;Book or enquire&lt;/h3&gt;&lt;p&gt;We respond within a few hours.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="baking-dev-custom-form-mount" data-cms-form="baking-booking-form" data-baking-custom-form="baking-classes-dev-booking" aria-label="Baking class booking form"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="why-ribbons">
+  <h3>07 Why Ribbons &amp; Balloons</h3>
+  <p>Edit the section label, heading, paragraph, decorative image, four reason cards, and button link in the next HTML Code block.</p>
+  <ul><li>CTA button: data-cms-link=&quot;why-ribbons-cta&quot;</li><li>Original image 49: <code>/images/baking-classes-dev/why-ribbons-image-49.png</code></li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="why-ribbons">&lt;!-- 07 Why Ribbons &amp; Balloons: Edit section label, heading, paragraph, image 49, reason cards, and CTA link. Link marker: why-ribbons-cta --&gt;
+&lt;section class="baking-dev-why-ribbons" aria-labelledby="baking-dev-why-ribbons-title"&gt;
+  &lt;div class="baking-dev-why-ribbons__copy"&gt;
+    &lt;span class="baking-dev-small-label"&gt;Why Ribbons &amp;amp; Balloons&lt;/span&gt;
+    &lt;h2 id="baking-dev-why-ribbons-title" class="baking-dev-section-title"&gt;What makes our classes different&lt;/h2&gt;
+    &lt;p&gt;We're the same team behind Ribbons &amp;amp; Balloons' cakes — professional bakers who genuinely love teaching kids. Small groups mean every child gets real attention.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;img class="baking-dev-why-ribbons__image" src="/images/baking-classes-dev/why-ribbons-image-49.png" alt="Pink baking setup with heart cookies, brush, sugar jar, and sprinkles" /&gt;
+  &lt;div class="baking-dev-why-ribbons__cards"&gt;
+    &lt;article class="baking-dev-why-card baking-dev-why-card--groups"&gt;&lt;span class="baking-dev-why-card__icon" aria-hidden="true"&gt;&lt;/span&gt;&lt;h3&gt;Small groups&lt;/h3&gt;&lt;p&gt;We keep numbers intentionally small so every child gets hands-on attention, not just a seat at a bench.&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="baking-dev-why-card baking-dev-why-card--expert"&gt;&lt;span class="baking-dev-why-card__icon" aria-hidden="true"&gt;&lt;/span&gt;&lt;h3&gt;Expert instructors&lt;/h3&gt;&lt;p&gt;Taught by professional bakers who know how to make learning joyful, clear, and age-appropriate.&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="baking-dev-why-card baking-dev-why-card--safe"&gt;&lt;span class="baking-dev-why-card__icon" aria-hidden="true"&gt;&lt;/span&gt;&lt;h3&gt;Safe &amp;amp; hygienic&lt;/h3&gt;&lt;p&gt;A purpose-built, clean kitchen with child-safe equipment. Parents can watch or drop off with full confidence.&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="baking-dev-why-card baking-dev-why-card--keepsake"&gt;&lt;span class="baking-dev-why-card__icon" aria-hidden="true"&gt;&lt;/span&gt;&lt;h3&gt;They keep everything&lt;/h3&gt;&lt;p&gt;Every child takes home what they bake — plus a certificate and memories that last well beyond the class.&lt;/p&gt;&lt;/article&gt;
+  &lt;/div&gt;
+  &lt;a class="baking-dev-why-ribbons__button" data-cms-link="why-ribbons-cta" href="/contact-us"&gt;Join our classes&lt;/a&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="content-section">
+  <h3>08 Content Section</h3>
+  <p>Edit the heading, subtitle, paragraphs, read more link, content image, and decorative vector in the next HTML Code block.</p>
+  <ul><li>Read more link: data-cms-link=&quot;content-read-more&quot;</li><li>Rectangle 349 image: <code>/images/baking-classes-dev/Rectangle%20349.png</code></li><li>Vector image: <code>/images/baking-classes-dev/content-ampersand-vector.png</code></li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="content-section">&lt;!-- 08 Content Section: Edit heading, subtitle, paragraphs, image paths/alt text, vector path, and Read more link. Link marker: content-read-more --&gt;
+&lt;section class="baking-dev-content-section" aria-labelledby="baking-dev-content-title"&gt;
+  &lt;img class="baking-dev-content-section__mark" src="/images/baking-classes-dev/content-ampersand-vector.png" alt="" aria-hidden="true" /&gt;
+  &lt;img class="baking-dev-content-section__image" src="/images/baking-classes-dev/Rectangle%20349.png" alt="Ribbons and Balloons baker decorating a pink cake in class" /&gt;
+  &lt;div class="baking-dev-content-section__copy"&gt;
+    &lt;h2 id="baking-dev-content-title" class="baking-dev-section-title"&gt;Kids' Baking Classes in Dubai&lt;/h2&gt;
+    &lt;h3&gt;Hands-On, Age-Appropriate &amp;amp; Fun&lt;/h3&gt;
+    &lt;div class="baking-dev-content-section__body"&gt;
+      &lt;p&gt;Looking for a place where your child can learn to bake, get creative, and genuinely enjoy themselves? At Ribbons &amp;amp; Balloons, our hands-on baking workshops in Dubai are designed for children aged 5 to 15, led by experienced professional bakers in a safe and encouraging environment.&lt;/p&gt;
+      &lt;p&gt;Unlike a typical cooking class, our sessions are grouped by age and skill level, so every child learns at a pace that suits them.&lt;/p&gt;
+      &lt;a data-cms-link="content-read-more" href="/baking-classes"&gt;Read more&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+
+<div data-content-type="text" data-appearance="default" data-element="main" class="baking-dev-admin-section-label" data-baking-dev-admin-for="faq">
+  <h3>09 FAQ</h3>
+  <p>Edit the label, heading, decorative cupcake image, questions, and answers in the next HTML Code block.</p>
+  <ul><li>No links in this section.</li><li>Decorative cupcake image: <code>/images/baking-classes-dev/image 48.png</code></li></ul>
+</div>
+<div data-content-type="html" data-appearance="default" data-element="main" class="baking-dev-cms-html" data-baking-dev-admin-section="faq">&lt;!-- 09 FAQ: Edit label, heading, decorative image, questions, and answers. First FAQ is open by default; remove open if needed. --&gt;
+&lt;section class="baking-dev-faq" aria-labelledby="baking-dev-faq-title"&gt;
+  &lt;img class="baking-dev-faq__decor" src="/images/baking-classes-dev/image 48.png" alt="" aria-hidden="true" /&gt;
+  &lt;div class="baking-dev-faq__intro"&gt;
+    &lt;span class="baking-dev-small-label"&gt;Common questions&lt;/span&gt;
+    &lt;h2 id="baking-dev-faq-title"&gt;Everything you need to know&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class="baking-dev-faq__list"&gt;
+    &lt;details open&gt;&lt;summary&gt;What ages are the classes suitable for?&lt;/summary&gt;&lt;p&gt;We have classes designed for children aged 5 to 15, grouped by age so recipes and techniques stay appropriate and enjoyable for each level.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;My child has never baked before will they be able to keep up?&lt;/summary&gt;&lt;p&gt;Yes. Our classes are beginner-friendly and guided step by step, so children can learn comfortably even if it is their first time baking.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;What if my child has a food allergy or intolerance?&lt;/summary&gt;&lt;p&gt;Please mention allergies or dietary requirements when enquiring. Our team will confirm what can be safely accommodated before booking.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;Do I need to stay with my child, or can I drop them off?&lt;/summary&gt;&lt;p&gt;This depends on the child’s age and the selected class. Parents can ask our team for the best option when booking.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;What should my child wear or bring?&lt;/summary&gt;&lt;p&gt;Comfortable clothing is best. Aprons and class materials are provided for the session unless your booking confirmation says otherwise.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;How many kids are in each class?&lt;/summary&gt;&lt;p&gt;We keep groups intentionally small so every child receives hands-on guidance and personal attention during the class.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;What happens to what they bake do they take it home?&lt;/summary&gt;&lt;p&gt;Yes. Children take home what they make, along with the pride of creating something delicious themselves.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;Is the kitchen safe and hygienic for kids?&lt;/summary&gt;&lt;p&gt;Yes. Classes are held in a clean, child-friendly environment with professional supervision and safe class routines.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;Can I book a private class or a birthday party instead of a group session?&lt;/summary&gt;&lt;p&gt;Yes. Private classes and birthday baking parties can be arranged based on availability, group size, age range, and preferred theme.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;How do I know which class is right for my child's age?&lt;/summary&gt;&lt;p&gt;Share your child’s age and experience level with us, and we’ll recommend the most suitable class or session format.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;How much do classes cost, and how do I pay?&lt;/summary&gt;&lt;p&gt;Pricing depends on the class type, group size, and setup. We’ll share availability, package details, and payment steps after your enquiry.&lt;/p&gt;&lt;/details&gt;
+    &lt;details&gt;&lt;summary&gt;What if we need to cancel or reschedule?&lt;/summary&gt;&lt;p&gt;Contact us as early as possible. Rescheduling depends on class availability and the notice period for your booking.&lt;/p&gt;&lt;/details&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</div>

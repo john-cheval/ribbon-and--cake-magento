@@ -1,0 +1,2702 @@
+.cmsContent {
+  --gold: #9b7c38;
+  --brown: #441E14;
+  --ink: #302100;
+  --muted: #6f6f6f;
+  --pink: #f6dbe0;
+  --line: #dddddd;
+  --soft: #fbf8f6;
+  overflow-x: hidden;
+  overflow-y: visible;
+  background: #fff;
+  color: var(--ink);
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+.cmsContent :global(.baking-dev-admin-guide),
+.cmsContent :global(.baking-dev-admin-section-label) {
+  display: none;
+}
+
+.cmsContent :global(.baking-dev-cms-html) {
+  display: contents;
+}
+
+.cmsContent :global(.baking-dev-visually-hidden) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cmsContent :global(.baking-dev-hero) {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  background: #2e2827;
+}
+
+.cmsContent :global(.baking-dev-hero::after) {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.cmsContent :global(.baking-dev-hero__media) {
+  position: absolute;
+  inset: 0;
+}
+
+.cmsContent :global(.baking-dev-hero__media img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.cmsContent :global(.baking-dev-hero__copy) {
+  position: absolute;
+  left: 50px;
+  top: 103px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  width: 635px;
+  height: 365px;
+  padding: 0;
+}
+
+.cmsContent :global(.baking-dev-hero__content) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  width: 635px;
+  height: 209px;
+}
+
+.cmsContent :global(.baking-dev-eyebrow) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 184px;
+  height: 33px;
+  padding: 8px 16px;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.cmsContent :global(.baking-dev-hero__title),
+.cmsContent :global(.baking-dev-section-title),
+.cmsContent :global(.baking-dev-cta h2),
+.cmsContent :global(.baking-dev-event-types h2),
+.cmsContent :global(.baking-dev-faq h2) {
+  margin: 0;
+  color: var(--gold);
+  font-family: 'Saxo Grammaticus', sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.cmsContent :global(.baking-dev-hero__title) {
+  width: 635px;
+  color: #fff;
+  font-size: 45px;
+  line-height: 56px;
+}
+
+.cmsContent :global(.baking-dev-hero__tagline) {
+  width: 635px;
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.cmsContent :global(.baking-dev-hero__text) {
+  width: 577px;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.cmsContent :global(.baking-dev-hero__pills) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 635px;
+  height: 30px;
+  overflow: visible;
+}
+
+.cmsContent :global(.baking-dev-hero__pills span) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  height: 30px;
+  padding: 8px 16px;
+  border: 1px solid #fff;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.01);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cmsContent :global(.baking-dev-hero__pills span:nth-child(1)) {
+  width: 106px;
+}
+
+.cmsContent :global(.baking-dev-hero__pills span:nth-child(2)) {
+  width: 164px;
+}
+
+.cmsContent :global(.baking-dev-hero__pills span:nth-child(3)) {
+  width: 159px;
+}
+
+.cmsContent :global(.baking-dev-hero__pills span:nth-child(4)) {
+  width: 182px;
+}
+
+.cmsContent :global(.baking-dev-hero__actions) {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: 331px;
+  height: 62px;
+  margin: 0;
+}
+
+.cmsContent :global(.baking-dev-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 158%;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-button--primary) {
+  width: 180px;
+  height: 62px;
+  border: 1px solid var(--pink);
+  background: var(--pink);
+  color: var(--brown);
+}
+
+.cmsContent :global(.baking-dev-button--link) {
+  width: 111px;
+  height: 25px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-button:hover),
+.cmsContent :global(.baking-dev-button:focus-visible) {
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-button:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-hero-info) {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 31px;
+  width: min(990px, calc(100% - 80px));
+  height: 60px;
+  margin: -30px auto 0;
+  border-radius: 8px;
+  background: var(--brown);
+  color: #fff;
+  box-shadow: 0 18px 45px rgba(68, 30, 20, 0.12);
+}
+
+.cmsContent :global(.baking-dev-hero-info span) {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  white-space: nowrap;
+}
+
+.cmsContent :global(.baking-dev-hero-info i) {
+  display: block;
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.cmsContent :global(.baking-dev-classes) {
+  position: relative;
+  min-height: 889px;
+  margin-top: -30px;
+  padding: 109px 50px 52px;
+  overflow: hidden;
+  background: #fdf8f5;
+}
+
+.cmsContent :global(.baking-dev-classes__decor) {
+  position: absolute;
+  top: 66px;
+  right: 0;
+  width: 205px;
+  height: 171px;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-classes__intro) {
+  position: relative;
+  z-index: 1;
+  width: min(700px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-classes__intro .baking-dev-small-label) {
+  width: 194px;
+  height: 19px;
+}
+
+.cmsContent :global(.baking-dev-classes__intro .baking-dev-section-title) {
+  width: min(651px, 100%);
+  margin: 16px auto 0;
+  font-size: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-classes__intro .baking-dev-section-text) {
+  width: min(581px, 100%);
+  margin: 16px auto 0;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 19px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-class-grid) {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 317px);
+  gap: 24px;
+  width: 1339px;
+  max-width: 100%;
+  margin: 48px auto 0;
+}
+
+.cmsContent :global(.baking-dev-class-card) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 551px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.cmsContent :global(.baking-dev-class-card__image) {
+  position: relative;
+  width: calc(100% - 2px);
+  height: 200px;
+  margin: 1px 1px 0;
+  flex: 0 0 200px;
+  overflow: hidden;
+  border-radius: 7px 7px 0 0;
+}
+
+.cmsContent :global(.baking-dev-class-card__image img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: auto;
+}
+
+.cmsContent :global(.baking-dev-class-card__image span) {
+  position: absolute;
+  left: 19px;
+  top: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 103px;
+  height: 39px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--pink);
+  color: var(--brown);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.cmsContent :global(.baking-dev-class-card__body) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 20px 20px 20px;
+}
+
+.cmsContent :global(.baking-dev-class-card h3) {
+  width: 277px;
+  max-width: 100%;
+  margin: 0;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+.cmsContent :global(.baking-dev-class-card p) {
+  width: 277px;
+  max-width: 100%;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-class-card__chips) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 6px;
+  width: 277px;
+  max-width: 100%;
+  margin-top: auto;
+}
+
+.cmsContent :global(.baking-dev-chip) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--pink);
+  border-radius: 30px;
+  background: rgba(246, 219, 224, 0.2);
+  color: var(--brown);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cmsContent :global(.baking-dev-chip::before) {
+  content: '';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  color: var(--brown);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+}
+
+.cmsContent :global(.baking-dev-chip--bowl::before) {
+  background-image: url('/images/baking-classes-dev/icons/ingredients.svg');
+}
+
+.cmsContent :global(.baking-dev-chip--time::before) {
+  background-image: url('/images/baking-classes-dev/icons/time.svg');
+}
+
+.cmsContent :global(.baking-dev-chip--gift::before) {
+  background-image: url('/images/baking-classes-dev/icons/gift.svg');
+}
+
+.cmsContent :global(.baking-dev-chip--chef::before) {
+  background-image: url('/images/baking-classes-dev/icons/apron.svg');
+}
+
+.cmsContent :global(.baking-dev-chip--time) {
+  min-width: 94px;
+}
+
+.cmsContent :global(.baking-dev-chip--bowl) {
+  min-width: 135px;
+}
+
+.cmsContent :global(.baking-dev-chip--chef) {
+  min-width: 122px;
+}
+
+.cmsContent :global(.baking-dev-chip--gift) {
+  min-width: 139px;
+}
+
+.cmsContent :global(.baking-dev-class-card__button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 277px;
+  max-width: 100%;
+  height: 56px;
+  margin-top: 20px;
+  border-radius: 4px;
+  background: var(--pink);
+  color: var(--brown);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 158%;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-class-card__button:hover),
+.cmsContent :global(.baking-dev-class-card__button:focus-visible) {
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-class-card__button:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-video-section) {
+  position: relative;
+  width: min(1340px, calc(100% - 100px));
+  min-height: 603px;
+  margin: 80px auto 0;
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-video-section__mark) {
+  position: absolute;
+  left: 155px;
+  top: 0;
+  z-index: 0;
+  display: block;
+  width: 401px;
+  height: 603px;
+  object-fit: contain;
+  object-position: center;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-video-section__copy) {
+  position: absolute;
+  left: 0;
+  top: 143px;
+  z-index: 2;
+  width: 391px;
+}
+
+.cmsContent :global(.baking-dev-video-section__copy .baking-dev-small-label) {
+  width: 214px;
+  height: 19px;
+}
+
+.cmsContent :global(.baking-dev-video-section__copy .baking-dev-section-title) {
+  width: 293px;
+  margin: 24px 0 0;
+  font-size: 40px;
+  line-height: 40px;
+}
+
+.cmsContent :global(.baking-dev-video-section__copy p) {
+  width: 391px;
+  max-width: 100%;
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 19px;
+}
+
+.cmsContent :global(.baking-dev-video-section__button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 179px;
+  height: 62px;
+  margin-top: 32px;
+  border-radius: 4px;
+  background: var(--pink);
+  color: var(--brown);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 158%;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-video-section__button:hover),
+.cmsContent :global(.baking-dev-video-section__button:focus-visible) {
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-video-section__button:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-video-section__media) {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  display: block;
+  width: 885px;
+  height: 603px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f7f2ef;
+  text-decoration: none;
+}
+
+.cmsContent :global(.baking-dev-video-section__media img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cmsContent :global(.baking-dev-video-section__play) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95.66px;
+  height: 95.66px;
+  border: 1px solid var(--pink);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
+  transform: translate(-50%, -50%);
+}
+
+.cmsContent :global(.baking-dev-video-section__play::before) {
+  content: '';
+  display: block;
+  width: 27.5px;
+  height: 27.5px;
+  margin-left: 4px;
+  background: var(--brown);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: rotate(90deg);
+}
+
+.cmsContent :global(.baking-dev-parent-reviews) {
+  position: relative;
+  width: min(1339px, calc(100% - 100px));
+  min-height: 670px;
+  margin: 80px auto 0;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__quote) {
+  position: absolute;
+  left: 0;
+  top: 221px;
+  z-index: 0;
+  display: block;
+  width: 154px;
+  height: 160px;
+  overflow: hidden;
+  background: url('/images/baking-classes-dev/“.png') center / contain no-repeat;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__decor) {
+  position: absolute;
+  left: 0;
+  top: 484px;
+  z-index: 0;
+  display: block;
+  width: 129.32px;
+  height: 152.29px;
+  object-fit: contain;
+  object-position: center;
+  transform: rotate(-15deg);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__intro) {
+  position: relative;
+  z-index: 1;
+  width: 460px;
+  max-width: 100%;
+  margin: 80px auto 0;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-small-label) {
+  width: 220px;
+  height: 19px;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-section-title) {
+  width: 460px;
+  max-width: 100%;
+  margin: 24px auto 0;
+  font-size: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-section-text) {
+  width: 418px;
+  max-width: 100%;
+  margin: 16px auto 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 19px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-parent-review-grid) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 40px;
+  width: 1108px;
+  max-width: 100%;
+  margin: 48px auto 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cmsContent :global(.baking-dev-parent-review-grid::-webkit-scrollbar) {
+  display: none;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card) {
+  position: relative;
+  box-sizing: border-box;
+  width: 534px;
+  flex: 0 0 534px;
+  max-width: 100%;
+  height: 294px;
+  padding: 48px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  scroll-snap-align: start;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__source) {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: block;
+  width: auto;
+  max-width: calc(100% - 40px);
+  height: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 14px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__stars) {
+  display: block;
+  width: 77px;
+  height: 20px;
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card p) {
+  width: 438px;
+  max-width: 100%;
+  height: 80px;
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__author) {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 339px;
+  max-width: 100%;
+  height: 42px;
+  margin-top: 24px;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__avatar) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 1px solid var(--pink);
+  border-radius: 30px;
+  background: rgba(246, 219, 224, 0.2);
+  color: var(--brown);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__author > span:last-child) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__author strong) {
+  display: block;
+  width: 100%;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-parent-review-card__author small) {
+  display: block;
+  width: 100%;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 140px;
+  height: 62px;
+  margin: 48px auto 0;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button span) {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: var(--brown);
+  -webkit-mask: url('/images/baking-classes-dev/review-arrow-right.svg') center / contain no-repeat;
+  mask: url('/images/baking-classes-dev/review-arrow-right.svg') center / contain no-repeat;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button--prev span) {
+  transform: scaleX(-1);
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button:hover),
+.cmsContent :global(.baking-dev-parent-reviews__nav-button:focus-visible) {
+  border-color: var(--brown);
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button:disabled) {
+  cursor: default;
+  opacity: 0.35;
+  transform: none;
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button:disabled:hover) {
+  border-color: var(--line);
+}
+
+.cmsContent :global(.baking-dev-parent-reviews__nav-button:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-booking-section) {
+  position: relative;
+  width: min(1339px, calc(100% - 100px));
+  min-height: 633px;
+  margin: 80px auto 0;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-booking-content) {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  width: 455px;
+  min-height: 524px;
+}
+
+.cmsContent :global(.baking-dev-booking-content h2) {
+  width: 430px;
+  margin: 0;
+  color: var(--gold);
+  font-family: 'Saxo Grammaticus', sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 56px;
+  text-transform: uppercase;
+}
+
+.cmsContent :global(.baking-dev-booking-content__intro) {
+  width: 454px;
+  max-width: 100%;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 140%;
+}
+
+.cmsContent :global(.baking-dev-booking-info) {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 416px;
+  max-width: 100%;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cmsContent :global(.baking-dev-booking-info li) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 48px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.cmsContent :global(.baking-dev-booking-info strong) {
+  font-weight: 500;
+}
+
+.cmsContent :global(.baking-dev-booking-info a) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border: 1px solid rgba(68, 30, 20, 0.15);
+  border-radius: 50%;
+  background: #fceeed;
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon::before) {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: var(--brown);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon--location::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z'/%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon--groups::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M8.4 12.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.2 0a3.2 3.2 0 1 1 .02-6.4 3.2 3.2 0 0 1-.02 6.4ZM2.2 20.4c.4-3.7 2.7-6.2 6.2-6.2s5.8 2.5 6.2 6.2H2.2Zm11.2-5.2c.9-.7 2-1 3.2-1 3 0 5 2.2 5.3 6.2h-5.2a8.2 8.2 0 0 0-3.3-5.2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M8.4 12.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.2 0a3.2 3.2 0 1 1 .02-6.4 3.2 3.2 0 0 1-.02 6.4ZM2.2 20.4c.4-3.7 2.7-6.2 6.2-6.2s5.8 2.5 6.2 6.2H2.2Zm11.2-5.2c.9-.7 2-1 3.2-1 3 0 5 2.2 5.3 6.2h-5.2a8.2 8.2 0 0 0-3.3-5.2Z'/%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon--cake::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M11 2h2v4h-2V2Zm1 3.5c2.1 0 3.2 1.1 3.2 2.7v.9H8.8v-.9c0-1.6 1.1-2.7 3.2-2.7ZM5 10h14a2 2 0 0 1 2 2v8H3v-8a2 2 0 0 1 2-2Zm0 2v2.1c.8.2 1.3.6 1.8 1 .7.6 1.2 1 2.2 1s1.6-.4 2.2-1c.8-.7 1.6-1.2 2.8-1.2s2 .5 2.8 1.2c.6.6 1.2 1 2.2 1V12H5Zm14 6.1c-1.7 0-2.6-.7-3.4-1.3-.6-.5-.9-.8-1.6-.8s-1 .3-1.6.8c-.8.6-1.7 1.3-3.4 1.3s-2.6-.7-3.4-1.3l-.6-.4V20h14v-1.9Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M11 2h2v4h-2V2Zm1 3.5c2.1 0 3.2 1.1 3.2 2.7v.9H8.8v-.9c0-1.6 1.1-2.7 3.2-2.7ZM5 10h14a2 2 0 0 1 2 2v8H3v-8a2 2 0 0 1 2-2Zm0 2v2.1c.8.2 1.3.6 1.8 1 .7.6 1.2 1 2.2 1s1.6-.4 2.2-1c.8-.7 1.6-1.2 2.8-1.2s2 .5 2.8 1.2c.6.6 1.2 1 2.2 1V12H5Zm14 6.1c-1.7 0-2.6-.7-3.4-1.3-.6-.5-.9-.8-1.6-.8s-1 .3-1.6.8c-.8.6-1.7 1.3-3.4 1.3s-2.6-.7-3.4-1.3l-.6-.4V20h14v-1.9Z'/%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon--whatsapp::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M12 2a9.8 9.8 0 0 0-8.4 14.9L2.2 22l5.2-1.4A9.8 9.8 0 1 0 12 2Zm0 2a7.8 7.8 0 0 1 0 15.6c-1.3 0-2.6-.3-3.7-.9l-.4-.2-2.6.7.7-2.5-.3-.4A7.8 7.8 0 0 1 12 4Zm4.5 10.9c-.2.6-1 1.1-1.6 1.2-.4.1-.9.1-1.5-.1-.4-.1-.8-.2-1.4-.5-2.4-1-4-3.4-4.1-3.6-.1-.1-1-1.3-1-2.5s.6-1.8.8-2c.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4l.7 1.8c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.2.3-.1.5.1.2.6 1 1.3 1.7.9.8 1.7 1.1 1.9 1.2.2.1.4.1.5-.1l.8-.9c.2-.2.3-.2.6-.1l1.6.8c.2.1.4.2.4.3.1.1.1.4 0 .8Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M12 2a9.8 9.8 0 0 0-8.4 14.9L2.2 22l5.2-1.4A9.8 9.8 0 1 0 12 2Zm0 2a7.8 7.8 0 0 1 0 15.6c-1.3 0-2.6-.3-3.7-.9l-.4-.2-2.6.7.7-2.5-.3-.4A7.8 7.8 0 0 1 12 4Zm4.5 10.9c-.2.6-1 1.1-1.6 1.2-.4.1-.9.1-1.5-.1-.4-.1-.8-.2-1.4-.5-2.4-1-4-3.4-4.1-3.6-.1-.1-1-1.3-1-2.5s.6-1.8.8-2c.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4l.7 1.8c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.2.3-.1.5.1.2.6 1 1.3 1.7.9.8 1.7 1.1 1.9 1.2.2.1.4.1.5-.1l.8-.9c.2-.2.3-.2.6-.1l1.6.8c.2.1.4.2.4.3.1.1.1.4 0 .8Z'/%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-booking-info__icon--email::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M3 5h18v14H3V5Zm2 2v.4l7 5.1 7-5.1V7H5Zm14 10V9.9l-7 5.1-7-5.1V17h14Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M3 5h18v14H3V5Zm2 2v.4l7 5.1 7-5.1V7H5Zm14 10V9.9l-7 5.1-7-5.1V17h14Z'/%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-booking-form-card) {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  box-sizing: border-box;
+  width: 771px;
+  height: 553px;
+  padding: 40px;
+  border: 1px solid rgba(68, 30, 20, 0.2);
+  border-radius: 8px;
+  background: #faf8f8;
+}
+
+.cmsContent :global(.baking-dev-booking-form-card__intro h3) {
+  width: 337px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+.cmsContent :global(.baking-dev-booking-form-card__intro p) {
+  width: 337px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 140%;
+}
+
+.cmsContent :global(.baking-dev-custom-form-mount) {
+  display: contents;
+}
+
+.cmsContent :global(.baking-dev-booking-form) {
+  position: absolute;
+  left: 40px;
+  top: 120px;
+  width: 691px;
+  height: 393px;
+  margin: 0;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field) {
+  position: absolute;
+  display: block;
+  width: 337px;
+  height: 55px;
+  margin: 0;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--name) {
+  left: 0;
+  top: 0;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--phone) {
+  left: 354px;
+  top: 0;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--email) {
+  left: 0;
+  top: 67px;
+  width: 691px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--class) {
+  left: 0;
+  top: 138px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--attendees) {
+  left: 354px;
+  top: 138px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field--details) {
+  left: 0;
+  top: 206px;
+  width: 691px;
+  height: 116px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field input),
+.cmsContent :global(.baking-dev-booking-form__field select),
+.cmsContent :global(.baking-dev-booking-form__field textarea) {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 55px;
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--brown);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 19px;
+  outline: none;
+  appearance: none;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field textarea) {
+  height: 116px !important;
+  min-height: 116px;
+  max-height: 116px;
+  padding-bottom: 60px;
+  overflow: auto;
+  resize: none;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field input::placeholder),
+.cmsContent :global(.baking-dev-booking-form__field textarea::placeholder) {
+  color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field select:invalid) {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.cmsContent :global(.baking-dev-booking-form__field input:focus),
+.cmsContent :global(.baking-dev-booking-form__field select:focus),
+.cmsContent :global(.baking-dev-booking-form__field textarea:focus) {
+  border-color: rgba(68, 30, 20, 0.45);
+  box-shadow: 0 0 0 2px rgba(246, 219, 224, 0.8);
+}
+
+.cmsContent :global(.baking-dev-booking-form__field select) {
+  padding-right: 46px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__field:has(select)::after) {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 24px;
+  width: 13px;
+  height: 7px;
+  background: url("data:image/svg+xml,%3Csvg width='13' height='7' viewBox='0 0 13 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6.5 6L12 1' stroke='%23441E14' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 13px 7px no-repeat;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-booking-form__submit) {
+  position: absolute;
+  left: 0;
+  top: 338px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 691px;
+  height: 56px;
+  padding: 0;
+  border: 1px solid var(--brown);
+  border-radius: 4px;
+  background: var(--brown);
+  color: var(--pink);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-booking-form__submit:hover),
+.cmsContent :global(.baking-dev-booking-form__submit:focus-visible) {
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-booking-form__submit:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-booking-form__submit:disabled) {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
+.cmsContent :global(.baking-dev-booking-form__status) {
+  position: absolute;
+  left: 0;
+  top: 402px;
+  width: 100%;
+  margin: 0;
+  color: var(--brown);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-booking-form__status--error) {
+  color: #a12f2f;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons) {
+  --why-offset: max(0px, calc((100% - 1440px) / 2));
+  position: relative;
+  width: 100%;
+  min-height: 798px;
+  margin: 80px 0 0;
+  overflow: hidden;
+  background: #faf8f8;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__copy) {
+  position: absolute;
+  left: calc(var(--why-offset) + 50px);
+  top: 80px;
+  z-index: 2;
+  width: 431px;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-small-label) {
+  width: 297px;
+  height: 19px;
+  justify-content: flex-start;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-section-title) {
+  width: 431px;
+  margin: 24px 0 0;
+  font-size: 40px;
+  line-height: 40px;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__copy p) {
+  width: 431px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__image) {
+  position: absolute;
+  left: var(--why-offset);
+  top: 241px;
+  z-index: 1;
+  display: block;
+  width: 1021px;
+  height: 557px;
+  object-fit: contain;
+  object-position: left bottom;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__cards) {
+  position: absolute;
+  left: calc(var(--why-offset) + 620px);
+  top: 80px;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(2, 369px);
+  gap: 32px;
+  width: 770px;
+  height: 528px;
+}
+
+.cmsContent :global(.baking-dev-why-card) {
+  position: relative;
+  box-sizing: border-box;
+  width: 369px;
+  height: 248px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-why-card__icon) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #f1a8b6;
+}
+
+.cmsContent :global(.baking-dev-why-card__icon::before) {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.cmsContent :global(.baking-dev-why-card--groups .baking-dev-why-card__icon::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='14' cy='10.5' r='2.35'/%3E%3Cpath d='M9.4 22.2c.45-3.1 2-4.8 4.6-4.8s4.15 1.7 4.6 4.8'/%3E%3Ccircle cx='21' cy='7.1' r='2.25'/%3E%3Cpath d='M20 14.5c1.9.2 3.2 1.5 3.6 3.9'/%3E%3Ccircle cx='7' cy='7.1' r='2.25'/%3E%3Cpath d='M8 14.5c-1.9.2-3.2 1.5-3.6 3.9'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='14' cy='10.5' r='2.35'/%3E%3Cpath d='M9.4 22.2c.45-3.1 2-4.8 4.6-4.8s4.15 1.7 4.6 4.8'/%3E%3Ccircle cx='21' cy='7.1' r='2.25'/%3E%3Cpath d='M20 14.5c1.9.2 3.2 1.5 3.6 3.9'/%3E%3Ccircle cx='7' cy='7.1' r='2.25'/%3E%3Cpath d='M8 14.5c-1.9.2-3.2 1.5-3.6 3.9'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-why-card--expert .baking-dev-why-card__icon::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 15.9c-2.5-.5-4-2.2-4-4.5 0-2.8 2.3-5 5.1-4.7C9.2 4.5 11.4 3 14 3s4.8 1.5 5.9 3.7c2.8-.3 5.1 1.9 5.1 4.7 0 2.3-1.5 4-4 4.5'/%3E%3Cpath d='M7 15.9v7.1h14v-7.1M8.7 20.7h10.6'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 15.9c-2.5-.5-4-2.2-4-4.5 0-2.8 2.3-5 5.1-4.7C9.2 4.5 11.4 3 14 3s4.8 1.5 5.9 3.7c2.8-.3 5.1 1.9 5.1 4.7 0 2.3-1.5 4-4 4.5'/%3E%3Cpath d='M7 15.9v7.1h14v-7.1M8.7 20.7h10.6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-why-card--safe .baking-dev-why-card__icon::before) {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3.5 23 7v6.5c0 5.3-3.5 9.2-9 11-5.5-1.8-9-5.7-9-11V7l9-3.5Z'/%3E%3Cpath d='m10.3 14 2.5 2.6 5.3-5.7'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3.5 23 7v6.5c0 5.3-3.5 9.2-9 11-5.5-1.8-9-5.7-9-11V7l9-3.5Z'/%3E%3Cpath d='m10.3 14 2.5 2.6 5.3-5.7'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.cmsContent :global(.baking-dev-why-card--keepsake .baking-dev-why-card__icon::before) {
+  -webkit-mask-image: url('/images/baking-classes-dev/icons/gift.svg');
+  mask-image: url('/images/baking-classes-dev/icons/gift.svg');
+}
+
+.cmsContent :global(.baking-dev-why-card h3) {
+  width: 305px;
+  margin: 40px 0 0;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-why-card p) {
+  width: 305px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__button) {
+  position: absolute;
+  left: calc(var(--why-offset) + 635px);
+  top: 656px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 171px;
+  height: 62px;
+  border-radius: 4px;
+  background: var(--pink);
+  color: var(--brown);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 158%;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__button:hover),
+.cmsContent :global(.baking-dev-why-ribbons__button:focus-visible) {
+  transform: translateY(-2px);
+}
+
+.cmsContent :global(.baking-dev-why-ribbons__button:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-content-section) {
+  position: relative;
+  width: min(1339px, calc(100% - 100px));
+  min-height: 561px;
+  margin: 80px auto 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-content-section__mark) {
+  position: absolute;
+  left: 0;
+  top: 93px;
+  z-index: 3;
+  display: block;
+  width: 195px;
+  height: 295px;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+.cmsContent :global(.baking-dev-content-section__image) {
+  position: absolute;
+  left: 114px;
+  top: 0;
+  z-index: 2;
+  display: block;
+  width: 544px;
+  height: 480px;
+  border-radius: 16px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cmsContent :global(.baking-dev-content-section__copy) {
+  position: absolute;
+  left: 703px;
+  top: 88px;
+  z-index: 4;
+  width: 542px;
+}
+
+.cmsContent :global(.baking-dev-content-section__copy .baking-dev-section-title) {
+  width: 522px;
+  margin: 0;
+  font-size: 40px;
+  line-height: 56px;
+}
+
+.cmsContent :global(.baking-dev-content-section__copy h3) {
+  width: 431px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-content-section__body) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 542px;
+  margin-top: 16px;
+}
+
+.cmsContent :global(.baking-dev-content-section__body p) {
+  width: 542px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.cmsContent :global(.baking-dev-content-section__body a) {
+  width: 542px;
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 158%;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cmsContent :global(.baking-dev-content-section__body a:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 3px;
+}
+
+.cmsContent :global(.baking-dev-intro) {
+  width: min(760px, calc(100% - 40px));
+  margin: 92px auto 0;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-small-label) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.cmsContent :global(.baking-dev-small-label::before),
+.cmsContent :global(.baking-dev-small-label::after) {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+}
+
+.cmsContent :global(.baking-dev-section-title) {
+  margin-top: 16px;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.04;
+}
+
+.cmsContent :global(.baking-dev-section-text) {
+  max-width: 680px;
+  margin: 22px auto 0;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.cmsContent :global(.baking-dev-feature-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: min(1338px, calc(100% - 102px));
+  margin: 66px auto 0;
+}
+
+.cmsContent :global(.baking-dev-feature-image),
+.cmsContent :global(.baking-dev-feature-copy) {
+  min-height: 336px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-feature-image img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cmsContent :global(.baking-dev-feature-copy) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 42px 52px;
+}
+
+.cmsContent :global(.baking-dev-feature-copy span) {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.cmsContent :global(.baking-dev-feature-copy h3) {
+  max-width: 430px;
+  margin: 24px 0 0;
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.cmsContent :global(.baking-dev-feature-copy p) {
+  max-width: 520px;
+  margin: 38px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.cmsContent :global(.baking-dev-gallery-section) {
+  display: grid;
+  grid-template-columns: 318px minmax(0, 1fr);
+  gap: 74px;
+  width: min(1338px, calc(100% - 102px));
+  margin: 90px auto 0;
+  padding-top: 80px;
+  border-top: 1px solid var(--line);
+}
+
+.cmsContent :global(.baking-dev-gallery) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cmsContent :global(.baking-dev-gallery img) {
+  display: block;
+  width: 100%;
+  aspect-ratio: 307 / 210;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cmsContent :global(.baking-dev-event-types) {
+  margin-top: 96px;
+  padding: 82px 51px;
+  background: var(--soft);
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-event-types h2) {
+  font-size: clamp(34px, 3.4vw, 48px);
+  line-height: 1.08;
+}
+
+.cmsContent :global(.baking-dev-event-type-grid) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  width: min(1120px, 100%);
+  margin: 42px auto 0;
+}
+
+.cmsContent :global(.baking-dev-event-type-grid article) {
+  min-height: 176px;
+  padding: 28px 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-event-type-grid img) {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.cmsContent :global(.baking-dev-event-type-grid p) {
+  margin: 22px 0 0;
+  color: var(--brown);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.cmsContent :global(.baking-dev-faq) {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  margin: 76px auto 0;
+  overflow: visible;
+  padding-bottom: 96px;
+  background: #fff;
+}
+
+.cmsContent :global(.baking-dev-faq__decor) {
+  position: absolute;
+  top: -64px;
+  right: max(9px, calc((100% - 1440px) / 2 + 9px));
+  z-index: 0;
+  display: block;
+  width: 113.39px;
+  height: 133.53px;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  transform: rotate(-20deg);
+  transform-origin: 50% 50%;
+}
+
+.cmsContent :global(.baking-dev-faq__intro) {
+  position: relative;
+  z-index: 1;
+  width: 964px;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-faq__intro .baking-dev-small-label) {
+  width: 253px;
+  height: 19px;
+}
+
+.cmsContent :global(.baking-dev-faq h2) {
+  width: 549px;
+  max-width: 100%;
+  margin: 24px auto 0;
+  font-size: 40px;
+  line-height: 56px;
+  text-align: center;
+}
+
+.cmsContent :global(.baking-dev-faq__list) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 964px;
+  max-width: calc(100% - 40px);
+  margin: 48px auto 0;
+}
+
+.cmsContent :global(.baking-dev-faq details) {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 24px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid #d9d9d9;
+  color: var(--ink);
+}
+
+.cmsContent :global(.baking-dev-faq details:last-child) {
+  margin-bottom: 0;
+}
+
+.cmsContent :global(.baking-dev-faq summary) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 26px;
+  margin: 0;
+  padding: 0 56px 0 0;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.cmsContent :global(.baking-dev-faq summary::-webkit-details-marker) {
+  display: none;
+}
+
+.cmsContent :global(.baking-dev-faq summary::after) {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: #000;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 26px;
+}
+
+.cmsContent :global(.baking-dev-faq details[open] summary::after) {
+  content: '−';
+}
+
+.cmsContent :global(.baking-dev-faq summary:focus-visible) {
+  outline: 2px solid var(--brown);
+  outline-offset: 6px;
+}
+
+.cmsContent :global(.baking-dev-faq p) {
+  width: 964px;
+  max-width: 100%;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 140%;
+}
+
+.cmsContent :global(.baking-dev-cta) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  width: min(1180px, calc(100% - 80px));
+  margin: 86px auto 110px;
+  padding: 54px 64px;
+  border-radius: 16px;
+  background: var(--brown);
+}
+
+.cmsContent :global(.baking-dev-cta h2) {
+  margin-top: 20px;
+  color: #fff;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1;
+}
+
+.cmsContent :global(.baking-dev-cta p) {
+  max-width: 620px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  .cmsContent :global(.baking-dev-hero) {
+    height: 600px;
+  }
+
+  .cmsContent :global(.baking-dev-hero__copy) {
+    left: 36px;
+    width: min(635px, calc(100% - 72px));
+    height: auto;
+    min-height: 365px;
+  }
+
+  .cmsContent :global(.baking-dev-hero__content),
+  .cmsContent :global(.baking-dev-hero__title),
+  .cmsContent :global(.baking-dev-hero__tagline),
+  .cmsContent :global(.baking-dev-hero__pills) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-hero__content) {
+    height: auto;
+  }
+
+  .cmsContent :global(.baking-dev-hero__pills) {
+    height: auto;
+  }
+
+  .cmsContent :global(.baking-dev-hero__text) {
+    width: min(577px, 100%);
+  }
+
+  .cmsContent :global(.baking-dev-hero-info) {
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    width: calc(100% - 72px);
+    height: auto;
+    min-height: 60px;
+    padding: 18px 22px;
+  }
+
+  .cmsContent :global(.baking-dev-hero-info i) {
+    display: none;
+  }
+
+  .cmsContent :global(.baking-dev-classes) {
+    min-height: 0;
+    padding: 92px 36px 58px;
+  }
+
+  .cmsContent :global(.baking-dev-classes__decor) {
+    width: 150px;
+    height: 126px;
+    opacity: 0.45;
+  }
+
+  .cmsContent :global(.baking-dev-class-grid) {
+    grid-template-columns: repeat(2, minmax(0, 317px));
+    justify-content: center;
+    width: 100%;
+    margin-top: 54px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    width: min(900px, calc(100% - 72px));
+    min-height: 0;
+    margin-top: 72px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__mark) {
+    left: min(50%, 350px);
+    top: 0;
+    width: min(401px, 60vw);
+    height: auto;
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+
+  .cmsContent :global(.baking-dev-video-section__copy),
+  .cmsContent :global(.baking-dev-video-section__media) {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__copy) {
+    width: min(391px, 100%);
+  }
+
+  .cmsContent :global(.baking-dev-video-section__media) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 885 / 603;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews) {
+    width: min(900px, calc(100% - 72px));
+    min-height: 0;
+    margin-top: 72px;
+    padding-bottom: 54px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__quote) {
+    left: -18px;
+    top: 230px;
+    width: 154px;
+    height: 160px;
+    opacity: 0.75;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__decor) {
+    left: -12px;
+    top: auto;
+    bottom: 18px;
+    width: 104px;
+    height: 122px;
+    opacity: 0.7;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-grid) {
+    width: 100%;
+    max-width: 534px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-section) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 38px;
+    width: min(900px, calc(100% - 72px));
+    min-height: 0;
+    margin-top: 72px;
+    padding-top: 56px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-content),
+  .cmsContent :global(.baking-dev-booking-form-card) {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+  }
+
+  .cmsContent :global(.baking-dev-booking-content) {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .cmsContent :global(.baking-dev-booking-content h2),
+  .cmsContent :global(.baking-dev-booking-content__intro),
+  .cmsContent :global(.baking-dev-booking-info) {
+    width: min(454px, 100%);
+  }
+
+  .cmsContent :global(.baking-dev-booking-form-card) {
+    width: min(771px, 100%);
+    height: 553px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    margin-top: 72px;
+    padding: 72px 36px 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy),
+  .cmsContent :global(.baking-dev-why-ribbons__image),
+  .cmsContent :global(.baking-dev-why-ribbons__cards),
+  .cmsContent :global(.baking-dev-why-ribbons__button) {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy) {
+    order: 1;
+    width: min(431px, 100%);
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-section-title),
+  .cmsContent :global(.baking-dev-why-ribbons__copy p) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__cards) {
+    order: 2;
+    grid-template-columns: repeat(2, minmax(0, 369px));
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    margin-top: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card) {
+    width: 100%;
+    max-width: 369px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card h3),
+  .cmsContent :global(.baking-dev-why-card p) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__button) {
+    order: 3;
+    margin: 36px auto 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__image) {
+    order: 4;
+    width: min(1021px, calc(100% + 72px));
+    height: auto;
+    margin: 34px -36px 0;
+  }
+
+  .cmsContent :global(.baking-dev-content-section) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    width: min(900px, calc(100% - 72px));
+    min-height: 0;
+    margin-top: 72px;
+    padding-bottom: 56px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__mark) {
+    left: -36px;
+    top: 70px;
+    width: 160px;
+    height: auto;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__image),
+  .cmsContent :global(.baking-dev-content-section__copy) {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__image) {
+    width: min(544px, 100%);
+    height: auto;
+    justify-self: center;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__copy) {
+    width: min(542px, 100%);
+    justify-self: center;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__copy .baking-dev-section-title),
+  .cmsContent :global(.baking-dev-content-section__copy h3),
+  .cmsContent :global(.baking-dev-content-section__body),
+  .cmsContent :global(.baking-dev-content-section__body p),
+  .cmsContent :global(.baking-dev-content-section__body a) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-feature-grid),
+  .cmsContent :global(.baking-dev-gallery-section) {
+    width: min(100% - 40px, 900px);
+  }
+
+  .cmsContent :global(.baking-dev-gallery-section) {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .cmsContent :global(.baking-dev-event-type-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cmsContent :global(.baking-dev-faq) {
+    min-height: 0;
+    margin-top: 72px;
+    padding-bottom: 86px;
+  }
+
+  .cmsContent :global(.baking-dev-faq__decor) {
+    top: -48px;
+    right: -12px;
+    width: 96px;
+    height: auto;
+    opacity: 0.7;
+  }
+
+  .cmsContent :global(.baking-dev-faq__intro),
+  .cmsContent :global(.baking-dev-faq__list) {
+    width: min(964px, calc(100% - 72px));
+    max-width: none;
+  }
+
+  .cmsContent :global(.baking-dev-cta) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .cmsContent :global(.baking-dev-hero__copy) {
+    left: 22px;
+    top: 58px;
+    width: calc(100% - 44px);
+    height: auto;
+    min-height: 0;
+    gap: 24px;
+  }
+
+  .cmsContent :global(.baking-dev-hero__title) {
+    font-size: 38px;
+    line-height: 1.1;
+  }
+
+  .cmsContent :global(.baking-dev-hero__tagline) {
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  .cmsContent :global(.baking-dev-hero__text) {
+    font-size: 15px;
+  }
+
+  .cmsContent :global(.baking-dev-hero__actions) {
+    gap: 14px;
+    width: 100%;
+    height: auto;
+  }
+
+  .cmsContent :global(.baking-dev-button) {
+    width: auto;
+  }
+
+  .cmsContent :global(.baking-dev-button--primary) {
+    width: 170px;
+  }
+
+  .cmsContent :global(.baking-dev-hero-info) {
+    width: calc(100% - 28px);
+    justify-content: flex-start;
+    margin-top: -24px;
+  }
+
+  .cmsContent :global(.baking-dev-hero-info span) {
+    font-size: 14px;
+  }
+
+  .cmsContent :global(.baking-dev-hero__pills span) {
+    height: 28px;
+    padding: 7px 13px;
+  }
+
+  .cmsContent :global(.baking-dev-classes) {
+    margin-top: -24px;
+    padding: 72px 14px 44px;
+  }
+
+  .cmsContent :global(.baking-dev-classes__decor) {
+    top: 22px;
+    right: -28px;
+    width: 112px;
+    height: 94px;
+    opacity: 0.34;
+  }
+
+  .cmsContent :global(.baking-dev-classes__intro .baking-dev-section-title) {
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-classes__intro .baking-dev-section-text) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-class-grid) {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    width: min(380px, 100%);
+    margin-top: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-class-card) {
+    height: auto;
+    min-height: 535px;
+  }
+
+  .cmsContent :global(.baking-dev-class-card__body) {
+    min-height: 335px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section) {
+    gap: 28px;
+    width: calc(100% - 28px);
+    margin-top: 54px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__mark) {
+    top: 12px;
+    width: min(300px, 76vw);
+    height: auto;
+    opacity: 1;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__copy .baking-dev-small-label) {
+    width: 214px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__copy .baking-dev-section-title) {
+    width: min(293px, 100%);
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__copy p) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__button) {
+    width: 170px;
+    height: 56px;
+    margin-top: 26px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__play) {
+    width: 72px;
+    height: 72px;
+  }
+
+  .cmsContent :global(.baking-dev-video-section__play::before) {
+    width: 21px;
+    height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews) {
+    width: calc(100% - 28px);
+    margin-top: 54px;
+    padding-bottom: 44px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__intro) {
+    width: 100%;
+    margin-top: 54px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-small-label) {
+    width: 220px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-section-title) {
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__intro .baking-dev-section-text) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__quote) {
+    left: -18px;
+    top: 188px;
+    width: 116px;
+    height: 122px;
+    opacity: 0.55;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__decor) {
+    left: -18px;
+    bottom: 4px;
+    width: 82px;
+    height: 97px;
+    opacity: 0.42;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-grid) {
+    gap: 18px;
+    margin-top: 36px;
+    max-width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-card) {
+    width: 100%;
+    flex-basis: 100%;
+    height: auto;
+    min-height: 294px;
+    padding: 42px 24px 28px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-card__source) {
+    top: 16px;
+    right: 16px;
+    max-width: calc(100% - 32px);
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-card p) {
+    height: auto;
+    min-height: 80px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-card__author) {
+    width: 100%;
+    height: auto;
+    min-height: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-parent-review-card__author small) {
+    white-space: normal;
+  }
+
+  .cmsContent :global(.baking-dev-parent-reviews__nav) {
+    margin-top: 30px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-section) {
+    width: calc(100% - 28px);
+    margin-top: 54px;
+    padding-top: 50px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-content h2) {
+    font-size: 34px;
+    line-height: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-content__intro) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-info) {
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-info li) {
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-info__icon) {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-info__icon::before) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form-card) {
+    height: auto;
+    min-height: 0;
+    padding: 30px 18px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form-card__intro h3),
+  .cmsContent :global(.baking-dev-booking-form-card__intro p) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form) {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    width: 100%;
+    height: auto;
+    margin-top: 32px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form__field),
+  .cmsContent :global(.baking-dev-booking-form__field--name),
+  .cmsContent :global(.baking-dev-booking-form__field--phone),
+  .cmsContent :global(.baking-dev-booking-form__field--email),
+  .cmsContent :global(.baking-dev-booking-form__field--class),
+  .cmsContent :global(.baking-dev-booking-form__field--attendees),
+  .cmsContent :global(.baking-dev-booking-form__field--details) {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form__field textarea) {
+    height: 124px !important;
+    min-height: 124px;
+    max-height: 124px;
+    padding-bottom: 46px;
+    resize: none;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form__submit) {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .cmsContent :global(.baking-dev-booking-form__status) {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: -4px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    margin-top: 72px;
+    padding: 72px 36px 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy),
+  .cmsContent :global(.baking-dev-why-ribbons__image),
+  .cmsContent :global(.baking-dev-why-ribbons__cards),
+  .cmsContent :global(.baking-dev-why-ribbons__button) {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy) {
+    order: 1;
+    width: min(431px, 100%);
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-section-title),
+  .cmsContent :global(.baking-dev-why-ribbons__copy p) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__cards) {
+    order: 2;
+    grid-template-columns: repeat(2, minmax(0, 369px));
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    margin-top: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card) {
+    width: 100%;
+    max-width: 369px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card h3),
+  .cmsContent :global(.baking-dev-why-card p) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__button) {
+    order: 3;
+    margin: 36px auto 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__image) {
+    order: 4;
+    width: min(1021px, calc(100% + 72px));
+    height: auto;
+    margin: 34px -36px 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons) {
+    margin-top: 54px;
+    padding: 54px 14px 0;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-small-label) {
+    width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy .baking-dev-section-title) {
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__copy p) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__cards) {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 34px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card) {
+    max-width: none;
+    height: auto;
+    min-height: 218px;
+    padding: 26px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card h3) {
+    margin-top: 34px;
+    font-size: 21px;
+    line-height: 25px;
+  }
+
+  .cmsContent :global(.baking-dev-why-card p) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__button) {
+    width: 100%;
+    max-width: 220px;
+    margin-top: 28px;
+  }
+
+  .cmsContent :global(.baking-dev-why-ribbons__image) {
+    width: calc(100% + 28px);
+    margin: 26px -14px 0;
+  }
+
+  .cmsContent :global(.baking-dev-content-section) {
+    width: calc(100% - 28px);
+    gap: 28px;
+    margin-top: 54px;
+    padding-bottom: 44px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__mark) {
+    left: -26px;
+    top: 60px;
+    width: 112px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__image) {
+    width: 100%;
+    max-width: 544px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__copy .baking-dev-section-title) {
+    font-size: 34px;
+    line-height: 42px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__copy h3) {
+    margin-top: 14px;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__body) {
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .cmsContent :global(.baking-dev-content-section__body p) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-intro) {
+    margin-top: 62px;
+  }
+
+  .cmsContent :global(.baking-dev-feature-grid) {
+    grid-template-columns: 1fr;
+    width: calc(100% - 28px);
+  }
+
+  .cmsContent :global(.baking-dev-feature-image),
+  .cmsContent :global(.baking-dev-feature-copy) {
+    min-height: 280px;
+  }
+
+  .cmsContent :global(.baking-dev-feature-copy) {
+    padding: 34px 24px;
+  }
+
+  .cmsContent :global(.baking-dev-feature-copy h3) {
+    font-size: 25px;
+  }
+
+  .cmsContent :global(.baking-dev-feature-copy p) {
+    margin-top: 24px;
+  }
+
+  .cmsContent :global(.baking-dev-gallery-section) {
+    width: calc(100% - 28px);
+    margin-top: 64px;
+    padding-top: 54px;
+  }
+
+  .cmsContent :global(.baking-dev-gallery) {
+    grid-template-columns: 1fr;
+  }
+
+  .cmsContent :global(.baking-dev-event-types) {
+    padding: 62px 14px;
+  }
+
+  .cmsContent :global(.baking-dev-event-type-grid) {
+    grid-template-columns: 1fr;
+  }
+
+  .cmsContent :global(.baking-dev-faq) {
+    margin-top: 54px;
+    padding-bottom: 72px;
+  }
+
+  .cmsContent :global(.baking-dev-faq__decor) {
+    top: -34px;
+    right: -36px;
+    width: 82px;
+    opacity: 0.5;
+  }
+
+  .cmsContent :global(.baking-dev-faq__intro),
+  .cmsContent :global(.baking-dev-faq__list) {
+    width: calc(100% - 28px);
+  }
+
+  .cmsContent :global(.baking-dev-faq__intro .baking-dev-small-label) {
+    width: 253px;
+    max-width: 100%;
+  }
+
+  .cmsContent :global(.baking-dev-faq h2) {
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-faq__list) {
+    margin-top: 38px;
+  }
+
+  .cmsContent :global(.baking-dev-faq details) {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  .cmsContent :global(.baking-dev-faq summary) {
+    min-height: 24px;
+    padding-right: 42px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .cmsContent :global(.baking-dev-faq summary::after) {
+    width: 24px;
+    height: 24px;
+    font-size: 30px;
+    line-height: 24px;
+  }
+
+  .cmsContent :global(.baking-dev-faq p) {
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .cmsContent :global(.baking-dev-cta) {
+    width: calc(100% - 28px);
+    margin-bottom: 78px;
+    padding: 38px 24px;
+  }
+}

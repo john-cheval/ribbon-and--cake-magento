@@ -1,7 +1,6 @@
 import http from 'http'
 import https from 'https'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { resolveMagentoGraphqlEndpoint } from '../../lib/magentoGraphqlEndpoint'
 
 type GraphqlResponse<T> = {
   data?: T
@@ -32,7 +31,29 @@ type FormCacheEntry = {
 }
 
 const FORM_DEFINITION_CACHE_TTL_MS = 5 * 60 * 1000
+const LIVE_ALEKSEON_GRAPHQL_URL = 'https://srv900162.hstgr.cloud/graphql'
 const formDefinitionCache = new Map<string, FormCacheEntry>()
+
+function firstNonEmpty(...values: Array<string | undefined>) {
+  return values.find((value): value is string => Boolean(value && value.trim()))
+}
+
+function resolveAlekseonFormGraphqlEndpoint(identifier: string) {
+  const shouldUseLegacyDecorEnv = identifier.startsWith('decor')
+  const endpoint = firstNonEmpty(
+    process.env.ALEKSEON_FORM_MAGENTO_GRAPHQL_URL,
+    shouldUseLegacyDecorEnv ? process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL : undefined,
+    LIVE_ALEKSEON_GRAPHQL_URL,
+  ) || LIVE_ALEKSEON_GRAPHQL_URL
+
+  return {
+    url: new URL(endpoint),
+    vhost: firstNonEmpty(
+      process.env.ALEKSEON_FORM_MAGENTO_VHOST,
+      shouldUseLegacyDecorEnv ? process.env.DECOR_CELEBRATION_MAGENTO_VHOST : undefined,
+    ) || '',
+  }
+}
 
 async function requestMagento<T>(
   request: NextApiRequest,
@@ -40,20 +61,7 @@ async function requestMagento<T>(
   query: string,
   variables: Record<string, unknown>,
 ): Promise<GraphqlResponse<T>> {
-  const shouldUseLegacyDecorEnv = identifier.startsWith('decor')
-  const { url, vhost } = resolveMagentoGraphqlEndpoint({
-    requestHost: request.headers.host,
-    urlEnvKeys: [
-      'ALEKSEON_FORM_MAGENTO_GRAPHQL_URL',
-      'MAGENTO_GRAPHQL_URL',
-      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL'] : []),
-    ],
-    vhostEnvKeys: [
-      'ALEKSEON_FORM_MAGENTO_VHOST',
-      'MAGENTO_GRAPHQL_VHOST',
-      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_VHOST'] : []),
-    ],
-  })
+  const { url, vhost } = resolveAlekseonFormGraphqlEndpoint(identifier)
   const payload = JSON.stringify({ query, variables })
   const transport = url.protocol === 'https:' ? https : http
 

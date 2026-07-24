@@ -206,51 +206,61 @@
 }
 
 .cmsContent :global(.decor-benefits) {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
-  gap: 80px;
+  gap: 0;
   width: 100%;
   height: 80px;
-  padding: 16px 40px;
+  padding: 0;
   border: 0;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .cmsContent :global(.decor-benefit) {
   position: relative;
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
+  min-width: 0;
   gap: 16px;
-  width: 174px;
-  height: 48px;
-  padding: 0;
+  width: auto;
+  height: 80px;
+  padding: 16px 36px;
   border-right: 0;
 }
 
+.cmsContent :global(.decor-benefits > .decor-benefit:nth-of-type(n + 4)) {
+  display: none !important;
+}
+
 .cmsContent :global(.decor-benefit:nth-child(2)) {
-  width: 201px;
+  width: auto;
   gap: 13px;
 }
 
 .cmsContent :global(.decor-benefit:nth-child(3)) {
-  width: 199px;
+  width: auto;
 }
 
 .cmsContent :global(.decor-benefit:nth-child(4)) {
-  width: 183px;
+  width: auto;
 }
 
-.cmsContent :global(.decor-benefit:not(:last-child)::after) {
+.cmsContent :global(.decor-benefit:nth-child(-n + 2)::after) {
   content: '';
   position: absolute;
-  top: 0;
-  right: -40px;
+  top: 16px;
+  right: 0;
   width: 1px;
   height: 48px;
   background: #ddd;
+}
+
+.cmsContent :global(.decor-benefit:nth-child(n + 3)::after) {
+  content: none;
 }
 
 .cmsContent :global(.decor-benefit__icon) {
@@ -1929,7 +1939,7 @@
     content: none;
   }
 
-  .cmsContent :global(.decor-benefit:not(:last-child)) {
+  .cmsContent :global(.decor-benefit:nth-child(-n + 2)) {
     border-right: 1px solid var(--decor-line);
   }
 
@@ -2792,7 +2802,7 @@
     grid-template-columns: 1fr;
   }
 
-  .cmsContent :global(.decor-benefit:nth-child(odd)) {
+  .cmsContent :global(.decor-benefit) {
     border-right: 0;
   }
 
@@ -2802,7 +2812,7 @@
     border-right: 0;
   }
 
-  .cmsContent :global(.decor-benefit:not(:last-child)) {
+  .cmsContent :global(.decor-benefit:nth-child(-n + 2)) {
     border-bottom: 1px solid var(--decor-line);
   }
 

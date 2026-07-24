@@ -24,8 +24,51 @@ export function isDecorCelebrationDevContent(content?: string | null) {
   )
 }
 
+export function sanitizeDecorCelebrationContent(content: string) {
+  let sanitized = content
+
+  const removeBetweenNearestBenefitDiv = (value: string, markerPattern: RegExp) => {
+    let next = value
+    let guard = 0
+
+    while (markerPattern.test(next) && guard < 20) {
+      guard += 1
+      markerPattern.lastIndex = 0
+      const match = markerPattern.exec(next)
+      if (!match) break
+
+      const markerIndex = match.index
+      const starts = [
+        next.lastIndexOf('<div class="decor-benefit"', markerIndex),
+        next.lastIndexOf("<div class='decor-benefit'", markerIndex),
+        next.lastIndexOf('&lt;div class="decor-benefit"', markerIndex),
+        next.lastIndexOf("&lt;div class='decor-benefit'", markerIndex),
+        next.lastIndexOf('\\u003cdiv class=\\"decor-benefit\\"', markerIndex),
+        next.lastIndexOf("\\u003cdiv class=\\'decor-benefit\\'", markerIndex),
+      ].filter((index) => index >= 0)
+      const start = starts.length ? Math.max(...starts) : -1
+      const endCandidates = [
+        { index: next.indexOf('</div>', markerIndex), token: '</div>' },
+        { index: next.indexOf('&lt;/div&gt;', markerIndex), token: '&lt;/div&gt;' },
+        { index: next.indexOf('\\u003c\\/div\\u003e', markerIndex), token: '\\u003c\\/div\\u003e' },
+      ].filter((entry) => entry.index >= 0)
+      const end = endCandidates.sort((a, b) => a.index - b.index)[0]
+
+      if (start < 0 || !end) break
+      next = next.slice(0, start) + next.slice(end.index + end.token.length)
+      markerPattern.lastIndex = 0
+    }
+
+    return next
+  }
+
+  sanitized = removeBetweenNearestBenefitDiv(sanitized, /Google\s*Reviews/gi)
+
+  return sanitized
+}
+
 export default function DecorCelebrationDev(props: DecorCelebrationDevProps) {
-  const { content } = props
+  const content = sanitizeDecorCelebrationContent(props.content)
   const contentRef = useRef<HTMLElement>(null)
   const lightboxDialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -73,6 +116,16 @@ export default function DecorCelebrationDev(props: DecorCelebrationDevProps) {
       contentRef.current?.querySelectorAll<HTMLElement>('[data-decor-custom-form]') ?? [],
     )
     setFormMounts(mounts)
+
+    const benefits = Array.from(
+      contentRef.current?.querySelectorAll<HTMLElement>('.decor-benefits .decor-benefit') ?? [],
+    )
+
+    benefits.forEach((benefit, index) => {
+      if (/google\s+reviews/i.test(benefit.textContent ?? '') || index > 2) {
+        benefit.remove()
+      }
+    })
 
     normalizeWorkCarousel()
 

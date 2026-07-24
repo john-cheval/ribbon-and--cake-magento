@@ -56,40 +56,6 @@ const fieldClassByPosition = [
   'decor-form-field--date',
 ]
 
-const formDefinitionRequestCache = new Map<string, Promise<CustomFormDefinition>>()
-
-async function fetchFormDefinition(identifier: string) {
-  const cachedRequest = formDefinitionRequestCache.get(identifier)
-  if (cachedRequest) return cachedRequest
-
-  const request = fetch(`/api/alekseon-form?identifier=${encodeURIComponent(identifier)}`, {
-    headers: { Accept: 'application/json' },
-  })
-    .then(async (response) => {
-      const result = (await response.json()) as CustomFormResponse
-
-      if (!response.ok || !result.form) {
-        throw new Error(result.error || 'The quote form is currently unavailable.')
-      }
-
-      return result.form
-    })
-    .catch((error) => {
-      formDefinitionRequestCache.delete(identifier)
-      throw error
-    })
-
-  formDefinitionRequestCache.set(identifier, request)
-  return request
-}
-
-function getInitialValues(definition: CustomFormDefinition | null) {
-  return (definition?.formfield ?? []).reduce<Record<string, string>>((initial, field) => {
-    if (field?.attribute_code) initial[field.attribute_code] = ''
-    return initial
-  }, {})
-}
-
 function getFieldModifier(field: FormField & { attribute_code: string }, index: number) {
   if (fieldClassByCode[field.attribute_code]) return fieldClassByCode[field.attribute_code]
 
@@ -172,21 +138,32 @@ export default function DecorCelebrationCustomForm({
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   useEffect(() => {
-    let isActive = true
+    const controller = new AbortController()
 
     async function loadForm() {
       setLoading(true)
       setStatus(null)
 
       try {
-        const form = await fetchFormDefinition(identifier)
+        const response = await fetch(
+          `/api/alekseon-form?identifier=${encodeURIComponent(identifier)}`,
+          { signal: controller.signal, headers: { Accept: 'application/json' } },
+        )
+        const result = (await response.json()) as CustomFormResponse
 
-        if (!isActive) return
+        if (!response.ok || !result.form) {
+          throw new Error(result.error || 'The quote form is currently unavailable.')
+        }
 
-        setDefinition(form)
-        setValues((current) => ({ ...getInitialValues(form), ...current }))
+        setDefinition(result.form)
+        setValues(
+          (result.form.formfield ?? []).reduce<Record<string, string>>((initial, field) => {
+            if (field?.attribute_code) initial[field.attribute_code] = ''
+            return initial
+          }, {}),
+        )
       } catch (error) {
-        if (isActive) {
+        if ((error as Error).name !== 'AbortError') {
           setStatus({
             type: 'error',
             message:
@@ -194,14 +171,12 @@ export default function DecorCelebrationCustomForm({
           })
         }
       } finally {
-        if (isActive) setLoading(false)
+        if (!controller.signal.aborted) setLoading(false)
       }
     }
 
     void loadForm()
-    return () => {
-      isActive = false
-    }
+    return () => controller.abort()
   }, [identifier])
 
   const fields = useMemo(

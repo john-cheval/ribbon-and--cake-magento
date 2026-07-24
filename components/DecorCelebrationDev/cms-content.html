@@ -1,5 +1,5 @@
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-guide">
-  <p><strong>Decor Celebration CMS Editing Guide</strong></p>
+  <h2>Decor Celebration CMS Editing Guide</h2>
   <p><strong>Frontend styling is controlled in GraphCommerce CSS.</strong> In Magento, edit the labelled HTML Code block directly under each admin note. Keep existing class names unless a developer is also updating the frontend CSS.</p>
   <ul>
     <li>Each section has a label such as “01 Hero Banner” followed by one HTML Code block for that section.</li>
@@ -9,15 +9,16 @@
   </ul>
 </div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="hero">
-  <p><strong>01 Hero Banner</strong></p>
-  <p>Edit main H1, intro paragraph, and two CTA links in the next HTML Code block.</p>
+  <h3>01 Hero Banner</h3>
+  <p>Edit eyebrow, main H1, intro paragraph, and two CTA links in the next HTML Code block.</p>
   <ul><li>Get a Free Quote: data-cms-link=&quot;hero-get-free-quote&quot;</li><li>WhatsApp: data-cms-link=&quot;hero-whatsapp&quot;</li></ul>
 </div>
 <div data-content-type="html" data-appearance="default" data-element="main" class="decor-cms-html" data-decor-admin-section="hero">&lt;!-- 01 Hero Banner: Edit eyebrow, main H1, intro paragraph, and two CTA links in the next HTML Code block. Link/form markers: Get a Free Quote: data-cms-link="hero-get-free-quote"; WhatsApp: data-cms-link="hero-whatsapp" --&gt;
 &lt;section class="decor-hero" style="--decor-hero-image: url('/images/decor-celebration-dev/hero-red-curtain-balloon.png');" aria-labelledby="decor-celebration-hero-title"&gt;
       &lt;div class="decor-hero__inner"&gt;
         &lt;div class="decor-hero__copy"&gt;
-          &lt;h1 id="decor-celebration-hero-title" class="decor-hero__title"&gt;&lt;span&gt;Balloon Decoration and&lt;/span&gt;&lt;span&gt;Celebration in Dubai&lt;/span&gt;&lt;/h1&gt;
+          &lt;span class="decor-hero__eyebrow"&gt;NEW SERVICE · DUBAI, UAE&lt;/span&gt;
+          &lt;h1 id="decor-celebration-hero-title" class="decor-hero__title"&gt;&lt;span&gt;Balloon Decoration&lt;/span&gt;&lt;span&gt;for Birthdays and&lt;/span&gt;&lt;span&gt;Celebrations in Dubai.&lt;/span&gt;&lt;/h1&gt;
           &lt;p class="decor-hero__text"&gt;We design and install custom balloon setups for birthdays, baby showers, home parties, hospital celebrations and corporate events across Dubai.&lt;/p&gt;
           &lt;div class="decor-hero__actions"&gt;
             &lt;a class="decor-button decor-button--primary" data-cms-link="hero-get-free-quote" href="/contact-us"&gt;Get a Free Quote&lt;/a&gt;
@@ -27,8 +28,8 @@
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="benefits">
-  <p><strong>02 Hero Benefits Strip</strong></p>
-  <p>Edit the three benefit labels and icon image paths in the next HTML Code block.</p>
+  <h3>02 Hero Benefits Strip</h3>
+  <p>Edit the four benefit labels and icon image paths in the next HTML Code block.</p>
   <ul><li>No CTA links in this strip.</li></ul>
 </div>
 <div data-content-type="html" data-appearance="default" data-element="main" class="decor-cms-html" data-decor-admin-section="benefits">&lt;!-- 02 Hero Benefits Strip: Edit the four benefit labels and icon image paths in the next HTML Code block. Link/form markers: No CTA links in this strip. --&gt;
@@ -37,17 +38,18 @@
         &lt;div class="decor-benefit"&gt;&lt;span class="decor-benefit__icon" aria-hidden="true"&gt;&lt;img src="/images/decor-celebration-dev/icon-benefit-balloon.svg" alt="" /&gt;&lt;/span&gt;&lt;span class="decor-benefit__title"&gt;&lt;span&gt;Custom or&lt;/span&gt;&lt;span&gt;theme design&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
         &lt;div class="decor-benefit"&gt;&lt;span class="decor-benefit__icon" aria-hidden="true"&gt;&lt;img src="/images/decor-celebration-dev/icon-benefit-truck.svg" alt="" /&gt;&lt;/span&gt;&lt;span class="decor-benefit__title"&gt;&lt;span&gt;Setup &amp;amp; takedown&lt;/span&gt;&lt;span&gt;included&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
         &lt;div class="decor-benefit"&gt;&lt;span class="decor-benefit__icon" aria-hidden="true"&gt;&lt;img src="/images/decor-celebration-dev/icon-benefit-party.svg" alt="" /&gt;&lt;/span&gt;&lt;span class="decor-benefit__title"&gt;&lt;span&gt;100+ celebrations&lt;/span&gt;&lt;span&gt;covered&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="decor-benefit"&gt;&lt;span class="decor-benefit__icon" aria-hidden="true"&gt;&lt;img src="/images/decor-celebration-dev/icon-benefit-star.svg" alt="" /&gt;&lt;/span&gt;&lt;span class="decor-benefit__title"&gt;Google Reviews&lt;/span&gt;&lt;/div&gt;
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="services">
-  <p><strong>03 Service Cards Section</strong></p>
+  <h3>03 Service Cards Section</h3>
   <p>Edit section intro, gold balloon image, six card images/titles/descriptions, and bottom CTA link.</p>
   <ul><li>Contact expert button: data-cms-link=&quot;services-contact-expert&quot;</li></ul>
 </div>
 <div data-content-type="html" data-appearance="default" data-element="main" class="decor-cms-html" data-decor-admin-section="services">&lt;!-- 03 Service Cards Section: Edit section intro, gold balloon image, six card images/titles/descriptions, and bottom CTA link. Link/form markers: Contact expert button: data-cms-link="services-contact-expert" --&gt;
 &lt;section class="decor-container" aria-labelledby="decor-services-title"&gt;
       &lt;div class="decor-service-intro"&gt;
-        &lt;h3 class="decor-small-label"&gt;Our service&lt;/h3&gt;
+        &lt;span class="decor-small-label"&gt;Our service&lt;/span&gt;
         &lt;h2 id="decor-services-title" class="decor-section-title"&gt;Balloon Decor for Every Occasion&lt;/h2&gt;
         &lt;p class="decor-section-text"&gt;From intimate gatherings to grand celebrations, we design and install stunning balloon setups tailored to your theme, space, and style.&lt;/p&gt;
         &lt;img class="decor-gold-balloons" src="/images/decor-celebration-dev/gold-balloons.png" alt="" aria-hidden="true" /&gt;
@@ -65,7 +67,7 @@
       &lt;div class="decor-section-cta"&gt;&lt;a class="decor-button decor-button--primary" data-cms-link="services-contact-expert" href="/contact-us"&gt;Contact our celebration expert&lt;/a&gt;&lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="how-form">
-  <p><strong>04 How It Works + Quote Form</strong></p>
+  <h3>04 How It Works + Quote Form</h3>
   <p>Edit step titles/descriptions and the balloon image here. Edit form labels, required fields, dropdown options, button text, and success message in Manage Custom Forms.</p>
   <ul><li>Quote form: Content &gt; Manage Custom Forms &gt; Decor Celebration Quote. Keep data-decor-custom-form=&quot;decor-celebration-quote&quot; unchanged.</li></ul>
 </div>
@@ -73,7 +75,7 @@
 &lt;section class="decor-planning-section" aria-labelledby="decor-how-title"&gt;
       &lt;div class="decor-how"&gt;
         &lt;div class="decor-how__intro"&gt;
-          &lt;h3 class="decor-how__label"&gt;How it Works&lt;/h3&gt;
+          &lt;span class="decor-how__label"&gt;How it works&lt;/span&gt;
           &lt;h2 id="decor-how-title" class="decor-how__title"&gt;Simple Steps To Your Perfect Decoration&lt;/h2&gt;
         &lt;/div&gt;
 
@@ -114,15 +116,15 @@
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="work">
-  <p><strong>05 Our Work Gallery</strong></p>
-  <p>Edit gallery intro, image paths, and gallery card hrefs.</p>
+  <h3>05 Our Work Gallery</h3>
+  <p>Edit gallery intro, six image paths, and gallery card hrefs.</p>
   <ul><li>Gallery cards: data-cms-link=&quot;work-gallery-card-01&quot; through &quot;work-gallery-card-06&quot;</li></ul>
 </div>
 <div data-content-type="html" data-appearance="default" data-element="main" class="decor-cms-html" data-decor-admin-section="work">&lt;!-- 05 Our Work Gallery: Edit gallery intro, six image paths, and gallery card hrefs. Link/form markers: Gallery cards: data-cms-link="work-gallery-card-01" through "work-gallery-card-06" --&gt;
 &lt;section class="decor-work-section" aria-labelledby="decor-work-title"&gt;
       &lt;div class="decor-work-copy"&gt;
         &lt;div class="decor-work-copy__top"&gt;
-          &lt;h3 class="decor-work-label"&gt;Our Work&lt;/h3&gt;
+          &lt;span class="decor-work-label"&gt;Our Work&lt;/span&gt;
           &lt;div&gt;&lt;h2 id="decor-work-title" class="decor-work-title"&gt;Balloon Setups We've Created&lt;/h2&gt;&lt;p class="decor-work-text"&gt;Take a look at some of our recent balloon decoration setups across Dubai.&lt;/p&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="decor-work-arrows" aria-label="Gallery controls"&gt;
@@ -138,15 +140,11 @@
           &lt;a data-cms-link="work-gallery-card-05" data-decor-gallery-index="4" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/our-work-number-18.png" alt="Number 18 balloon marquee decoration Dubai" /&gt;&lt;/a&gt;
           &lt;a data-cms-link="work-gallery-card-03" data-decor-gallery-index="2" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/our-work-dessert-spread.png" alt="Dessert table catering with pink balloon backdrop Dubai" /&gt;&lt;/a&gt;
           &lt;a data-cms-link="work-gallery-card-06" data-decor-gallery-index="5" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/our-work-balloon-table.png" alt="Balloon table decoration Dubai birthday setup" /&gt;&lt;/a&gt;
-          &lt;a data-cms-link="work-gallery-card-07" data-decor-gallery-index="6" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/baby-shower-table.png" alt="Baby shower dessert table and balloon decoration Dubai" /&gt;&lt;/a&gt;
-          &lt;a data-cms-link="work-gallery-card-08" data-decor-gallery-index="7" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/balloon-arch.jpg" alt="Organic balloon arch decoration Dubai for celebration entrance" /&gt;&lt;/a&gt;
-          &lt;a data-cms-link="work-gallery-card-09" data-decor-gallery-index="8" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/seasonal-balloon-decor.jpg" alt="Seasonal balloon decoration Dubai for festive event" /&gt;&lt;/a&gt;
-          &lt;a data-cms-link="work-gallery-card-10" data-decor-gallery-index="9" class="decor-work-card" href="/contact-us"&gt;&lt;img src="/images/decor-celebration-dev/team-building-event.jpg" alt="Corporate team building event balloon decoration Dubai" /&gt;&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="seo">
-  <p><strong>06 Balloon Decoration Services Text/Image Section</strong></p>
+  <h3>06 Balloon Decoration Services Text/Image Section</h3>
   <p>Edit the left title, main image, paragraph copy, and Read more link.</p>
   <ul><li>Read more link: data-cms-link=&quot;seo-read-more&quot;</li></ul>
 </div>
@@ -157,11 +155,11 @@
       &lt;div class="decor-seo-image"&gt;&lt;img src="/images/decor-celebration-dev/balloon-decoration-services-dubai.jpg" alt="Colourful balloon decoration services Dubai setup" /&gt;&lt;/div&gt;
       &lt;div class="decor-seo-copy"&gt;
         &lt;p&gt;Planning an event in Dubai and looking for balloon decoration that actually looks like a Pinterest mood board? Ribbons &amp;amp; Balloons designs and installs custom balloon setups across Dubai for birthdays, baby showers, gender reveals, home celebrations, and corporate events.&lt;br /&gt;&lt;br /&gt;Every balloon decoration we create is built around your event, your colours, your venue, your theme. We don't work off a fixed catalogue of designs. Whether you need a simple balloon arch for a home birthday party, a full balloon backdrop for a stage, or a branded balloon setup for a corporate launch, our team designs it specifically for your space and delivers it on the day.&lt;/p&gt;
-        &lt;a class="decor-seo-readmore" data-cms-link="seo-read-more" href="#decor-why-title"&gt;Read more&lt;/a&gt;
+        &lt;a class="decor-seo-readmore" data-cms-link="seo-read-more" href="/contact-us"&gt;Read more&lt;/a&gt;
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="why">
-  <p><strong>07 Why Choose Us Section</strong></p>
+  <h3>07 Why Choose Us Section</h3>
   <p>Edit heading, five comparison rows, illustration, note paragraphs, and quote CTA link.</p>
   <ul><li>Quote button: data-cms-link=&quot;why-free-quote&quot;</li></ul>
 </div>
@@ -192,14 +190,14 @@
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="decorate-for">
-  <p><strong>08 What We Decorate For Cards</strong></p>
+  <h3>08 What We Decorate For Cards</h3>
   <p>Edit intro text, card titles/icons, and each card href.</p>
   <ul><li>Cards: data-cms-link=&quot;decorate-for-card-01&quot; through &quot;decorate-for-card-06&quot;</li></ul>
 </div>
 <div data-content-type="html" data-appearance="default" data-element="main" class="decor-cms-html" data-decor-admin-section="decorate-for">&lt;!-- 08 What We Decorate For Cards: Edit intro text, card titles/icons, and each card href. Link/form markers: Cards: data-cms-link="decorate-for-card-01" through "decorate-for-card-06" --&gt;
 &lt;section class="decor-for-section" aria-labelledby="decor-for-label"&gt;
       &lt;div class="decor-for-inner"&gt;
-        &lt;h3 id="decor-for-label" class="decor-for-label"&gt;What We Decorate For&lt;/h3&gt;
+        &lt;span id="decor-for-label" class="decor-for-label"&gt;What We Decorate For&lt;/span&gt;
         &lt;p class="decor-for-text"&gt;From birthdays to festive we design balloon setups for every kind of celebration in Dubai.&lt;/p&gt;
         &lt;div class="decor-for-grid"&gt;
           &lt;a class="decor-for-card" data-cms-link="decorate-for-card-01" href="/contact-us"&gt;&lt;span class="decor-for-card__box"&gt;&lt;/span&gt;&lt;span class="decor-for-card__icon" aria-hidden="true"&gt;&lt;svg viewBox="0 0 32 32" fill="none"&gt;&lt;path d="M6 11h20v14H6zM12 11V8h8v3M6 16h20M16 16v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="decor-for-card__title"&gt;Corporate Celebrations&lt;/span&gt;&lt;span class="decor-for-card__arrow" aria-hidden="true"&gt;&lt;svg viewBox="0 0 20 20" fill="none"&gt;&lt;path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/a&gt;
@@ -212,7 +210,7 @@
       &lt;/div&gt;
     &lt;/section&gt;</div>
 <div data-content-type="text" data-appearance="default" data-element="main" class="decor-admin-section-label" data-decor-admin-for="faq">
-  <p><strong>09 FAQ Section</strong></p>
+  <h3>09 FAQ Section</h3>
   <p>Edit FAQ heading, questions, answers, and open/closed display content in the next HTML Code block.</p>
   <ul><li>No CTA links in this section.</li></ul>
 </div>
@@ -220,13 +218,13 @@
 &lt;section class="decor-faq-section" aria-labelledby="decor-faq-title"&gt;
       &lt;h2 id="decor-faq-title" class="decor-faq-title"&gt;Frequently Asked Questions&lt;/h2&gt;
       &lt;div class="decor-faq-list"&gt;
-        &lt;details class="decor-faq-item" open&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;How much does balloon decoration cost in Dubai?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Pricing depends on the size of the setup, balloon type (latex vs. organic garland vs. foil), and venue. Share your event details through our quote form and we'll send a customized price within 24 hours.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;Do you provide setup and takedown, or do I need to arrange that myself?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Setup and takedown are included in every booking. Our team installs everything before your event and removes it after you don't need to manage any logistics.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;How far in advance should I book balloon decoration?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We recommend booking at least 5-7 days in advance, especially for weekends and festive seasons like Eid and Diwali. Last-minute bookings may be possible depending on availability. Contact us to check.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;Which areas in Dubai do you cover?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We provide balloon decoration services across Dubai, including homes, hotels, malls, banquet halls, and corporate offices.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;Can you match balloon colours to my event theme?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Yes, of course. Every setup is custom designed to your chosen colour palette, theme, and venue. We don't use fixed templates.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;Do you do balloon decorations for corporate events?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Yes, we design brand-matched balloon setups for product launches, office parties, and corporate activations, including setups in your brand colours and logo placement where applicable.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;What types of balloon setups do you offer?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We offer balloon arches, garlands, backdrops, entrance frames, ceiling installations, number/letter marquees, and themed setups for birthdays, baby showers, gender reveals, and festive occasions.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
-        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;h3 class="decor-faq-question"&gt;How do I book?&lt;/h3&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Fill out the quote form with your event details, theme, and date. We'll send a customized quotation, and once you confirm, we lock in your booking and handle the rest.&lt;/p&gt;&lt;/details&gt;
+        &lt;details class="decor-faq-item" open&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;How much does balloon decoration cost in Dubai?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Pricing depends on the size of the setup, balloon type (latex vs. organic garland vs. foil), and venue. Share your event details through our quote form and we'll send a customized price within 24 hours.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;Do you provide setup and takedown, or do I need to arrange that myself?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Setup and takedown are included in every booking. Our team installs everything before your event and removes it after you don't need to manage any logistics.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;How far in advance should I book balloon decoration?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We recommend booking at least 5-7 days in advance, especially for weekends and festive seasons like Eid and Diwali. Last-minute bookings may be possible depending on availability. Contact us to check.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;Which areas in Dubai do you cover?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We provide balloon decoration services across Dubai, including homes, hotels, malls, banquet halls, and corporate offices.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;Can you match balloon colours to my event theme?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Yes, of course. Every setup is custom designed to your chosen colour palette, theme, and venue. We don't use fixed templates.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;Do you do balloon decorations for corporate events?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Yes, we design brand-matched balloon setups for product launches, office parties, and corporate activations, including setups in your brand colours and logo placement where applicable.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;What types of balloon setups do you offer?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;We offer balloon arches, garlands, backdrops, entrance frames, ceiling installations, number/letter marquees, and themed setups for birthdays, baby showers, gender reveals, and festive occasions.&lt;/p&gt;&lt;/details&gt;&lt;span class="decor-faq-line"&gt;&lt;/span&gt;
+        &lt;details class="decor-faq-item"&gt;&lt;summary&gt;&lt;span class="decor-faq-question"&gt;How do I book?&lt;/span&gt;&lt;span class="decor-faq-toggle" aria-hidden="true"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;p class="decor-faq-answer"&gt;Fill out the quote form with your event details, theme, and date. We'll send a customized quotation, and once you confirm, we lock in your booking and handle the rest.&lt;/p&gt;&lt;/details&gt;
       &lt;/div&gt;
     &lt;/section&gt;</div>

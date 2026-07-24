@@ -267,6 +267,42 @@ export default function BakingClassesCustomForm({ identifier }: BakingClassesCus
     [definition],
   )
 
+  useEffect(() => {
+    const handleSelectedClass = (event: Event) => {
+      const className =
+        event instanceof CustomEvent && typeof event.detail?.className === 'string'
+          ? event.detail.className.trim()
+          : ''
+      if (!className) return
+
+      const classField = fields.find((field) => {
+        const code = field.attribute_code.toLowerCase()
+        const label = String(field.frontend_label || '').toLowerCase()
+
+        return code.includes('class') || label.includes('class interested') || label.includes('class')
+      })
+
+      if (!classField) return
+
+      const matchingOption = (classField.options ?? []).find(
+        (option) => option?.label?.trim().toLowerCase() === className.toLowerCase(),
+      )
+      const nextValue =
+        classField.frontend_input === 'select' && matchingOption?.option_id
+          ? String(matchingOption.option_id)
+          : className
+
+      setValues((current) => ({
+        ...current,
+        [classField.attribute_code]: nextValue,
+      }))
+      setStatus(null)
+    }
+
+    window.addEventListener('baking-dev:select-class', handleSelectedClass)
+    return () => window.removeEventListener('baking-dev:select-class', handleSelectedClass)
+  }, [fields])
+
   async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setSubmitting(true)

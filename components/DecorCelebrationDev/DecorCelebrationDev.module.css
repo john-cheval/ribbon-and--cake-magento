@@ -37,6 +37,10 @@
   box-sizing: border-box;
 }
 
+.cmsContent :global(.decor-celebration-pagebuilder img) {
+  max-width: 100%;
+}
+
 .cmsContent :global(.decor-hero) {
   position: relative;
   height: 640px;
@@ -86,7 +90,7 @@
 .cmsContent :global(.decor-hero__copy) {
   position: absolute;
   left: 51px;
-  top: 114px;
+  top: 167px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -196,7 +200,7 @@
 .cmsContent :global(.decor-benefits-wrap) {
   position: relative;
   z-index: 2;
-  width: min(1080px, calc(100% - 36px));
+  width: min(814px, calc(100% - 36px));
   height: 80px;
   margin: -40px auto 0;
 }
@@ -295,8 +299,8 @@
 }
 
 .cmsContent :global(.decor-benefit:last-child .decor-benefit__title) {
-  text-decoration-line: underline;
-  text-underline-offset: 2px;
+  text-decoration-line: none;
+  text-underline-offset: 0;
 }
 
 .cmsContent :global(.decor-container) {
@@ -330,6 +334,7 @@
   font-weight: 300;
   line-height: 19px;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .cmsContent :global(.decor-small-label::before),
@@ -557,6 +562,7 @@
   line-height: 19px;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
 }
 
 .cmsContent :global(.decor-how__label::before),
@@ -1026,6 +1032,7 @@
   font-weight: 300;
   line-height: 19px;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .cmsContent :global(.decor-work-label::before),
@@ -1661,6 +1668,7 @@
   font-weight: 500;
   line-height: 19px;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .cmsContent :global(.decor-for-label::before),
@@ -1835,6 +1843,7 @@
 }
 
 .cmsContent :global(.decor-faq-question) {
+  margin: 0;
   color: #302100;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 18px;
@@ -1893,14 +1902,14 @@
   }
 
   .cmsContent :global(.decor-benefits-wrap) {
-    width: min(92%, 760px);
+    width: min(92%, 814px);
     height: auto;
     margin-top: -42px;
   }
 
   .cmsContent :global(.decor-benefits) {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0;
     height: auto;
     padding: 0;
@@ -1908,8 +1917,7 @@
 
   .cmsContent :global(.decor-benefit),
   .cmsContent :global(.decor-benefit:nth-child(2)),
-  .cmsContent :global(.decor-benefit:nth-child(3)),
-  .cmsContent :global(.decor-benefit:nth-child(4)) {
+  .cmsContent :global(.decor-benefit:nth-child(3)) {
     width: auto;
     height: auto;
     min-height: 80px;
@@ -1921,12 +1929,12 @@
     content: none;
   }
 
-  .cmsContent :global(.decor-benefit:nth-child(odd)) {
+  .cmsContent :global(.decor-benefit:not(:last-child)) {
     border-right: 1px solid var(--decor-line);
   }
 
   .cmsContent :global(.decor-benefit:nth-child(-n + 2)) {
-    border-bottom: 1px solid var(--decor-line);
+    border-bottom: 0;
   }
 
   .cmsContent :global(.decor-container) {
@@ -2305,6 +2313,7 @@
   .cmsContent :global(.decor-work-track) {
     grid-template-rows: repeat(2, minmax(0, 1fr));
     grid-auto-columns: calc((100% - 24px) / 3);
+    width: 100%;
     height: 100%;
   }
 
@@ -2312,6 +2321,15 @@
   .cmsContent :global(.decor-work-card img) {
     width: 100%;
     height: 100%;
+  }
+
+  .cmsContent :global(.decor-work-card) {
+    background: #fff;
+  }
+
+  .cmsContent :global(.decor-work-card:hover img),
+  .cmsContent :global(.decor-work-card:focus-visible img) {
+    transform: none;
   }
 
   .cmsContent :global(.decor-seo-section) {
@@ -2470,6 +2488,16 @@
 }
 
 @media (max-width: 1100px) {
+  .cmsContent :global(.decor-hero) {
+    height: clamp(560px, 58vw, 640px);
+    background-position: 56% center;
+    background-size: cover;
+  }
+
+  .cmsContent :global(.decor-hero__copy) {
+    top: 120px;
+  }
+
   .cmsContent :global(.decor-services-grid) {
     grid-template-columns: 1fr;
     max-width: 720px;
@@ -2623,6 +2651,11 @@
     grid-auto-columns: calc((100% - 12px) / 2);
   }
 
+  .cmsContent :global(.decor-work-card img) {
+    object-fit: cover;
+    object-position: center;
+  }
+
   .cmsContent :global(.decor-seo-section) {
     display: block;
     padding-top: 52px;
@@ -2675,17 +2708,32 @@
 
 @media (max-width: 768px) {
   .cmsContent :global(.decor-hero) {
-    height: 650px;
-    min-height: 650px;
+    height: auto;
+    min-height: clamp(500px, 112vw, 600px);
     margin-top: 0;
-    background-size: auto 100%;
-    background-position: 57% top;
+    background-size: cover;
+    background-position: 57% center;
+  }
+
+  .cmsContent :global(.decor-hero::before) {
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.76) 0%,
+      rgba(0, 0, 0, 0.52) 54%,
+      rgba(0, 0, 0, 0.18) 100%
+    );
+  }
+
+  .cmsContent :global(.decor-hero::after) {
+    height: 42%;
   }
 
   .cmsContent :global(.decor-hero__inner) {
     display: flex;
     align-items: flex-start;
-    padding: 40px 18px 104px;
+    min-height: inherit;
+    padding: clamp(30px, 8vw, 44px) 18px 86px;
   }
 
   .cmsContent :global(.decor-hero__copy) {
@@ -2693,12 +2741,12 @@
     left: auto;
     top: auto;
     width: 100%;
-    max-width: none;
+    max-width: min(461px, 100%);
   }
 
   .cmsContent :global(.decor-hero__title) {
     width: 100%;
-    font-size: 31px;
+    font-size: clamp(31px, 7vw, 40px);
     line-height: 1.18;
   }
 
@@ -2934,11 +2982,27 @@
   }
 
   .cmsContent :global(.decor-work-gallery) {
-    aspect-ratio: 626 / 432;
+    height: auto;
+    aspect-ratio: auto;
+    overflow: hidden;
   }
 
   .cmsContent :global(.decor-work-track) {
     grid-auto-columns: calc((100% - 12px) / 2);
+    grid-template-rows: repeat(2, auto);
+    align-items: start;
+    height: auto;
+  }
+
+  .cmsContent :global(.decor-work-card) {
+    height: auto;
+    aspect-ratio: 307 / 210;
+  }
+
+  .cmsContent :global(.decor-work-card img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .cmsContent :global(.decor-seo-section) {
@@ -3108,11 +3172,23 @@
   }
 
   .cmsContent :global(.decor-work-gallery) {
-    aspect-ratio: 307 / 432;
+    height: auto;
+    aspect-ratio: auto;
   }
 
   .cmsContent :global(.decor-work-track) {
     grid-auto-columns: 100%;
+    grid-template-rows: repeat(2, auto);
+    height: auto;
+  }
+
+  .cmsContent :global(.decor-work-card) {
+    height: auto;
+    aspect-ratio: 307 / 210;
+  }
+
+  .cmsContent :global(.decor-work-card img) {
+    height: 100%;
   }
 
   .cmsContent :global(.decor-for-card) {

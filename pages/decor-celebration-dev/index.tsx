@@ -3,7 +3,9 @@ import { cacheFirst } from '@graphcommerce/graphql'
 import { StoreConfigDocument } from '@graphcommerce/magento-store'
 import { GetStaticProps, PageMeta } from '@graphcommerce/next-ui'
 import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
-import DecorCelebrationDev from '../../components/DecorCelebrationDev'
+import DecorCelebrationDev, {
+  sanitizeDecorCelebrationContent,
+} from '../../components/DecorCelebrationDev'
 import { cmsPageDocument } from '../../graphql/CmsPage.gql'
 import { fetchMagentoCmsPage, type DecorCmsPage } from '../../lib/decorCelebrationCms'
 import { graphqlSharedClient, graphqlSsrClient } from '../../lib/graphql/graphqlSsrClient'
@@ -217,12 +219,15 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
       })
       .then((result) => result.data.cmsPage as DecorCmsPage | null)
       .catch(() => null))
-  const cmsContent = decodeHtmlEntities(cmsPage?.content ?? fallbackContent)
+  const cmsContent = sanitizeDecorCelebrationContent(
+    decodeHtmlEntities(cmsPage?.content ?? fallbackContent),
+  )
+  const sanitizedCmsPage = cmsPage ? { ...cmsPage, content: cmsContent } : cmsPage
 
   return {
     props: {
       ...(await layout).data,
-      cmsPage,
+      cmsPage: sanitizedCmsPage,
       cmsContent,
       apolloState: await conf.then(() => client.cache.extract()),
     },

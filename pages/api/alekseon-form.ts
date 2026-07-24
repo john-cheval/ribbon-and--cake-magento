@@ -1,6 +1,7 @@
 import http from 'http'
 import https from 'https'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { resolveMagentoGraphqlEndpoint } from '../../lib/magentoGraphqlEndpoint'
 
 type GraphqlResponse<T> = {
   data?: T
@@ -25,32 +26,34 @@ type FormSubmissionField = {
   value: string
 }
 
-function getMagentoEndpoint(request: NextApiRequest) {
-  const configuredUrl =
-    process.env.ALEKSEON_FORM_MAGENTO_GRAPHQL_URL ||
-    process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL
-
-  if (configuredUrl) {
-    return {
-      url: new URL(configuredUrl),
-      vhost:
-        process.env.ALEKSEON_FORM_MAGENTO_VHOST ||
-        process.env.DECOR_CELEBRATION_MAGENTO_VHOST ||
-        '',
-    }
-  }
-
-  const requestHost = String(request.headers.host || '').split(':')[0]
-  
-  return { url: new URL('https://srv900162.hstgr.cloud/graphql'), vhost: '' }
+type FormCacheEntry = {
+  expiresAt: number
+  form: Record<string, unknown>
 }
+
+const FORM_DEFINITION_CACHE_TTL_MS = 5 * 60 * 1000
+const formDefinitionCache = new Map<string, FormCacheEntry>()
 
 async function requestMagento<T>(
   request: NextApiRequest,
+  identifier: string,
   query: string,
   variables: Record<string, unknown>,
 ): Promise<GraphqlResponse<T>> {
-  const { url, vhost } = getMagentoEndpoint(request)
+  const shouldUseLegacyDecorEnv = identifier.startsWith('decor')
+  const { url, vhost } = resolveMagentoGraphqlEndpoint({
+    requestHost: request.headers.host,
+    urlEnvKeys: [
+      'ALEKSEON_FORM_MAGENTO_GRAPHQL_URL',
+      'MAGENTO_GRAPHQL_URL',
+      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL'] : []),
+    ],
+    vhostEnvKeys: [
+      'ALEKSEON_FORM_MAGENTO_VHOST',
+      'MAGENTO_GRAPHQL_VHOST',
+      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_VHOST'] : []),
+    ],
+  })
   const payload = JSON.stringify({ query, variables })
   const transport = url.protocol === 'https:' ? https : http
 
@@ -165,8 +168,6 @@ function parseSubmissionFields(fields: unknown): FormSubmissionField[] | null {
 }
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
-  response.setHeader('Cache-Control', 'no-store')
-
   try {
     if (request.method === 'GET') {
       const identifier = Array.isArray(request.query.identifier)
@@ -178,21 +179,43 @@ export default async function handler(request: NextApiRequest, response: NextApi
         return
       }
 
-      const result = await requestMagento<FormQueryData>(request, formQuery, { identifier })
+      const requestHost = String(request.headers.host || '')
+      const cacheKey = `${requestHost}:${identifier}`
+      const cached = formDefinitionCache.get(cacheKey)
+
+      if (cached && cached.expiresAt > Date.now()) {
+        response.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=300')
+        response.setHeader('X-Alekseon-Form-Cache', 'HIT')
+        response.status(200).json({ form: cached.form })
+        return
+      }
+
+      const result = await requestMagento<FormQueryData>(request, identifier, formQuery, {
+        identifier,
+      })
       const form = result.data?.AlekseonForm?.Forms?.[0] ?? null
 
       if (result.errors?.length || !form) {
+        response.setHeader('Cache-Control', 'no-store')
         response.status(404).json({
           error: result.errors?.[0]?.message || `Magento form "${identifier}" was not found.`,
         })
         return
       }
 
+      formDefinitionCache.set(cacheKey, {
+        expiresAt: Date.now() + FORM_DEFINITION_CACHE_TTL_MS,
+        form,
+      })
+
+      response.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=300')
+      response.setHeader('X-Alekseon-Form-Cache', 'MISS')
       response.status(200).json({ form })
       return
     }
 
     if (request.method === 'POST') {
+      response.setHeader('Cache-Control', 'no-store')
       const identifier = request.body?.identifier
       const fields = parseSubmissionFields(request.body?.fields)
 
@@ -201,7 +224,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         return
       }
 
-      const result = await requestMagento<FormMutationData>(request, submitMutation, {
+      const result = await requestMagento<FormMutationData>(request, identifier, submitMutation, {
         input: { identifier, fields },
       })
       const submission = result.data?.updateAlekseonForm
@@ -219,8 +242,10 @@ export default async function handler(request: NextApiRequest, response: NextApi
     }
 
     response.setHeader('Allow', 'GET, POST')
+    response.setHeader('Cache-Control', 'no-store')
     response.status(405).json({ error: 'Method not allowed.' })
   } catch (error) {
+    response.setHeader('Cache-Control', 'no-store')
     response.status(502).json({
       error: error instanceof Error ? error.message : 'Magento form service is unavailable.',
     })

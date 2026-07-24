@@ -1,5 +1,6 @@
 import http from 'http'
 import https from 'https'
+import { resolveMagentoGraphqlEndpoint } from './magentoGraphqlEndpoint'
 
 export type DecorCmsPage = {
   identifier?: string | null
@@ -19,35 +20,41 @@ type FetchMagentoCmsPageOptions = {
   timeoutMs?: number
 }
 
-function getMagentoGraphqlEndpoint() {
-  const configuredUrl = process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL
-
-  if (configuredUrl) return new URL(configuredUrl)
-
-  const protocol = process.env.DECOR_CELEBRATION_MAGENTO_PROTOCOL ?? 'https'
-  const hostname = process.env.DECOR_CELEBRATION_MAGENTO_HOSTNAME ?? 'srv900162.hstgr.cloud'
-  const path = process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_PATH ?? '/graphql'
-
-  return new URL(`${protocol}://${hostname}${path}`)
-}
-
 export async function fetchMagentoCmsPage(
   identifier: string,
   options: FetchMagentoCmsPageOptions = {},
 ): Promise<DecorCmsPage | null> {
   if (!identifier) return null
 
-  // The direct local endpoint exists only to let this development project read the
-  // separate local Magento instance. Production uses GraphCommerce's configured
-  // Magento client unless an explicit override URL is supplied.
-  if (process.env.NODE_ENV === 'production' && !process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL) {
-    return null
-  }
+  const shouldUseLegacyDecorEnv = identifier.startsWith('decor-celebration')
+  const legacyDecorEndpoint =
+    shouldUseLegacyDecorEnv &&
+    (process.env.DECOR_CELEBRATION_MAGENTO_PROTOCOL ||
+      process.env.DECOR_CELEBRATION_MAGENTO_HOSTNAME ||
+      process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_PATH)
+      ? `${process.env.DECOR_CELEBRATION_MAGENTO_PROTOCOL ?? 'https'}://${
+          process.env.DECOR_CELEBRATION_MAGENTO_HOSTNAME ?? 'srv900162.hstgr.cloud'
+        }${process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_PATH ?? '/graphql'}`
+      : undefined
 
-  const endpoint = getMagentoGraphqlEndpoint()
-  const vhost =
-    process.env.DECOR_CELEBRATION_MAGENTO_VHOST ??
-    (process.env.DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL ? '' : 'srv900162.hstgr.cloud')
+  const { url: endpoint, vhost } = resolveMagentoGraphqlEndpoint({
+    requestHost: process.env.NEXT_PUBLIC_BASE_URL
+      ? new URL(process.env.NEXT_PUBLIC_BASE_URL).host
+      : process.env.NODE_ENV !== 'production'
+        ? 'rnbcake.local'
+        : undefined,
+    explicitUrls: [legacyDecorEndpoint],
+    urlEnvKeys: [
+      'ALEKSEON_FORM_MAGENTO_GRAPHQL_URL',
+      'MAGENTO_GRAPHQL_URL',
+      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_GRAPHQL_URL'] : []),
+    ],
+    vhostEnvKeys: [
+      'ALEKSEON_FORM_MAGENTO_VHOST',
+      'MAGENTO_GRAPHQL_VHOST',
+      ...(shouldUseLegacyDecorEnv ? ['DECOR_CELEBRATION_MAGENTO_VHOST'] : []),
+    ],
+  })
   const timeoutMs = options.timeoutMs ?? 5000
   const query = `query DecorCmsPage($identifier: String) {
     cmsPage(identifier: $identifier) {
